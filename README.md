@@ -4,6 +4,9 @@ Este repositorio está diseñado para ser una guía organizada y progresiva del 
 
 El código de clase y las guías de ejercicios viven dentro de un proyecto **Java 25 + Gradle** (`teoria/cb100/`), organizado por unidad temática: lo explicado en clase en `material/` y los ejercicios a resolver en `guia/`.
 
+> ### 👉 Empezá acá: [**Panel de Estudio**](./paginas/index.html)
+> Punto de entrada único que conecta **teoría, páginas de estudio y ejercicios** por unidad, con el método de estudio paso a paso, seguimiento de tu avance y una vista de cronograma (semana → unidad). Abrilo con doble clic para que se guarde tu progreso.
+
 ---
 
 ## 📊 Progreso del Curso

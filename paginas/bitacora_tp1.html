@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bitácora TP1 · Registro de préstamos</title>
+<style>
+  :root{
+    --bg:#0a0c10; --bg-alt:#0e1118; --panel:#12161f; --panel-2:#171c27;
+    --border:#232a38; --border-soft:#1a202b;
+    --tx:#c9d3e0; --tx-dim:#8b97a8; --tx-faint:#5f6b7c; --tx-bright:#e8eef6;
+    --accent:#4f8cff; --accent-dim:#2f5ea8; --accent-glow:rgba(79,140,255,.14);
+    --green:#3fb98a; --red:#ff6b6b; --amber:#f0b429; --purple:#a887f5; --teal:#39c5c0; --pink:#f07ab0;
+    --mono:"JetBrains Mono","Fira Code","Cascadia Code","SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+    --sans:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--tx);
+    font-family:var(--sans); line-height:1.65; font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 20px 120px;}
+  header.top{
+    position:sticky; top:0; z-index:20;
+    background:rgba(10,12,16,.85); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border); padding:14px 20px; margin-bottom:8px;
+  }
+  header.top .inner{max-width:900px; margin:0 auto; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;}
+  header.top h1{font-size:1.05rem; margin:0; color:var(--tx-bright); letter-spacing:.2px;}
+  header.top .sub{font-size:.8rem; color:var(--tx-faint);}
+  h2{
+    font-size:1.5rem; color:var(--tx-bright); margin:2.6em 0 .6em;
+    padding-bottom:.3em; border-bottom:2px solid var(--border);
+  }
+  h3{font-size:1.15rem; color:var(--accent); margin:2em 0 .5em;}
+  h4{font-size:1rem; color:var(--tx-bright); margin:1.5em 0 .4em;}
+  p{margin:.6em 0;}
+  a{color:var(--accent); text-decoration:none;} a:hover{text-decoration:underline;}
+  code{font-family:var(--mono); font-size:.86em; background:var(--panel-2); padding:.12em .4em; border-radius:5px; color:var(--tx-bright); border:1px solid var(--border-soft);}
+  pre{background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; overflow-x:auto; margin:1em 0;}
+  pre code{background:none; border:none; padding:0; font-size:.82rem; line-height:1.6; color:var(--tx);}
+  .intro{background:linear-gradient(160deg,var(--panel),var(--panel-2)); border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px; margin:16px 0;}
+  .intro p:first-child{margin-top:0;} .intro p:last-child{margin-bottom:0;}
+  .legend{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 0;}
+  .badge{display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:600; padding:.28em .7em; border-radius:999px; border:1px solid; white-space:nowrap; font-family:var(--sans); letter-spacing:.3px;}
+  .b-enun{color:var(--accent); border-color:var(--accent-dim); background:var(--accent-glow);}
+  .b-dis{color:var(--teal); border-color:#1f6e6b; background:rgba(57,197,192,.1);}
+  .b-err{color:var(--red); border-color:#7a3030; background:rgba(255,107,107,.09);}
+  .b-q{color:var(--purple); border-color:#5a4a86; background:rgba(168,135,245,.1);}
+  .callout{border-radius:var(--radius); padding:14px 18px; margin:1.1em 0; border:1px solid var(--border); border-left-width:4px; background:var(--panel);}
+  .callout .tt{font-weight:700; font-size:.9rem; margin-bottom:.3em; display:flex; align-items:center; gap:8px;}
+  .callout p:last-child{margin-bottom:0;} .callout p:first-of-type{margin-top:.2em;}
+  .c-err{border-left-color:var(--red);} .c-err .tt{color:var(--red);}
+  .c-q{border-left-color:var(--purple);} .c-q .tt{color:var(--purple);}
+  .c-dis{border-left-color:var(--teal);} .c-dis .tt{color:var(--teal);}
+  .c-enun{border-left-color:var(--accent);} .c-enun .tt{color:var(--accent);}
+  .c-key{border-left-color:var(--amber); background:var(--panel-2);} .c-key .tt{color:var(--amber);}
+  .commit{border:1px solid var(--border); border-radius:var(--radius); padding:2px 24px 24px; margin:26px 0; background:var(--panel);}
+  .commit-head{display:flex; align-items:center; gap:12px; margin:20px 0 4px; flex-wrap:wrap;}
+  .commit-hash{font-family:var(--mono); font-size:.8rem; color:var(--green); background:rgba(63,185,138,.1); border:1px solid #1f5d47; padding:.2em .6em; border-radius:6px;}
+  .commit-head h2{border:none; margin:0; padding:0; font-size:1.35rem;}
+  table{width:100%; border-collapse:collapse; margin:1.2em 0; font-size:.9rem;}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border-soft); vertical-align:top;}
+  th{color:var(--tx-bright); border-bottom:1px solid var(--border); font-size:.82rem; text-transform:uppercase; letter-spacing:.5px;}
+  td code{font-size:.82em;}
+  .toc{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px 22px; margin:18px 0;}
+  .toc strong{color:var(--tx-bright); font-size:.85rem; text-transform:uppercase; letter-spacing:.5px;}
+  .toc ul{margin:.6em 0 0; padding-left:1.1em; columns:2; column-gap:28px;}
+  .toc li{margin:.28em 0; font-size:.9rem;}
+  ul.clean{list-style:none; padding-left:0;} ul.clean li{padding-left:1.4em; position:relative; margin:.4em 0;}
+  ul.clean li::before{content:"→"; position:absolute; left:0; color:var(--accent);}
+  .cmp{color:var(--red); text-decoration:line-through; opacity:.75;}
+  .ok{color:var(--green);}
+  .foot{text-align:center; color:var(--tx-faint); font-size:.82rem; margin-top:50px; padding-top:20px; border-top:1px solid var(--border-soft);}
+  hr.soft{border:none; border-top:1px solid var(--border-soft); margin:2em 0;}
+  .flow{display:flex; flex-direction:column; gap:0; margin:1.2em 0;}
+  .flow-box{border:1px solid var(--border); border-left:4px solid var(--accent); background:var(--panel-2); border-radius:10px; padding:11px 16px;}
+  .flow-box .fb-t{font-weight:700; color:var(--tx-bright); font-family:var(--mono); font-size:.88rem;}
+  .flow-box .fb-d{font-size:.83rem; color:var(--tx-dim); margin-top:3px;}
+  .flow-arrow{text-align:center; color:var(--accent); font-size:1.05rem; padding:5px 0; font-weight:700; line-height:1.3;}
+  .flow-arrow small{display:block; color:var(--tx-faint); font-size:.72rem; font-weight:400; font-family:var(--sans);}
+  .done{color:var(--green); font-weight:600;} .todo{color:var(--amber); font-weight:600;}
+  @media(max-width:640px){ .toc ul{columns:1;} body{font-size:15px;} }
+</style>
+</head>
+<body>
+<header class="top"><div class="inner">
+  <h1>📚 Bitácora TP1 — Registro de préstamos</h1>
+  <span class="sub">CB100 · Algoritmos y Estructuras de Datos · 2026 2C</span>
+</div></header>
+
+<div class="wrap">
+
+  <div class="intro">
+    <p><strong>Qué es esto:</strong> un diario de aprendizaje del TP1. Va creciendo <em>commit por commit</em>. Para cada tema anoto el <strong>qué</strong>, el <strong>cómo</strong> y el <strong>por qué</strong> en teoría básica, el código real que escribí, los errores que cometí y cómo los corregí, y las preguntas que fui haciendo con sus respuestas.</p>
+    <p>Además, cada decisión está etiquetada según su origen, para que se entienda por qué se hizo así:</p>
+    <div class="legend">
+      <span class="badge b-enun">📘 ENUNCIADO — lo exige la consigna</span>
+      <span class="badge b-dis">🎨 DISEÑO — decisión propia</span>
+      <span class="badge b-err">⚠️ ERROR → FIX</span>
+      <span class="badge b-q">❓ PREGUNTA</span>
+    </div>
+  </div>
+
+  <div class="toc">
+    <strong>Contenido</strong>
+    <ul>
+      <li><a href="#conexiones">🔗 Cómo se conecta todo</a></li>
+      <li><a href="#c1">Commit 1 — Inicio + Parte A</a></li>
+      <li><a href="#entorno">· Entorno y Git</a></li>
+      <li><a href="#conceptos">· Conceptos de la Parte A</a></li>
+      <li><a href="#codigo">· El código, explicado</a></li>
+      <li><a href="#errores">· Errores y correcciones</a></li>
+      <li><a href="#preguntas">· Preguntas que hice</a></li>
+      <li><a href="#c2">Commit 2 — Tests Parte A</a></li>
+      <li><a href="#tests-junit">· JUnit y aserciones</a></li>
+      <li><a href="#tests-lecciones">· Lecciones de testing</a></li>
+      <li><a href="#c3">Commit 3 — Parte B</a></li>
+      <li><a href="#b-tda">· Interfaz + implementación</a></li>
+      <li><a href="#b-metodos">· Los métodos, explicados</a></li>
+      <li><a href="#b-lecciones">· Errores y lecciones</a></li>
+      <li><a href="#c4">Commit 4 — Tests Parte B</a></li>
+      <li><a href="#c5">Commit 5 — Parte C (Lector)</a></li>
+      <li><a href="#c6">Commit 6 — Test del Lector</a></li>
+      <li><a href="#c7">Commit 7 — Refactor (parsearLinea)</a></li>
+      <li><a href="#c8">Commit 8 — Parte D (reportes + CSV)</a></li>
+      <li><a href="#c9">Commit 9 — Parte E (main) · núcleo completo 🏆</a></li>
+      <li><a href="#c10">Commit 10 — Bonus: ExportadorXlsx (.xlsx real) ⭐</a></li>
+      <li><a href="#c11">Commit 11 — Documentación: cuestionario + comentarios Javadoc 📝</a></li>
+      <li><a href="#glosario">Glosario de conceptos</a></li>
+      <li><a href="#mapa">· Mapa concepto → teoría</a></li>
+    </ul>
+  </div>
+
+  <!-- ============ CONEXIONES ============ -->
+  <h2 id="conexiones">🔗 Cómo se conecta todo (mapa del proyecto)</h2>
+  <p>Lo más difícil de ver al empezar no es cada pieza suelta, sino <strong>cómo se llaman entre sí</strong>. Este es el mapa: qué llama a qué, dónde vive cada cosa, qué dato viaja y para qué.</p>
+
+  <h3>El flujo completo del programa</h3>
+  <p>Un dato (el archivo CSV) atraviesa toda la cadena hasta salir como reportes. Cada caja <strong>llama</strong> a la que sigue:</p>
+  <div class="flow">
+    <div class="flow-box"><div class="fb-t">📄 prestamos.csv</div><div class="fb-d">el archivo de entrada, una línea por préstamo</div></div>
+    <div class="flow-arrow">↓<small><code>LectorDePrestamos.cargar()</code> lo lee con <code>Files.readAllLines</code></small></div>
+    <div class="flow-box"><div class="fb-t">LectorDePrestamos <span class="done">(hecho ✓)</span></div><div class="fb-d">parsea cada línea, crea un <code>Prestamo</code> válido, descarta las inválidas guardando el motivo y el nº de línea</div></div>
+    <div class="flow-arrow">↓<small>por cada línea válida llama a <code>registro.registrar(prestamo)</code></small></div>
+    <div class="flow-box"><div class="fb-t">RegistroSobreArreglo <span class="done">(hecho ✓)</span></div><div class="fb-d"><code>implements RegistroDePrestamos</code> · guarda los <code>Prestamo</code> en su arreglo que crece a mano</div></div>
+    <div class="flow-arrow">↓<small><code>Reporteador</code> lee el registro (<code>obtener</code>, <code>prestamosDe</code>, <code>titulosMasPedidos</code>)</small></div>
+    <div class="flow-box"><div class="fb-t">Reporteador <span class="done">(hecho ✓)</span></div><div class="fb-d">arma <code>FilaDeSocio[]</code> (multa por socio) y el ranking de títulos</div></div>
+    <div class="flow-arrow">↓<small>le pasa las filas: <code>exportar(filas, destino)</code></small></div>
+    <div class="flow-box"><div class="fb-t">ExportadorTxt / ExportadorCsv / ExportadorXlsx <span class="done">(hecho ✓)</span></div><div class="fb-d"><code>implements ExportadorDeReporte</code> · escriben el reporte a disco (txt, csv y xlsx)</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-box"><div class="fb-t">📄 reporte.txt / reporte.csv / reporte.xlsx</div><div class="fb-d">la salida final</div></div>
+  </div>
+  <p><code>Tp1.main</code> (Parte E) es el <strong>director de orquesta</strong>: llama al Lector, después al Reporteador, después al Exportador, en ese orden. Nadie más conoce el flujo completo; cada pieza solo sabe hacer su parte.</p>
+
+  <h3>Las conexiones, una por una</h3>
+  <p>Cada fila: <strong>quién</strong> llama, <strong>a qué</strong>, <strong>qué</strong> viaja o devuelve, y <strong>para qué</strong>.</p>
+  <div style="overflow-x:auto;">
+  <table>
+    <tr><th>Quién llama</th><th>A qué (y dónde vive)</th><th>Qué viaja / devuelve</th><th>Para qué</th></tr>
+    <tr><td><code>Prestamo.multa()</code></td><td><code>diasDeAtraso(corte)</code> — el mismo <code>Prestamo</code></td><td>le pasa <code>corte</code>; recibe un <code>int</code></td><td>reusar el cálculo del atraso, no repetirlo</td></tr>
+    <tr><td><code>RegistroSobreArreglo</code></td><td><code>implements RegistroDePrestamos</code> (la interfaz)</td><td>—</td><td>comprometerse a cumplir los 6 métodos del contrato</td></tr>
+    <tr><td><code>padrones()</code>, <code>titulosMasPedidos()</code></td><td><code>prestamos[i].padron()</code> / <code>.titulo()</code> — el <code>Prestamo</code> guardado</td><td>sin argumentos; recibe el dato del préstamo</td><td>leer los datos de cada préstamo del arreglo</td></tr>
+    <tr><td><code>LectorDePrestamos</code> <span class="done">(hecho ✓)</span></td><td><code>new Prestamo(...)</code> + <code>registro.registrar(p)</code></td><td>los 6 campos parseados → el <code>Prestamo</code> creado</td><td>convertir el texto del archivo en objetos y guardarlos</td></tr>
+    <tr><td><code>Reporteador</code> <span class="done">(hecho ✓)</span></td><td><code>registro.prestamosDe()</code>, <code>.titulosMasPedidos()</code></td><td>recibe arreglos de <code>Prestamo</code> / de títulos</td><td>calcular multas por socio y el ranking</td></tr>
+    <tr><td><code>Tp1.main</code> <span class="done">(hecho ✓)</span></td><td>Lector → Reporteador → Exportador</td><td>el registro, las filas, el archivo destino</td><td>orquestar todo el flujo de punta a punta</td></tr>
+    <tr><td>los tests</td><td><code>new X()</code> + sus métodos</td><td>crean objetos y verifican con <code>assert…</code></td><td>comprobar que cada pieza hace lo que promete</td></tr>
+  </table>
+  </div>
+
+  <h3>Estado: qué está conectado y qué falta</h3>
+  <ul class="clean">
+    <li><span class="done">✓ Hecho:</span> Partes A a E completas — <code>Prestamo</code> · <code>RegistroDePrestamos</code>/<code>RegistroSobreArreglo</code> · <code>LectorDePrestamos</code> (+ <code>LineaInvalidaException</code>, <code>ResultadoDeCarga</code>) · <code>FilaDeSocio</code> · <code>Reporteador</code> · <code>ExportadorDeReporte</code> + <code>Txt</code>/<code>Csv</code> · <code>Tp1</code> (main) · 15 tests · <strong>bonus <code>ExportadorXlsx</code></strong> (+1) · comentarios Javadoc con pre/post en toda la base.</li>
+    <li><span class="todo">⏳ Falta:</span> la documentación (informe + manuales + cuestionario, en un PDF) y armar el ZIP de entrega.</li>
+  </ul>
+
+  <h3>🗂️ Ficha de cada archivo</h3>
+  <p>Qué es cada uno, qué hace, cómo se crea, y quién lo llama/usa (las conexiones).</p>
+  <div style="overflow-x:auto;">
+  <table>
+    <tr><th>Archivo</th><th>Qué es / qué hace</th><th>Cómo se crea / se usa</th><th>Se conecta con (llama a / lo llaman)</th></tr>
+    <tr>
+      <td><code>Prestamo</code><br><span style="color:var(--tx-faint)">record</span></td>
+      <td>Modela un préstamo (valor inmutable). Valida sus datos en el constructor y calcula <code>estaPendiente()</code>, <code>vencimiento()</code>, <code>diasDeAtraso()</code>, <code>multa()</code>.</td>
+      <td><code>new Prestamo(...)</code> — en <code>LectorDePrestamos</code> (al parsear cada línea) y en los tests.</td>
+      <td>Su <code>multa()</code> llama a su propio <code>diasDeAtraso()</code>. Lo guarda <code>RegistroSobreArreglo</code>; lo leerá <code>Reporteador</code>.</td>
+    </tr>
+    <tr>
+      <td><code>RegistroDePrestamos</code><br><span style="color:var(--tx-faint)">interface</span></td>
+      <td>El <strong>contrato</strong>: las 6 operaciones del registro, sin implementación.</td>
+      <td>No se instancia (es interfaz). Se "cumple" con <code>implements</code>.</td>
+      <td>La implementa <code>RegistroSobreArreglo</code>. La usa como <em>tipo</em> <code>ResultadoDeCarga</code> (el registro) — así se habla con el contrato, no con la implementación.</td>
+    </tr>
+    <tr>
+      <td><code>RegistroSobreArreglo</code><br><span style="color:var(--tx-faint)">class</span></td>
+      <td>Implementa el contrato guardando préstamos en un <strong>arreglo que crece a mano</strong> (con un contador <code>usados</code>).</td>
+      <td><code>new RegistroSobreArreglo()</code> — en <code>LectorDePrestamos</code> (acumulador) y en los tests.</td>
+      <td><code>implements RegistroDePrestamos</code>. Le hace <code>registrar()</code> el Lector; guarda objetos <code>Prestamo</code> y llama sus accessors (<code>padron()</code>, <code>titulo()</code>).</td>
+    </tr>
+    <tr>
+      <td><code>LineaInvalidaException</code><br><span style="color:var(--tx-faint)">exception</span></td>
+      <td>Representa "una línea inválida": guarda el <strong>nº de línea</strong> + un motivo. <code>extends RuntimeException</code>.</td>
+      <td><code>throw new LineaInvalidaException(...)</code> — en <code>parsearLinea</code> del Lector (tras el refactor).</td>
+      <td>La lanza <code>parsearLinea</code>; la <strong>atrapa</strong> <code>cargar</code> con un <code>catch</code>, y lee <code>e.numeroDeLinea()</code> + <code>e.getMessage()</code>.</td>
+    </tr>
+    <tr>
+      <td><code>ResultadoDeCarga</code><br><span style="color:var(--tx-faint)">record</span></td>
+      <td>Empaqueta el resultado de la carga: <code>registro</code> + <code>errores</code> + <code>lineasDeDatos</code>.</td>
+      <td><code>new ResultadoDeCarga(...)</code> — una vez, al FINAL de <code>cargar</code>.</td>
+      <td>Lo devuelve <code>cargar</code>; lo consumirá <code>Tp1</code> para sacar el registro y los errores.</td>
+    </tr>
+    <tr>
+      <td><code>LectorDePrestamos</code><br><span style="color:var(--tx-faint)">class</span></td>
+      <td>Lee el archivo, parsea cada línea, tolera errores, y arma el <code>ResultadoDeCarga</code>. Métodos <code>static</code>: <code>cargar()</code> + el ayudante <code>parsearLinea()</code>.</td>
+      <td>No se instancia (métodos <code>static</code>): se llama <code>LectorDePrestamos.cargar(path)</code>.</td>
+      <td>Lo llamará <code>Tp1</code>. Adentro llama a <code>Files.readAllLines</code>, <code>new Prestamo</code>, <code>registro.registrar</code>, y lanza/atrapa <code>LineaInvalidaException</code>.</td>
+    </tr>
+    <tr>
+      <td><code>*Test</code><br><span style="color:var(--tx-faint)">class (test)</span></td>
+      <td>Verifican cada pieza: crean objetos, llaman sus métodos, y comprueban con <code>assert…</code>.</td>
+      <td>Los corre Gradle con <code>./gradlew test</code>. No se instancian a mano.</td>
+      <td>Crean <code>Prestamo</code>, <code>RegistroSobreArreglo</code>, o llaman <code>LectorDePrestamos.cargar</code>, y verifican el resultado.</td>
+    </tr>
+    <tr>
+      <td><code>FilaDeSocio</code><br><span style="color:var(--tx-faint)">record</span></td>
+      <td>Modela una fila del reporte por socio: padrón, nombre, préstamos, días de atraso, multa y estado. Valor inmutable.</td>
+      <td><code>new FilaDeSocio(...)</code> — una por cada socio, dentro de <code>Reporteador.porSocio</code>.</td>
+      <td>Las produce <code>Reporteador</code> y las consumen los exportadores. <code>Tp1</code> recibe el arreglo y se lo pasa a estos.</td>
+    </tr>
+    <tr>
+      <td><code>Reporteador</code><br><span style="color:var(--tx-faint)">class</span></td>
+      <td>Arma las filas del reporte por socio (ordenadas por multa desc. + desempate alfabético) y el ranking de títulos. Métodos <code>static</code>.</td>
+      <td>No se instancia: <code>Reporteador.porSocio(...)</code> y <code>Reporteador.ranking(...)</code>.</td>
+      <td>Lee el registro <strong>a través de la interfaz</strong> <code>RegistroDePrestamos</code> (<code>padrones()</code>, <code>prestamosDe()</code>, <code>titulosMasPedidos()</code>) y produce <code>FilaDeSocio[]</code>. Lo usa <code>Tp1</code>.</td>
+    </tr>
+    <tr>
+      <td><code>ExportadorDeReporte</code><br><span style="color:var(--tx-faint)">interface</span></td>
+      <td>El <strong>contrato</strong> (TDA) de un exportador: cómo escribir las filas al disco (<code>exportar</code>) y qué extensión usa (<code>extension</code>).</td>
+      <td>No se instancia (interfaz). Se cumple con <code>implements</code>.</td>
+      <td>La implementan <code>ExportadorTxt</code>, <code>ExportadorCsv</code> y <code>ExportadorXlsx</code>. La usa <code>Tp1</code> sin saber cuál es — TDA puro.</td>
+    </tr>
+    <tr>
+      <td><code>ExportadorTxt</code><br><span style="color:var(--tx-faint)">class</span></td>
+      <td>Exporta a texto plano con columnas alineadas (<code>String.format</code>), fila de totales y ranking de títulos.</td>
+      <td><code>new ExportadorTxt(corte, ranking, conteos)</code> — en <code>Tp1</code>.</td>
+      <td><code>implements ExportadorDeReporte</code>. Recibe <code>FilaDeSocio[]</code> y escribe con <code>Files.writeString</code>.</td>
+    </tr>
+    <tr>
+      <td><code>ExportadorCsv</code><br><span style="color:var(--tx-faint)">class</span></td>
+      <td>Exporta a CSV: una línea de encabezado y una por socio, con los campos separados por <code>;</code>.</td>
+      <td><code>new ExportadorCsv()</code> — en <code>Tp1</code>.</td>
+      <td><code>implements ExportadorDeReporte</code>. Recibe <code>FilaDeSocio[]</code> y escribe con <code>Files.writeString</code>.</td>
+    </tr>
+    <tr>
+      <td><code>ExportadorXlsx</code><br><span style="color:var(--tx-faint)">class · bonus ⭐</span></td>
+      <td>Exporta a una planilla de Excel <code>.xlsx</code> nativa (punto opcional +1).</td>
+      <td><code>new ExportadorXlsx()</code> — en <code>Tp1</code>.</td>
+      <td><code>implements ExportadorDeReporte</code>. Recibe <code>FilaDeSocio[]</code> y escribe con <code>ExcelUtils.escribir</code> (Apache POI).</td>
+    </tr>
+    <tr>
+      <td><code>Tp1</code><br><span style="color:var(--tx-faint)">class (main)</span></td>
+      <td>La clase principal: orquesta todo. Resuelve los args con defaults, carga el archivo, imprime el resumen por consola, arma el reporte y exporta los tres archivos.</td>
+      <td>No se instancia. <code>./gradlew run</code> corre su <code>main</code>.</td>
+      <td>Llama a <code>LectorDePrestamos.cargar</code>, <code>Reporteador.porSocio</code>/<code>ranking</code> y a los exportadores (<code>exportar</code>). Genera <code>reporte.txt</code>, <code>reporte.csv</code> y <code>reporte.xlsx</code>.</td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- ============ COMMIT 1 ============ -->
+  <div class="commit" id="c1">
+    <div class="commit-head">
+      <span class="commit-hash">39935dc</span>
+      <h2>Commit 1 — Inicio del proyecto e implementación de la Parte A</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>"Se creó el TDA Préstamo como record, con sus respectivas validaciones y métodos."</em></p>
+
+    <!-- ---- ENTORNO Y GIT ---- -->
+    <h3 id="entorno">🛠️ Entorno y Git (lo primero que entendí)</h3>
+
+    <h4>Dos repositorios anidados</h4>
+    <p>Descubrí que hay <strong>dos repos de git, uno adentro del otro</strong>:</p>
+    <ul class="clean">
+      <li><strong>Repo externo</strong> (<code>algoritmos_y_estructuras_de_datos</code>): mis notas personales (README, las páginas HTML de teoría). Es <em>mío</em>, conectado a mi GitHub.</li>
+      <li><strong>Repo interno</strong> (<code>teoria/cb100</code>): el proyecto de la cátedra (Gradle + JUnit). <strong>Acá vive el TP.</strong> Su <code>origin</code> apunta al repo del profe, no al mío.</li>
+    </ul>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Idea clave: git ≠ GitHub</div>
+      <p><strong>Git</strong> es el control de versiones que corre en mi compu (los <code>commit</code> son locales, funcionan sin internet). <strong>GitHub</strong> es solo <em>un lugar</em> donde subir un repo git. Puedo trabajar y commitear sin GitHub. El repo <em>local</em> es mío aunque su remoto sea de la cátedra.</p>
+    </div>
+
+    <h4>La rama <code>tp1</code></h4>
+    <p><span class="badge b-enun">📘 ENUNCIADO</span> &nbsp;La consigna pide entregar en una rama <code>tp1</code> con <strong>commits incrementales</strong> ("queremos ver el proceso"). Las guías de práctica quedan en <code>main</code>; el TP va en su propia rama.</p>
+    <pre><code>git switch -c tp1        # crear la rama y pasarme a ella
+git add &lt;archivo&gt;
+git commit -m "..."      # queda GUARDADO local, en mi disco</code></pre>
+
+    <div class="callout c-dis">
+      <div class="tt">🎨 Sobre la entrega</div>
+      <p>La entrega es <strong>por el campus de la cátedra</strong>, no por GitHub. Por eso no necesito hacer <code>push</code> a ningún lado. Igual commiteo prolijo, porque el historial de commits <em>es parte de la nota</em> y se entrega junto con el proyecto (incluyendo la carpeta <code>.git</code>).</p>
+    </div>
+
+    <!-- ---- CONCEPTOS ---- -->
+    <h3 id="conceptos">🧩 Conceptos de la Parte A</h3>
+
+    <h4>¿Qué es un <code>record</code>? ¿Y por qué <code>Prestamo</code> es una clase sin decir <code>class</code>?</h4>
+    <p>Un <code>record</code> <strong>es una clase</strong> — una forma especial y abreviada de declararla. La palabra <code>record</code> reemplaza a <code>class</code> para modelar un <em>valor inmutable</em> (un dato que no cambia una vez creado). En una línea, Java genera solo: el constructor, los <em>accessors</em> (<code>retiro()</code>, <code>padron()</code>…), y <code>equals</code>, <code>hashCode</code> y <code>toString</code>.</p>
+    <table>
+      <tr><th>Palabra clave</th><th>¿Es clase?</th><th>Para qué</th></tr>
+      <tr><td><code>class</code></td><td>Sí (la general)</td><td>Cualquier objeto</td></tr>
+      <tr><td><code>record</code></td><td><strong>Sí</strong> (especial)</td><td>Modelar datos/valores → mi <code>Prestamo</code></td></tr>
+      <tr><td><code>enum</code></td><td>Sí (especial)</td><td>Conjunto cerrado de valores</td></tr>
+      <tr><td><code>interface</code></td><td><strong>No</strong></td><td>Un contrato puro (viene en la Parte B)</td></tr>
+    </table>
+    <p><span class="badge b-enun">📘 ENUNCIADO</span> &nbsp;Usar <code>record</code> lo pide la consigna: un préstamo es un <em>valor</em> (dos préstamos con los mismos datos son "el mismo"). Ref: <a href="clase_1_y_2/clase_1_y_2.html#s1b15">clase_1_y_2 · 1B.15 Modelar con record</a>.</p>
+
+    <h4><code>Prestamo</code> es una clase <em>y</em> un TDA</h4>
+    <p>No compiten: son <strong>dos capas</strong>.</p>
+    <ul class="clean">
+      <li><strong>TDA</strong> (Tipo de Dato Abstracto) = el <em>qué</em>: un tipo definido por sus <em>operaciones</em> e <em>invariantes</em>, escondiendo el cómo. Es una idea de diseño.</li>
+      <li><strong>Clase / record</strong> = el <em>cómo</em>: el mecanismo concreto de Java para implementar ese TDA.</li>
+    </ul>
+    <p>Entonces <code>Prestamo</code> <strong>es un TDA implementado como un record class</strong>. Ref: <a href="clase_4/clase_4.html#s32">clase_4 · 3.2 TDA</a>, <a href="clase_4/clase_4.html#s31">3.1 Abstracción</a>.</p>
+
+    <h4>Invariantes y el constructor compacto</h4>
+    <p>Una <strong>invariante</strong> es una condición que <em>siempre</em> tiene que ser verdadera para que el objeto sea válido. <span class="badge b-enun">📘 ENUNCIADO</span> "Un <code>Prestamo</code> mal formado NO debe existir." El lugar para hacerlas cumplir es el <strong>constructor compacto</strong>: se escribe con el nombre del record y llaves, <em>sin repetir los parámetros</em>. Si un dato no cumple, corto la creación lanzando una excepción.</p>
+    <p>Refs: <a href="clase_1_y_2/clase_1_y_2.html#s1b21">1B.21 Validaciones</a> (el porqué), <a href="clase_1_y_2/clase_1_y_2.html#s1b17">1B.17 Excepciones</a> (la herramienta), <a href="clase_4/clase_4.html#s341">clase_4 · 3.4.1 Encapsulamiento</a>.</p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Tipado estático: cómo Java "sabe" el tipo</div>
+      <p>Java <strong>no adivina</strong> el tipo de retorno: <em>yo</em> lo declaro en la firma (<code>public int multa(...)</code> = "prometo devolver un int"). Java es el <em>policía</em> que verifica esa promesa al compilar. Por eso, cuando devolví un <code>long</code> donde prometí <code>int</code>, no compiló hasta poner el cast. El único lugar donde Java <em>infiere</em> el tipo es <code>var</code> (variables locales). Ref: <a href="clase_1_y_2/clase_1_y_2.html#s1b6">1B.6 Tipos</a>, <a href="clase_1_y_2/clase_1_y_2.html#s1b7">1B.7 Rangos y wrappers</a>.</p>
+    </div>
+
+    <!-- ---- CODIGO ---- -->
+    <h3 id="codigo">💻 El código, explicado</h3>
+
+    <h4>El encabezado del record</h4>
+    <pre><code>package ar.uba.fi.cb100.clases.a2026.c02.tps.tp1;
+
+import java.time.LocalDate;
+
+public record Prestamo(LocalDate retiro, int padron, String socio,
+                       String isbn, String titulo, LocalDate devolucion) { }</code></pre>
+    <ul class="clean">
+      <li><code>package</code>: la "dirección postal" del archivo; coincide con las carpetas. <span class="badge b-enun">📘</span></li>
+      <li>6 <strong>componentes</strong>. <code>retiro</code>/<code>devolucion</code> son <code>LocalDate</code> (tipo fecha, hay que importarlo). <code>padron</code> es <code>int</code>. Los demás <code>String</code>.</li>
+      <li><strong>¿Por qué <code>isbn</code> es <code>String</code> y no número?</strong> Es un <em>identificador</em>, no una cantidad: nunca hago matemática con él y podría tener ceros a la izquierda. <span class="badge b-dis">🎨</span></li>
+    </ul>
+
+    <h4>El constructor compacto (las invariantes)</h4>
+    <pre><code>public Prestamo {
+    if (padron &lt;= 0) {
+        throw new IllegalArgumentException("El padron no puede ser menor o igual a 0.");
+    }
+    if (socio == null || socio.isEmpty()) {
+        throw new IllegalArgumentException("El nombre del socio no puede estar vacio ni ser nulo.");
+    }
+    if (isbn == null || isbn.isEmpty()) {
+        throw new IllegalArgumentException("El identificador del libro no puede estar vacio ni ser nulo.");
+    }
+    if (titulo == null || titulo.isEmpty()) {
+        throw new IllegalArgumentException("El titulo del libro no puede estar vacio ni ser nulo.");
+    }
+    if (devolucion != null &amp;&amp; devolucion.isBefore(retiro)) {
+        throw new IllegalArgumentException("La devolucion no puede ser previa al retiro.");
+    }
+}</code></pre>
+    <ul class="clean">
+      <li><strong>Orden del <code>||</code>:</strong> chequeo <code>== null</code> <em>antes</em> de llamar <code>.isEmpty()</code>. Por el <em>short-circuit</em>, si es null Java no evalúa la derecha → evito la <code>NullPointerException</code>.</li>
+      <li><code>padron &lt;= 0</code>: "positivo" excluye al 0. <span class="badge b-enun">📘</span></li>
+      <li><strong>La devolución es distinta:</strong> puede ser <code>null</code> (préstamo pendiente). Uso <code>!= null &amp;&amp; isBefore</code>: solo valido el orden de fechas <em>si</em> hay devolución.</li>
+    </ul>
+
+    <h4>Los 4 métodos (el comportamiento)</h4>
+    <pre><code>public boolean estaPendiente() {
+    return devolucion == null;              // pendiente = sin fecha de devolución
+}
+
+public LocalDate vencimiento() {
+    return retiro.plusDays(14);             // 14 días corridos (regla de negocio)
+}
+
+public int diasDeAtraso(LocalDate corte) {
+    LocalDate fechaHasta = estaPendiente() ? corte : devolucion;
+    long entre = Math.max(0, ChronoUnit.DAYS.between(vencimiento(), fechaHasta));
+    return (int) entre;                     // cast long → int
+}
+
+public int multa(LocalDate corte) {
+    int diasTotales = diasDeAtraso(corte);  // reutiliza el método de arriba
+    int multaBase = diasTotales * 150;      // $150 por día
+    return Math.min(3000, multaBase);       // tope de $3000
+}</code></pre>
+    <ul class="clean">
+      <li><code>vencimiento()</code>: <code>LocalDate</code> es <strong>inmutable</strong> — <code>plusDays</code> devuelve una fecha <em>nueva</em>, no modifica <code>retiro</code>. El "14" viene de la regla #1. <span class="badge b-enun">📘</span></li>
+      <li><code>diasDeAtraso</code>: el <strong>ternario</strong> elige hasta qué fecha contar (corte si pendiente, devolución si no). <code>ChronoUnit.DAYS.between(desde, hasta)</code> cuenta días; <code>Math.max(0, …)</code> evita negativos. <span class="badge b-enun">📘 (herramientas sugeridas)</span></li>
+      <li><code>multa</code>: <strong>reutiliza</strong> <code>diasDeAtraso</code> (un TDA que se apoya en sí mismo). <code>Math.min</code> pone el techo — el hermano de <code>Math.max</code>. <span class="badge b-dis">🎨 (reutilizar en vez de recalcular)</span></li>
+      <li><strong>Nombres de variables:</strong> <code>fechaHasta</code>, <code>diasTotales</code>, <code>multaBase</code> — en camelCase y describiendo el contenido. <span class="badge b-dis">🎨</span></li>
+    </ul>
+    <p>Refs: <a href="clase_1_y_2/clase_1_y_2.html#s1b12">1B.12 Métodos</a>, <a href="clase_1_y_2/clase_1_y_2.html#s1b18">1B.18 Fechas y horas</a>, <a href="clase_1_y_2/clase_1_y_2.html#s1b10">1B.10 Math</a>, <a href="clase_3/clase_3.html#s29">clase_3 · 2.9 Inmutables</a>.</p>
+
+    <!-- ---- ERRORES ---- -->
+    <h3 id="errores">⚠️ Errores que cometí y cómo los corregí</h3>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ 1 · Validar la devolución como si nunca pudiera ser null</div>
+      <p>Primero escribí <code class="cmp">devolucion == null || devolucion.isBefore(retiro)</code>. Eso <strong>rechazaba los préstamos pendientes</strong> (que legítimamente tienen <code>devolucion == null</code>).</p>
+      <p><span class="ok">Corrección:</span> <code>devolucion != null &amp;&amp; devolucion.isBefore(retiro)</code>. La regla dice que null es válido (pendiente); solo si <em>hay</em> fecha valido que no sea anterior al retiro.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ 2 · <code>return</code> con una asignación de más</div>
+      <p>En <code>vencimiento()</code> puse <code class="cmp">return vencimiento = retiro.plusDays(14);</code>. <code>vencimiento</code> es el nombre del <em>método</em>, no una variable — no se le puede asignar nada.</p>
+      <p><span class="ok">Corrección:</span> <code>return retiro.plusDays(14);</code>. El <code>return</code> devuelve directo la expresión; no hace falta guardarla en nada.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ 3 · <code>double</code> vs <code>int</code> en la multa</div>
+      <p>Declaré <code class="cmp">public double multa(...)</code>. Pero la multa siempre es entera (múltiplos de 150, tope 3000) — con <code>double</code> daría <code>3600.0</code> y no coincidiría con la salida esperada.</p>
+      <p><span class="ok">Corrección:</span> <code>public int multa(...)</code>. Regla: <code>double</code> solo si el dato puede tener decimales.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ 4 · <code>long</code> donde prometí <code>int</code></div>
+      <p><code>ChronoUnit.DAYS.between(...)</code> devuelve <code>long</code>. Como el método promete <code>int</code>, no compilaba.</p>
+      <p><span class="ok">Corrección:</span> un <em>cast</em> explícito <code>return (int) entre;</code> — le digo a Java "me hago cargo, convertilo a int" (es seguro: los días de atraso nunca son un número gigante).</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ 5 · Typo <code>Localdate</code> y estructura suelta</div>
+      <p>Escribí <code class="cmp">Localdate</code> (Java distingue mayúsculas → <code>LocalDate</code>). Y al principio puse los <code>if</code> sueltos en el cuerpo del record, sin el encabezado <code>public Prestamo { … }</code> que los envuelve — el código ejecutable tiene que vivir dentro de un método o constructor.</p>
+    </div>
+
+    <!-- ---- PREGUNTAS ---- -->
+    <h3 id="preguntas">❓ Preguntas que hice</h3>
+
+    <div class="callout c-q">
+      <div class="tt">❓ ¿Qué es el ISBN?</div>
+      <p>El número único que identifica a un libro (como el DNI de un libro). En los datos es el número largo. El mismo ISBN se repite cuando varios socios piden el mismo título → me va a servir para el ranking de la Parte D. Va como <code>String</code> por ser identificador.</p>
+    </div>
+
+    <div class="callout c-q">
+      <div class="tt">❓ ¿Por qué <code>Prestamo</code> es una clase si no dice <code>class</code>?</div>
+      <p>Porque <code>record</code> <em>es</em> una forma de declarar una clase (una "record class"). Java la expande por detrás a una clase final con los campos, el constructor y los métodos estándar.</p>
+    </div>
+
+    <div class="callout c-q">
+      <div class="tt">❓ Entonces, ¿<code>Prestamo</code> es una clase <em>y</em> un TDA?</div>
+      <p>Sí, las dos cosas: el TDA es el concepto de diseño (operaciones + invariantes); la clase/record es el mecanismo de Java que lo implementa. Mismo objeto, dos "sombreros".</p>
+    </div>
+
+    <div class="callout c-q">
+      <div class="tt">❓ ¿Cómo "sabía" Java que devolvía un int?</div>
+      <p>No lo adivinó: lo declaré yo en la firma. Java (tipado estático) solo verifica que cumpla la promesa al compilar. Ver el recuadro de tipado estático más arriba.</p>
+    </div>
+
+    <div class="callout c-q">
+      <div class="tt">❓ "Method 'multa' is never used" — ¿qué es?</div>
+      <p>Una <em>inspección de IntelliJ</em> (no un warning del compilador): nadie llama a <code>multa</code> todavía porque construyo de abajo hacia arriba. Se resuelve solo cuando escriba su "cliente" (los tests o el Reporteador). No se suprime ni se borra el método.</p>
+    </div>
+
+    <div class="callout c-q">
+      <div class="tt">❓ ¿El repo donde commiteo es mío? ¿El profe verá mis HTML y guías?</div>
+      <p>El repo <em>local</em> es mío (aunque su remoto sea de la cátedra). Los <strong>HTML de teoría NO</strong> se entregan (viven en mi repo personal externo). Las <strong>guías SÍ</strong> quedarían incluidas (están en el mismo repo del TP), pero son mi propio trabajo y no afectan la corrección.</p>
+    </div>
+
+    <div class="callout c-q">
+      <div class="tt">❓ ¿Cómo toma su valor un parámetro? (ej. <code>corte</code> en <code>diasDeAtraso</code>)</div>
+      <p>Hay que separar dos ideas:</p>
+      <ul class="clean">
+        <li><strong>Parámetro</strong> = el hueco con nombre en la <em>definición</em>: <code>diasDeAtraso(LocalDate corte)</code>. Es una variable local que todavía no tiene valor.</li>
+        <li><strong>Argumento</strong> = el valor concreto que paso al <em>llamar</em>: <code>prestamo.diasDeAtraso(LocalDate.parse("2026-03-26"))</code>.</li>
+      </ul>
+      <p>Al ejecutar la llamada, Java <strong>copia el argumento dentro del parámetro</strong> (como si al entrar hiciera <code>LocalDate corte = &lt;el argumento&gt;;</code>). Desde ahí, adentro del método, <code>corte</code> vale eso; cuando el método termina, desaparece (es local). Por eso el mismo método con distintos argumentos hace que <code>corte</code> tome <strong>distintos valores en cada llamada</strong> — eso lo hace reutilizable. En mi <code>multa</code> yo hago <code>diasDeAtraso(corte)</code>: le paso <em>mi</em> corte como argumento del corte del otro método (se encadena).</p>
+      <p><strong>Matiz:</strong> Java pasa siempre <em>por valor</em> (el parámetro recibe una copia); para objetos como <code>LocalDate</code> se copia la referencia, pero al ser inmutable no hay sorpresas. Ref: <a href="clase_1_y_2/clase_1_y_2.html#s1b12">1B.12 Métodos</a>, <a href="clase_3/clase_3.html#s28">clase_3 · 2.8 Paso de parámetros</a>.</p>
+    </div>
+
+  </div><!-- /commit 1 -->
+
+  <!-- ============ COMMIT 2 ============ -->
+  <div class="commit" id="c2">
+    <div class="commit-head">
+      <span class="commit-hash">1a099de</span>
+      <h2>Commit 2 — Tests de la Parte A con JUnit 5</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>9 tests para <code>Prestamo</code>: las 5 validaciones del constructor, el vencimiento, atraso 0, atraso pendiente y el tope de multa.</em></p>
+
+    <h3 id="tests-junit">🧪 JUnit y aserciones</h3>
+    <p><span class="badge b-enun">📘 ENUNCIADO</span> &nbsp;Los tests son obligatorios (sección 7, 15 puntos). Van en un árbol paralelo: <code>src/<strong>test</strong>/java/…</code> (no en <code>src/main</code>), con el mismo <code>package</code>. Se corren con <code>./gradlew test</code>.</p>
+    <table>
+      <tr><th>Pieza</th><th>Qué es</th></tr>
+      <tr><td><code>@Test</code></td><td>Anotación que marca un método como test para que Gradle lo ejecute</td></tr>
+      <tr><td><code>@DisplayName("...")</code></td><td>Nombre legible que se ve al correr la suite</td></tr>
+      <tr><td><code>assertEquals(esperado, obtenido)</code></td><td>Falla si difieren. Compara por <strong>valor</strong> (<code>.equals()</code>), no por referencia (<code>==</code>) → por eso comparar dos <code>LocalDate</code> distintos con el mismo día da OK</td></tr>
+      <tr><td><code>assertThrows(Exc.class, () -&gt; ...)</code></td><td>Verifica que el código de la lambda <strong>lance</strong> la excepción. Si no lanza, el test falla</td></tr>
+    </table>
+    <p>La <code>() -&gt; ...</code> es una <strong>lambda</strong>: en vez de ejecutar el código ya, se lo doy a <code>assertThrows</code> para que lo corra él y vea si explota. Ref: <a href="clase_1_y_2/clase_1_y_2.html#s1b22">1B.22 JUnit 5</a>, <a href="clase_1_y_2/clase_1_y_2.html#s1b16">1B.16 Lambdas</a>, <a href="clase_3/clase_3.html#s26">clase_3 · 2.6 == vs equals</a>.</p>
+
+    <h4>Ejemplos de lo que escribí</h4>
+    <pre><code>@Test
+@DisplayName("Vencimiento es 14 dias despues del retiro")
+void vencimientoEsCatorceDiasDespuesDelRetiro() {
+    LocalDate retiro = LocalDate.parse("2026-03-02");
+    LocalDate vencimiento = LocalDate.parse("2026-03-16");   // esperado, escrito a mano
+    Prestamo p = new Prestamo(retiro, 115324, "Patron", "B335D", "Rebelion en la granja", null);
+    assertEquals(vencimiento, p.vencimiento());
+}
+
+@Test
+@DisplayName("Rechaza un padron invalido")
+void rechazaPadronInvalido() {
+    assertThrows(IllegalArgumentException.class,
+        () -&gt; new Prestamo(LocalDate.parse("2026-03-02"), -3, "Gomez", "V35Q", "El retrato de Dorian Gray", null));
+}</code></pre>
+
+    <h3 id="tests-lecciones">🎯 Lecciones de testing (lo que más me costó)</h3>
+
+    <div class="callout c-key">
+      <div class="tt">💡 El valor esperado tiene que ser independiente</div>
+      <p>Al principio calculé el esperado con <code class="cmp">retiro.plusDays(14)</code> — <em>la misma fórmula</em> que usa el método que estoy probando. Si el "14" estuviera mal en los dos lados, el test pasaría igual. <span class="ok">Corrección:</span> escribir la fecha esperada a mano (<code>2026-03-16</code>), de una fuente distinta a la lógica bajo prueba.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ El "verde engañoso" #1: dos campos inválidos a la vez</div>
+      <p>En los tests de validación puse a veces <strong>dos</strong> campos rotos (ej. <code>socio=""</code> <em>y</em> <code>isbn=""</code>). Como el constructor valida en orden (padron → socio → isbn → titulo → devolucion) y corta en el primero, saltaba por <code>socio</code> y el <code>isbn</code> nunca se probaba. El test pasaba <strong>por el motivo equivocado</strong>.</p>
+      <p><span class="ok">Regla:</span> un test de <code>assertThrows</code> debe tener <strong>un solo campo inválido</strong> y el resto válido, para saber con certeza qué validación disparó.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ El "verde engañoso" #2: probar el objeto equivocado</div>
+      <p>Creé <code>devueltoAntes</code> pero la aserción seguía preguntándole a <code>prestamo</code> (el de antes). La variable nueva quedaba sin usar (IntelliJ la pinta en gris) y el caso no se probaba. <span class="ok">Pista visual:</span> si creo una variable y queda en gris, algo del test no la está usando.</p>
+    </div>
+
+    <div class="callout c-dis">
+      <div class="tt">🎨 null vs vacío son dos ramas distintas</div>
+      <p>En <code>socio == null || socio.isEmpty()</code>, probar <code>null</code> NO cubre el caso <code>""</code> (por el short-circuit, <code>isEmpty()</code> ni se evalúa). Para cubrir ambas ramas: dos construcciones (una con <code>null</code>, otra con <code>""</code>), que pueden vivir en el mismo método <code>@Test</code> con dos <code>assertThrows</code>.</p>
+    </div>
+  </div><!-- /commit 2 -->
+
+  <!-- ============ COMMIT 3 ============ -->
+  <div class="commit" id="c3">
+    <div class="commit-head">
+      <span class="commit-hash">5834b0d</span>
+      <h2>Commit 3 — Parte B: RegistroDePrestamos + RegistroSobreArreglo</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>El TDA "de manual": un contrato (interfaz) separado de su implementación sobre un arreglo que crece a mano. La parte más difícil del TP.</em></p>
+
+    <h3 id="b-tda">🔌 Interfaz + implementación (el TDA fuerte)</h3>
+    <p>Acá aparece el patrón TDA en su forma más fuerte: el <strong>contrato</strong> y el <strong>cómo</strong> viven en archivos separados.</p>
+    <table>
+      <tr><th>Archivo</th><th>Qué es</th></tr>
+      <tr><td><code>RegistroDePrestamos</code></td><td>una <strong>interface</strong> — solo las firmas de los 6 métodos, sin cuerpo (terminan en <code>;</code>). El "qué".</td></tr>
+      <tr><td><code>RegistroSobreArreglo</code></td><td>una <strong>class</strong> que la implementa (<code>implements</code>) con un arreglo que crece. El "cómo".</td></tr>
+    </table>
+    <p><code>implements</code> = la clase se compromete a cumplir el contrato; Java la obliga a implementar los 6 métodos (por eso IntelliJ los generó con <code>@Override</code>). <code>@Override</code> = "este método viene del contrato" (chequeo de seguridad). Ref: <a href="clase_4/clase_4.html#s36">clase_4 · 3.6 Interfaces</a>, <a href="clase_4/clase_4.html#s343">3.4.3 Polimorfismo</a>.</p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Estado interno: capacidad vs. usados</div>
+      <p>La clase tiene <strong>dos campos privados</strong>: <code>private Prestamo[] prestamos = new Prestamo[8]</code> (el contenedor, capacidad 8) y <code>private int usados = 0</code> (cuántos cargué de verdad). <strong>No alcanza con <code>prestamos.length</code></strong>: eso da la <em>capacidad</em> (casillas que existen), no cuántas <em>llené</em>. La capacidad crece (8→16→32...) pero <code>usados</code> cuenta lo real. Este dúo "contenedor + contador" se repite en varios métodos. Ref: <a href="clase_1_y_2/clase_1_y_2.html#s1b13">1B.13</a>, <a href="clase_4/clase_4.html#s341">clase_4 · 3.4.1 Encapsulamiento</a>.</p>
+    </div>
+
+    <h3 id="b-metodos">💻 Los métodos, explicados</h3>
+
+    <h4>registrar — el crecimiento manual (el corazón, 15 puntos)</h4>
+    <pre><code>public void registrar(Prestamo p) {
+    if (usados == prestamos.length) {                               // ¿lleno?
+        prestamos = Arrays.copyOf(prestamos, prestamos.length * 2); // duplico y copio
+    }
+    prestamos[usados] = p;   // guardo en la proxima casilla libre
+    usados += 1;             // cuento uno mas
+}</code></pre>
+    <ul class="clean">
+      <li>El <code>if</code> <strong>solo</strong> agranda cuando está lleno; guardar+contar va <strong>afuera</strong> del <code>if</code>, para que corra siempre. <span class="badge b-enun">📘 (capacidad 8, doble, Arrays.copyOf)</span></li>
+      <li><code>prestamos.length * 2</code> usa la capacidad actual → crece bien siempre. Copiar un arreglo: <a href="clase_3/clase_3.html#s210">clase_3 · 2.10</a>.</li>
+    </ul>
+
+    <h4>obtener — chequeo de índice contra usados (no length)</h4>
+    <pre><code>if (i &lt; 0 || i &gt; usados - 1) {
+    throw new IndexOutOfBoundsException("El indice a obtener es invalido");
+}
+return prestamos[i];</code></pre>
+    <p>Los índices válidos son <code>0 .. usados-1</code> (los cargados), <strong>no</strong> hasta <code>length</code>. Si usara <code>length</code>, devolvería casillas vacías (<code>null</code>). Otra vez capacidad vs. usados.</p>
+
+    <h4>padrones — distintos en orden, con bandera</h4>
+    <p>Sin <code>HashSet</code> (prohibido), los repetidos se filtran a mano: contenedor <code>int[]</code> de tamaño máximo (<code>usados</code>) + contador <code>distintos</code>. Por cada padrón, un <strong>for interno</strong> busca si ya está; una <strong>bandera <code>boolean esNuevo</code></strong> (arranca en <code>true</code>, pasa a <code>false</code> si aparece) decide, <em>después</em> del for interno, si se agrega. Al final, <code>Arrays.copyOf</code> recorta al tamaño real.</p>
+
+    <h4>prestamosDe — filtrar (origen vs. destino)</h4>
+    <p>Recorre el <strong>origen</strong> (<code>prestamos[i]</code>) y copia al <strong>destino</strong> los que coinciden con el padrón. Sobre-reserva de tamaño <code>usados</code> y recorta con <code>copyOf</code>. Si no hay ninguno, el contador queda en 0 y <code>copyOf(..., 0)</code> da el arreglo vacío que pide el contrato — gratis.</p>
+
+    <h4>titulosMasPedidos — lo más difícil del TP</h4>
+    <p>Junta cuatro cosas, sin colecciones. Se resolvió en 3 sub-problemas:</p>
+    <ul class="clean">
+      <li><strong>1. Contar:</strong> dos arreglos <strong>paralelos</strong> — <code>titulos</code> (String[]) y <code>conteo</code> (int[]) — donde posición k ↔ mismo título. Búsqueda interna con <code>.equals()</code> (¡no <code>==</code>!) que recuerda el <strong>índice</strong> (arranca en −1). Si el título es nuevo: se guarda + conteo 1; si ya estaba: <code>conteo[pos] += 1</code>.</li>
+      <li><strong>2. Elegir el top n:</strong> <em>selección repetida</em>. Un <code>for</code> externo repite <code>Math.min(n, distintos)</code> veces; adentro, un <code>for</code> interno busca el de mayor conteo (con desempate). Se guarda el ganador y se <strong>tacha</strong> (<code>conteo[indiceMejor] = -1</code>) para no re-elegirlo.</li>
+      <li><strong>3. Resultado:</strong> tamaño <code>Math.min(n, distintos)</code> (no siempre hay n títulos).</li>
+    </ul>
+    <p>El <strong>desempate alfabético</strong> usa <code>String.compareTo</code>: <code>a.compareTo(b) &lt; 0</code> significa que <code>a</code> va antes que <code>b</code>. Solo se mira cuando los conteos empatan. Ref: <a href="clase_4/clase_4.html#s38">clase_4 · 3.8 / Comparable</a>.</p>
+
+    <h3 id="b-lecciones">⚠️ Errores y lecciones de la Parte B</h3>
+    <div class="callout c-err">
+      <div class="tt">⚠️ Origen vs. destino</div>
+      <p>Varias veces leí del arreglo <em>resultado</em> (vacío) en vez del <em>origen</em>. Regla: se <strong>lee</strong> de <code>prestamos</code> (los cargados) y se <strong>escribe</strong> en el arreglo resultado. Nunca confundir de dónde sale el dato y a dónde va.</p>
+    </div>
+    <div class="callout c-err">
+      <div class="tt">⚠️ Índice vs. valor</div>
+      <p>En "buscar el máximo" guardé el <em>conteo</em> en una variable llamada <code>indiceMejor</code>. Tenía que guardar el <strong>índice</strong> (posición), y comparar con <code>conteo[indiceMejor]</code>. El índice te da acceso a las dos cosas (título y conteo) de esa posición.</p>
+    </div>
+    <div class="callout c-err">
+      <div class="tt">⚠️ Anidar bien los ciclos (selección)</div>
+      <p>El ciclo que <strong>repite</strong> (top n) va AFUERA; el que <strong>busca el mejor</strong> va ADENTRO. Guardar y tachar van <em>después</em> del for interno pero <em>dentro</em> del externo (recién ahí está definido <code>indiceMejor</code>). Tachar es <strong>una línea</strong>, no un for.</p>
+    </div>
+    <div class="callout c-err">
+      <div class="tt">⚠️ Off-by-one y == true</div>
+      <p>Recorrer hasta <code>usados-1</code> en un <code>for</code> se escribe <code>i &lt; usados</code> (no <code>i &lt; usados-1</code>, que saltea el último). Y <code>if (esNuevo == true)</code> se escribe directo <code>if (esNuevo)</code>.</p>
+    </div>
+    <div class="callout c-dis">
+      <div class="tt">🎨 El patrón que se repite: sobre-reservar + recortar</div>
+      <p>Cuando no sé de antemano cuántos elementos voy a juntar: creo un arreglo del tamaño máximo posible (<code>usados</code>), lleno con un contador, y al final recorto con <code>Arrays.copyOf(arr, contador)</code>. Lo usé en <code>padrones</code>, <code>prestamosDe</code> y (variado) en <code>titulosMasPedidos</code>.</p>
+    </div>
+  </div><!-- /commit 3 -->
+
+  <!-- ============ COMMIT 4 ============ -->
+  <div class="commit" id="c4">
+    <div class="commit-head">
+      <span class="commit-hash">1e2f3a7</span>
+      <h2>Commit 4 — Tests de la Parte B (RegistroSobreArreglo)</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>4 tests que el enunciado pide: crece más allá de la capacidad, padrones sin repetidos, prestamosDe inexistente vacío, y el desempate alfabético. Con esto: 13 tests en total (mín. 12 ✓).</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Java-ismos de testing con arreglos (vs. Python/JS)</div>
+      <ul class="clean">
+        <li><strong>Comparar arreglos:</strong> <code>assertEquals</code> compara <em>referencias</em> (como <code>===</code> de JS entre objetos) → no sirve. Para contenido se usa <code>assertArrayEquals(esperado, obtenido)</code>.</li>
+        <li><strong>Literal de arreglo como argumento:</strong> <code>new int[]{10, 20}</code> (el atajo <code>{10, 20}</code> solo vale al declarar: <code>int[] x = {10, 20};</code>). En Python/JS sería <code>[10, 20]</code>.</li>
+        <li><strong>¿Vacío?</strong> los arreglos no tienen <code>.isEmpty()</code>; se chequea <code>arr.length == 0</code>.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-dis">
+      <div class="tt">🎨 Un test debe FALLAR si la lógica se rompe (si no, no prueba nada)</div>
+      <p>Dos tests salieron flojos al principio y se reforzaron:</p>
+      <ul class="clean">
+        <li><strong>prestamosDe inexistente:</strong> al inicio el registro estaba <em>vacío</em>, así que probaba "vacío → vacío". Se reforzó registrando padrones reales y pidiendo <em>otro</em> distinto — así prueba que devuelve vacío <em>porque el padrón no está</em>.</li>
+        <li><strong>Desempate alfabético:</strong> al inicio el ganador alfabético coincidía con el primero registrado, así que un <code>compareTo</code> roto igual pasaría. Se reforzó registrando el ganador alfabético <em>después</em> de su empatado: ahora el orden correcto solo sale si el desempate funciona de verdad.</li>
+      </ul>
+    </div>
+  </div><!-- /commit 4 -->
+
+  <!-- ============ COMMIT 5 ============ -->
+  <div class="commit" id="c5">
+    <div class="commit-head">
+      <span class="commit-hash">7925429</span>
+      <h2>Commit 5 — Parte C: LectorDePrestamos (archivo → Prestamo → registro)</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>El lector que arranca el flujo: lee el CSV, parsea cada línea, y tolera errores sin abortar (descarta la línea mala guardando el motivo + nº de línea). Verificado contra el archivo real: 22 datos, 18 válidas, 4 errores en las líneas 28–31, exacto.</em></p>
+
+    <h3>Las tres piezas</h3>
+    <table>
+      <tr><th>Pieza</th><th>Qué es</th></tr>
+      <tr><td><code>LineaInvalidaException</code></td><td>excepción propia — <code>extends RuntimeException</code>, guarda el nº de línea</td></tr>
+      <tr><td><code>ResultadoDeCarga</code></td><td>record que empaqueta el resultado: registro + errores + lineasDeDatos</td></tr>
+      <tr><td><code>LectorDePrestamos.cargar</code></td><td>método <code>static</code> que lee, parsea y arma el ResultadoDeCarga</td></tr>
+    </table>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Java nuevo de esta parte (vs. Python/JS)</div>
+      <ul class="clean">
+        <li><strong>Herencia:</strong> <code>extends RuntimeException</code> = <code>class X(Exception)</code> de Python. <code>super(motivo)</code> = <code>super().__init__(motivo)</code>: llama al constructor del padre. Va como primera línea.</li>
+        <li><strong>try/catch</strong> = try/except. Un <code>try</code> puede tener varios <code>catch</code>, uno por tipo de excepción. El <code>catch</code> obliga a nombrar la variable: <code>catch (DateTimeParseException e)</code>.</li>
+        <li><strong>Parseo:</strong> <code>LocalDate.parse(txt)</code> (tira DateTimeParseException), <code>Integer.parseInt(txt)</code> (tira NumberFormatException). El <strong>isbn NO se parsea</strong> — es String (identificador), como socio/titulo.</li>
+        <li><strong>Archivos:</strong> <code>Files.readAllLines(path)</code> (puede tirar IOException → por eso la firma lleva <code>throws IOException</code>). <code>linea.split(";", -1)</code> — el <strong>-1 conserva el campo vacío final</strong> (devolución pendiente).</li>
+        <li><strong>if vs try/catch (LBYL vs EAFP):</strong> <code>if</code> para lo chequeable (nº de campos, ¿vacío?); <code>try/catch</code> para el parseo que puede reventar.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">💡 El patrón de acumuladores (lo que más me costó)</div>
+      <p>Un acumulador = variable que <strong>creás antes</strong> del loop, <strong>actualizás adentro</strong>, y <strong>usás después</strong>. Es tu <code>total = 0; for x: total += x</code> de Python. Acá hubo 4: el <code>registro</code> (junta válidos vía <code>registrar</code>), <code>errores</code>+<code>totalErrores</code> (los mensajes), y <code>lineasDeDatos</code> (un conteo). Los de "lista" en Java van con un <strong>contador al lado</strong> porque el arreglo no crece solo. Al final, los 4 se envuelven en <code>new ResultadoDeCarga(...)</code>.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ Errores que cometí</div>
+      <ul class="clean">
+        <li><strong><code>return null</code> dentro del loop:</strong> quería decir "esta devolución es null" pero <code>return</code> <em>sale de todo el método</em>. Lo correcto: asignar <code>devolucion = null</code>, no <code>return</code>.</li>
+        <li><strong>Scope de bloque:</strong> declaré la devolución dentro del <code>else</code> → moría ahí. Hay que declararla ANTES del if/else y solo asignarla en cada rama.</li>
+        <li><strong>Orden:</strong> creé el <code>Prestamo</code> ANTES de resolver la devolución → salía siempre con null. El <code>new Prestamo</code> + <code>registrar</code> van al FINAL, cuando todo está parseado.</li>
+        <li><strong>Confundir el acumulador con el paquete final:</strong> intenté <code>new ResultadoDeCarga()</code> como acumulador. El acumulador es un <code>RegistroSobreArreglo</code>; el <code>ResultadoDeCarga</code> se arma UNA vez al final.</li>
+      </ul>
+    </div>
+  </div><!-- /commit 5 -->
+
+  <!-- ============ COMMIT 6 ============ -->
+  <div class="commit" id="c6">
+    <div class="commit-head">
+      <span class="commit-hash">36b73ef</span>
+      <h2>Commit 6 — Test de LectorDePrestamos</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>El test que pide el enunciado: sobre el archivo real, 18 válidas y 4 errores. Ya son 14 tests en total.</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Test unitario vs. de integración</div>
+      <p>Los tests anteriores eran <strong>unitarios</strong>: creaban objetos en memoria (<code>new Prestamo(...)</code>) y probaban una pieza aislada. Este es de <strong>integración</strong>: lee el archivo <code>prestamos.csv</code> real y ejercita <em>toda la cadena junta</em> (Lector + parseo + Prestamo + Registro). Mismas herramientas de JUnit; distinto alcance.</p>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Dos Java-ismos del test</div>
+      <ul class="clean">
+        <li><strong><code>throws Exception</code> en el método:</strong> como <code>cargar</code> puede tirar <code>IOException</code>, el método de test lo declara. El <code>throws</code> va en el <strong>método</strong>, nunca en la clase.</li>
+        <li><strong>El <code>Path</code> y el directorio de trabajo:</strong> Gradle corre los tests parado en <code>app/</code>, así que la ruta al CSV es relativa desde ahí (<code>src/main/java/.../datos/prestamos.csv</code>), <strong>sin</strong> barra inicial (una <code>/</code> al principio la haría absoluta → <code>NoSuchFileException</code>).</li>
+      </ul>
+    </div>
+  </div><!-- /commit 6 -->
+
+  <!-- ============ COMMIT 7 ============ -->
+  <div class="commit" id="c7">
+    <div class="commit-head">
+      <span class="commit-hash">3028f6c</span>
+      <h2>Commit 7 — Refactor: usar LineaInvalidaException (parsearLinea)</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>Hasta acá <code>LineaInvalidaException</code> era código muerto. El refactor la pone a trabajar sin cambiar el comportamiento (el test sigue dando 18/4).</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 "Primero hacelo andar, después hacelo prolijo"</div>
+      <p>El parseo <strong>no se borró</strong>: se <strong>movió</strong> a un método ayudante <code>parsearLinea</code>. Se construyó todo junto en <code>cargar</code> para que funcionara primero (y se verificó); recién después se reordenó. Refactorizar = reestructurar código que ya anda, <strong>sin cambiar lo que hace</strong>. El test es la red que confirma que no rompiste nada.</p>
+    </div>
+
+    <div class="callout c-dis">
+      <div class="tt">🎨 Separación de responsabilidades + lanzar mi propia excepción</div>
+      <ul class="clean">
+        <li><code>parsearLinea(linea, numeroDeLinea)</code>: una sola tarea — parsear una línea y devolver un <code>Prestamo</code>. Si algo falla, <code>throw new LineaInvalidaException(numeroDeLinea, motivo)</code> (convierte las excepciones estándar en la propia).</li>
+        <li><code>cargar</code>: orquesta. Llama a <code>parsearLinea</code> en un <strong>único</strong> <code>try/catch (LineaInvalidaException e)</code>, y arma el error con <code>e.numeroDeLinea()</code> + <code>e.getMessage()</code>.</li>
+        <li>La ventaja de la excepción propia: <strong>el nº de línea viaja adentro de <code>e</code></strong> desde donde se lanza hasta donde se atrapa.</li>
+      </ul>
+    </div>
+  </div><!-- /commit 7 -->
+
+  <!-- ============ COMMIT 8 ============ -->
+  <div class="commit" id="c8">
+    <div class="commit-head">
+      <span class="commit-hash">97874b8</span>
+      <h2>Commit 8 — Parte D: reportes por socio + exportador CSV</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>FilaDeSocio (record), Reporteador (multas por socio + ranking), la interfaz ExportadorDeReporte y ExportadorCsv con su test. porSocio verificado: salida exacta de la sección 5.2.</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Ordenar con un comparador (como el sort de JS)</div>
+      <p><code>Arrays.sort(resultado, (a, b) -&gt; {...})</code> es idéntico al <code>arr.sort((a,b) =&gt; ...)</code> de JS: el comparador devuelve un <strong>número</strong> (no un elemento) cuyo <strong>signo</strong> ordena — negativo: <code>a</code> antes; positivo: <code>b</code> antes; 0: empate. Para multa DESCendente: <code>b.multa() - a.multa()</code>; desempate por nombre ASC: <code>a.socio().compareTo(b.socio())</code>. Es <code>Comparable</code>/<code>Comparator</code> de clase_4.</p>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">💡 ExportadorTxt: columnas alineadas con String.format (= printf de C)</div>
+      <p>Para alinear en columnas: <code>String.format(formato, valores...)</code>, idéntico al <code>printf</code> de C. <code>%-8s</code> = texto a la izquierda ancho 8; <code>%9d</code> = número a la derecha ancho 9. Los <strong>mismos anchos</strong> se reusan en encabezado, filas y la fila TOTALES (que además cubre el ancho de padron+socio con un <code>%-27s</code> para que los totales caigan bajo sus columnas). Ref: <code>BoletinDeNotas.java</code> del material. <span class="badge b-dis">🎨 los números van con <code>%Nd</code> (derecha), no <code>%-Nd</code></span></p>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">💡 StringBuilder + escribir archivos</div>
+      <ul class="clean">
+        <li><strong><code>StringBuilder</code></strong>: acumulador de texto mutable. Se crea con <code>new StringBuilder()</code>, se pega con <code>.append(...)</code> (encadenable), y se obtiene el texto con <code>.toString()</code>. Más eficiente que <code>+</code> en un loop (los String son inmutables). Es como <code>"".join(...)</code> de Python.</li>
+        <li><strong><code>Files.writeString(destino, texto)</code></strong> escribe un texto a un archivo (acepta el StringBuilder directo porque es un <code>CharSequence</code>).</li>
+        <li>El test del CSV es de <strong>ida y vuelta</strong>: exporta a un <code>Files.createTempFile(...)</code>, lo relee con <code>Files.readAllLines</code>, y compara línea por línea.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️ Errores que cometí</div>
+      <ul class="clean">
+        <li><strong><code>Arrays.sort</code> adentro del <code>for</code>:</strong> ordenaba en cada vuelta con el arreglo a medio llenar (slots <code>null</code>) → NullPointerException. Va <em>después</em> del loop, una sola vez.</li>
+        <li><strong>Resta al revés:</strong> <code>a.multa() - b.multa()</code> ordena ascendente; para descendente va <code>b - a</code>.</li>
+        <li><strong>Acumuladores adentro del loop interno</strong> (se reiniciaban cada vuelta) y <strong><code>+= 1</code></strong> en vez de sumar el valor real de cada préstamo.</li>
+        <li><strong>CSV:</strong> <code>;</code> de más al final de cada línea, y me olvidé el <code>Files.writeString</code> (armaba el texto y no lo escribía).</li>
+      </ul>
+    </div>
+  </div><!-- /commit 8 -->
+
+  <!-- ============ COMMIT 9 ============ -->
+  <div class="commit" id="c9">
+    <div class="commit-head">
+      <span class="commit-hash">d27482b</span>
+      <h2>Commit 9 — Parte E: Tp1 (el main) · núcleo completo 🏆</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>El director de orquesta: no tiene lógica nueva, solo USA todo lo anterior en orden. Corre con <code>./gradlew run</code> y genera el resumen por consola + reporte.txt + reporte.csv, exactos.</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Cómo se cablea todo (el flujo completo, ya real)</div>
+      <ul class="clean">
+        <li><strong>args + defaults:</strong> <code>args[0]</code>=archivo, <code>args[1]</code>=corte, con constantes por defecto. Se chequea <code>args.length</code> antes de acceder (si no, <code>ArrayIndexOutOfBounds</code>). Ternario: <code>(args.length &gt; 0) ? args[0] : DEFAULT</code>.</li>
+        <li><strong>Carga:</strong> <code>LectorDePrestamos.cargar(archivo)</code> → resumen por consola con <code>System.out.println</code> (= <code>print()</code> de Python).</li>
+        <li><strong>Reporte:</strong> <code>Reporteador.porSocio(resultado.registro(), corte)</code> → las filas.</li>
+        <li><strong>Exportar hablando con la interfaz:</strong> <code>ExportadorDeReporte exp = new ExportadorTxt()</code>, y el nombre del archivo sale del propio exportador: <code>"reporte." + exp.extension()</code>. El main NO sabe cuál exportador es — TDA puro.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">💡 build.gradle (configuración, no Java)</div>
+      <p>Dos cambios para <code>./gradlew run</code>: <code>mainClass</code> apunta al <code>Tp1</code> (con su paquete completo <code>...clases.a2026.c02.tps.tp1.Tp1</code>, no el de HolaCB100), y <code>run { workingDir = rootProject.projectDir }</code> para que corra parado en la raíz y encuentre <code>prestamos.csv</code> por ruta relativa.</p>
+    </div>
+
+    <div class="callout c-dis">
+      <div class="tt">🎨 Estado del proyecto: núcleo terminado</div>
+      <p>Partes A→E completas, <strong>15 tests del TP en verde</strong>, corre y genera los reportes exactos. Pendiente aparte: los tests de las <em>guías</em> (incompletas) hacen que <code>./gradlew build</code> del proyecto entero falle — no es problema del TP; se resuelve filtrando el build al TP o completando las guías (a consultar con la cátedra). Falta: README, el ZIP de entrega, y el bonus .xlsx.</p>
+    </div>
+  </div><!-- /commit 9 -->
+
+  <!-- ============ COMMIT 10 ============ -->
+  <div class="commit" id="c10">
+    <div class="commit-head">
+      <span class="commit-hash">69bf427</span>
+      <h2>Commit 10 — Bonus: ExportadorXlsx (.xlsx de verdad) ⭐</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>El punto opcional (+1): un tercer exportador que escribe una planilla Excel real (binario .xlsx), no texto disfrazado. Lo mejor: no toqué ni el main ni la interfaz — solo agregué una clase más que respeta el mismo contrato.</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Por qué fue tan fácil sumar un formato (el pago del TDA)</div>
+      <ul class="clean">
+        <li><strong>Otra implementación del mismo contrato:</strong> <code>ExportadorXlsx implements ExportadorDeReporte</code>, igual que <code>ExportadorTxt</code> y <code>ExportadorCsv</code>. Solo tuve que rellenar <code>exportar()</code> y <code>extension()</code>.</li>
+        <li><strong>El main ni se enteró:</strong> se instancia el nuevo exportador y el nombre sale de <code>"reporte." + exp.extension()</code> → <code>reporte.xlsx</code>. Cero cambios en la lógica de reporte. Eso es exactamente para lo que servía separar la interfaz.</li>
+        <li><strong>La cátedra hace el trabajo sucio:</strong> <code>ExcelUtils.escribir(destino, "Multas", encabezados, datos)</code> — yo solo armo los datos en la forma que pide.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">💡 <code>Object[][]</code>: una matriz de columnas mixtas</div>
+      <p>La firma pide <code>Object[][] filas</code>: una fila = un arreglo de celdas de tipos distintos (padrón <code>int</code>, nombre <code>String</code>, multa <code>long</code>…). Como en Java todo hereda de <code>Object</code>, un <code>Object[]</code> puede mezclar tipos (parecido a una tupla de Python). Clave: paso los números <em>como números</em>, no como texto — así Excel los reconoce y los puede sumar en una celda. Recorro las <code>FilaDeSocio</code> y por cada una armo su <code>Object[]</code> con los 6 campos vía los getters del record.</p>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️→✅ Errores que corregí antes de commitear</div>
+      <ul class="clean">
+        <li><strong>Comentario copiado del TXT:</strong> el Javadoc de <code>exportar</code> decía "escribe los totales y el ranking de los títulos" — pero el xlsx <em>no</em> hace eso, solo la tabla (encabezado + una fila por socio). Lo reescribí para que diga lo que la clase realmente hace.</li>
+        <li><strong>Import muerto:</strong> había quedado un <code>import java.util.Objects;</code> sin usar. Fuera (dejaba warning).</li>
+      </ul>
+    </div>
+
+    <div class="callout c-key">
+      <div class="tt">✅ Verificación</div>
+      <p>Corrí <code>./gradlew run</code> → generó <code>reporte.xlsx</code> (binario real, ~3,8 KB). Lo leí de vuelta con <code>ExcelUtils.leer</code> y salieron las 6 columnas + las 5 filas con los valores exactos, ordenadas por multa descendente. Bonus cerrado.</p>
+    </div>
+  </div><!-- /commit 10 -->
+
+  <!-- ============ COMMIT 11 ============ -->
+  <div class="commit" id="c11">
+    <div class="commit-head">
+      <span class="commit-hash">32f8f88</span>
+      <h2>Commit 11 — Documentación: cuestionario + comentarios Javadoc 📝</h2>
+    </div>
+    <p style="color:var(--tx-dim)"><em>El código ya andaba; esta etapa fue documentarlo. El PDF de la cátedra pide más que el enunciado: un cuestionario, comentar TODO el código, y un informe con manuales. Acá va la parte del código; los manuales y el informe van aparte, en el PDF de entrega.</em></p>
+
+    <div class="callout c-key">
+      <div class="tt">💡 Comentarios con el formato de la cátedra (pre/post)</div>
+      <p>La cátedra pasó un <strong>modelo</strong> de cómo esperan los comentarios: no un one-liner, sino un bloque Javadoc con <strong>descripción + <code>Precondicion</code> + <code>Postcondicion</code> + <code>@param</code> / <code>@return</code> / <code>@throws</code></strong>. Reescribí los 12 archivos a ese formato, manteniendo lo que ya decía cada comentario y solo cambiando la estructura.</p>
+      <ul class="clean">
+        <li><strong>Precondicion:</strong> qué se asume al entrar (ej. <code>obtener</code> → <code>0 &lt;= i &lt; cantidad()</code>). Si no hay, <code>ninguna</code>.</li>
+        <li><strong>Postcondicion:</strong> qué garantiza al salir, incluido si <strong>modifica o no el estado</strong> (los getters cierran con "No modifica el estado").</li>
+        <li>Los <code>record</code> (<code>Prestamo</code>, <code>ResultadoDeCarga</code>, <code>FilaDeSocio</code>) se documentan con un <code>@param</code> por cada componente.</li>
+        <li>El contrato (interfaz) y la implementación deben decir <strong>lo mismo</strong>: la precondición de <code>registrar</code>/<code>obtener</code> quedó igual en <code>RegistroDePrestamos</code> y en <code>RegistroSobreArreglo</code>.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-err">
+      <div class="tt">⚠️→✅ Cosas que la auditoría final cazó</div>
+      <ul class="clean">
+        <li><strong>Comentario ≠ código:</strong> <code>parsearLinea</code> decía "campos menores a 6", pero el código rechaza <code>length != 6</code> (también si hay de más) → "distintos de 6".</li>
+        <li><strong>Postcondición incompleta:</strong> <code>cargar</code> saltea líneas en blanco <em>y</em> las que empiezan con <code>#</code>; el comentario solo nombraba las en blanco.</li>
+        <li><strong>Javadoc suelto:</strong> una línea en blanco entre el comentario y la interfaz lo "despegaba" (<em>Dangling Javadoc</em>).</li>
+        <li><strong>Comentario mal ubicado:</strong> el Javadoc del <code>main</code> quedó pegado a la clase → "Cannot resolve symbol 'args'" y "tag 'throws' not allowed". Cada comentario va pegado a lo que describe.</li>
+        <li><strong>De regalo:</strong> el mensaje de excepción decía "ni ser nula" cuando una devolución nula sí es válida, y el reporte decía "FIABA" en vez de "FIUBA".</li>
+      </ul>
+    </div>
+
+    <div class="callout c-dis">
+      <div class="tt">🎨 Lección: los comentarios también se revisan</div>
+      <p>Un comentario que miente es peor que no tener comentario. Auditar cada pre/post contra lo que el código realmente hace destapó varios desajustes que a simple vista pasaban. El cuestionario (5 preguntas) quedó en <code>cuestionario.md</code> y su contenido va al PDF de entrega.</p>
+    </div>
+  </div><!-- /commit 11 -->
+
+  <!-- ============ GLOSARIO ============ -->
+  <h2 id="glosario">📖 Glosario de conceptos</h2>
+  <p style="color:var(--tx-dim)">Definiciones cortas de todo lo que apareció, para consulta rápida.</p>
+
+  <h3>Tipos y clases</h3>
+  <table>
+    <tr><th>Concepto</th><th>Definición</th></tr>
+    <tr><td><strong>Clase</strong></td><td>Molde que define un tipo de objeto: combina <em>estado</em> (campos) y <em>comportamiento</em> (métodos).</td></tr>
+    <tr><td><strong>record</strong></td><td>Clase especial y abreviada para modelar un <em>valor inmutable</em>. Java le genera constructor, accessors, <code>equals</code>, <code>hashCode</code> y <code>toString</code>.</td></tr>
+    <tr><td><strong>interface</strong></td><td>Un <em>contrato puro</em>: lista de métodos sin cuerpo. No es una clase; define el "qué" sin el "cómo".</td></tr>
+    <tr><td><strong>implements</strong></td><td>Palabra clave con la que una clase se compromete a cumplir una interfaz (implementar todos sus métodos).</td></tr>
+    <tr><td><strong>TDA</strong></td><td>Tipo de Dato Abstracto: un tipo definido por sus <em>operaciones</em> e <em>invariantes</em>, ocultando cómo está hecho por dentro. Es una idea de diseño (el "qué"); la clase es el mecanismo (el "cómo").</td></tr>
+    <tr><td><strong>Objeto inmutable</strong></td><td>Un objeto que no cambia después de creado (ej. <code>LocalDate</code>, un <code>record</code>).</td></tr>
+  </table>
+
+  <h3>Estado, validación, encapsulamiento</h3>
+  <table>
+    <tr><th>Concepto</th><th>Definición</th></tr>
+    <tr><td><strong>Campo</strong></td><td>Una variable que guarda parte del estado de un objeto.</td></tr>
+    <tr><td><strong>Encapsulamiento</strong></td><td>Ocultar el estado (campos <code>private</code>) y tocarlo solo por métodos que garantizan las reglas. Nadie puede dejar el objeto inválido.</td></tr>
+    <tr><td><strong>Invariante</strong></td><td>Condición que <em>siempre</em> debe ser verdadera para que el objeto sea válido (ej. padrón &gt; 0).</td></tr>
+    <tr><td><strong>Constructor compacto</strong></td><td>En un <code>record</code>, el lugar para validar: se escribe con el nombre del record y llaves, sin repetir los parámetros.</td></tr>
+    <tr><td><strong>Validación</strong></td><td>Chequear los datos y rechazar los inválidos apenas entran, lanzando una excepción.</td></tr>
+  </table>
+
+  <h3>Métodos, tipos, ejecución</h3>
+  <table>
+    <tr><th>Concepto</th><th>Definición</th></tr>
+    <tr><td><strong>Método</strong></td><td>Un bloque de comportamiento con nombre. Tiene visibilidad, tipo de retorno, nombre y parámetros.</td></tr>
+    <tr><td><strong>Parámetro</strong></td><td>El "hueco" con nombre en la <em>definición</em> del método (<code>diasDeAtraso(LocalDate corte)</code>).</td></tr>
+    <tr><td><strong>Argumento</strong></td><td>El valor concreto que se pasa al <em>llamar</em> el método; se copia dentro del parámetro.</td></tr>
+    <tr><td><strong>Tipo de retorno</strong></td><td>Lo que el método promete devolver. Lo declara el programador; Java lo verifica al compilar.</td></tr>
+    <tr><td><strong>Tipado estático</strong></td><td>Java chequea los tipos al compilar (antes de correr). Atrapa errores temprano.</td></tr>
+    <tr><td><strong>Casting</strong></td><td>Conversión explícita de un tipo a otro, ej. <code>(int) unLong</code>. Necesario cuando podría perderse info.</td></tr>
+    <tr><td><strong>var</strong></td><td>Deja que Java <em>infiera</em> el tipo de una variable local mirando lo que se le asigna.</td></tr>
+  </table>
+
+  <h3>Operadores y control</h3>
+  <table>
+    <tr><th>Concepto</th><th>Definición</th></tr>
+    <tr><td><strong>== vs .equals()</strong></td><td><code>==</code> compara <em>identidad</em> (misma referencia); <code>.equals()</code> compara <em>valor</em>. Para <code>String</code>/objetos se usa <code>.equals()</code>. Para <code>null</code> se usa <code>==</code>.</td></tr>
+    <tr><td><strong>Short-circuit</strong></td><td>En <code>a || b</code>, si <code>a</code> es <code>true</code> no se evalúa <code>b</code>; en <code>a &amp;&amp; b</code>, si <code>a</code> es <code>false</code> no se evalúa <code>b</code>. Sirve para evitar NPE.</td></tr>
+    <tr><td><strong>Ternario</strong></td><td><code>condicion ? valorSi : valorNo</code>: elige entre dos valores según una condición.</td></tr>
+    <tr><td><strong>compareTo</strong></td><td>Compara el <em>orden natural</em>. <code>a.compareTo(b)</code>: negativo si <code>a</code> va antes, 0 si igual, positivo si después. En String, orden alfabético.</td></tr>
+    <tr><td><strong>NPE</strong></td><td><code>NullPointerException</code>: error al usar un método/campo sobre una referencia <code>null</code>.</td></tr>
+  </table>
+
+  <h3>Arreglos</h3>
+  <table>
+    <tr><th>Concepto</th><th>Definición</th></tr>
+    <tr><td><strong>Arreglo</strong></td><td>Estructura de tamaño fijo que guarda elementos del mismo tipo, accedidos por índice (<code>arr[i]</code>). Distinto de una <code>List</code> (colección, prohibida acá).</td></tr>
+    <tr><td><strong>.length</strong></td><td>Propiedad de un arreglo con su cantidad de casillas (sin paréntesis). En <code>String</code> es <code>.length()</code> con paréntesis.</td></tr>
+    <tr><td><strong>Capacidad vs. usados</strong></td><td>Capacidad = casillas que existen (<code>length</code>); usados = casillas realmente llenas (un contador aparte).</td></tr>
+    <tr><td><strong>Arrays.copyOf</strong></td><td>Crea un arreglo nuevo de la longitud pedida copiando el original. Sirve para agrandar (duplicar) o recortar.</td></tr>
+    <tr><td><strong>Crecimiento manual</strong></td><td>Cuando el arreglo se llena, crear uno del doble y copiar. Es el mini-VectorDinamico del TP.</td></tr>
+    <tr><td><strong>Sobre-reservar + recortar</strong></td><td>Reservar el tamaño máximo posible, llenar con un contador, y al final recortar con <code>copyOf</code> al tamaño real.</td></tr>
+    <tr><td><strong>Bandera (flag)</strong></td><td>Un <code>boolean</code> que "recuerda" el resultado de una búsqueda para decidir después (ej. <code>esNuevo</code>).</td></tr>
+    <tr><td><strong>Centinela</strong></td><td>Un valor imposible usado como marca (ej. <code>-1</code> para "no encontrado" o "ya tachado").</td></tr>
+    <tr><td><strong>Selección repetida</strong></td><td>Elegir el mejor, apartarlo, y repetir para obtener un top-n ordenado.</td></tr>
+  </table>
+
+  <h3>Excepciones y tests</h3>
+  <table>
+    <tr><th>Concepto</th><th>Definición</th></tr>
+    <tr><td><strong>Excepción</strong></td><td>Un objeto que señala un error y corta la ejecución normal. Se lanza con <code>throw</code>.</td></tr>
+    <tr><td><strong>IllegalArgumentException</strong></td><td>Excepción estándar para "me pasaste un argumento inválido".</td></tr>
+    <tr><td><strong>IndexOutOfBoundsException</strong></td><td>Excepción para un índice fuera del rango válido.</td></tr>
+    <tr><td><strong>@Test</strong></td><td>Anotación de JUnit que marca un método como test para que Gradle lo ejecute.</td></tr>
+    <tr><td><strong>Aserción</strong></td><td>Afirmación verificable en un test. <code>assertEquals(esperado, obtenido)</code> falla si difieren (compara por <code>.equals</code>).</td></tr>
+    <tr><td><strong>assertThrows</strong></td><td>Verifica que cierto código lance la excepción esperada: <code>assertThrows(Exc.class, () -&gt; ...)</code>.</td></tr>
+    <tr><td><strong>Lambda</strong></td><td><code>() -&gt; ...</code>: un bloque de código que se pasa para ejecutar después (ej. dentro de <code>assertThrows</code>).</td></tr>
+  </table>
+
+  <!-- ============ MAPA ============ -->
+  <h2 id="mapa">🗺️ Mapa concepto → teoría</h2>
+  <table>
+    <tr><th>Concepto</th><th>Dónde lo vi</th></tr>
+    <tr><td>Modelar con <code>record</code></td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b15">1B.15</a></td></tr>
+    <tr><td>Métodos, parámetros, retorno</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b12">1B.12</a></td></tr>
+    <tr><td>Validaciones / programar a la defensiva</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b21">1B.21</a></td></tr>
+    <tr><td>Excepciones (<code>IllegalArgumentException</code>)</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b17">1B.17</a></td></tr>
+    <tr><td>Fechas: <code>LocalDate</code>, <code>ChronoUnit</code></td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b18">1B.18</a></td></tr>
+    <tr><td><code>Math</code> (max / min)</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b10">1B.10</a></td></tr>
+    <tr><td>Tipos y casting (long → int)</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b6">1B.6</a> · <a href="clase_1_y_2/clase_1_y_2.html#s1b7">1B.7</a></td></tr>
+    <tr><td>Condicionales / ternario</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b111">1B.11.1</a></td></tr>
+    <tr><td><code>null</code>, NPE, identidad vs igualdad</td><td><a href="clase_3/clase_3.html#s25">2.5</a> · <a href="clase_3/clase_3.html#s26">2.6</a></td></tr>
+    <tr><td>Objetos inmutables</td><td><a href="clase_3/clase_3.html#s29">2.9</a></td></tr>
+    <tr><td>Abstracción y TDA</td><td><a href="clase_4/clase_4.html#s31">3.1</a> · <a href="clase_4/clase_4.html#s32">3.2</a></td></tr>
+    <tr><td>Encapsulamiento</td><td><a href="clase_4/clase_4.html#s341">3.4.1</a></td></tr>
+    <tr><td>Interfaces (Parte B, próximamente)</td><td><a href="clase_4/clase_4.html#s36">3.6</a></td></tr>
+    <tr><td>JUnit 5 (tests, próximamente)</td><td><a href="clase_1_y_2/clase_1_y_2.html#s1b22">1B.22</a></td></tr>
+  </table>
+
+  <div class="foot">
+    Bitácora viva · se actualiza con cada commit del TP1.<br>
+    Últimos commits: <strong>fb1d019</strong> (cuestionario) · <strong>3a75634</strong> (comentarios Javadoc en las 11 clases). Núcleo + cuestionario + comentarios listos.<br>
+    Falta: informe + manual de usuario + manual del programador (todo en un PDF), armar el ZIP <code>Padron-TP1.zip</code>, y el bonus <code>ExportadorXlsx</code> (opcional). Entrega: 11/09.
+  </div>
+
+</div>
+</body>
+</html>
