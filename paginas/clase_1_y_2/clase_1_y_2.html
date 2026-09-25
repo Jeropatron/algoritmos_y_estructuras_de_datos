@@ -148,7 +148,6 @@ a.ext{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--ac
 .box.git{border-color:#2c6349;}        .box.git .bh{background:#173b2c;color:#7fddb4;}
 .box.ia{border-color:#256b68;}         .box.ia .bh{background:#123f3d;color:#6fdedb;}
 .box.nota{border-color:#5c4a1e;}       .box.nota .bh{background:#3a2f12;color:#f0cd7a;}
-.box.repaso{border-color:#1f5a56;}     .box.repaso .bh{background:#123f3d;color:#6fdedb;}
 
 /* ---------- Código ---------- */
 pre{
@@ -608,6 +607,7 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   .acc .acc-in{display:block !important}
 }
 
+.nota-pie{font-size:13px;color:var(--tx-faint);border-left:2px solid var(--bd);padding-left:12px}
 </style>
 </head>
 <body>
@@ -637,7 +637,7 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
 
   <div class="sb-group">Unidad 1A · Presentación</div>
   <a href="#u1a"><span class="n">1A</span>La materia</a>
-  <a href="#s1a1" class="sub2"><span class="n">1A.1</span>Datos útiles de la cátedra</a>
+  <a href="#s1a1" class="sub2"><span class="n">1A.1</span>Datos útiles</a>
   <a href="#s1a2" class="sub2"><span class="n">1A.2</span>El mapa del curso</a>
   <a href="#s1a3" class="sub2"><span class="n">1A.3</span>Cómo se aprueba</a>
   <a href="#s1a4" class="sub2"><span class="n">1A.4</span>Uso de IA</a>
@@ -651,6 +651,7 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#s1b4"><span class="n">1B.4</span>Tu primer programa</a>
   <a href="#s1b5"><span class="n">1B.5</span>Comentarios y constantes</a>
   <a href="#s1b6"><span class="n">1B.6</span>Tipos de datos</a>
+  <a href="#s1b61" class="sub2"><span class="n">1B.6.1</span>La palabra var</a>
   <a href="#s1b7"><span class="n">1B.7</span>Rangos y wrappers</a>
   <a href="#s1b8"><span class="n">1B.8</span>String y StringBuilder</a>
   <a href="#s1b9"><span class="n">1B.9</span>Operadores</a>
@@ -660,8 +661,14 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#s1b13"><span class="n">1B.13</span>Una clase propia</a>
   <a href="#s1b14"><span class="n">1B.14</span>Enumerados: enum</a>
   <a href="#s1b15"><span class="n">1B.15</span>Modelar con record</a>
+  <a href="#s1b151" class="sub2"><span class="n">1B.15.1</span>Atributos y accesores</a>
   <a href="#s1b16"><span class="n">1B.16</span>Expresiones lambda</a>
   <a href="#s1b17"><span class="n">1B.17</span>Excepciones</a>
+  <a href="#s1b171" class="sub2"><span class="n">1B.17.1</span>El viaje de una excepción</a>
+  <a href="#s1b172" class="sub2"><span class="n">1B.17.2</span>El stack trace</a>
+  <a href="#s1b173" class="sub2"><span class="n">1B.17.3</span>try, catch, finally</a>
+  <a href="#s1b174" class="sub2"><span class="n">1B.17.4</span>Chequeadas y propias</a>
+  <a href="#s1b175" class="sub2"><span class="n">1B.17.5</span>Integrador: el cajero</a>
   <a href="#s1b18"><span class="n">1B.18</span>Fechas y horas</a>
   <a href="#s1b19"><span class="n">1B.19</span>Entrada/salida</a>
   <a href="#s1b20"><span class="n">1B.20</span>Archivos</a>
@@ -677,6 +684,7 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#gteo"><span class="n">1B.28</span>Preguntas teóricas</a>
   <a href="#gfacil"><span class="n">1B.29</span>Nivel fácil (1–9)</a>
   <a href="#gmedio"><span class="n">1B.30</span>Nivel medio (1–10)</a>
+  <a href="#gdificil" class="sub2"><span class="n">1B.31</span>Nivel difícil</a>
 
   <div class="sb-group">Laboratorios</div>
   <a href="#lab-tipos"><span class="n">L1</span>Rangos y desborde</a>
@@ -686,8 +694,8 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#lab-catch"><span class="n">L5</span>Orden de los catch</a>
 
   <div class="sb-group">Práctica</div>
-  <a href="#s1b31"><span class="n">1B.31</span>Generador de ejercicios</a>
-  <a href="#s1b32"><span class="n">1B.32</span>Autoevaluación</a>
+  <a href="#sgen"><span class="n">1B.32</span>Generador de ejercicios</a>
+  <a href="#squiz"><span class="n">1B.33</span>Autoevaluación</a>
 
   <div class="sb-group">Extras</div>
   <a href="#glosario"><span class="n">§</span>Glosario</a>
@@ -697,7 +705,7 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
     <button id="btn-reset">⟲ Borrar progreso</button>
     <button id="secReset">⟲ Borrar marcas de estudio</button>
     <div class="sb-progress">
-      <span id="prog-txt">Ejercicios: 0 / 19</span>
+      <span id="prog-txt">Ejercicios: 0 / 30</span>
       <div class="bar"><i id="prog-bar"></i></div>
     </div>
     <div class="sb-progress">
@@ -752,23 +760,25 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
 
 <h3 id="s1a1"><span class="num">1A.1</span>Datos útiles de la cátedra</h3>
 
-<p>Todo lo que conviene tener a mano durante la cursada, en un solo lugar:</p>
+<p>Todo lo que necesitás tener a mano durante la cursada, en un solo lugar:</p>
 
+<div class="tw">
 <table>
   <tbody>
-    <tr><td><strong>Teórica</strong></td><td>Miércoles de 19:00 a 22:00</td></tr>
-    <tr><td><strong>Práctica</strong></td><td>Jueves de 19:00 a 22:00</td></tr>
-    <tr><td><strong>Meet de todas las clases</strong></td><td><a href="https://meet.google.com/yta-tksg-zzr" target="_blank" rel="noopener">meet.google.com/yta-tksg-zzr</a></td></tr>
-    <tr><td><strong>Canal de YouTube</strong></td><td><a href="https://www.youtube.com/channel/UCoX2PLLQxmPR7Z8OFB9ti5g/videos" target="_blank" rel="noopener">Clases grabadas</a></td></tr>
-    <tr><td><strong>GitHub de la cátedra</strong></td><td><a href="https://github.com/gschmidt-cb100/cb100" target="_blank" rel="noopener">github.com/gschmidt-cb100/cb100</a></td></tr>
-    <tr><td><strong>Contacto</strong></td><td>Gustavo Schmidt — <a href="mailto:gschmid@fi.uba.ar">gschmid@fi.uba.ar</a></td></tr>
+    <tr><td class="l"><b>Teórica</b></td><td class="l">miércoles de 19:00 a 22:00</td></tr>
+    <tr><td class="l"><b>Práctica</b></td><td class="l">jueves de 19:00 a 22:00</td></tr>
+    <tr><td class="l"><b>Meet de todas las clases</b></td><td class="l"><code class="inl">https://meet.google.com/yta-tksg-zzr</code></td></tr>
+    <tr><td class="l"><b>Canal de YouTube</b></td><td class="l"><code class="inl">https://www.youtube.com/channel/UCoX2PLLQxmPR7Z8OFB9ti5g/videos</code></td></tr>
+    <tr><td class="l"><b>GitHub de la cátedra</b></td><td class="l"><code class="inl">https://github.com/gschmidt-cb100/cb100</code></td></tr>
+    <tr><td class="l"><b>Contacto</b></td><td class="l">Gustavo Schmidt — <code class="inl">gschmid@fi.uba.ar</code></td></tr>
   </tbody>
 </table>
+</div>
 
-<div class="box nota">
+<div class="box error">
   <div class="bh">Importante</div>
   <div class="bb">
-    <p>Todas las clases son virtuales, por el mismo link de Meet de la tabla (teóricas y prácticas), y arrancan puntual — conectate unos minutos antes. Las clases quedan grabadas en el canal de YouTube. Las únicas instancias presenciales son los exámenes (parcial, recuperatorios y final).</p>
+    <p>Todas las clases son <strong>virtuales</strong>, por el mismo link de Meet de la tabla (teóricas y prácticas), y arrancan puntual — conectate unos minutos antes. Las clases quedan <strong>grabadas</strong> en el canal de YouTube. Las únicas instancias <strong>presenciales</strong> son los exámenes (parcial, recuperatorios y final).</p>
   </div>
 </div>
 
@@ -1005,7 +1015,9 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
 <div class="box nota">
   <div class="bh">Al pie (del apunte)</div>
   <div class="bb">
-    <p>Según el índice TIOBE (enero de 2026), Java estaba en el <strong>3.er puesto con 8,71 %</strong>, detrás de Python (22,61 %) y C (10,99 %). El “lenguaje del año 2025” fue C#.</p>
+    <p>Según el índice TIOBE, que mide la popularidad de los lenguajes, Java se mantiene entre los primeros puestos: en la edición de <strong>agosto de 2026</strong> está <strong>4.º con 8,25 %</strong>, a sólo 0,37 puntos de C++ — peleando el podio con Python, C y C++. Está en el corazón de miles de sistemas bancarios, de gobierno y de empresas, y es la base histórica del desarrollo Android. El “lenguaje del año 2025” fue C#.</p>
+
+<p class="nota-pie">El índice mide <strong>popularidad</strong> —búsquedas, cursos, avisos laborales—, <strong>no calidad</strong>; sirve como termómetro de qué se usa en la industria. Cuando leas esto el número exacto habrá cambiado; lo que no cambia hace 25 años es que Java está en los primeros puestos.</p>
   </div>
 </div>
 
@@ -1335,18 +1347,6 @@ static final int CANTIDAD_MAXIMA = 100;   // final + static: constante de clase<
 
 <h3 id="s1b6"><span class="num">1B.6</span>Tipos de datos y variables</h3>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Tipos y variables (lo más básico de todo)</div>
-  <div class="bb">
-    <ul>
-      <li>Una variable se declara con su <b>TIPO adelante</b> la primera vez: <code class="inl">int x = 5;</code>, <code class="inl">String nombre = "Ana";</code>. Después ya la usás por su nombre.</li>
-      <li><b>Los tipos básicos:</b> <code class="inl">int</code> (enteros: 5), <code class="inl">double</code> (con decimales: 3.5), <code class="inl">boolean</code> (<code class="inl">true</code>/<code class="inl">false</code>), <code class="inl">char</code> (un carácter: <code class="inl">'a'</code>), <code class="inl">String</code> (texto: <code class="inl">"hola"</code>).</li>
-      <li>El <b>tipo tiene que coincidir con el valor</b> que guardás (un <code class="inl">boolean</code> no puede guardar texto, etc.).</li>
-      <li><b>Trampa de la división:</b> dividir dos <code class="inl">int</code> descarta los decimales → <code class="inl">7 / 2</code> da <code class="inl">3</code>. Para que dé <code class="inl">3.5</code>, alguno tiene que ser <code class="inl">double</code> (ej. <code class="inl">(double) 7 / 2</code> o <code class="inl">7.0 / 2</code>).</li>
-    </ul>
-  </div>
-</div>
-
 <p>Java es <strong>fuertemente tipado</strong>: cada variable tiene un tipo que no cambia. Hay dos grandes familias. Los <strong>tipos primitivos</strong> guardan el valor directamente. Los <strong>tipos por referencia</strong> (todo lo demás: <code class="inl">String</code>, arreglos, tus clases) guardan una <em>referencia</em> a un objeto.</p>
 
 <figure>
@@ -1425,6 +1425,31 @@ var pi = 3.14;                // ... infiere double</code></pre>
     <p><code class="inl">var</code> <strong>no</strong> convierte a Java en un lenguaje dinámico: el tipo se fija al compilar y no cambia. Sólo te ahorra repetirlo cuando es evidente por el valor asignado.</p>
   </div>
 </div>
+
+<h4 id="s1b61"><span class="num">1B.6.1</span>La palabra <code class="inl">var</code>: inferencia de tipos (con criterio)</h4>
+
+<p>Desde Java 10 existe <code class="inl">var</code>: le deja al compilador el trabajo de <strong>inferir el tipo</strong> a partir del valor de la derecha, <strong>sin dejar de ser tipado</strong>:</p>
+
+<pre><code class="java">var mensaje = "Hola";            // el compilador infiere String
+var pi = 3.14;                   // ... infiere double
+var texto = new StringBuilder(); // ... infiere StringBuilder</code></pre>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb">
+    <p><code class="inl">var</code> <strong>no convierte a Java en un lenguaje dinámico</strong>: el tipo se fija al compilar y no cambia nunca — <code class="inl">var mensaje = "Hola"; mensaje = 42;</code> no compila. Es exactamente lo mismo que escribir el tipo, ahorrándote repetirlo cuando ya es evidente.</p>
+  </div>
+</div>
+
+<p>Buenas prácticas con <code class="inl">var</code> (las mismas que vas a encontrar en la industria):</p>
+
+<ul>
+  <li><strong>Usalo cuando el tipo se ve a simple vista</strong> del lado derecho: <code class="inl">var texto = new StringBuilder()</code>, <code class="inl">var archivo = Path.of("datos.txt")</code>. Ahí repetir el tipo es puro ruido.</li>
+  <li><strong>Evitalo cuando el tipo NO se ve</strong>: en <code class="inl">var resultado = procesar(datos);</code> el lector no sabe qué es <code class="inl">resultado</code> sin ir a mirar la firma de <code class="inl">procesar</code>. Con <code class="inl">double resultado = procesar(datos);</code> el renglón se explica solo.</li>
+  <li><strong>Sólo funciona en variables locales</strong> (adentro de un método): no existe para atributos, parámetros ni tipos de retorno — ahí el tipo explícito es obligatorio, porque es <strong>parte del contrato</strong>.</li>
+  <li><strong>Mientras aprendés, preferí el tipo explícito</strong>: escribir <code class="inl">String</code>, <code class="inl">int</code> o <code class="inl">double[]</code> te obliga a saber qué tenés entre manos. En este apunte vas a ver tipos explícitos en los ejemplos que enseñan un concepto, y <code class="inl">var</code> sólo donde el tipo es obvio y repetirlo distrae (p. ej. <code class="inl">try (var sc = new Scanner(...))</code>).</li>
+  <li><strong>La regla de oro</strong>: <code class="inl">var</code> está para <strong>quitar ruido</strong>, nunca para <strong>ocultar información</strong>. Si al leer el renglón dudás del tipo, escribilo.</li>
+</ul>
 
 <h3 id="s1b7"><span class="num">1B.7</span>Rangos, conversiones y wrappers</h3>
 
@@ -1528,18 +1553,6 @@ BigDecimal precio = new BigDecimal("19.99").multiply(new BigDecimal("3")); // 59
 </div>
 
 <h3 id="s1b8"><span class="num">1B.8</span>Cadenas de texto: String y StringBuilder</h3>
-
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Texto: comillas y armar Strings con <code class="inl">+</code></div>
-  <div class="bb">
-    <ul>
-      <li><b>Comilla SIMPLE vs DOBLE:</b> <code class="inl">'a'</code> es un <code class="inl">char</code> (un solo carácter); <code class="inl">"a"</code> es un <code class="inl">String</code> (texto). <b>No son lo mismo</b> — en un <code class="inl">switch</code> sobre un <code class="inl">char</code>, los <code class="inl">case</code> van con comilla simple.</li>
-      <li><b>Armar un texto:</b> pegás pedazos con <code class="inl">+</code>. Lo <b>fijo</b> va entre comillas, las <b>variables</b> afuera: <code class="inl">"Hola " + nombre + "!"</code>. Las comillas marcan "texto literal" y no se imprimen.</li>
-      <li><b>Comparar textos:</b> con <code class="inl">a.equals(b)</code>, NUNCA con <code class="inl">==</code> (que compara si son el mismo objeto, no el contenido).</li>
-      <li><b>Útiles:</b> <code class="inl">s.length()</code> (cantidad de caracteres, ¡con paréntesis!), <code class="inl">s.charAt(i)</code> (el carácter en la posición i), <code class="inl">Character.toLowerCase(c)</code>.</li>
-    </ul>
-  </div>
-</div>
 
 <p>El <code class="inl">String</code> es uno de los tipos más usados. Ofrece muchos métodos, y <strong>todos devuelven un nuevo texto sin modificar el original</strong>, porque los <code class="inl">String</code> son <strong>inmutables</strong>.</p>
 
@@ -1691,19 +1704,6 @@ String linea = String.format("%-8s | %5.2f", "total", 3.14159);  // "total    | 
 
 <h3 id="s1b9"><span class="num">1B.9</span>Operadores</h3>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Operadores, comparaciones y precedencia</div>
-  <div class="bb">
-    <ul>
-      <li><b>Comparaciones</b> (dan <code class="inl">true</code>/<code class="inl">false</code>): <code class="inl">==</code> igual, <code class="inl">!=</code> distinto, <code class="inl">&lt; &gt; &lt;= &gt;=</code>. <b>Una comparación YA ES un booleano</b>, la podés devolver directo: <code class="inl">return n % 2 == 0;</code></li>
-      <li><b>Lógicos:</b> <code class="inl">&amp;&amp;</code> (y), <code class="inl">||</code> (o). Cada lado tiene que ser una comparación completa: <code class="inl">x == 1 || x == 2</code> (no <code class="inl">x == 1 || 2</code>).</li>
-      <li><b><code class="inl">%</code> (resto):</b> lo que sobra de una división. Un número es par si <code class="inl">n % 2 == 0</code>.</li>
-      <li><b>Precedencia:</b> <code class="inl">*</code> y <code class="inl">/</code> van <b>ANTES</b> que <code class="inl">+</code> y <code class="inl">-</code> (como en matemática). Para cambiar el orden, <b>paréntesis</b>: <code class="inl">n * (j + 1)</code> ≠ <code class="inl">n * j + 1</code>.</li>
-      <li><b>Ojo con objetos:</b> <code class="inl">==</code> compara referencias (¿mismo objeto?); para el <b>contenido</b> usá <code class="inl">.equals()</code>.</li>
-    </ul>
-  </div>
-</div>
-
 <p>Los operadores de Java te van a resultar familiares.</p>
 
 <div class="tw">
@@ -1771,29 +1771,6 @@ double x = r.nextDouble();      // real en [0, 1)</code></pre>
 
 <h4 id="s1b111"><span class="num">1B.11.1</span>Condicionales: if y switch</h4>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · <code class="inl">if</code> / <code class="inl">else</code> / <code class="inl">switch</code></div>
-  <div class="bb">
-<pre>if (condicion) {          <span class="cm">// la condicion es un booleano (una comparacion)</span>
-    ...
-} else if (otra) {
-    ...
-} else {
-    ...
-}
-
-<span class="cm">// switch: "segun el valor, hace esto"</span>
-String r = switch (dia) {
-    case 'L', 'M', 'X' -&gt; "habil";     <span class="cm">// char → comilla simple</span>
-    default            -&gt; "otro";       <span class="cm">// un switch que DEVUELVE valor NECESITA default</span>
-};</pre>
-    <ul>
-      <li>La <b>condición</b> del <code class="inl">if</code> siempre es un <b>booleano</b> (una comparación como <code class="inl">x &gt; 0</code>).</li>
-      <li>Un <code class="inl">if (...) return true; else return false;</code> muchas veces se resume a <code class="inl">return (la comparación);</code></li>
-    </ul>
-  </div>
-</div>
-
 <p>El <code class="inl">if / else if / else</code> funciona como esperás:</p>
 
 <pre><code class="java">int nota = 7;
@@ -1856,24 +1833,14 @@ String tipo = switch (dia) {
     default -&gt; "desconocido";
 };</code></pre>
 
-<h4 id="s1b112"><span class="num">1B.11.2</span>Ciclos: for, while, do-while</h4>
-
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · El acumulador (sumar / contar / multiplicar en un for)</div>
+<div class="box idea">
+  <div class="bh">Idea clave</div>
   <div class="bb">
-    <p>Un patrón que aparece muchísimo: una variable que arranca con un valor y se va <b>actualizando en cada vuelta</b>. La clave es que la variable aparece de los <b>dos lados</b> del <code class="inl">=</code>.</p>
-<pre>int suma = 0;                 <span class="cm">// arranca en 0 (antes del for)</span>
-for (int x : v) {
-    suma = suma + x;          <span class="cm">// "agarro lo que tenía y le sumo x"  (igual a: suma += x)</span>
-}
-return suma;                  <span class="cm">// se devuelve DESPUÉS del for</span></pre>
-    <ul>
-      <li>Para <b>sumar</b> o <b>contar</b> → arrancá en <code class="inl">0</code>. Contar es lo mismo pero sumando 1: <code class="inl">contador = contador + 1</code> (o <code class="inl">contador++</code>).</li>
-      <li>Para <b>multiplicar</b> (ej. factorial) → arrancá en <code class="inl">1</code> (multiplicar por 0 daría siempre 0), y hacé <code class="inl">resultado = resultado * x</code>.</li>
-      <li>La variable se declara <b>antes</b> del <code class="inl">for</code> (para que sobreviva las vueltas) y se usa/devuelve <b>después</b>. Si la declarás adentro, se reinicia en cada vuelta.</li>
-    </ul>
+    <p><strong>Regla de estilo de la cátedra: las llaves van SIEMPRE</strong>, aunque el cuerpo sea una sola línea. <code class="inl">if (nota &gt;= 4) { aprobado = true; }</code> y nunca <code class="inl">if (nota &gt;= 4) aprobado = true;</code>. Las llaves marcan sin ambigüedad dónde empieza y dónde termina cada bloque, y evitan el clásico error de “agregué una segunda línea al <code class="inl">if</code> y quedó afuera”. Todo el código del apunte y del repositorio sigue esta regla — y <strong>se espera en TPs, parciales y finales</strong>.</p>
   </div>
 </div>
+
+<h4 id="s1b112"><span class="num">1B.11.2</span>Ciclos: for, while, do-while</h4>
 
 <p>El <code class="inl">for</code> clásico tiene tres partes: <strong>inicialización</strong>, <strong>condición</strong> y <strong>actualización</strong>.</p>
 
@@ -2015,25 +1982,6 @@ for (int d : datos) {
 
 <h4 id="s1b113"><span class="num">1B.11.3</span>Arreglos y for-each</h4>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Arreglos (crear, acceder, recorrer)</div>
-  <div class="bb">
-<pre>int[] v = {1, 2, 3};        <span class="cm">// crear con valores puestos</span>
-int[] w = new int[5];       <span class="cm">// crear vacio de tamaño 5 (todo en 0)</span>
-
-v[0]                        <span class="cm">// acceder: leer la posicion 0 (arranca en 0)</span>
-v[0] = 9;                   <span class="cm">// escribir en la posicion 0</span>
-v.length                   <span class="cm">// cantidad de elementos (SIN parentesis)</span>
-
-for (int i = 0; i &lt; v.length; i++) { ... v[i] ... }   <span class="cm">// por indice</span>
-for (int x : v) { ... x ... }                          <span class="cm">// for-each (sin indice)</span></pre>
-    <ul>
-      <li>Los índices van de <code class="inl">0</code> a <code class="inl">v.length - 1</code>. Pasarte tira <code class="inl">ArrayIndexOutOfBounds</code>.</li>
-      <li><b>Para llenar de a uno</b> (en un <code class="inl">for</code>) usás <code class="inl">new int[n]</code>; si ya tenés todos los valores, usás <code class="inl">{a, b, c}</code>.</li>
-    </ul>
-  </div>
-</div>
-
 <p>Un <strong>arreglo</strong> guarda muchos valores <strong>del mismo tipo</strong> en celdas contiguas y numeradas. Es la estructura más básica de todas —y la base de varias que vamos a construir—, así que vale la pena mirarla de cerca:</p>
 
 <figure>
@@ -2171,23 +2119,6 @@ for (int f = 0; f &lt; tablero.length; f++)              // recorrer una matriz:
 </div>
 
 <h3 id="s1b12"><span class="num">1B.12</span>Métodos</h3>
-
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Métodos (parámetros, <code class="inl">return</code>, <code class="inl">static</code>)</div>
-  <div class="bb">
-<pre>public static String saludar(String nombre, String legajo) {
-    return "Hola " + nombre;
-}
-<span class="cm">//     tipo que    nombre   los PARAMETROS (ranuras que se llenan al llamar)</span>
-<span class="cm">//     devuelve</span></pre>
-    <ul>
-      <li><b>Los parámetros son "ranuras"</b> que se llenan con lo que pasás al llamar, <b>por orden</b>: <code class="inl">saludar("Ana", "123")</code> → <code class="inl">nombre</code> vale "Ana", <code class="inl">legajo</code> vale "123".</li>
-      <li><b><code class="inl">return</code> devuelve un VALOR</b> del tipo declarado, y <b>corta</b> el método ahí (nada de lo que venga después corre).</li>
-      <li><b><code class="inl">void</code></b> = no devuelve nada (no lleva <code class="inl">return</code>).</li>
-      <li><b><code class="inl">static</code></b> = pertenece a la clase, se llama <code class="inl">Clase.metodo()</code>, sin objeto. <b>Sin <code class="inl">static</code></b> = se llama sobre un objeto (<code class="inl">obj.metodo()</code>) y adentro tiene <code class="inl">this</code>.</li>
-    </ul>
-  </div>
-</div>
 
 <p>Un <strong>método</strong> (función) agrupa un cálculo bajo un nombre. Se declara con un <strong>tipo de retorno</strong>, un <strong>nombre</strong> y sus <strong>parámetros</strong>. Java permite <strong>sobrecarga</strong> (mismo nombre, distintos parámetros) y <strong>varargs</strong> (cantidad variable de argumentos).</p>
 
@@ -2335,6 +2266,59 @@ String plan = switch (hoy) {               // switch sobre enum: cubre los casos
   <figcaption><b>Figura 1B.15</b> — Diagrama UML de la clase <code class="inl">Temperatura</code>. El <code class="inl">+</code> indica visibilidad pública; el <code class="inl">−</code>, privada.</figcaption>
 </figure>
 
+<h4 id="s1b151"><span class="num">1B.15.1</span>Varios atributos y sus accesores</h4>
+
+<p>Un <code class="inl">record</code> puede tener todos los componentes que necesites, y por <strong>cada</strong> uno Java genera un <strong>accesor</strong>: un método sin parámetros con el mismo nombre del componente. Mirá <code class="inl">FichaDeAlumno</code> (del repo), con tres atributos:</p>
+
+<pre><code class="java">public record FichaDeAlumno(String nombre, int padron, double promedio) {
+
+
+    public FichaDeAlumno {                          // constructor compacto: valida TODO
+        if (nombre == null || nombre.isBlank()) {
+            throw new IllegalArgumentException("el nombre no puede estar vacío");
+        }
+        if (padron &lt;= 0) {
+            throw new IllegalArgumentException("el padrón debe ser positivo: " + padron);
+        }
+        if (promedio &lt; 0 || promedio &gt; 10) {
+            throw new IllegalArgumentException("el promedio va de 0 a 10: " + promedio);
+        }
+    }
+
+
+    public boolean promociona() {                   // los métodos combinan los atributos
+        return promedio &gt;= 7.0;
+    }
+}</code></pre>
+
+<p>Y así se leen los atributos — creando fichas y llamando a los accesores:</p>
+
+<pre><code class="java">FichaDeAlumno ana = new FichaDeAlumno("Ana Gómez", 111234, 8.5);
+FichaDeAlumno beto = new FichaDeAlumno("Beto Díaz", 109876, 6.1);
+
+
+System.out.println(ana.nombre());          // Ana Gómez
+System.out.println(ana.padron());          // 111234
+System.out.println(ana.promedio());        // 8.5
+
+
+// los accesores se usan como cualquier expresión:
+System.out.println(ana.nombre() + " (" + ana.padron() + ")");     // Ana Gómez (111234)
+double diferencia = ana.promedio() - beto.promedio();             // 2.4000000000000004
+
+
+// toString, equals y hashCode vienen gratis:
+System.out.println(beto);           // FichaDeAlumno[nombre=Beto Díaz, padron=109876, promedio=6.1]
+FichaDeAlumno copia = new FichaDeAlumno("Ana Gómez", 111234, 8.5);
+System.out.println(ana.equals(copia));     // true: igualdad por CONTENIDO, no por referencia</code></pre>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb">
+    <p>Tres cosas para fijar de los <code class="inl">record</code>: <strong>(1)</strong> el accesor se llama <strong>igual que el componente</strong> — <code class="inl">promedio()</code>, sin el prefijo <code class="inl">get</code> de las clases tradicionales; <strong>(2)</strong> <code class="inl">equals</code> compara por <strong>contenido</strong>: dos fichas con los mismos datos son iguales aunque sean objetos distintos; <strong>(3)</strong> <strong>no hay setters</strong> — un <code class="inl">record</code> es inmutable, y “modificarlo” significa crear otro (<code class="inl">ana.conPromedio(9.0)</code> devuelve una ficha <strong>nueva</strong>; <code class="inl">ana</code> queda intacta). Corré el <code class="inl">main</code> de <code class="inl">FichaDeAlumno</code> y verificá las tres.</p>
+  </div>
+</div>
+
 <h3 id="s1b16"><span class="num">1B.16</span>Expresiones lambda</h3>
 
 <p>Una <strong>lambda</strong> es una <strong>función anónima y breve</strong>. Sirve para pasar “un comportamiento” como si fuera un dato. Una lambda implementa una <strong>interfaz funcional</strong> (una interfaz con un solo método). La flecha <code class="inl">-&gt;</code> separa los parámetros del cuerpo.</p>
@@ -2358,28 +2342,124 @@ Function&lt;String, Integer&gt; largo = s -&gt; s.length();</code></pre>
 
 <h3 id="s1b17"><span class="num">1B.17</span>Manejo de excepciones</h3>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Excepciones (<code class="inl">throw</code> / <code class="inl">try-catch</code>)</div>
+<p>Un programa robusto reacciona ante situaciones excepcionales: un archivo que no existe, una división por cero, un dato inválido. Java modela esto con <strong>excepciones</strong>: cuando algo excepcional ocurre, se <strong>lanza</strong> (<code class="inl">throw</code>) un objeto que describe el problema; en algún lugar del programa, alguien lo <strong>captura</strong> (<code class="inl">try/catch</code>) y decide qué hacer. Lo interesante —y lo que vamos a mirar con lupa— es lo que pasa <strong>en el medio</strong>: entre el <code class="inl">throw</code> y el <code class="inl">catch</code> hay <strong>un viaje</strong>.</p>
+
+<h4 id="s1b171"><span class="num">1B.17.1</span>El viaje de una excepción por la pila de llamadas</h4>
+
+<p>Cada vez que un método llama a otro, la JVM apila un <strong>marco</strong> con sus datos; cuando el método termina, su marco se desapila y la ejecución vuelve a donde estaba. Ahora mirá esta cadena de tres métodos —<code class="inl">main</code> llama a <code class="inl">procesarPedido</code>, que llama a <code class="inl">validarCantidad</code>, que valida y lanza— con <code class="inl">println</code> numerados para espiar qué se ejecuta:</p>
+
+<pre><code class="java">public class ViajeDeUnaExcepcion {
+
+    public static void main(String[] args) {
+        System.out.println("(1) main: por llamar a procesarPedido(-3)");
+        try {
+            procesarPedido(-3);
+            System.out.println("(X) main: NO se ejecuta (la llamada terminó en excepción)");
+        } catch (IllegalArgumentException e) {
+            System.out.println("(5) main: ¡capturada! mensaje = " + e.getMessage());
+        }
+        System.out.println("(6) main: el programa SIGUE con normalidad");
+    }
+
+    static void procesarPedido(int cantidad) {
+        System.out.println("(2) procesarPedido: por llamar a validarCantidad");
+        validarCantidad(cantidad);
+        System.out.println("(X) procesarPedido: NO se ejecuta (la excepción pasó de largo)");
+    }
+
+    static void validarCantidad(int cantidad) {
+        System.out.println("(3) validarCantidad: verificando " + cantidad);
+        if (cantidad &lt;= 0) {
+            System.out.println("(4) validarCantidad: cantidad inválida, LANZO");
+            throw new IllegalArgumentException("la cantidad debe ser positiva y es " + cantidad);
+        }
+        System.out.println("(X) validarCantidad: NO se ejecuta (está después del throw)");
+    }
+}</code></pre>
+
+<p>La salida real (corré <code class="inl">ViajeDeUnaExcepcion</code> en el repo):</p>
+
+<pre><code class="text">(1) main: por llamar a procesarPedido(-3)
+(2) procesarPedido: por llamar a validarCantidad
+(3) validarCantidad: verificando -3
+(4) validarCantidad: cantidad inválida, LANZO
+(5) main: ¡capturada! mensaje = la cantidad debe ser positiva y es -3
+(6) main: el programa SIGUE con normalidad</code></pre>
+
+<p>Fijate <strong>qué no está</strong> en la salida: ninguna de las tres líneas marcadas <code class="inl">(X)</code>. El <code class="inl">throw</code> interrumpe <code class="inl">validarCantidad</code> en el acto (lo que está después del <code class="inl">throw</code> no corre), la excepción vuelve a <code class="inl">procesarPedido</code> —que tampoco termina: la línea que seguía a la llamada se saltea— y sigue bajando hasta que encuentra el <code class="inl">catch</code> de <code class="inl">main</code>. Ahí el viaje termina y el programa continúa.</p>
+
+<figure>
+  <div class="svg-hint">pasá el mouse por cada marco</div>
+  <svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="El viaje de una excepción por la pila de llamadas">
+    <defs>
+      <marker id="vb" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 z" fill="#2f5ea8"/></marker>
+      <marker id="vr" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 z" fill="#ff6b6b"/></marker>
+    </defs>
+
+    <text class="s-dim" x="150" y="20" text-anchor="middle" fill="#4f8cff">las llamadas apilan</text>
+    <text class="s-dim" x="570" y="20" text-anchor="middle" fill="#ff6b6b">la excepción desapila</text>
+
+    <g class="hot"><title>main SÍ tiene un catch compatible: acá el viaje termina y el programa sigue.</title>
+      <rect class="s-box" x="240" y="34" width="240" height="62" rx="10" stroke="#2a5d45"/>
+      <text class="s-mono" x="360" y="58" text-anchor="middle" fill="#3fb98a" font-size="13" font-weight="600">main()</text>
+      <text class="s-dim" x="360" y="78" text-anchor="middle">try { procesarPedido(-3); }</text>
+      <text class="s-dim" x="360" y="91" text-anchor="middle" fill="#3fb98a">catch (IllegalArgumentException e)</text>
+    </g>
+
+    <g class="hot"><title>No tiene catch: la excepción pasa de largo y la línea siguiente a la llamada NO se ejecuta.</title>
+      <rect class="s-box" x="240" y="130" width="240" height="56" rx="10" stroke="#5a4a2a"/>
+      <text class="s-mono" x="360" y="153" text-anchor="middle" fill="#e8b84b" font-size="13" font-weight="600">procesarPedido()</text>
+      <text class="s-dim" x="360" y="172" text-anchor="middle">sin catch: pasa de largo</text>
+    </g>
+
+    <g class="hot"><title>Acá ocurre el throw: lo que está después del throw no se ejecuta nunca.</title>
+      <rect class="s-box" x="240" y="220" width="240" height="56" rx="10" stroke="#7a3030"/>
+      <text class="s-mono" x="360" y="243" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="600">validarCantidad()</text>
+      <text class="s-dim" x="360" y="262" text-anchor="middle" fill="#ff6b6b">throw new IllegalArgumentException</text>
+    </g>
+
+    <path d="M240 72 L150 72 L150 158 L236 158" stroke="#2f5ea8" stroke-width="1.7" fill="none" marker-end="url(#vb)"/>
+    <path d="M240 162 L110 162 L110 248 L236 248" stroke="#2f5ea8" stroke-width="1.7" fill="none" marker-end="url(#vb)"/>
+
+    <path d="M480 248 L600 248 L600 162 L484 162" stroke="#ff6b6b" stroke-width="1.9" fill="none" marker-end="url(#vr)"/>
+    <path d="M480 172 L640 172 L640 76 L484 76" stroke="#ff6b6b" stroke-width="1.9" fill="none" marker-end="url(#vr)"/>
+
+    <text class="s-dim" x="360" y="300" text-anchor="middle" fill="#5f6b7c">las tres líneas (X) del código nunca se imprimen: están después del throw o después de la llamada</text>
+  </svg>
+  <figcaption><b>Figura 1B.16</b> — El viaje completo: las llamadas apilan marcos; el <code class="inl">throw</code> descarta el marco actual y los intermedios, buscando un <code class="inl">catch</code> en cada uno; el <code class="inl">catch</code> de <code class="inl">main</code> la atrapa y la ejecución continúa.</figcaption>
+</figure>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
   <div class="bb">
-<pre><span class="cm">// LANZAR (cortar por un error, ej. dato invalido):</span>
-throw new IllegalArgumentException("mensaje");   <span class="cm">// despues del throw, nada mas corre</span>
-
-<span class="cm">// El patron "portero": validas al principio; si esta mal, throw.</span>
-<span class="cm">// El trabajo real va DESPUES del if.</span>
-public void depositar(double monto) {
-    if (monto &lt;= 0) { throw new IllegalArgumentException("..."); }
-    saldo = saldo + monto;   <span class="cm">// solo se llega si el monto es valido</span>
-}
-
-<span class="cm">// ATRAPAR:</span>
-try { ... } catch (IllegalArgumentException e) { ... }</pre>
-    <ul>
-      <li>Hay <b>familias</b> de excepciones, cada una un tipo distinto: <code class="inl">ArithmeticException</code>, <code class="inl">IllegalArgumentException</code>, <code class="inl">NullPointerException</code>… El test suele pedir una específica.</li>
-    </ul>
+    <p>Una excepción <strong>desapila la pila de llamadas buscando el primer <code class="inl">catch</code> compatible</strong>. En ese viaje <strong>no</strong> se ejecuta: <strong>(a)</strong> lo que está después del <code class="inl">throw</code> en el método que lanzó, y <strong>(b)</strong> lo que está después de la llamada en cada método intermedio que no la captura. Por eso una validación que lanza <strong>al principio</strong> de un método garantiza que el resto del método sólo corre con datos sanos — es el patrón que usamos en todos los TDA del curso.</p>
   </div>
 </div>
 
-<p>Un programa robusto reacciona ante situaciones excepcionales: un archivo que no existe, una división por cero, un dato inválido. Java modela esto con <strong>excepciones</strong>. Cuando algo excepcional ocurre, se <strong>lanza</strong> (<code class="inl">throw</code>) una excepción; quien llamó puede <strong>capturarla</strong> con <code class="inl">try/catch</code>.</p>
+<h4 id="s1b172"><span class="num">1B.17.2</span>¿Y si nadie la captura? El stack trace</h4>
+
+<p>En el repo está <code class="inl">ExcepcionSinCapturar</code>: la misma cadena, <strong>sin <code class="inl">try</code></strong>. La excepción atraviesa los tres marcos, llega al fondo de la pila y la JVM <strong>corta el programa</strong> imprimiendo esto:</p>
+
+<pre><code class="text">(1) main: por llamar (sin ninguna red)
+(2) procesarPedido: por validar
+(3) validarCantidad: verificando -3
+Exception in thread "main" java.lang.IllegalArgumentException: la cantidad debe ser positiva y es -3
+     at ...ExcepcionSinCapturar.validarCantidad(ExcepcionSinCapturar.java:30)
+     at ...ExcepcionSinCapturar.procesarPedido(ExcepcionSinCapturar.java:23)
+     at ...ExcepcionSinCapturar.main(ExcepcionSinCapturar.java:17)</code></pre>
+
+<p>Eso es un <strong>stack trace</strong>: la foto de la pila en el momento del lanzamiento. Se lee de arriba hacia abajo: primera línea, el <strong>tipo y el mensaje</strong>; después la <strong>cadena de llamadas</strong>, con lo más profundo arriba (<code class="inl">validarCantidad</code> lanzó, <code class="inl">procesarPedido</code> lo había llamado, <code class="inl">main</code> había llamado a aquél). Cada línea dice archivo y número de línea: hacé clic en IntelliJ y te lleva justo ahí.</p>
+
+<div class="box git">
+  <div class="bh">En IntelliJ</div>
+  <div class="bb">
+    <p>Cuando un programa tuyo explote —y va a pasar seguido—, no entres en pánico: andá al stack trace en la consola <strong>Run</strong> y buscá <strong>la primera línea que menciona un archivo TUYO</strong>. Ésa es, casi siempre, la pista correcta. Las líneas de <code class="inl">java.base</code> u otras bibliotecas son el camino interno, no tu bug.</p>
+  </div>
+</div>
+
+<h4 id="s1b173"><span class="num">1B.17.3</span><code class="inl">try</code>, varios <code class="inl">catch</code>, <code class="inl">finally</code></h4>
+
+<p>La forma completa de la estructura tiene tres piezas: el <code class="inl">try</code> (el bloque vigilado), uno o más <code class="inl">catch</code> (qué hacer con cada tipo de problema) y un <code class="inl">finally</code> opcional (lo que debe pasar <strong>siempre</strong>, haya o no excepción: cerrar, devolver, limpiar).</p>
 
 <figure>
   <div class="svg-hint">pasá el mouse por cada bloque</div>
@@ -2421,38 +2501,15 @@ try { ... } catch (IllegalArgumentException e) { ... }</pre>
     </g>
     <text class="s-dim" x="360" y="292" text-anchor="middle" fill="#5f6b7c">con try-with-resources el cierre es automático y no hace falta el finally</text>
   </svg>
-  <figcaption><b>Figura 1B.16</b> — Flujo de <code class="inl">try/catch/finally</code>: el <code class="inl">finally</code> se ejecuta siempre.</figcaption>
+  <figcaption><b>Figura 1B.17</b> — Flujo de <code class="inl">try/catch/finally</code>: el <code class="inl">finally</code> se ejecuta siempre.</figcaption>
 </figure>
-
-<pre><code class="java">public static double dividir(int dividendo, int divisor) {
-    if (divisor == 0) {
-        throw new DivisionPorCeroException(dividendo);
-    }
-    return (double) dividendo / divisor;
-}
-
-// ... en quien llama:
-try {
-    double r = dividir(7, 0);
-} catch (DivisionPorCeroException e) {
-    System.out.println("No se pudo dividir: " + e.getMessage());
-}</code></pre>
-
-<p>Definir una <strong>excepción propia</strong> hace los errores más claros:</p>
-
-<pre><code class="java">public class DivisionPorCeroException extends RuntimeException {
-    public DivisionPorCeroException(int dividendo) {
-        super("intento de dividir " + dividendo + " por cero");
-    }
-}</code></pre>
 
 <div class="box error">
   <div class="bh">Error común</div>
   <div class="bb">
-    <p>Cuando encadenás varios <code class="inl">catch</code>, <strong>ordenálos del más específico al más general</strong>. Si ponés <code class="inl">catch (Exception e)</code> primero, captura todo y los <code class="inl">catch</code> siguientes se vuelven inalcanzables: <strong>el código no compila</strong>. Una excepción hija siempre va antes que su clase padre.</p>
+    <p>Cuando encadenás varios <code class="inl">catch</code>, <strong>ordenálos del más específico al más general</strong>. Si ponés <code class="inl">catch (Exception e)</code> primero, captura todo y los <code class="inl">catch</code> siguientes se vuelven inalcanzables: <strong>el código no compila</strong>. Una excepción hija siempre va antes que su clase padre — en el integrador de abajo, <code class="inl">NumberFormatException</code> (hija) va antes que <code class="inl">IllegalArgumentException</code> (padre).</p>
   </div>
 </div>
-
 
 <div class="lab" id="lab-catch">
   <div class="lab-head"><span class="dot"></span><h4>Laboratorio · ¿Compila este orden de catch?</h4><span class="hint">poné Exception primero y mirá</span></div>
@@ -2468,48 +2525,149 @@ try {
   </div>
 </div>
 
-<h4 id="s1b171"><span class="num">1B.17.1</span>El viaje de una excepción por la pila de llamadas</h4>
 
-<p>Cada vez que un método llama a otro, la JVM apila un marco con sus datos; cuando el método termina, su marco se desapila y la ejecución vuelve a donde estaba. Mirá esta cadena de tres métodos —<code class="inl">main</code> llama a <code class="inl">procesarPedido</code>, que llama a <code class="inl">validarCantidad</code>, que valida y lanza— con <code class="inl">println</code> numerados para espiar qué se ejecuta:</p>
 
-<div class="filelabel">material/i01_intro/ViajeDeUnaExcepcion.java</div>
-<pre><code class="java">public class ViajeDeUnaExcepcion {
-    public static void main(String[] args) {
-        System.out.println("(1) main: por llamar a procesarPedido(-3)");
-        try {
-            procesarPedido(-3);
-            System.out.println("(X) main: NO se ejecuta (la llamada terminó en excepción)");
-        } catch (IllegalArgumentException e) {
-            System.out.println("(5) main: ¡capturada! mensaje = " + e.getMessage());
-        }
-        System.out.println("(6) main: el programa SIGUE con normalidad");
+<h4 id="s1b174"><span class="num">1B.17.4</span>Excepciones del sistema, chequeadas y propias</h4>
+
+<p>La biblioteca estándar trae una <strong>jerarquía de excepciones</strong> listas para usar. Las que más vas a cruzar este cuatrimestre:</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th class="l">Excepción</th><th class="l">La lanza…</th></tr></thead>
+  <tbody>
+    <tr><td class="l"><code class="inl">IllegalArgumentException</code></td><td class="l">un método al que le pasaron un argumento inválido</td></tr>
+    <tr><td class="l"><code class="inl">IllegalStateException</code></td><td class="l">un objeto usado en un momento inválido (sacar de una pila vacía)</td></tr>
+    <tr><td class="l"><code class="inl">ArithmeticException</code></td><td class="l">la división entera por cero: <code class="inl">7 / 0</code></td></tr>
+    <tr><td class="l"><code class="inl">NumberFormatException</code></td><td class="l"><code class="inl">Integer.parseInt("mil")</code>: el texto no es un número</td></tr>
+    <tr><td class="l"><code class="inl">ArrayIndexOutOfBoundsException</code></td><td class="l"><code class="inl">arreglo[i]</code> con un índice fuera de rango</td></tr>
+    <tr><td class="l"><code class="inl">NullPointerException</code></td><td class="l">usar una referencia que es <code class="inl">null</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Todas las de la tabla descienden de <code class="inl">RuntimeException</code> y son <strong>no chequeadas</strong>: se lanzan y capturan libremente, sin que el compilador exija nada. Las que descienden de <code class="inl">Exception</code> (pero no de <code class="inl">RuntimeException</code>) son <strong>chequeadas</strong>: si un método puede lanzarlas, <strong>debe declararlo</strong> con <code class="inl">throws</code> en su firma, y quien lo llame está <strong>obligado por el compilador</strong> a capturarla o a declararla a su vez. Es un contrato visible: “llamarme implica hacerse cargo de esto”.</p>
+
+<p>Y podés definir <strong>excepciones propias</strong> de tu dominio: una clase que extiende <code class="inl">RuntimeException</code> (no chequeada) o <code class="inl">Exception</code> (chequeada), con un buen mensaje y, como cualquier objeto, los datos que le quieras cargar:</p>
+
+<pre><code class="java">/** Propia y CHEQUEADA: quien llame a extraer debe hacerse cargo. */
+public class SaldoInsuficienteException extends Exception {
+
+    private final int faltante;
+
+    public SaldoInsuficienteException(int montoPedido, int saldoDisponible) {
+        super("pediste $" + montoPedido + " pero el saldo es $" + saldoDisponible);
+        this.faltante = montoPedido - saldoDisponible;
     }
-    static void procesarPedido(int cantidad) {
-        System.out.println("(2) procesarPedido: por llamar a validarCantidad");
-        validarCantidad(cantidad);
-        System.out.println("(X) procesarPedido: NO se ejecuta (la excepción pasó de largo)");
-    }
-    static void validarCantidad(int cantidad) {
-        System.out.println("(3) validarCantidad: verificando " + cantidad);
-        if (cantidad &lt;= 0) {
-            System.out.println("(4) validarCantidad: cantidad inválida, LANZO");
-            throw new IllegalArgumentException("la cantidad debe ser positiva y es " + cantidad);
-        }
-        System.out.println("(X) validarCantidad: NO se ejecuta (está después del throw)");
+
+    public int faltante() {
+        return faltante;
     }
 }</code></pre>
 
-<p>La salida real (corré <code class="inl">ViajeDeUnaExcepcion</code> en el repo):</p>
-<pre><code class="java">(1) main: por llamar a procesarPedido(-3)
-(2) procesarPedido: por llamar a validarCantidad
-(3) validarCantidad: verificando -3
-(4) validarCantidad: cantidad inválida, LANZO
-(5) main: ¡capturada! mensaje = la cantidad debe ser positiva y es -3
-(6) main: el programa SIGUE con normalidad</code></pre>
+<p>Definir una <strong>excepción propia</strong> hace los errores más claros:</p>
 
-<div class="box idea">
-  <div class="bh">Idea clave</div>
-  <div class="bb"><p>Fijate qué <b>no</b> está en la salida: ninguna de las líneas marcadas <code class="inl">(X)</code>. El <code class="inl">throw</code> interrumpe <code class="inl">validarCantidad</code> en el acto (lo que está después del <code class="inl">throw</code> no corre); la excepción vuelve a <code class="inl">procesarPedido</code> —que tampoco termina: la línea que seguía a la llamada se saltea— y sigue <b>bajando por la pila</b> hasta que encuentra el <code class="inl">catch</code> de <code class="inl">main</code>. Ahí el viaje termina y el programa continúa.</p></div>
+<pre><code class="java">public class DivisionPorCeroException extends RuntimeException {
+    public DivisionPorCeroException(int dividendo) {
+        super("intento de dividir " + dividendo + " por cero");
+    }
+}</code></pre>
+
+
+
+<h4 id="s1b175"><span class="num">1B.17.5</span>Ejemplo integrador: el cajero automático</h4>
+
+<p>Todos los casos juntos, en <code class="inl">CajeroAutomatico</code> (corrélo del repo): <strong>dos <code class="inl">try</code> anidados</strong>, excepciones del sistema y una propia chequeada, un <code class="inl">throw</code> dentro del <code class="inl">try</code>, varios <code class="inl">catch</code> bien ordenados y un <code class="inl">finally</code> inquebrantable.</p>
+
+<pre><code class="java">/** Puede fallar de dos maneras: monto absurdo o saldo que no alcanza. */
+public void extraer(int monto) throws SaldoInsuficienteException {
+    System.out.println("   extraer: piden $" + monto + " (saldo $" + saldo + ")");
+    if (monto &lt;= 0) {
+        throw new IllegalArgumentException("el monto debe ser positivo y es " + monto);
+    }
+    if (monto &gt; saldo) {
+        throw new SaldoInsuficienteException(monto, saldo);
+    }
+    saldo -= monto;
+    System.out.println("   extraer: entregado, saldo restante $" + saldo);
+}
+
+
+/** Una operación completa del cajero. */
+public void atender(String textoDelMonto) {
+    System.out.println("atender(\"" + textoDelMonto + "\")");
+    try {                                                       // ---- try EXTERNO
+        int monto = interpretarMonto(textoDelMonto);            // parseInt puede explotar
+        try {                                                   // ---- try INTERNO
+            extraer(monto);                                     // throw DENTRO del try
+            System.out.println("   operación exitosa");
+        } catch (SaldoInsuficienteException e) {
+            // lo esperable del negocio se resuelve acá, cerca
+            System.out.println("   no alcanza: " + e.getMessage()
+                      + " (faltan $" + e.faltante() + ")");
+        }
+        System.out.println("   fin del camino con monto numérico");
+    } catch (NumberFormatException e) {
+        // PRIMERO la específica (es hija de IllegalArgumentException)
+        System.out.println("   eso no es un número (" + e.getMessage() + ")");
+    } catch (IllegalArgumentException e) {
+        // el try interno NO la capturaba: siguió viajando hasta acá
+        System.out.println("   monto inválido: " + e.getMessage());
+    } finally {
+        System.out.println("   finally: devolver la tarjeta (SIEMPRE)");
+    }
+}</code></pre>
+
+<p>El <code class="inl">main</code> atiende cuatro operaciones —una por caso— y esta es la salida real, para leer con el dedo en el código:</p>
+
+<pre><code class="text">atender("300")                                     &lt;- CASO FELIZ
+  interpretarMonto: leyendo "300"
+  interpretarMonto: entendí 300
+  extraer: piden $300 (saldo $1000)
+  extraer: entregado, saldo restante $700
+  operación exitosa
+  fin del camino con monto numérico
+  finally: devolver la tarjeta (SIEMPRE)
+
+
+atender("5000")                                    &lt;- PROPIA CHEQUEADA, capturada en el try INTERNO
+  interpretarMonto: leyendo "5000"
+  interpretarMonto: entendí 5000
+  extraer: piden $5000 (saldo $700)
+  no alcanza: pediste $5000 pero el saldo es $700 (faltan $4300)
+  fin del camino con monto numérico                  &lt;- el interno la resolvió: el externo ni se entera
+  finally: devolver la tarjeta (SIEMPRE)
+
+
+atender("-50")                                     &lt;- DEL SISTEMA: el try interno NO la captura...
+  interpretarMonto: leyendo "-50"
+  interpretarMonto: entendí -50
+  extraer: piden $-50 (saldo $700)
+  monto inválido: el monto debe ser positivo y es -50                &lt;- ...la capturó el EXTERNO
+  finally: devolver la tarjeta (SIEMPRE)                 &lt;- ojo: "fin del camino..." NO se imprimió
+
+
+atender("mil")                                     &lt;- EXPLOTA EL PARSEO, antes del try interno
+  interpretarMonto: leyendo "mil"
+  eso no es un número (For input string: "mil")
+  finally: devolver la tarjeta (SIEMPRE)
+
+
+main: el cajero sigue en pie, saldo final $700</code></pre>
+
+<p>Releé el <strong>tercer caso</strong>, que es el fino: <code class="inl">extraer</code> lanza <code class="inl">IllegalArgumentException</code> dentro del <code class="inl">try</code> interno, pero ese <code class="inl">try</code> sólo sabe capturar <code class="inl">SaldoInsuficienteException</code> — así que la excepción <strong>sale del <code class="inl">try</code> interno</strong> (salteando <code class="inl">"operación exitosa"</code> <strong>y</strong> <code class="inl">"fin del camino..."</code>) y recién la atrapa el <code class="inl">catch</code> del externo. Dos redes: la de adentro para lo esperable del negocio, la de afuera para el resto. Y el <code class="inl">finally</code> imprimió <strong>las cuatro veces</strong>: con éxito, con captura interna, con captura externa y con explosión temprana.</p>
+
+<div class="box error">
+  <div class="bh">Error común</div>
+  <div class="bb">
+    <p>Errores clásicos con excepciones:</p>
+    <ul>
+      <li><strong>El <code class="inl">catch</code> vacío</strong> (<code class="inl">catch (Exception e) { }</code>): la excepción desaparece sin dejar rastro y el bug se vuelve invisible. Como mínimo, mostrala.</li>
+      <li><strong>Capturar <code class="inl">Exception</code> “por las dudas”</strong>: atrapa también lo que no sabés manejar y esconde errores de programación. Capturá los tipos que <strong>sí</strong> sabés resolver.</li>
+      <li><strong>Usar excepciones para el flujo normal</strong>: si el caso pasa siempre (fin de un ciclo, opción del menú), es un <code class="inl">if</code>, no un <code class="inl">throw</code> — las excepciones son para lo <strong>excepcional</strong>.</li>
+      <li><strong>Olvidar el orden</strong> específico → general en los <code class="inl">catch</code> (no compila).</li>
+      <li><strong>Poner <code class="inl">return</code> adentro de un <code class="inl">finally</code></strong>: pisa silenciosamente el resultado (o la excepción) del <code class="inl">try</code>. No lo hagas nunca.</li>
+    </ul>
+  </div>
 </div>
 
 <h3 id="s1b18"><span class="num">1B.18</span>Fechas y horas</h3>
@@ -2573,7 +2731,7 @@ System.out.printf("Hola %s, el año que viene vas a tener %d.%n", nombre, edad +
 
     <text class="s-dim" x="360" y="192" text-anchor="middle" fill="#5f6b7c">los recursos que quedan abiertos se cierran solos con try-with-resources</text>
   </svg>
-  <figcaption><b>Figura 1B.17</b> — El ciclo de trabajo con archivos: el programa escribe al disco y lee de él; los recursos que quedan abiertos se cierran solos con <em>try-with-resources</em>.</figcaption>
+  <figcaption><b>Figura 1B.18</b> — El ciclo de trabajo con archivos: el programa escribe al disco y lee de él; los recursos que quedan abiertos se cierran solos con <em>try-with-resources</em>.</figcaption>
 </figure>
 
 <p>Para leer y escribir archivos de texto, la forma más simple es la clase utilitaria <code class="inl">Files</code>:</p>
@@ -2729,7 +2887,7 @@ try (var s = Files.list(dir)) {              // listar un directorio
     <rect class="s-box" x="618" y="262" width="84" height="32" rx="7"/><text class="s-mono" x="660" y="283" text-anchor="middle" font-size="11">teorica</text>
     <rect class="s-box" x="710" y="262" width="84" height="32" rx="7"/><text class="s-mono" x="752" y="283" text-anchor="middle" font-size="11">practica</text>
   </svg>
-  <figcaption><b>Figura 1B.18</b> — Esquema de paquetes del repositorio único de la materia.</figcaption>
+  <figcaption><b>Figura 1B.19</b> — Esquema de paquetes del repositorio único de la materia.</figcaption>
 </figure>
 
 <p>Un solo repositorio acumula el trabajo de todos los años, ordenado y fácil de encontrar.</p>
@@ -3270,6 +3428,41 @@ public class DiaHabil {
     }
 }</code></pre>
 <div class="ex-note">Detalle: en el esquema de la cátedra el miércoles es <code class="inl">'X'</code> (para no chocar con <code class="inl">'M'</code> de martes). Y sí, un <code class="inl">default</code> puede lanzar una excepción en vez de devolver un valor — sigue siendo válido porque nunca “completa normalmente”.</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="f10">
+  <div class="ex-hd">
+    <div class="ex-n">10</div>
+    <div class="ex-body"><span class="ti">Enum de estaciones</span><p>Definí un <code class="inl">enum Estacion</code> con las cuatro estaciones y un método que imprima todas con <code class="inl">values()</code>.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Todo <code class="inl">enum</code> trae gratis el método estático <code class="inl">values()</code>, que devuelve un arreglo con todas sus constantes en el orden en que las declaraste. Recorrelo con un <em>for-each</em>.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public enum Estacion {
+    VERANO, OTONIO, INVIERNO, PRIMAVERA;
+}
+
+
+public static void imprimirTodas() {
+    for (Estacion e : Estacion.values()) {
+        System.out.println(e);                  // usa el toString por defecto: el nombre
+    }
+}</code></pre>
+<p>Tres cosas que vale la pena notar. <strong><code class="inl">values()</code> respeta el orden de declaración</strong>, no el alfabético: por eso conviene declararlas en un orden que tenga sentido. <strong><code class="inl">ordinal()</code></strong> te da la posición (0 para <code class="inl">VERANO</code>), pero no lo uses para lógica: si alguien reordena las constantes, tu código cambia de significado en silencio. Y el <code class="inl">toString</code> por defecto imprime el nombre tal cual está escrito.</p>
+<p>Si querés un nombre lindo para mostrar, agregale un atributo — que es el salto natural al ejercicio 9 del nivel medio:</p>
+<pre><code class="java">public enum Estacion {
+    VERANO("Verano"), OTONIO("Otoño"), INVIERNO("Invierno"), PRIMAVERA("Primavera");
+
+    private final String etiqueta;
+    Estacion(String etiqueta) { this.etiqueta = etiqueta; }
+
+    @Override public String toString() { return etiqueta; }
+}</code></pre>
+<p>La ventaja de fondo sobre usar cadenas sueltas: <strong>el compilador te protege</strong>. <code class="inl">Estacion.VERNAO</code> no compila; <code class="inl">"vernao"</code> compila perfecto y falla en ejecución.</p>
+</div>
   </div>
 </div>
 
@@ -3924,7 +4117,499 @@ class CuentaBancariaTest {
   <p>Las dos secciones que siguen no están en el apunte: son para entrenar. El <strong>generador</strong> arma ejercicios nuevos cada vez (números y códigos distintos) y los corrige solo, mostrándote el procedimiento cuando errás. La <strong>autoevaluación</strong> son doce preguntas del estilo de las que aparecen en parcial, con la explicación de por qué cada opción está bien o mal.</p>
 </div>
 
-<h3 id="s1b31"><span class="num">1B.31</span>Generador de ejercicios</h3>
+<div class="exlevel"><span class="t" id="gdificil">1B.31 · Nivel difícil</span><span class="l"></span></div>
+
+<p>Paquete base: <code class="inl">ar.uba.fi.cb100.guia.i01_intro.i04_dificil.eNN</code>. Estos combinan varios temas de la unidad a la vez, y casi todos piden <strong>tests</strong>. Intentalos enteros antes de abrir la solución: acá el valor está en pelearlos.</p>
+
+<div class="ex" data-ex="d1">
+  <div class="ex-hd">
+    <div class="ex-n">1</div>
+    <div class="ex-body"><span class="ti">FizzBuzz</span><p>Del 1 al <code class="inl">n</code>: “Fizz” si es múltiplo de 3, “Buzz” si de 5, “FizzBuzz” si de ambos, y el número si no. Resolvelo con un <em>switch expression</em> sobre un <code class="inl">boolean</code> combinado.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>No podés hacer <code class="inl">switch</code> sobre dos condiciones a la vez, pero sí sobre <b>una sola cosa que las resuma</b>. Armá un entero o una cadena que codifique los dos restos y prendé el <code class="inl">switch</code> sobre eso.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static String fizzBuzz(int i) {
+    boolean tres  = i % 3 == 0;
+    boolean cinco = i % 5 == 0;
+
+    // el truco: codificar las DOS condiciones en un solo valor
+    int codigo = (tres ? 2 : 0) + (cinco ? 1 : 0);
+
+    return switch (codigo) {
+        case 3 -&gt; "FizzBuzz";      // múltiplo de 3 y de 5
+        case 2 -&gt; "Fizz";          // sólo de 3
+        case 1 -&gt; "Buzz";          // sólo de 5
+        default -&gt; String.valueOf(i);
+    };
+}
+
+
+public static void imprimirHasta(int n) {
+    for (int i = 1; i &lt;= n; i++) {
+        System.out.println(fizzBuzz(i));
+    }
+}</code></pre>
+<p>La gracia del ejercicio no es FizzBuzz: es <strong>separar el cálculo de la impresión</strong>. Con <code class="inl">fizzBuzz(int)</code> devolviendo un <code class="inl">String</code> podés testearlo; si hubieras metido el <code class="inl">println</code> adentro, no.</p>
+<pre><code class="java">@Test void casosDeFizzBuzz() {
+    assertEquals("1", fizzBuzz(1));
+    assertEquals("Fizz", fizzBuzz(9));
+    assertEquals("Buzz", fizzBuzz(10));
+    assertEquals("FizzBuzz", fizzBuzz(15));
+}</code></pre>
+<div class="ex-note">Cuidado con el orden si lo resolvés con <code class="inl">if</code> encadenados: <b>“FizzBuzz” va primero</b>. Si preguntás por múltiplo de 3 antes, el 15 sale “Fizz” y nunca llegás al caso doble. Con el <em>switch</em> sobre el código combinado ese error no puede ocurrir — por eso el enunciado lo pide así.</div>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d2">
+  <div class="ex-hd">
+    <div class="ex-n">2</div>
+    <div class="ex-body"><span class="ti">Palíndromo</span><p>Método <code class="inl">boolean esPalindromo(String s)</code> que ignore mayúsculas y espacios. Testeá casos afirmativos y negativos.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Dos etapas bien separadas: primero <b>normalizar</b> (bajar a minúsculas y sacar lo que no sea letra), después <b>comparar</b>. Para lo segundo, dos índices que caminan desde los extremos hacia el centro.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static boolean esPalindromo(String s) {
+    if (s == null) {
+        return false;
+    }
+    String limpio = s.toLowerCase().replaceAll("[^a-záéíóúñ0-9]", "");
+
+    int i = 0, j = limpio.length() - 1;
+    while (i &lt; j) {
+        if (limpio.charAt(i) != limpio.charAt(j)) {
+            return false;                       // corta apenas encuentra diferencia
+        }
+        i++;
+        j--;
+    }
+    return true;                                // vacío y de un carácter dan true
+}</code></pre>
+<p>Por qué <strong>dos índices y no <code class="inl">reverse()</code></strong>: comparar contra la cadena dada vuelta también funciona (<code class="inl">new StringBuilder(limpio).reverse().toString().equals(limpio)</code>) pero recorre todo siempre y arma un objeto extra. Con dos índices cortás en la primera diferencia y no reservás nada.</p>
+<pre><code class="java">@Test void palindromos() {
+    assertTrue(esPalindromo("Anita lava la tina"));
+    assertTrue(esPalindromo("Neuquén"));
+    assertTrue(esPalindromo(""));               // el borde: vacío ES palíndromo
+    assertTrue(esPalindromo("a"));
+    assertFalse(esPalindromo("hola"));
+    assertFalse(esPalindromo(null));
+}</code></pre>
+<div class="ex-note">El <code class="inl">replaceAll</code> con acentos es el detalle que se suele pasar por alto: si no los incluís en la clase de caracteres, “Neuquén” pierde la é y el resultado cambia. Lo prolijo de verdad es normalizar los acentos con <code class="inl">java.text.Normalizer</code>, pero para la guía alcanza con contemplarlos.</div>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d3">
+  <div class="ex-hd">
+    <div class="ex-n">3</div>
+    <div class="ex-body"><span class="ti">Estadísticas</span><p>Dado un <code class="inl">int[]</code>, devolvé un <code class="inl">record Estadisticas(int min, int max, double promedio)</code> recorriéndolo <b>una sola vez</b>.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>La restricción es la consigna: nada de tres recorridos. Llevá las tres cuentas en paralelo dentro del mismo <code class="inl">for</code>. Y pensá qué hacer con el arreglo vacío <b>antes</b> de empezar.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public record Estadisticas(int min, int max, double promedio) { }
+
+
+public static Estadisticas calcular(int[] v) {
+    if (v == null || v.length == 0) {
+        throw new IllegalArgumentException("no hay estadísticas de un arreglo vacío");
+    }
+
+    int min = v[0], max = v[0];
+    long suma = 0;                              // long: evita el desborde al sumar
+
+    for (int x : v) {                           // UN solo recorrido
+        if (x &lt; min) { min = x; }
+        if (x &gt; max) { max = x; }
+        suma += x;
+    }
+    return new Estadisticas(min, max, (double) suma / v.length);
+}</code></pre>
+<p>Tres decisiones que valen más que el algoritmo:</p>
+<ul>
+  <li><strong>Arrancar con <code class="inl">v[0]</code></strong> y no con <code class="inl">Integer.MAX_VALUE</code>. Funcionan las dos, pero la primera es más difícil de romper y se lee mejor.</li>
+  <li><strong><code class="inl">long</code> para la suma.</strong> Con un arreglo grande de enteros grandes, un <code class="inl">int</code> desborda <em>en silencio</em> y el promedio sale mal sin ningún error.</li>
+  <li><strong>El <code class="inl">(double)</code> antes de dividir.</strong> Si dividís dos enteros, Java hace división entera y el promedio de <code class="inl">{1, 2}</code> te da 1.</li>
+</ul>
+<pre><code class="java">@Test void calculaLasTres() {
+    Estadisticas e = calcular(new int[]{4, -2, 10, 8});
+    assertEquals(-2, e.min());
+    assertEquals(10, e.max());
+    assertEquals(5.0, e.promedio(), 1e-9);      // double: SIEMPRE con tolerancia
+}
+
+@Test void arregloVacio() {
+    assertThrows(IllegalArgumentException.class, () -&gt; calcular(new int[0]));
+}</code></pre>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d4">
+  <div class="ex-hd">
+    <div class="ex-n">4</div>
+    <div class="ex-body"><span class="ti">Ordenar tres números</span><p>Sin usar librerías, ordená tres enteros de menor a mayor y devolvelos en un arreglo.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>La vía corta y sin bifurcaciones raras: tres comparaciones con intercambio, siempre las mismas. Es el <em>bubble sort</em> de tres elementos, desplegado a mano.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static int[] ordenar(int a, int b, int c) {
+    if (a &gt; b) { int t = a; a = b; b = t; }     // a ≤ b
+    if (b &gt; c) { int t = b; b = c; c = t; }     // c es el mayor
+    if (a &gt; b) { int t = a; a = b; b = t; }     // reacomoda a y b
+    return new int[]{a, b, c};
+}</code></pre>
+<p><strong>Por qué hacen falta las tres comparaciones y no dos.</strong> Después de las dos primeras, <code class="inl">c</code> ya es el mayor con seguridad — pero <code class="inl">a</code> y <code class="inl">b</code> pueden haber quedado cruzados por el segundo intercambio. Probá con <code class="inl">(3, 5, 1)</code>: tras el primer <code class="inl">if</code> queda <code class="inl">3, 5, 1</code>; tras el segundo, <code class="inl">3, 1, 5</code>; y el tercero es el que arregla el <code class="inl">3, 1</code>. Sin él devolverías <code class="inl">{3, 1, 5}</code>.</p>
+<pre><code class="java">@Test void todasLasPermutaciones() {
+    int[] esperado = {1, 2, 3};
+    assertArrayEquals(esperado, ordenar(1, 2, 3));
+    assertArrayEquals(esperado, ordenar(1, 3, 2));
+    assertArrayEquals(esperado, ordenar(2, 1, 3));
+    assertArrayEquals(esperado, ordenar(2, 3, 1));
+    assertArrayEquals(esperado, ordenar(3, 1, 2));
+    assertArrayEquals(esperado, ordenar(3, 2, 1));
+}
+
+@Test void conRepetidos() {
+    assertArrayEquals(new int[]{5, 5, 7}, ordenar(7, 5, 5));
+}</code></pre>
+<div class="ex-note">Este es de los pocos ejercicios donde <b>podés testear exhaustivamente</b>: son seis permutaciones y entran todas. Cuando el espacio de casos es chico, probalos todos en vez de elegir “algunos representativos”.</div>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d5">
+  <div class="ex-hd">
+    <div class="ex-n">5</div>
+    <div class="ex-body"><span class="ti">Conteo de palabras</span><p>Dado un <code class="inl">String</code> con espacios, contá cuántas palabras tiene, <b>cuidando espacios múltiples</b>.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>La trampa está en el enunciado: <code class="inl">split(" ")</code> con dos espacios seguidos te devuelve cadenas vacías que contarías de más. Y una cadena vacía o de puros espacios tiene que dar 0.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static int contarPalabras(String s) {
+    if (s == null || s.isBlank()) {
+        return 0;
+    }
+    return s.trim().split("\\s+").length;       // \s+ = uno o MÁS espacios
+}</code></pre>
+<p>Tres piezas, y cada una tapa un agujero distinto: <code class="inl">isBlank()</code> resuelve el vacío y el “sólo espacios”; <code class="inl">trim()</code> saca los espacios de los extremos (sin él, un espacio inicial produce una palabra vacía al principio); y <code class="inl">\s+</code> trata cualquier racha de espacios, tabs o saltos de línea como <strong>un solo separador</strong>.</p>
+<p>La versión manual, sin expresiones regulares, deja ver la idea de fondo — contar <strong>transiciones</strong> de espacio a no-espacio:</p>
+<pre><code class="java">public static int contarPalabrasManual(String s) {
+    if (s == null) { return 0; }
+    int palabras = 0;
+    boolean dentroDePalabra = false;
+
+    for (int i = 0; i &lt; s.length(); i++) {
+        if (Character.isWhitespace(s.charAt(i))) {
+            dentroDePalabra = false;
+        } else if (!dentroDePalabra) {
+            dentroDePalabra = true;             // arrancó una palabra nueva
+            palabras++;
+        }
+    }
+    return palabras;
+}</code></pre>
+<pre><code class="java">@Test void cuentaBien() {
+    assertEquals(3, contarPalabras("hola   mundo cruel"));
+    assertEquals(2, contarPalabras("  con espacios al borde  "));
+    assertEquals(0, contarPalabras("   "));
+    assertEquals(0, contarPalabras(""));
+    assertEquals(1, contarPalabras("sola"));
+}</code></pre>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d6">
+  <div class="ex-hd">
+    <div class="ex-n">6</div>
+    <div class="ex-body"><span class="ti">Serie de Fibonacci</span><p>Escribí <code class="inl">long fibonacci(int n)</code> <b>iterativo</b> (sin recursión) y testeá los primeros valores.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>No necesitás guardar la serie entera: alcanza con recordar <b>los dos últimos</b> valores e irlos corriendo. Y prestá atención a por qué el enunciado insiste en “sin recursión”.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static long fibonacci(int n) {
+    if (n &lt; 0) {
+        throw new IllegalArgumentException("n debe ser ≥ 0 y es " + n);
+    }
+    if (n &lt;= 1) {
+        return n;                               // fib(0) = 0, fib(1) = 1
+    }
+
+    long anterior = 0, actual = 1;
+    for (int i = 2; i &lt;= n; i++) {
+        long siguiente = anterior + actual;
+        anterior = actual;                      // se corren de a uno
+        actual = siguiente;
+    }
+    return actual;
+}</code></pre>
+<p><strong>Por qué iterativo y no recursivo.</strong> La versión recursiva ingenua (<code class="inl">fib(n-1) + fib(n-2)</code>) recalcula lo mismo una y otra vez: para <code class="inl">fib(40)</code> hace más de doscientos millones de llamadas y tarda segundos; la iterativa hace 40 sumas y es instantánea. En la Unidad 4 vas a poder <em>demostrar</em> esa diferencia — una es exponencial y la otra lineal.</p>
+<p><strong>Por qué <code class="inl">long</code> y no <code class="inl">int</code>.</strong> <code class="inl">fib(47)</code> ya se pasa del rango de <code class="inl">int</code> y desborda <strong>en silencio</strong>, devolviendo un negativo. Con <code class="inl">long</code> llegás hasta <code class="inl">fib(92)</code>; de ahí en adelante hace falta <code class="inl">BigInteger</code>.</p>
+<pre><code class="java">@Test void primerosValores() {
+    assertEquals(0, fibonacci(0));
+    assertEquals(1, fibonacci(1));
+    assertEquals(1, fibonacci(2));
+    assertEquals(55, fibonacci(10));
+    assertEquals(6765, fibonacci(20));
+}
+
+@Test void nNegativo() {
+    assertThrows(IllegalArgumentException.class, () -&gt; fibonacci(-1));
+}</code></pre>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d7">
+  <div class="ex-hd">
+    <div class="ex-n">7</div>
+    <div class="ex-body"><span class="ti">Matriz transpuesta</span><p>Dada una matriz <code class="inl">int[][]</code>, devolvé su transpuesta.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>La transpuesta de una matriz de <code class="inl">f</code> filas por <code class="inl">c</code> columnas tiene <code class="inl">c</code> filas y <code class="inl">f</code> columnas — <b>ojo con crear el arreglo del tamaño correcto</b>. Y acordate de que en Java una matriz es un arreglo de arreglos, así que cada fila podría tener largo distinto.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static int[][] transponer(int[][] m) {
+    if (m == null || m.length == 0) {
+        return new int[0][0];
+    }
+    int filas = m.length;
+    int columnas = m[0].length;
+
+    for (int[] fila : m) {                      // en Java las filas pueden ser desparejas
+        if (fila.length != columnas) {
+            throw new IllegalArgumentException("la matriz no es rectangular");
+        }
+    }
+
+    int[][] t = new int[columnas][filas];       // ¡invertidas!
+    for (int i = 0; i &lt; filas; i++) {
+        for (int j = 0; j &lt; columnas; j++) {
+            t[j][i] = m[i][j];                  // el corazón del ejercicio
+        }
+    }
+    return t;
+}</code></pre>
+<p>Toda la transposición es esa línea: <code class="inl">t[j][i] = m[i][j]</code>. Lo que se equivoca la gente está alrededor — crear <code class="inl">new int[filas][columnas]</code> en vez de al revés, que explota con <code class="inl">ArrayIndexOutOfBoundsException</code> apenas la matriz no es cuadrada.</p>
+<p>La validación de “rectangular” no es paranoia: en Java <code class="inl">int[][]</code> es un <strong>arreglo de arreglos</strong>, y nada impide que <code class="inl">m[0]</code> tenga 3 elementos y <code class="inl">m[1]</code> tenga 5. Eso se llama matriz dentada (<em>jagged</em>), y transponerla no está definido.</p>
+<pre><code class="java">@Test void matrizNoCuadrada() {
+    int[][] m = {{1, 2, 3},
+                 {4, 5, 6}};                    // 2x3
+    int[][] esperado = {{1, 4},
+                        {2, 5},
+                        {3, 6}};                // 3x2
+    assertArrayEquals(esperado, transponer(m)); // assertArrayEquals compara en profundidad
+}
+
+@Test void transponerDosVecesEsLaOriginal() {
+    int[][] m = {{1, 2, 3}, {4, 5, 6}};
+    assertArrayEquals(m, transponer(transponer(m)));
+}</code></pre>
+<div class="ex-note">El segundo test es el más elegante: en vez de escribir a mano el resultado esperado, verifica una <b>propiedad</b> que la función debe cumplir siempre. Transponer dos veces devuelve la original, sea cual sea la matriz.</div>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d8">
+  <div class="ex-hd">
+    <div class="ex-n">8</div>
+    <div class="ex-body"><span class="ti">Calculadora con excepciones</span><p>Método <code class="inl">double operar(double a, double b, char op)</code> que soporte <code class="inl">+ - * /</code>, lanzando <b>excepciones propias</b> ante división por cero u operador inválido. Cubrí todo con tests.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Dos excepciones propias distintas, porque son dos problemas distintos. Y cuidado con una trampa: en <code class="inl">double</code>, dividir por cero <b>no</b> lanza nada — devuelve <code class="inl">Infinity</code>. Tenés que chequearlo vos.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public class DivisionPorCeroException extends RuntimeException {
+    public DivisionPorCeroException(double dividendo) {
+        super("intento de dividir " + dividendo + " por cero");
+    }
+}
+
+public class OperadorInvalidoException extends RuntimeException {
+    public OperadorInvalidoException(char op) {
+        super("operador no soportado: '" + op + "' (válidos: + - * /)");
+    }
+}</code></pre>
+<pre><code class="java">public static double operar(double a, double b, char op) {
+    return switch (op) {
+        case '+' -&gt; a + b;
+        case '-' -&gt; a - b;
+        case '*' -&gt; a * b;
+        case '/' -&gt; {
+            if (b == 0) {                       // en double NO lanza solo: hay que chequear
+                throw new DivisionPorCeroException(a);
+            }
+            yield a / b;
+        }
+        default -&gt; throw new OperadorInvalidoException(op);
+    };
+}</code></pre>
+<p><strong>La trampa del ejercicio</strong> es la división. Con enteros, <code class="inl">7 / 0</code> lanza <code class="inl">ArithmeticException</code> sola. Con <code class="inl">double</code>, <code class="inl">7.0 / 0</code> devuelve <code class="inl">Infinity</code>, <code class="inl">-7.0 / 0</code> devuelve <code class="inl">-Infinity</code> y <code class="inl">0.0 / 0</code> devuelve <code class="inl">NaN</code> — <strong>sin ningún error</strong>. Es la norma IEEE 754, y es exactamente el tipo de cosa que pasa desapercibida hasta que un resultado absurdo aparece diez pantallas más adelante.</p>
+<p>Dos detalles de sintaxis: en un <em>switch expression</em>, un caso con varias líneas usa llaves y <code class="inl">yield</code> para devolver el valor; y el <code class="inl">default</code> puede <code class="inl">throw</code> directamente, sin <code class="inl">yield</code>.</p>
+<pre><code class="java">@Test void lasCuatroOperaciones() {
+    assertEquals(7.0, operar(3, 4, '+'), 1e-9);
+    assertEquals(-1.0, operar(3, 4, '-'), 1e-9);
+    assertEquals(12.0, operar(3, 4, '*'), 1e-9);
+    assertEquals(0.75, operar(3, 4, '/'), 1e-9);
+}
+
+@Test void divisionPorCero() {
+    DivisionPorCeroException e = assertThrows(DivisionPorCeroException.class,
+                                             () -&gt; operar(7, 0, '/'));
+    assertTrue(e.getMessage().contains("por cero"));
+}
+
+@Test void operadorInvalido() {
+    assertThrows(OperadorInvalidoException.class, () -&gt; operar(3, 4, '%'));
+}</code></pre>
+<div class="ex-note">Fijate que <code class="inl">assertThrows</code> <b>devuelve</b> la excepción: eso te deja verificar también el mensaje. Un buen mensaje es parte del contrato del método, y si vale la pena escribirlo, vale la pena testearlo.</div>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d9">
+  <div class="ex-hd">
+    <div class="ex-n">9</div>
+    <div class="ex-body"><span class="ti">Histograma de caracteres</span><p>Dado un <code class="inl">String</code>, devolvé cuántas veces aparece cada letra (usá un <code class="inl">int[26]</code> para las letras a–z).</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>El truco está en convertir una letra en un índice: <code class="inl">c - &#39;a&#39;</code> da 0 para la <code class="inl">a</code>, 1 para la <code class="inl">b</code>… Porque un <code class="inl">char</code> es, por debajo, un número.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public static int[] histograma(String s) {
+    int[] conteo = new int[26];                 // arranca todo en 0
+    if (s == null) {
+        return conteo;
+    }
+
+    for (char c : s.toLowerCase().toCharArray()) {
+        if (c &gt;= 'a' &amp;&amp; c &lt;= 'z') {             // filtra dígitos, espacios y acentos
+            conteo[c - 'a']++;                  // 'a'→0, 'b'→1, ... 'z'→25
+        }
+    }
+    return conteo;
+}
+
+
+public static void imprimir(int[] conteo) {
+    for (int i = 0; i &lt; conteo.length; i++) {
+        if (conteo[i] &gt; 0) {
+            System.out.println((char) ('a' + i) + ": " + "*".repeat(conteo[i]));
+        }
+    }
+}</code></pre>
+<p><strong>Por qué funciona <code class="inl">c - &#39;a&#39;</code>.</strong> Un <code class="inl">char</code> es un entero de 16 bits con el código Unicode del carácter. Las letras minúsculas son consecutivas (<code class="inl">'a'</code> es 97, <code class="inl">'b'</code> 98…), así que restar <code class="inl">'a'</code> te da la posición dentro del alfabeto. Y para el camino inverso, <code class="inl">(char) ('a' + i)</code>.</p>
+<p><strong>Por qué el <code class="inl">if</code> es imprescindible.</strong> Sin él, un espacio (código 32) daría <code class="inl">32 - 97 = -65</code> y el <code class="inl">conteo[-65]</code> te lanza <code class="inl">ArrayIndexOutOfBoundsException</code>. Cualquier texto real tiene espacios, así que el programa explota en el primero.</p>
+<pre><code class="java">@Test void cuentaLetras() {
+    int[] c = histograma("Hola Mundo");
+    assertEquals(2, c['o' - 'a']);              // dos oes
+    assertEquals(1, c['h' - 'a']);
+    assertEquals(0, c['z' - 'a']);
+}
+
+@Test void ignoraLoQueNoEsLetraAZ() {
+    int[] c = histograma("a1 b!  á");           // el espacio, el dígito y la á se ignoran
+    assertEquals(1, c[0]);
+    assertEquals(1, c[1]);
+}</code></pre>
+<div class="ex-note">El <code class="inl">int[26]</code> es la versión de juguete de una idea que vas a ver en serio en la Unidad 6: usar el <b>dato mismo como índice</b> en vez de buscarlo. Cuando el universo de claves es chico y conocido, es imbatible — y cuando no lo es, aparecen las tablas de hash.</div>
+</div>
+  </div>
+</div>
+
+<div class="ex" data-ex="d10">
+  <div class="ex-hd">
+    <div class="ex-n">10</div>
+    <div class="ex-body"><span class="ti">Validador de contraseña</span><p>Escribí un método que valide una contraseña (mínimo 8 caracteres, al menos un dígito y una mayúscula) y devuelva, mediante una <b>excepción propia con mensaje claro</b>, qué regla falló. Testeá cada regla.</p></div>
+    <button class="ex-chk" title="Marcar como hecho">✓</button>
+  </div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>El enunciado pide que se sepa <b>qué regla</b> falló: no alcanza con devolver <code class="inl">false</code>. Guardá en la excepción cuál fue — un <code class="inl">enum</code> de reglas es más útil que un texto suelto.</div></div>
+  <div class="ex-panel" data-p="sol">
+<div class="ans">
+<pre><code class="java">public enum ReglaDeContrasenia {
+    LARGO_MINIMO("debe tener al menos 8 caracteres"),
+    FALTA_DIGITO("debe tener al menos un dígito"),
+    FALTA_MAYUSCULA("debe tener al menos una mayúscula");
+
+    private final String descripcion;
+    ReglaDeContrasenia(String descripcion) { this.descripcion = descripcion; }
+    public String descripcion() { return descripcion; }
+}
+
+
+public class ContraseniaInvalidaException extends RuntimeException {
+    private final ReglaDeContrasenia regla;
+
+    public ContraseniaInvalidaException(ReglaDeContrasenia regla) {
+        super("contraseña inválida: " + regla.descripcion());
+        this.regla = regla;
+    }
+
+    public ReglaDeContrasenia regla() { return regla; }
+}</code></pre>
+<pre><code class="java">public static void validar(String contrasenia) {
+    Objects.requireNonNull(contrasenia, "la contraseña no puede ser null");
+
+    if (contrasenia.length() &lt; 8) {
+        throw new ContraseniaInvalidaException(ReglaDeContrasenia.LARGO_MINIMO);
+    }
+
+    boolean tieneDigito = false, tieneMayuscula = false;
+    for (char c : contrasenia.toCharArray()) {  // un solo recorrido para las dos reglas
+        if (Character.isDigit(c))      { tieneDigito = true; }
+        if (Character.isUpperCase(c))  { tieneMayuscula = true; }
+    }
+
+    if (!tieneDigito) {
+        throw new ContraseniaInvalidaException(ReglaDeContrasenia.FALTA_DIGITO);
+    }
+    if (!tieneMayuscula) {
+        throw new ContraseniaInvalidaException(ReglaDeContrasenia.FALTA_MAYUSCULA);
+    }
+}</code></pre>
+<p><strong>Por qué un <code class="inl">enum</code> adentro de la excepción</strong> y no sólo un mensaje: el mensaje es para el humano, el <code class="inl">enum</code> es para el programa. Con él, quien captura puede <strong>decidir según la regla</strong> (resaltar un campo, contar cuál falla más) sin andar comparando cadenas — que es frágil y se rompe apenas cambiás una palabra.</p>
+<p>Este ejercicio junta casi toda la unidad: <code class="inl">enum</code> con atributo y constructor, excepción propia que lleva datos, <code class="inl">Character</code>, recorrido de <code class="inl">String</code> y validación temprana. Es un buen cierre porque ninguna pieza es difícil sola — lo que se evalúa es <strong>hacerlas convivir</strong>.</p>
+<pre><code class="java">@Test void contraseniaValida() {
+    assertDoesNotThrow(() -&gt; validar("Segura123"));
+}
+
+@Test void cadaReglaSeInformaPorSeparado() {
+    ContraseniaInvalidaException corta = assertThrows(ContraseniaInvalidaException.class,
+                                                      () -&gt; validar("Ab1"));
+    assertEquals(ReglaDeContrasenia.LARGO_MINIMO, corta.regla());
+
+    ContraseniaInvalidaException sinDigito = assertThrows(ContraseniaInvalidaException.class,
+                                                          () -&gt; validar("SinNumeros"));
+    assertEquals(ReglaDeContrasenia.FALTA_DIGITO, sinDigito.regla());
+
+    ContraseniaInvalidaException sinMayus = assertThrows(ContraseniaInvalidaException.class,
+                                                         () -&gt; validar("minusculas1"));
+    assertEquals(ReglaDeContrasenia.FALTA_MAYUSCULA, sinMayus.regla());
+}</code></pre>
+<div class="ex-note">Una variante que vale la pena pensar: en vez de cortar en la primera regla que falla, <b>juntar todas</b> y reportarlas de una (una lista de reglas incumplidas). Es lo que hace cualquier formulario web decente — nadie quiere corregir de a un error por vez.</div>
+</div>
+  </div>
+</div>
+
+<h3 id="sgen"><span class="num">1B.32</span>Generador de ejercicios</h3>
 
 <p>Elegí un tipo y una dificultad. En «¿Qué imprime?» escribí exactamente lo que aparecería en la consola; si el programa no compila o lanza una excepción, escribí <code class="inl">no compila</code> o el nombre de la excepción.</p>
 
@@ -3963,7 +4648,7 @@ class CuentaBancariaTest {
   </div>
 </div>
 
-<h3 id="s1b32"><span class="num">1B.32</span>Autoevaluación</h3>
+<h3 id="squiz"><span class="num">1B.33</span>Autoevaluación</h3>
 
 <p>Doce preguntas sobre toda la unidad. Elegí una opción y se corrige al instante, con la explicación.</p>
 
@@ -4011,7 +4696,7 @@ var DICT = [
 {k:"Write Once, Run Anywhere",d:"La promesa histórica de Java: compilás una sola vez a bytecode y el mismo .class corre en cualquier sistema que tenga una JVM.",v:["Write Once, Run Anywhere","WORA"],c:"Escribilo una vez, correlo donde quieras."},
 {k:"LTS",d:"Long-Term Support. Versión de Java con soporte de largo plazo, que sale cada dos años. Java 25 (septiembre 2025) es la del curso.",v:["LTS","Long-Term Support"]},
 {k:"applet",d:"Pequeño programa Java que corría dentro del navegador. Popularizó el lenguaje en los 90; hoy está discontinuado.",v:["applet","applets"]},
-{k:"TIOBE",d:"Índice que mide la popularidad de los lenguajes de programación. En enero de 2026 Java estaba 3.º con 8,71 %."},
+{k:"TIOBE",d:"Índice que mide la popularidad de los lenguajes de programación — búsquedas, cursos y avisos laborales, no calidad. En agosto de 2026 Java estaba 4.º con 8,25 %."},
 {k:"clase",d:"El molde a partir del cual se crean objetos. Define qué datos (campos) y qué comportamiento (métodos) tendrán. Debe llamarse igual que el archivo .java.",v:["clase","clases"],c:"El plano; el objeto es la casa construida con ese plano."},
 {k:"objeto",d:"Una instancia concreta de una clase, creada con new. Combina estado (sus datos) y comportamiento (sus métodos).",v:["objeto","objetos"]},
 {k:"método",d:"Una función asociada a una clase. Se declara con tipo de retorno, nombre y parámetros.",v:["método","métodos"]},

@@ -150,7 +150,6 @@ a.ext{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--ac
 .box.git{border-color:#2c6349;}        .box.git .bh{background:#173b2c;color:#7fddb4;}
 .box.ia{border-color:#256b68;}         .box.ia .bh{background:#123f3d;color:#6fdedb;}
 .box.nota{border-color:#5c4a1e;}       .box.nota .bh{background:#3a2f12;color:#f0cd7a;}
-.box.repaso{border-color:#1f5a56;}     .box.repaso .bh{background:#123f3d;color:#6fdedb;}
 
 /* ---------- Código ---------- */
 pre{
@@ -648,6 +647,8 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#s343" class="sub2"><span class="n">3.4.3</span>Polimorfismo</a>
   <a href="#s35"><span class="n">3.5</span>Composición</a>
   <a href="#s36"><span class="n">3.6</span>Interfaces</a>
+  <a href="#s361" class="sub2"><span class="n">3.6.1</span>Usar la interfaz</a>
+  <a href="#s362" class="sub2"><span class="n">3.6.2</span>Intercambiar implementaciones</a>
   <a href="#s37"><span class="n">3.7</span>Clases abstractas</a>
   <a href="#s38"><span class="n">3.8</span>Los métodos estándar</a>
   <a href="#s39"><span class="n">3.9</span>Genéricos</a>
@@ -834,27 +835,6 @@ p.tope();            // "a"   — quedó el primero de todos</code></pre>
 
 <h3 id="s33"><span class="num">3.3</span>Clases y objetos</h3>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Variables, tipos y <code class="inl">this</code> (base de toda clase)</div>
-  <div class="bb">
-    <ul>
-      <li><b>Una variable se declara con su TIPO adelante</b> la primera vez: <code class="inl">int x = 5;</code>, <code class="inl">String nombre = "Ana";</code>, <code class="inl">double p = 3.5;</code>. Si le ponés el valor equivocado de tipo, no compila.</li>
-      <li><b><code class="inl">return</code> espera un VALOR</b> (una cuenta, una variable, un texto…), no una declaración. Si querés usar una variable, la declarás en una línea y en el <code class="inl">return</code> ponés solo su nombre.</li>
-      <li><b>Un atributo</b> es un dato que el objeto guarda (privado); <b>un método</b> es una acción. Se accede al atributo con <code class="inl">this.x</code> ("mi propio x").</li>
-      <li><b>El constructor</b> recibe valores y los guarda en los atributos: <code class="inl">this.x = x;</code> (a la izquierda el atributo, a la derecha el parámetro).</li>
-    </ul>
-<pre>public class Punto {
-    private int x;              <span class="cm">// atributo (dato privado)</span>
-    public Punto(int x) {       <span class="cm">// constructor: recibe un valor…</span>
-        this.x = x;             <span class="cm">// …y lo guarda en el atributo</span>
-    }
-    public int getX() {         <span class="cm">// método (acción)</span>
-        return x;               <span class="cm">// return devuelve un VALOR</span>
-    }
-}</pre>
-  </div>
-</div>
-
 <p>En POO, una <strong>clase</strong> es un <em>molde</em> que define un <strong>estado</strong> (los datos, en campos) y un <strong>comportamiento</strong> (los métodos). Un <strong>objeto</strong> es una <em>instancia</em> concreta de esa clase, creada con <code class="inl">new</code>, con sus propios valores.</p>
 
 <figure>
@@ -914,29 +894,6 @@ p.tope();            // "a"   — quedó el primero de todos</code></pre>
 <p>La palabra <code class="inl">this</code> se refiere al <strong>objeto actual</strong>; el <strong>constructor</strong> es el método especial que prepara un objeto recién creado.</p>
 
 <h3 id="s34"><span class="num">3.4</span>Los pilares de la POO</h3>
-
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Herencia: <code class="inl">extends</code>, <code class="inl">super</code>, <code class="inl">@Override</code></div>
-  <div class="bb">
-<pre>public class Gerente extends Empleado {   <span class="cm">// HEREDA de Empleado ("Gerente ES-UN Empleado")</span>
-    private final double bono;
-    public Gerente(String n, double base, double bono) {
-        super(n, base);          <span class="cm">// llama al constructor de la clase madre</span>
-        this.bono = bono;
-    }
-    @Override                    <span class="cm">// REDEFINE un metodo heredado (sobrescritura)</span>
-    public double sueldo() {
-        return super.sueldo() + bono;   <span class="cm">// reutiliza el de la madre y le suma algo</span>
-    }
-}</pre>
-    <ul>
-      <li><b><code class="inl">extends</code></b> = heredar (recibís atributos y métodos de la clase madre). Regla: usalo cuando "X <b>es-un</b> Y".</li>
-      <li><b><code class="inl">@Override</code></b> = redefinís un método heredado. Va SIEMPRE en los métodos estándar (<code class="inl">toString</code>, <code class="inl">equals</code>, <code class="inl">compareTo</code>…) porque los heredás de <code class="inl">Object</code> o de una interfaz.</li>
-      <li><b><code class="inl">super(...)</code></b> = el constructor de la madre; <b><code class="inl">super.metodo()</code></b> = la versión de la madre (para reutilizarla).</li>
-      <li><b><code class="inl">private</code></b> = solo la propia clase lo ve; <b><code class="inl">public</code></b> = todos; <b><code class="inl">protected</code></b> = la clase y sus subclases. Los <b>atributos</b> casi siempre <code class="inl">private</code>.</li>
-    </ul>
-  </div>
-</div>
 
 <p>Sobre la abstracción se apoyan tres pilares que vas a usar constantemente.</p>
 
@@ -1249,30 +1206,79 @@ public class Circulo implements Figura {
     @Override public double perimetro() { return 2 * Math.PI * radio; }
 }</code></pre>
 
-<p>Notá que la interfaz <strong>no le impone a <code class="inl">Circulo</code> cómo calcular</strong>: sólo lo obliga a tener <code class="inl">area()</code> y <code class="inl">perimetro()</code>. Un <code class="inl">Rectangulo</code> cumple el mismo contrato con fórmulas totalmente distintas, y el código que trabaja con <code class="inl">Figura</code> los trata a todos por igual.</p>
+<p>Notá que la interfaz <strong>no le impone a <code class="inl">Circulo</code> cómo calcular</strong>: sólo lo obliga a tener <code class="inl">area()</code> y <code class="inl">perimetro()</code>. Un <code class="inl">Rectangulo</code> cumple el mismo contrato con fórmulas totalmente distintas:</p>
 
-<p>Las interfaces admiten métodos <code class="inl">default</code> (con implementación) para casos puntuales, pero su rol principal es <strong>especificar qué</strong>, dejando el <strong>cómo</strong> a cada implementación.</p>
+<pre><code class="java">public class Rectangulo implements Figura {
+    private final double base;
+    private final double altura;
+
+
+    public Rectangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
+
+    @Override public double area()      { return base * altura; }
+    @Override public double perimetro() { return 2 * (base + altura); }
+}</code></pre>
+
+<p>Y el código que trabaja con <code class="inl">Figura</code> los trata a todos por igual, sin saber cuál le tocó.</p>
+
+<h4 id="s361"><span class="num">3.6.1</span>Usar la interfaz: un solo código para todas las implementaciones</h4>
+
+<p>Declarar el contrato es <strong>la mitad de la historia</strong>; el valor aparece al usarlo. Tres formas de uso, de menor a mayor potencia:</p>
+
+<p><strong>1. Variables del tipo de la interfaz.</strong> Una variable <code class="inl">Figura</code> puede apuntar a <strong>cualquier</strong> implementación — y se puede cambiar sin tocar el resto del código:</p>
+
+<pre><code class="java">Figura figura = new Circulo(2);               // hoy es un círculo
+System.out.println(figura.area());            // 12.566370614359172
+figura = new Rectangulo(3, 4);                // mañana, un rectángulo: nada más cambia
+System.out.println(figura.area());            // 12.0</code></pre>
+
+<p><strong>2. Parámetros del tipo de la interfaz.</strong> Un método que recibe <code class="inl">Figura</code> funciona con todas las figuras que existen… y con las que se inventen después. Se escribe <strong>una</strong> vez:</p>
+
+<pre><code class="java">static void describir(Figura figura) {        // sirve para CUALQUIER figura
+    System.out.println("área " + figura.area() + ", perímetro " + figura.perimetro());
+}
+
+
+describir(new Circulo(1));                    // área 3.14..., perímetro 6.28...
+describir(new Rectangulo(2, 5));              // área 10.0, perímetro 14.0</code></pre>
+
+<p><strong>3. Arreglos (y después colecciones) de la interfaz.</strong> Implementaciones distintas conviven en la misma estructura, y el <strong>polimorfismo</strong> hace que cada una responda a su manera:</p>
+
+<pre><code class="java">Figura[] figuras = { new Circulo(2), new Rectangulo(3, 4), new Circulo(1) };
+double areaTotal = 0;
+for (Figura f : figuras) {
+    areaTotal += f.area();                    // cada figura calcula con SU fórmula
+}
+System.out.println(areaTotal);                // 27.707963267948966</code></pre>
 
 <h4 id="s362"><span class="num">3.6.2</span>Otro dominio, mismo poder: intercambiar implementaciones</h4>
 
-<p>Para que no quede pegado a la geometría, un contrato de la vida real: "algo que sabe avisar". Y una clase que lo <b>usa</b> dependiendo de la interfaz —nunca de una implementación concreta:</p>
+<p>Para que no quede pegado a la geometría, un contrato de la vida real: “algo que sabe avisar”. Y una clase que lo <strong>usa</strong> dependiendo de la interfaz — <strong>nunca de una implementación concreta</strong>:</p>
 
-<div class="filelabel">material/i03_poo/Notificador.java · RecordatorioDeEntrega.java</div>
 <pre><code class="java">public interface Notificador {
     void notificar(String mensaje);
-    default void notificarUrgente(String mensaje) {   // método default: cómo común
+
+
+    default void notificarUrgente(String mensaje) {      // método default: cómo común
         notificar("¡URGENTE! " + mensaje);
     }
 }
 
+
 public class RecordatorioDeEntrega {
-    private final Notificador notificador;   // depende del CONTRATO, no del cómo
+    private final Notificador notificador;       // depende del CONTRATO, no del cómo
     private final String materia;
 
     public RecordatorioDeEntrega(Notificador notificador, String materia) {
         this.notificador = notificador;
         this.materia = materia;
     }
+
+
     public void avisarEntrega(String tp, int diasQueFaltan) {
         if (diasQueFaltan == 0) {
             notificador.notificarUrgente(materia + ": ¡" + tp + " vence HOY!");
@@ -1282,26 +1288,31 @@ public class RecordatorioDeEntrega {
     }
 }</code></pre>
 
-<p>En el repo hay dos implementaciones: <code class="inl">NotificadorPorConsola</code> (imprime) y <code class="inl">NotificadorEnMemoria</code> (no imprime nada: acumula los mensajes para inspeccionarlos). La misma <code class="inl">RecordatorioDeEntrega</code> funciona con ambas, sin tocarle una línea:</p>
+<p>En el repo hay dos implementaciones: <code class="inl">NotificadorPorConsola</code> (imprime) y <code class="inl">NotificadorEnMemoria</code> (no imprime nada: acumula los mensajes para poder inspeccionarlos). La misma <code class="inl">RecordatorioDeEntrega</code> funciona con ambas, <strong>sin tocarle una línea</strong>:</p>
 
 <pre><code class="java">// con una implementación...
 RecordatorioDeEntrega porConsola =
-        new RecordatorioDeEntrega(new NotificadorPorConsola(), "CB100");
-porConsola.avisarEntrega("TP individual", 3);   // [consola] CB100: TP individual vence en 3 días
+          new RecordatorioDeEntrega(new NotificadorPorConsola(), "CB100");
+porConsola.avisarEntrega("TP individual", 3);     // [consola] CB100: TP individual vence en 3 días
+
 
 // ...y con OTRA: RecordatorioDeEntrega ni se enteró del cambio
 NotificadorEnMemoria memoria = new NotificadorEnMemoria();
 RecordatorioDeEntrega paraTest = new RecordatorioDeEntrega(memoria, "CB100");
 paraTest.avisarEntrega("TP grupal", 7);
 paraTest.avisarEntrega("TP grupal", 0);
-System.out.println(memoria.cantidadDeAvisos());   // 2</code></pre>
+System.out.println(memoria.cantidadDeAvisos());    // 2</code></pre>
 
-<p>¿Y para qué querría alguien un notificador que no notifica? Para los <b>tests</b>: enchufás la implementación en memoria, ejercitás tu clase, y verificás qué avisos salieron —sin llenar la consola ni mandar nada de verdad. Este truco (una implementación "de mentira" que cumple el contrato) es moneda corriente en la industria, y funciona únicamente porque <code class="inl">RecordatorioDeEntrega</code> depende de la interfaz.</p>
+<p>¿Y para qué querría alguien un notificador que <strong>no notifica</strong>? Para los <strong>tests</strong>: enchufás la implementación en memoria, ejercitás tu clase, y verificás qué avisos salieron — sin llenar la consola ni mandar nada de verdad. Este truco (una implementación “de mentira” que cumple el contrato) es moneda corriente en la industria, y funciona únicamente porque <code class="inl">RecordatorioDeEntrega</code> <strong>depende de la interfaz</strong>.</p>
 
 <div class="box idea">
   <div class="bh">Idea clave</div>
-  <div class="bb"><p>Programá <b>contra el contrato, no contra la implementación</b>. Atributos, parámetros y retornos declarados por la interfaz (<code class="inl">Figura</code>, <code class="inl">Notificador</code>); la implementación concreta aparece SOLO en el <code class="inl">new</code>. Beneficio doble: podés cambiar el <em>cómo</em> sin tocar a los usuarios, y podés testear con implementaciones falsas. Vas a ver esta idea a escala en la U5 (la interfaz <code class="inl">Lista</code> con dos implementaciones) y en cada TDA del curso.</p></div>
+  <div class="bb">
+    <p><strong>Programá contra el contrato, no contra la implementación.</strong> Atributos, parámetros y retornos declarados por la interfaz (<code class="inl">Figura</code>, <code class="inl">Notificador</code>) — la implementación concreta aparece <strong>sólo en el <code class="inl">new</code></strong>. Beneficio doble: podés cambiar el <em>cómo</em> sin tocar a los usuarios, y podés testear con implementaciones falsas. Vas a ver esta idea a escala en la U5 (la interfaz <code class="inl">Lista</code> con dos implementaciones) y en cada TDA del curso.</p>
+  </div>
 </div>
+
+<p>Las interfaces admiten métodos <code class="inl">default</code> (con implementación heredable, como <code class="inl">notificarUrgente</code>) para dar comportamiento común, pero su rol principal es <strong>especificar qué</strong>, dejando el <strong>cómo</strong> a cada implementación.</p>
 
 <h3 id="s37"><span class="num">3.7</span>Clases y métodos abstractos</h3>
 
@@ -1340,23 +1351,6 @@ System.out.println(memoria.cantidadDeAvisos());   // 2</code></pre>
 
 <h3 id="s38"><span class="num">3.8</span>Los métodos estándar</h3>
 
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · Armar un texto con <code class="inl">+</code> (para el <code class="inl">toString</code>)</div>
-  <div class="bb">
-    <p>El <code class="inl">toString</code> arma un texto pegando pedazos con <code class="inl">+</code>. Hay <b>dos tipos de pedazos</b>:</p>
-    <ul>
-      <li><b>Texto fijo</b> → va <b>entre comillas</b> <code class="inl">" "</code>. Las comillas marcan "esto es literal" y <b>no se imprimen</b>.</li>
-      <li><b>Valores</b> → son las <b>variables</b>, <b>SIN comillas</b> (así usan el valor real, no la palabra escrita).</li>
-    </ul>
-<pre>  <span class="cm">// código (con comillas en lo fijo, variables afuera):</span>
-  return <span class="st">"Persona{nombre="</span> + nombre + <span class="st">", edad="</span> + edad + <span class="st">"}"</span>;
-
-  <span class="cm">// resultado al correr (con nombre="Ana", edad=30 — las comillas NO salen):</span>
-  Persona{nombre=Ana, edad=30}</pre>
-    <div class="bb" style="padding:0"><p style="margin:0"><b>Trampa típica:</b> si ponés el nombre <em>adentro</em> de las comillas (<code class="inl">"...Ana..."</code>), queda fijo y <b>toda</b> persona diría "Ana". El valor real solo lo tomás usando la <b>variable</b> afuera de las comillas.</p></div>
-  </div>
-</div>
-
 <p>Casi toda clase de “valor” implementa algunos métodos que Java y sus bibliotecas esperan encontrar:</p>
 
 <ul>
@@ -1366,26 +1360,6 @@ System.out.println(memoria.cantidadDeAvisos());   // 2</code></pre>
   <li><code class="inl">compareTo(...)</code> (de <code class="inl">Comparable</code>) — define el <strong>orden natural</strong>, para poder ordenar.</li>
   <li><code class="inl">clone()</code> — una copia del objeto; en la práctica se prefiere un <strong>constructor copia</strong>, porque <code class="inl">clone</code> es delicado (copia superficial y diseño discutido).</li>
 </ul>
-
-<div class="box repaso">
-  <div class="bh">🔁 Repaso rápido · La receta de <code class="inl">equals</code> y <code class="inl">hashCode</code></div>
-  <div class="bb">
-<pre>@Override public boolean equals(Object o) {
-    if (this == o) return true;                       <span class="cm">// 1) mismo objeto → true</span>
-    if (o == null || getClass() != o.getClass())      <span class="cm">// 2) null u otra clase → false</span>
-        return false;
-    Punto otro = (Punto) o;                            <span class="cm">// 3) convertir (cast) y…</span>
-    return x == otro.x &amp;&amp; y == otro.y;                 <span class="cm">//    …comparar los campos</span>
-}
-@Override public int hashCode() {
-    return Objects.hash(x, y);                         <span class="cm">// los MISMOS campos que en equals</span>
-}</pre>
-    <ul>
-      <li><b>El contrato:</b> si dos objetos son <code class="inl">equals</code>, <b>deben</b> tener el mismo <code class="inl">hashCode</code>. Por eso ambos usan los mismos campos (acá <code class="inl">x</code> e <code class="inl">y</code>).</li>
-      <li><b><code class="inl">compareTo</code></b> (para ordenar): devolvé negativo/0/positivo. Te sirven <code class="inl">Integer.compare(a, b)</code> o <code class="inl">Double.compare(a, b)</code>.</li>
-    </ul>
-  </div>
-</div>
 
 <div class="filelabel">material/i03_poo/Fraccion.java</div>
 <pre><code class="java">public final class Fraccion implements Comparable&lt;Fraccion&gt; {
