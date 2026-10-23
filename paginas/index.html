@@ -304,14 +304,14 @@ const BASE = "../" + REL;                                        // relativo a p
 
 const units = [
   {n:1, id:"i01_intro",       name:"Introducción al Lenguaje",        wk:"Sem 1–2", page:"clase_1_y_2/clase_1_y_2.html", mat:27, fac:10, med:12, dif:13},
-  {n:2, id:"i02_memoria",     name:"Memoria: Valores y Referencias",  wk:"Sem 3",   page:"clase_3/clase_3.html",         mat:22, fac:10, med:10, dif:15},
-  {n:3, id:"i03_poo",         name:"Abstracción, TDA y POO",          wk:"Sem 4",   page:"clase_4/clase_4.html",         mat:15, fac:15, med:17, dif:19},
+  {n:2, id:"i02_memoria",     name:"Memoria: Valores y Referencias",  wk:"Sem 3",   page:"clase_3_y_4/clase_3_y_4.html", mat:22, fac:10, med:10, dif:15},
+  {n:3, id:"i03_poo",         name:"Abstracción, TDA y POO",          wk:"Sem 4",   page:"clase_5_y_6/clase_5_y_6.html", page2:"clase_7_y_8/clase_7_y_8.html", page2txt:"U3B · Stack y heap", mat:15, fac:15, med:17, dif:19},
   {n:4, id:"i04_complejidad", name:"Complejidad Computacional",       wk:"Sem 8–9", page:"clase_9_y_10/clase_9_y_10.html", mat:7,  fac:10, med:10, dif:10},
   {n:5, id:"i05_lineales",    name:"Estructuras Lineales",            wk:"Sem 5–7", page:"clase_11_y_12/CB100-U5-Estructuras-lineales.html", mat:12, fac:10, med:20, dif:20},
   {n:6, id:"i06_estrategias", name:"División y Conquista",            wk:"Sem 3",   page:"clase_13_y_14/CB100-U6-Estrategias.html", mat:6,  fac:10, med:10, dif:11},
   {n:7, id:"i07_hashing",     name:"Diccionarios y Hashing",          wk:"Sem 12",  page:"clase_15_y_16/CB100-U7-Hashing.html", mat:6,  fac:10, med:10, dif:11},
   {n:8, id:"i08_arboles",     name:"Árboles, ABB y AVL",              wk:"Sem 10–11",page:"clase_17_y_18/CB100-U8-Arboles.html",mat:4,  fac:10, med:20, dif:12},
-  {n:9, id:"i09_heaps",       name:"Heaps y Colas de Prioridad",      wk:"Sem 12",  page:null, mat:4,  fac:10, med:13, dif:10},
+  {n:9, id:"i09_heaps",       name:"Heaps y Colas de Prioridad",      wk:"Sem 09",  page:"clase_19_y_20/CB100-U9-Heaps.html", mat:4,  fac:10, med:13, dif:10},
   {n:10,id:"i10_tecnicas",    name:"Técnicas Algorítmicas",           wk:"Sem 14–15",page:null,mat:5,  fac:11, med:10, dif:10},
   {n:11,id:"i11_grafos",      name:"Grafos",                          wk:"Sem 13–15",page:null,mat:10, fac:10, med:10, dif:10},
   {n:12,id:"i12_profesional", name:"Java Profesional",                wk:"Transversal",page:null,mat:5, fac:10, med:10, dif:10},
@@ -418,9 +418,10 @@ function renderGrid(){
     const {pct} = unitPct(u);
     const card = document.createElement("div");
     card.className = "card" + (pct===100 ? " done":"");
-    const pageBtn = u.page
+    const pageBtn = (u.page
       ? `<a class="lnk page" href="${u.page}" target="_blank">📖 Página de estudio</a>`
-      : `<span class="lnk page disabled">📖 Página · pendiente</span>`;
+      : `<span class="lnk page disabled">📖 Página · pendiente</span>`)
+      + (u.page2 ? ` <a class="lnk page" href="${u.page2}" target="_blank">📖 ${u.page2txt}</a>` : '');
     card.innerHTML = `
       <div class="head">
         <div class="unum">${u.n}</div>

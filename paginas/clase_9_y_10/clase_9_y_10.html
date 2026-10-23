@@ -629,6 +629,9 @@ sub,sup{font-size:.72em;line-height:0}
 
 /* ===== pasos de expansión ===== */
 .expan{counter-reset:paso;margin:18px 0}
+.box details{margin:10px 0;padding:8px 12px;border:1px solid var(--bd);border-radius:8px}
+.box details summary{cursor:pointer}
+.expan .box{margin:14px 0 14px 14px}
 .expan .p{position:relative;padding:12px 16px 12px 46px;border-left:2px solid var(--bd);margin-left:14px}
 .expan .p:before{counter-increment:paso;content:counter(paso);position:absolute;left:-15px;top:12px;
   width:28px;height:28px;border-radius:50%;background:var(--bg-3);border:1px solid var(--bd-str);
@@ -692,18 +695,23 @@ sub,sup{font-size:.72em;line-height:0}
   <a href="#s9"><span class="n">4.9</span>Teorema Maestro por división</a>
   <a href="#s91" class="sub2"><span class="n">4.9.1</span>Los tres casos en el árbol</a>
 
+  <a href="#s10"><span class="n">4.10</span>Ejemplo por los dos caminos</a>
+  <a href="#s101" class="sub2"><span class="n">4.10.1</span>Camino A: expansión</a>
+  <a href="#s102" class="sub2"><span class="n">4.10.2</span>Camino B: Teorema Maestro</a>
+  <a href="#s103" class="sub2"><span class="n">4.10.3</span>Otras variantes</a>
+
   <div class="sb-group">Aplicaciones</div>
-  <a href="#s10"><span class="n">4.10</span>Algoritmos estándar</a>
-  <a href="#s11"><span class="n">4.11</span>Aplicar a lo que ya hicimos</a>
-  <a href="#s12"><span class="n">4.12</span>Complejidad amortizada</a>
-  <a href="#s121" class="sub2"><span class="n">4.12.1</span>Duplicar la capacidad</a>
-  <a href="#s122" class="sub2"><span class="n">4.12.2</span>¿Y si agrandamos de a 1?</a>
-  <a href="#s13"><span class="n">4.13</span>Medición empírica vs teórica</a>
+  <a href="#s11"><span class="n">4.11</span>Algoritmos estándar</a>
+  <a href="#s12"><span class="n">4.12</span>Aplicar a lo que ya hicimos</a>
+  <a href="#s13"><span class="n">4.13</span>Complejidad amortizada</a>
+  <a href="#s131" class="sub2"><span class="n">4.13.1</span>Duplicar la capacidad</a>
+  <a href="#s132" class="sub2"><span class="n">4.13.2</span>¿Y si agrandamos de a 1?</a>
+  <a href="#s14"><span class="n">4.14</span>Medición empírica vs teórica</a>
 
   <div class="sb-group">Cierre</div>
-  <a href="#s14"><span class="n">4.14</span>Ejemplo integrador</a>
-  <a href="#s15"><span class="n">4.15</span>Errores comunes</a>
-  <a href="#s16"><span class="n">4.16</span>Repaso</a>
+  <a href="#s15"><span class="n">4.15</span>Ejemplo integrador</a>
+  <a href="#s16"><span class="n">4.16</span>Errores comunes</a>
+  <a href="#s17"><span class="n">4.17</span>Repaso</a>
 
   <div class="sb-group">Laboratorios</div>
   <a href="#lab-crece"><span class="n">L1</span>Comparador de órdenes</a>
@@ -713,14 +721,14 @@ sub,sup{font-size:.72em;line-height:0}
   <a href="#lab-amort"><span class="n">L5</span>Vector dinámico</a>
 
   <div class="sb-group">Guía de ejercicios</div>
-  <a href="#gteo"><span class="n">4.17</span>Preguntas teóricas</a>
-  <a href="#gfacil"><span class="n">4.18</span>Nivel fácil (1–10)</a>
-  <a href="#gmedio"><span class="n">4.19</span>Nivel medio (1–10)</a>
-  <a href="#gdificil"><span class="n">4.20</span>Nivel difícil (1–10)</a>
+  <a href="#gteo"><span class="n">4.18</span>Preguntas teóricas</a>
+  <a href="#gfacil"><span class="n">4.19</span>Nivel fácil (1–10)</a>
+  <a href="#gmedio"><span class="n">4.20</span>Nivel medio (1–10)</a>
+  <a href="#gdificil"><span class="n">4.21</span>Nivel difícil (1–10)</a>
 
   <div class="sb-group">Práctica</div>
-  <a href="#s421"><span class="n">4.21</span>Generador de ejercicios</a>
-  <a href="#s422"><span class="n">4.22</span>Autoevaluación</a>
+  <a href="#s422"><span class="n">4.22</span>Generador de ejercicios</a>
+  <a href="#s423"><span class="n">4.23</span>Autoevaluación</a>
 
   <div class="sb-group">Extras</div>
   <a href="#glosario"><span class="n">§</span>Glosario</a>
@@ -1156,6 +1164,43 @@ for (int i = 1; i &lt; n; i *= 2) {
     </table>
     </div>
   </div>
+
+<div class="box nota">
+  <div class="bh">Definición · las cuentas con logaritmos</div>
+  <div class="bb">
+    <p>Las cuentas con logaritmos que hacen falta en el paso final. Son pocas, y son siempre las mismas. <span class="mth">log<sub>b</sub> x</span> es “<strong>a qué exponente hay que elevar <span class="mth">b</span> para obtener <span class="mth">x</span></strong>”; de esa definición salen todas:</p>
+    <div class="tw">
+    <table>
+      <thead><tr><th class="l">Identidad</th><th class="l">Por qué</th><th class="l">Dónde aparece</th></tr></thead>
+      <tbody>
+        <tr><td class="l"><span class="mth">log<sub>b</sub> b = 1</span></td><td class="l"><span class="mth">b<sup>1</sup> = b</span>. Si la base y el argumento son iguales, siempre da 1.</td><td class="l"><span class="mth">log<sub>2</sub> 2 = 1</span>: la exponente crítica de <span class="mth">2T(n/2)</span> es <span class="mth">n<sup>1</sup> = n</span></td></tr>
+        <tr><td class="l"><span class="mth">log<sub>b</sub> 1 = 0</span></td><td class="l"><span class="mth">b<sup>0</sup> = 1</span></td><td class="l"><span class="mth">log<sub>2</sub> 1 = 0</span>: la de <span class="mth">T(n/2) + 1</span> es <span class="mth">n<sup>0</sup> = 1</span></td></tr>
+        <tr><td class="l"><span class="mth">log<sub>2</sub> 2 = 1</span>, <span class="mth">log<sub>2</sub> 4 = 2</span>, <span class="mth">log<sub>2</sub> 8 = 3</span>, <span class="mth">log<sub>2</sub> 16 = 4</span></td><td class="l"><span class="mth">2<sup>1</sup>, 2<sup>2</sup>, 2<sup>3</sup>, 2<sup>4</sup></span></td><td class="l"><span class="mth">log<sub>2</sub> 8 = 3</span>: la de <span class="mth">8T(n/2)</span> es <span class="mth">n<sup>3</sup></span></td></tr>
+        <tr><td class="l"><span class="mth">b<sup>k</sup> = n ⟺ k = log<sub>b</sub> n</span></td><td class="l">es la definición, leída al revés</td><td class="l">despejar <span class="mth">k</span> en el caso base</td></tr>
+        <tr><td class="l"><span class="mth">b<sup>log<sub>b</sub> n</sup> = n</span></td><td class="l">elevar y tomar logaritmo se cancelan</td><td class="l"><span class="mth">2<sup>k</sup></span> con <span class="mth">k = log<sub>2</sub> n</span> vale <span class="mth">n</span></td></tr>
+        <tr><td class="l"><span class="mth">a<sup>log<sub>b</sub> n</sup> = n<sup>log<sub>b</sub> a</sup></span></td><td class="l">tomar <span class="mth">log<sub>b</sub></span> de los dos lados</td><td class="l">la cantidad de hojas: <span class="mth">8<sup>log<sub>2</sub> n</sup> = n<sup>log<sub>2</sub> 8</sup> = n<sup>3</sup></span></td></tr>
+        <tr><td class="l"><span class="mth">log<sub>b</sub>(n/b) = log<sub>b</sub> n − 1</span></td><td class="l">el cociente resta</td><td class="l">un nivel menos de recursión</td></tr>
+        <tr><td class="l"><span class="mth">log<sub>b</sub>(n<sup>c</sup>) = c log<sub>b</sub> n</span></td><td class="l">la potencia multiplica</td><td class="l"><span class="mth">log<sub>2</sub> n<sup>2</sup> = 2 log<sub>2</sub> n</span></td></tr>
+        <tr><td class="l"><span class="mth">log<sub>a</sub> n = log<sub>b</sub> n / log<sub>b</sub> a</span></td><td class="l">cambio de base</td><td class="l">por eso en <span class="mth">O(·)</span> la base no importa: cambia una constante</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="margin-top:14px">Y el <strong>despeje de <span class="mth">k</span></strong> según cómo se achica el problema: la expansión termina cuando el argumento de <span class="mth">T</span> llega al caso base, y de esa igualdad se despeja cuántos reemplazos hubo.</p>
+    <div class="tw">
+    <table>
+      <thead><tr><th class="l">El problema se achica…</th><th class="l">Argumento tras <span class="mth">k</span> pasos</th><th class="l">Caso base</th><th class="l">Despeje de <span class="mth">k</span></th></tr></thead>
+      <tbody>
+        <tr><td class="l">dividiendo por 2</td><td class="l"><span class="mth">n/2<sup>k</sup></span></td><td class="l"><span class="mth">n/2<sup>k</sup> = 1</span></td><td class="l"><span class="mth">2<sup>k</sup> = n ⇒ k = log<sub>2</sub> n</span></td></tr>
+        <tr><td class="l">dividiendo por <span class="mth">b</span></td><td class="l"><span class="mth">n/b<sup>k</sup></span></td><td class="l"><span class="mth">n/b<sup>k</sup> = 1</span></td><td class="l"><span class="mth">k = log<sub>b</sub> n</span></td></tr>
+        <tr><td class="l">restando 1</td><td class="l"><span class="mth">n − k</span></td><td class="l"><span class="mth">n − k = 1</span> (ó 0)</td><td class="l"><span class="mth">k = n − 1</span> (ó <span class="mth">n</span>)</td></tr>
+        <tr><td class="l">restando <span class="mth">c</span></td><td class="l"><span class="mth">n − ck</span></td><td class="l"><span class="mth">n − ck = 0</span></td><td class="l"><span class="mth">k = n/c</span></td></tr>
+        <tr><td class="l">con caso base en <span class="mth">n = 2</span></td><td class="l"><span class="mth">n/2<sup>k</sup></span></td><td class="l"><span class="mth">n/2<sup>k</sup> = 2</span></td><td class="l"><span class="mth">2<sup>k</sup> = n/2 ⇒ k = log<sub>2</sub> n − 1</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="margin-top:12px">Con <span class="mth">k</span> despejado, se reemplaza en la fila del patrón y queda <span class="mth">T(n)</span> en función de <span class="mth">n</span> solamente. El resto es tirar constantes y términos menores.</p>
+  </div>
+</div>
   <div class="p"><span class="t">El final</span>
     La expansión termina al llegar al <strong>caso base</strong>: cuando <span class="mth">n/2<sup>k</sup> = 1</span>, o sea cuando <span class="mth">2<sup>k</sup> = n</span>, o sea cuando <span class="mth">k = log<sub>2</sub> n</span>. Sustituimos esos valores en la fila del patrón:
     <div class="eq" style="margin:12px 0">
@@ -1414,7 +1459,156 @@ for (int i = 1; i &lt; n; i *= 2) {
   </div>
 </div>
 
-<h3 id="s10"><span class="num">4.10</span>Complejidad de algoritmos estándar</h3>
+<h3 id="s10"><span class="num">4.10</span>Un ejemplo completo por los dos caminos: <span class="mth">T(n) = 2T(n/2) + n</span></h3>
+
+<p>Para que quede un <strong>modelo de cómo se escribe la resolución entera</strong> (<strong>en el parcial se pide así: cada paso, no el resultado</strong>), resolvemos la recurrencia de Mergesort dos veces, por expansión y por Teorema Maestro, numerando cada paso y diciendo de dónde sale cada cuenta. Las dos tienen que dar lo mismo; si no dan, hay un error en alguna.</p>
+
+<div class="eq"><span class="mth">T(n) = 2 T(n/2) + n, &nbsp;&nbsp; T(1) = 1</span></div>
+
+<p><strong>Qué dice la ecuación, antes de resolverla:</strong> para un problema de tamaño <span class="mth">n</span> se hacen <strong>dos llamadas recursivas</strong>, cada una sobre <strong>la mitad</strong> del tamaño, y además un <strong>trabajo lineal <span class="mth">n</span></strong> (en Mergesort, el mezclar). El caso base <span class="mth">T(1) = 1</span> dice que un problema de un elemento cuesta una constante.</p>
+
+<h4 id="s101"><span class="num">4.10.1</span>Camino A: método de expansión</h4>
+
+<div class="expan">
+  <div class="p"><span class="t">Paso 1: el molde</span>
+    La ecuación vale para cualquier tamaño. Reemplazando <span class="mth">n</span> por <span class="mth">n/2</span> en los tres lugares obtengo qué vale <span class="mth">T(n/2)</span>:
+    <div class="eq" style="margin:12px 0"><span class="mth">T(n/2) = 2 T((n/2)/2) + n/2 = <b>2 T(n/4) + n/2</b></span></div>
+  </div>
+  <div class="p"><span class="t">Paso 2: primer reemplazo</span>
+    Meto el molde dentro de la original y <strong>distribuyo el 2</strong> sobre los dos términos del paréntesis:
+    <div class="eq" style="margin:12px 0"><span class="mth">T(n) = 2 ( 2 T(n/4) + n/2 ) + n = 4 T(n/4) + n + n = <b>4 T(n/4) + 2n</b></span></div>
+  </div>
+  <div class="p"><span class="t">Paso 3: segundo reemplazo</span>
+    El molde con <span class="mth">n/4</span>: <span class="mth">T(n/4) = 2 T(n/8) + n/4</span>. Lo meto y distribuyo el 4:
+    <div class="eq" style="margin:12px 0"><span class="mth">T(n) = 4 ( 2 T(n/8) + n/4 ) + 2n = 8 T(n/8) + n + 2n = <b>8 T(n/8) + 3n</b></span></div>
+  </div>
+  <div class="p"><span class="t">Paso 4: tercer reemplazo, para estar seguros del patrón</span>
+    El molde con <span class="mth">n/8</span>: <span class="mth">T(n/8) = 2 T(n/16) + n/8</span>:
+    <div class="eq" style="margin:12px 0"><span class="mth">T(n) = 8 ( 2 T(n/16) + n/8 ) + 3n = 16 T(n/16) + n + 3n = <b>16 T(n/16) + 4n</b></span></div>
+  </div>
+  <div class="p"><span class="t">Paso 5: el patrón</span>
+    Ordeno lo que tengo para ver la regla:
+    <div class="tw" style="margin-top:10px">
+    <table>
+      <thead><tr><th class="l">Reemplazos <span class="mth">k</span></th><th class="l">Coeficiente</th><th class="l">Argumento de <span class="mth">T</span></th><th class="l">Trabajo acumulado</th></tr></thead>
+      <tbody>
+        <tr><td class="l">0</td><td class="l"><span class="mth">1 = 2<sup>0</sup></span></td><td class="l"><span class="mth">n = n/2<sup>0</sup></span></td><td class="l"><span class="mth">0 · n</span></td></tr>
+        <tr><td class="l">1</td><td class="l"><span class="mth">2 = 2<sup>1</sup></span></td><td class="l"><span class="mth">n/2 = n/2<sup>1</sup></span></td><td class="l"><span class="mth">1 · n</span></td></tr>
+        <tr><td class="l">2</td><td class="l"><span class="mth">4 = 2<sup>2</sup></span></td><td class="l"><span class="mth">n/4 = n/2<sup>2</sup></span></td><td class="l"><span class="mth">2 · n</span></td></tr>
+        <tr><td class="l">3</td><td class="l"><span class="mth">8 = 2<sup>3</sup></span></td><td class="l"><span class="mth">n/8 = n/2<sup>3</sup></span></td><td class="l"><span class="mth">3 · n</span></td></tr>
+        <tr><td class="l">4</td><td class="l"><span class="mth">16 = 2<sup>4</sup></span></td><td class="l"><span class="mth">n/16 = n/2<sup>4</sup></span></td><td class="l"><span class="mth">4 · n</span></td></tr>
+        <tr><td class="l"><b><span class="mth">k</span></b></td><td class="l"><b><span class="mth">2<sup>k</sup></span></b></td><td class="l"><b><span class="mth">n/2<sup>k</sup></span></b></td><td class="l"><b><span class="mth">k · n</span></b></td></tr>
+      </tbody>
+    </table>
+    </div>
+    Después de <span class="mth">k</span> reemplazos:
+    <div class="eq" style="margin:12px 0"><span class="mth"><b>T(n) = 2<sup>k</sup> T(n/2<sup>k</sup>) + k n</b></span></div>
+    (Por qué cada columna: el coeficiente se multiplica por 2 en cada reemplazo porque hay <strong>2 llamadas</strong>; el argumento se divide por 2 porque cada llamada es sobre <strong>la mitad</strong>; y el trabajo suma un <span class="mth">n</span> por reemplazo porque el coeficiente <span class="mth">2<sup>j</sup></span> multiplica al trabajo <span class="mth">n/2<sup>j</sup></span> del nivel <span class="mth">j</span> y da exactamente <span class="mth">n</span>.)
+  </div>
+  <div class="p"><span class="t">Paso 6: el caso base</span>
+    La expansión termina cuando el argumento de <span class="mth">T</span> llega a 1, que es donde conozco el valor:
+    <div class="eq" style="margin:12px 0"><span class="mth">n/2<sup>k</sup> = 1</span></div>
+  </div>
+  <div class="p"><span class="t">Paso 7: despejar <span class="mth">k</span></span>
+    Multiplico por <span class="mth">2<sup>k</sup></span> y tomo logaritmo en base 2 de los dos lados, usando la definición (<span class="mth">b<sup>k</sup> = n ⟺ k = log<sub>b</sub> n</span>):
+    <div class="eq" style="margin:12px 0"><span class="mth">2<sup>k</sup> = n &nbsp;⟹&nbsp; <b>k = log<sub>2</sub> n</b></span></div>
+  </div>
+  <div class="p"><span class="t">Paso 8: sustituir en el patrón</span>
+    Reemplazo <span class="mth">k</span> por <span class="mth">log<sub>2</sub> n</span> <strong>en los tres lugares</strong> donde aparece:
+    <div class="eq" style="margin:12px 0"><span class="mth">T(n) = 2<sup>log<sub>2</sub> n</sup> T(1) + (log<sub>2</sub> n) n</span></div>
+    y uso las identidades: <span class="mth">2<sup>log<sub>2</sub> n</sup> = n</span> (elevar y tomar logaritmo se cancelan) y <span class="mth">T(1) = 1</span> (el caso base):
+    <div class="eq" style="margin:12px 0"><span class="mth">T(n) = n · 1 + n log<sub>2</sub> n = n + n log<sub>2</sub> n</span></div>
+  </div>
+  <div class="p"><span class="t">Paso 9: la cota</span>
+    De los dos términos manda el mayor, <span class="mth">n log<sub>2</sub> n</span>; el <span class="mth">n</span> suelto es de orden menor. Y la base del logaritmo es una constante que no importa dentro de <span class="mth">Θ</span>:
+    <div class="eq" style="margin:12px 0"><span class="mth"><b>T(n) = Θ(n log n)</b></span></div>
+  </div>
+</div>
+
+<h4 id="s102"><span class="num">4.10.2</span>Camino B: Teorema Maestro por división</h4>
+
+<div class="expan">
+  <div class="p"><span class="t">Paso 1: identificar <span class="mth">a</span>, <span class="mth">b</span> y <span class="mth">f(n)</span></span>
+    Comparo con el molde <span class="mth">T(n) = a T(n/b) + f(n)</span>:
+    <div class="eq" style="margin:12px 0"><span class="mth">a = 2</span> (dos llamadas), &nbsp;<span class="mth">b = 2</span> (cada una sobre <span class="mth">n/2</span>), &nbsp;<span class="mth">f(n) = n</span> (el trabajo de combinar)</div>
+    Chequeo que se pueda aplicar: <span class="mth">a = 2 ≥ 1</span>, <span class="mth">b = 2 &gt; 1</span>, y la recurrencia <strong>divide, no resta</strong>. Se puede.
+  </div>
+  <div class="p"><span class="t">Paso 2: el exponente crítico</span>
+    Calculo <span class="mth">log<sub>b</sub> a = log<sub>2</sub> 2</span>. Base y argumento iguales: vale 1 (<span class="mth">2<sup>1</sup> = 2</span>). Entonces la función con la que hay que comparar es
+    <div class="eq" style="margin:12px 0"><span class="mth">n<sup>log<sub>b</sub> a</sup> = n<sup>1</sup> = n</span></div>
+  </div>
+  <div class="p"><span class="t">Paso 3: comparar <span class="mth">f(n)</span> con <span class="mth">n<sup>log<sub>b</sub> a</sup></span></span>
+    Tengo <span class="mth">f(n) = n</span> y <span class="mth">n<sup>log<sub>b</sub> a</sup> = n</span>. Son iguales: <span class="mth">f(n) = Θ(n<sup>log<sub>b</sub> a</sup>)</span>. No hay un <span class="mth">ε &gt; 0</span> que haga a <span class="mth">f</span> polinómicamente menor (sería caso 1) ni polinómicamente mayor (sería caso 3): es un <strong>empate</strong>.
+  </div>
+  <div class="p"><span class="t">Paso 4: elegir el caso</span>
+    Empate es el <strong>caso 2</strong>, cuya conclusión es <span class="mth">T(n) = Θ(n<sup>log<sub>b</sub> a</sup> log n)</span>.
+  </div>
+  <div class="p"><span class="t">Paso 5: escribir la respuesta</span>
+    Reemplazando <span class="mth">n<sup>log<sub>b</sub> a</sup></span> por lo que dio:
+    <div class="eq" style="margin:12px 0"><span class="mth"><b>T(n) = Θ(n<sup>1</sup> log n) = Θ(n log n)</b></span></div>
+  </div>
+  <div class="p"><span class="t">Paso 6: verificar</span>
+    Coincide con el camino A. Y coincide con el árbol de recursión (Figura 4.6): <span class="mth">log<sub>2</sub> n</span> niveles que trabajan <span class="mth">n</span> cada uno. Las tres miradas cuentan lo mismo.
+  </div>
+</div>
+
+<h4 id="s103"><span class="num">4.10.3</span>El mismo molde con otro trabajo: dos variantes para fijar los casos</h4>
+
+<p>Lo que cambia entre un caso y otro del teorema es <strong>sólo la comparación del paso 3</strong>. Con la misma recursión (<span class="mth">a = 2</span>, <span class="mth">b = 2</span>, exponente crítico 1):</p>
+
+<ul>
+  <li><span class="mth">T(n) = 2T(n/2) + 1</span> (dos llamadas, trabajo constante). <span class="mth">f(n) = 1 = n<sup>0</sup></span> contra <span class="mth">n<sup>1</sup></span>: <span class="mth">f</span> es polinómicamente <strong>menor</strong> (con <span class="mth">ε = 1</span>, <span class="mth">n<sup>1−1</sup> = n<sup>0</sup> = 1</span>). <strong>Caso 1</strong>: <span class="mth">T(n) = Θ(n<sup>log<sub>b</sub> a</sup>) = Θ(n)</span>. Tiene sentido: el árbol tiene <span class="mth">n</span> hojas que cuestan 1 cada una, y mandan las hojas.</li>
+  <li><span class="mth">T(n) = 2T(n/2) + n²</span>. <span class="mth">f(n) = n²</span> contra <span class="mth">n<sup>1</sup></span>: polinómicamente <strong>mayor</strong> (<span class="mth">ε = 1</span>), y cumple la regularidad (<span class="mth">2(n/2)² = n²/2 ≤ c n²</span> con <span class="mth">c = 1/2</span>). <strong>Caso 3</strong>: <span class="mth">T(n) = Θ(f(n)) = Θ(n²)</span>. Manda la raíz.</li>
+</ul>
+
+<p>Y con <strong>una sola llamada</strong>, para ver el <span class="mth">log<sub>b</sub> 1 = 0</span> en acción:</p>
+
+<ul>
+  <li><span class="mth">T(n) = T(n/2) + 1</span> (búsqueda binaria). <span class="mth">a = 1</span>, <span class="mth">b = 2</span>: <span class="mth">log<sub>2</sub> 1 = 0</span>, así que <span class="mth">n<sup>log<sub>b</sub> a</sup> = n<sup>0</sup> = 1</span>. <span class="mth">f(n) = 1</span> empata: <strong>caso 2</strong>, <span class="mth">T(n) = Θ(n<sup>0</sup> log n) = Θ(log n)</span>. Por expansión: tras <span class="mth">k</span> pasos <span class="mth">T(n) = T(n/2<sup>k</sup>) + k</span>; caso base <span class="mth">n/2<sup>k</sup> = 1 ⇒ k = log<sub>2</sub> n</span>; <span class="mth">T(n) = T(1) + log<sub>2</sub> n = Θ(log n)</span>. Otra vez coinciden.</li>
+</ul>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb">
+    <p><strong>Lo que siempre hay que escribir, en este orden:</strong> (1) la ecuación y el caso base; (2) para <strong>expansión</strong>: molde, dos o tres reemplazos con la distribución explícita, la tabla del patrón, la fórmula con <span class="mth">k</span>, la igualdad del caso base, el despeje de <span class="mth">k</span> con la identidad que usaste, la sustitución y la cota; (3) para el <strong>teorema</strong>: <span class="mth">a</span>, <span class="mth">b</span>, <span class="mth">f(n)</span>, el cálculo de <span class="mth">log<sub>b</sub> a</span> (diciendo si es 0, 1 u otro y por qué), <span class="mth">n<sup>log<sub>b</sub> a</sup></span>, la comparación con <span class="mth">f(n)</span> nombrando el <span class="mth">ε</span> si lo hay, el caso, y la respuesta. Si los dos caminos no coinciden, el error está en <strong>el despeje de <span class="mth">k</span></strong> o en <strong><span class="mth">log<sub>b</sub> a</span></strong>: son los dos lugares donde se equivoca todo el mundo.</p>
+  </div>
+</div>
+
+<div class="box nota">
+  <div class="bh">De la clase del 22/10 (no está en el apunte) · <span class="repo">clases/a2026/c02/s10/Complejidad01–03.png</span></div>
+  <div class="bb">
+    <p>El profe resolvió en el pizarrón tres casos más con el mismo formato. Hacelos vos primero con los pasos de arriba y después compará.</p>
+    <details><summary><strong>1.</strong> <span class="mth">T(n) = 2T(n − 1) + 1</span>, con <span class="mth">T(1) = 1</span> (Hanói) — por expansión</summary>
+      <div class="eq" style="margin:10px 0"><span class="mth">T(n) = 2T(n−1) + 1 = 2<sup>2</sup>T(n−2) + 3 = 2<sup>3</sup>T(n−3) + 7 = 2<sup>4</sup>T(n−4) + 15</span></div>
+      <p>Patrón: <span class="mth">T(n) = 2<sup>k</sup> T(n − k) + (2<sup>k</sup> − 1)</span>. Caso base: <span class="mth">n − k = 1 ⇒ k = n − 1</span> (fila «restando 1» de la tabla de 4.7). Sustituyo: <span class="mth">T(n) = 2<sup>n−1</sup> T(1) + (2<sup>n−1</sup> − 1) = 2<sup>n</sup> − 1</span>, o sea <span class="mth"><b>Θ(2<sup>n</sup>)</b></span>. Coincide con el Teorema por sustracción (<span class="mth">a = 2 &gt; 1</span>: exponencial, 4.8). <strong>Ojo:</strong> acá no se aplica el teorema por división, porque <strong>resta</strong>.</p>
+    </details>
+    <details><summary><strong>2.</strong> <span class="mth">T(n) = T(n/2) + n</span> — por los dos caminos</summary>
+      <p><strong>Teorema:</strong> <span class="mth">a = 1</span>, <span class="mth">b = 2</span>, <span class="mth">f(n) = n</span>. <span class="mth">log<sub>2</sub> 1 = 0</span> ⇒ <span class="mth">n<sup>0</sup> = 1</span>. <span class="mth">f(n) = n</span> es polinómicamente mayor que 1 (<span class="mth">ε = 1</span>) y cumple la regularidad (<span class="mth">1 · (n/2) ≤ c n</span> con <span class="mth">c = 1/2</span>): <strong>caso 3</strong>, <span class="mth">T(n) = Θ(f(n)) = <b>Θ(n)</b></span>.</p>
+      <p><strong>Expansión:</strong> <span class="mth">T(n) = T(n/2<sup>k</sup>) + n(1 + 1/2 + 1/4 + ⋯ + 1/2<sup>k−1</sup>)</span>. La suma geométrica es <span class="mth">&lt; 2</span>, y con <span class="mth">k = log<sub>2</sub> n</span> queda <span class="mth">T(n) &lt; T(1) + 2n = Θ(n)</span>. Coinciden.</p>
+    </details>
+    <details><summary><strong>3.</strong> Un anidado que <strong>no</strong> es <span class="mth">n log n</span></summary>
+<pre><code class="java">for (int i = 1; i &lt; n; i *= 2) {      // i = 1, 2, 4, 8, … , 2^k
+    for (int j = 0; j &lt; i; j++) {     // el interno da i vueltas
+        // O(1)
+    }
+}</code></pre>
+      <p>La tentación es «el externo da <span class="mth">log n</span> vueltas y el interno hasta <span class="mth">n</span> ⇒ <span class="mth">n log n</span>». <strong>Está mal</strong>: el interno no da <span class="mth">n</span> vueltas, da <span class="mth">i</span>, y <span class="mth">i</span> va creciendo. Hay que <strong>sumar</strong> las vueltas de cada iteración externa:</p>
+      <div class="tw"><table>
+        <thead><tr><th class="l">Iteración externa</th><th class="l">Valor de <span class="mth">i</span></th><th class="l">Vueltas del interno</th></tr></thead>
+        <tbody>
+          <tr><td class="l">1</td><td class="l">1</td><td class="l">1</td></tr>
+          <tr><td class="l">2</td><td class="l">2</td><td class="l">2</td></tr>
+          <tr><td class="l">3</td><td class="l">4</td><td class="l">4</td></tr>
+          <tr><td class="l">4</td><td class="l">8</td><td class="l">8</td></tr>
+          <tr><td class="l"><span class="mth">k</span></td><td class="l"><span class="mth">2<sup>k</sup></span></td><td class="l"><span class="mth">2<sup>k</sup></span></td></tr>
+        </tbody>
+      </table></div>
+      <p>Total: <span class="mth">1 + 2 + 4 + ⋯ + 2<sup>k</sup> = 2<sup>k+1</sup> − 1</span> (suma geométrica, la misma de 4.13). Como <span class="mth">2<sup>k</sup> &lt; n</span>, el total es <span class="mth">&lt; 2n</span>: <span class="mth"><b>Θ(n)</b></span>. Visto como recurrencia (la última vuelta trabaja ~<span class="mth">n</span> y el resto es el mismo problema con la mitad): <span class="mth">T(n) = T(n/2) + n = Θ(n)</span>, el ejercicio 2.</p>
+    </details>
+  </div>
+</div>
+
+<h3 id="s11"><span class="num">4.11</span>Complejidad de algoritmos estándar</h3>
 
 <p>Vale la pena tener a mano las complejidades de los algoritmos que más vas a usar:</p>
 
@@ -1434,7 +1628,7 @@ for (int i = 1; i &lt; n; i *= 2) {
 
 <p>El caso de <strong>Quicksort</strong> es instructivo: en promedio el pivote parte el arreglo en dos mitades, dando <span class="mth">T(n) = 2 T(n/2) + O(n) = O(n log n)</span>; pero si el pivote es <strong>siempre el menor o el mayor</strong>, parte en 1 y <span class="mth">n − 1</span>, dando <span class="mth">T(n) = T(n − 1) + O(n) = O(n²)</span>. Aun así, en la práctica suele ser el más rápido por sus <strong>constantes pequeñas</strong>.</p>
 
-<h3 id="s11"><span class="num">4.11</span>Aplicar la complejidad a lo que ya hicimos</h3>
+<h3 id="s12"><span class="num">4.12</span>Aplicar la complejidad a lo que ya hicimos</h3>
 
 <p>La complejidad <strong>no es un tema aparte</strong>: atraviesa toda la materia. Cada operación de un TDA tiene su costo, y <strong>elegir la implementación correcta es elegir la complejidad correcta</strong>. Un adelanto de lo que viene:</p>
 
@@ -1452,7 +1646,7 @@ for (int i = 1; i &lt; n; i *= 2) {
 
 <p>(*amortizado, si hay que redimensionar: es la sección que sigue.) A partir de acá, de cada estructura y algoritmo nos vamos a preguntar siempre: <strong>¿cuánto cuesta cada operación?</strong></p>
 
-<h3 id="s12"><span class="num">4.12</span>Complejidad amortizada: el caso del vector dinámico</h3>
+<h3 id="s13"><span class="num">4.13</span>Complejidad amortizada: el caso del vector dinámico</h3>
 
 <p>Hay operaciones cuyo costo es <strong>casi siempre barato, pero de vez en cuando carísimo</strong>. El ejemplo estrella —que vas a usar toda la materia— es <strong>agregar al final de un arreglo que se redimensiona</strong> (la técnica que viste en la Unidad 2; en la Unidad 5 la vas a ver empaquetada como el TDA <code class="inl">VectorDinamico</code>, y es exactamente lo que hace el <code class="inl">ArrayList</code> de Java por dentro). Mientras el arreglo interno tiene lugar, agregar cuesta <span class="mth">O(1)</span>: escribir en la próxima celda libre. Pero cuando el arreglo <strong>se llena</strong>, hay que redimensionar: crear un arreglo más grande y <strong>copiar todos</strong> los elementos, lo que cuesta <span class="mth">O(n)</span>.</p>
 
@@ -1462,7 +1656,7 @@ for (int i = 1; i &lt; n; i *= 2) {
   costo amortizado = <span class="mth">(costo total de n operaciones) / n</span>
 </div>
 
-<h4 id="s121"><span class="num">4.12.1</span>El criterio de redimensión importa: duplicar</h4>
+<h4 id="s131"><span class="num">4.13.1</span>El criterio de redimensión importa: duplicar</h4>
 
 <p>Supongamos que cuando el arreglo se llena lo <strong>duplicamos</strong> (capacidad 1, 2, 4, 8, 16…). Mirá el costo de cada <code class="inl">agregar</code> en una secuencia de 20 inserciones:</p>
 
@@ -1527,7 +1721,7 @@ for (int i = 1; i &lt; n; i *= 2) {
 
 <p>Total: <strong>menos de <span class="mth">3n</span> operaciones para <span class="mth">n</span> inserciones</strong>, o sea menos de 3 por operación. Por eso decimos que agregar al final es <strong><span class="mth">O(1)</span> amortizado</strong>: picos aislados de <span class="mth">O(n)</span>, pero promedio constante garantizado.</p>
 
-<h4 id="s122"><span class="num">4.12.2</span>¿Y si en vez de duplicar agrandamos de a 1?</h4>
+<h4 id="s132"><span class="num">4.13.2</span>¿Y si en vez de duplicar agrandamos de a 1?</h4>
 
 <p>El criterio de redimensión <strong>no es un detalle</strong>. Si al llenarse el arreglo lo agrandáramos <strong>de a una celda</strong>, cada inserción redimensionaría, y la inserción <span class="mth">i</span> copiaría <span class="mth">i − 1</span> elementos. El total sería</p>
 
@@ -1557,11 +1751,11 @@ for (int i = 1; i &lt; n; i *= 2) {
   </div>
 </div>
 
-<h3 id="s13"><span class="num">4.13</span>Medición empírica vs. teórica</h3>
+<h3 id="s14"><span class="num">4.14</span>Medición empírica vs. teórica</h3>
 
 <p>Además de razonar la complejidad, podés <strong>medirla</strong> con <code class="inl">System.nanoTime</code>. Es útil para confirmar la teoría, pero es <strong>engañosa</strong>: la afectan el compilador <strong>JIT</strong> (que acelera el código “en caliente”), el sistema operativo y la máquina. Por eso, para comparar algoritmos, <strong>la teoría es más confiable</strong>; la medición sirve para <strong>detectar sorpresas</strong>. En el repo, <code class="inl">Benchmark</code> mide la suma de un arreglo para <span class="mth">n</span> creciente.</p>
 
-<h3 id="s14"><span class="num">4.14</span>Ejemplo integrador</h3>
+<h3 id="s15"><span class="num">4.15</span>Ejemplo integrador</h3>
 
 <p>Analicemos un algoritmo completo. Este cuenta cuántos <strong>pares de elementos iguales</strong> hay en un arreglo:</p>
 
@@ -1584,7 +1778,7 @@ for (int i = 1; i &lt; n; i *= 2) {
   </div>
 </div>
 
-<h3 id="s15"><span class="num">4.15</span>Errores comunes</h3>
+<h3 id="s16"><span class="num">4.16</span>Errores comunes</h3>
 
 <div class="box error">
   <div class="bh">Error común</div>
@@ -1595,28 +1789,34 @@ for (int i = 1; i &lt; n; i *= 2) {
       <li><strong>Sumar cuando hay que multiplicar</strong>: dos bucles anidados son <span class="mth">n²</span>, no <span class="mth">2n</span>.</li>
       <li><strong>Plantear mal la recurrencia</strong> (olvidar el trabajo no recursivo, o la cantidad de llamadas).</li>
       <li>Aplicar el <strong>Teorema Maestro por división</strong> a una recurrencia que <strong>resta</strong> (<span class="mth">T(n − 1)</span>).</li>
+      <li><strong>Equivocar el exponente crítico</strong>: <span class="mth">log<sub>b</sub> a</span> con <span class="mth">a = b</span> es <strong>1</strong> (no <span class="mth">a</span>), y con <span class="mth">a = 1</span> es <strong>0</strong> (no 1). De ahí salen <span class="mth">n<sup>1</sup> = n</span> y <span class="mth">n<sup>0</sup> = 1</span>.</li>
+      <li><strong>Despejar mal <span class="mth">k</span></strong> en el caso base: de <span class="mth">n/2<sup>k</sup> = 1</span> sale <span class="mth">k = log<sub>2</sub> n</span>; de <span class="mth">n − k = 1</span> sale <span class="mth">k = n − 1</span>. Y después <strong>olvidarse de reemplazar <span class="mth">k</span> en todos los lugares</strong> del patrón.</li>
+      <li><strong>Dar sólo el resultado</strong>: en el parcial se piden los pasos (el molde, los reemplazos, el patrón, el despeje, la sustitución).</li>
       <li>Creer que la <strong>medición en segundos “refuta”</strong> la teoría: mide otra cosa (incluye JIT, SO, máquina).</li>
     </ul>
   </div>
 </div>
 
-<h3 id="s16"><span class="num">4.16</span>Repaso</h3>
+<h3 id="s17"><span class="num">4.17</span>Repaso</h3>
 
-<p>Si podés responder estas doce sin mirar, la unidad está.</p>
+<p>Si podés responder estas quince sin mirar, la unidad está.</p>
 
 <div class="repaso">
   <div class="r"><span class="n">1.</span><span>¿Por qué medimos operaciones en función de <span class="mth">n</span> y no en segundos?</span></div>
   <div class="r"><span class="n">2.</span><span>Definí <span class="mth">O</span>, <span class="mth">Ω</span> y <span class="mth">Θ</span>. ¿Cuál se asocia al peor caso?</span></div>
   <div class="r"><span class="n">3.</span><span>¿Cómo se calcula la complejidad de dos bucles anidados? ¿Y de uno que hace <code class="inl">i *= 2</code>?</span></div>
   <div class="r"><span class="n">4.</span><span>Planteá la ecuación de recurrencia de la búsqueda binaria y de Mergesort.</span></div>
-  <div class="r"><span class="n">5.</span><span>Resolvé <span class="mth">T(n) = 2T(n/2) + n</span> con el método de expansión.</span></div>
-  <div class="r"><span class="n">6.</span><span>Enunciá los tres casos del Teorema Maestro <b>por división</b> y dá un ejemplo de cada uno. En el árbol de recursión, ¿qué distingue a cada caso? ¿Y qué dice el <b>de sustracción</b> cuando <span class="mth">a = 1</span> y cuando <span class="mth">a &gt; 1</span>?</span></div>
-  <div class="r"><span class="n">7.</span><span>Hacé el conteo línea por línea de un bucle que suma los elementos de una matriz de <span class="mth">n × n</span>.</span></div>
-  <div class="r"><span class="n">8.</span><span>Trazá <code class="inl">potencia(2, 10)</code> como hicimos con <span class="mth">3<sup>13</sup></span>. ¿Cuántas vueltas da y por qué?</span></div>
-  <div class="r"><span class="n">9.</span><span>¿Qué es la complejidad amortizada? ¿Por qué agregar al final de un vector que duplica es <span class="mth">O(1)</span> amortizado?</span></div>
-  <div class="r"><span class="n">10.</span><span>Si el vector agrandara su capacidad <b>de a 10 celdas</b> en vez de duplicar, ¿cuál sería el costo amortizado de agregar? Justificá con la suma.</span></div>
-  <div class="r"><span class="n">11.</span><span>¿Qué complejidad tiene Quicksort en promedio y en el peor caso? ¿Por qué?</span></div>
-  <div class="r"><span class="n">12.</span><span>¿Por qué la medición empírica del tiempo puede ser engañosa?</span></div>
+  <div class="r"><span class="n">5.</span><span>Resolvé <span class="mth">T(n) = 2T(n/2) + n</span> con el método de expansión, escribiendo <b>los nueve pasos</b> del ejemplo completo (4.10). Después resolvela por Teorema Maestro y verificá que coincidan.</span></div>
+  <div class="r"><span class="n">6.</span><span>¿Cuánto vale <span class="mth">log<sub>b</sub> a</span> cuando <span class="mth">a = b</span>? ¿Y cuando <span class="mth">a = 1</span>? ¿Qué exponente crítico da cada uno y qué recurrencias conocidas tienen cada caso?</span></div>
+  <div class="r"><span class="n">7.</span><span>Despejá <span class="mth">k</span> en cada caso base: <span class="mth">n/2<sup>k</sup> = 1</span>; <span class="mth">n/3<sup>k</sup> = 1</span>; <span class="mth">n − k = 0</span>; <span class="mth">n/2<sup>k</sup> = 2</span>. Decí qué identidad usaste en cada uno.</span></div>
+  <div class="r"><span class="n">8.</span><span>Resolvé por los dos caminos <span class="mth">T(n) = 4T(n/2) + n</span> y <span class="mth">T(n) = T(n/2) + n</span>. ¿En qué caso del teorema cae cada una y por qué?</span></div>
+  <div class="r"><span class="n">9.</span><span>Enunciá los tres casos del Teorema Maestro <b>por división</b> y dá un ejemplo de cada uno. En el árbol de recursión, ¿qué distingue a cada caso? ¿Y qué dice el <b>de sustracción</b> cuando <span class="mth">a = 1</span> y cuando <span class="mth">a &gt; 1</span>?</span></div>
+  <div class="r"><span class="n">10.</span><span>Hacé el conteo línea por línea de un bucle que suma los elementos de una matriz de <span class="mth">n × n</span>.</span></div>
+  <div class="r"><span class="n">11.</span><span>Trazá <code class="inl">potencia(2, 10)</code> como hicimos con <span class="mth">3<sup>13</sup></span>. ¿Cuántas vueltas da y por qué?</span></div>
+  <div class="r"><span class="n">12.</span><span>¿Qué es la complejidad amortizada? ¿Por qué agregar al final de un vector que duplica es <span class="mth">O(1)</span> amortizado?</span></div>
+  <div class="r"><span class="n">13.</span><span>Si el vector agrandara su capacidad <b>de a 10 celdas</b> en vez de duplicar, ¿cuál sería el costo amortizado de agregar? Justificá con la suma.</span></div>
+  <div class="r"><span class="n">14.</span><span>¿Qué complejidad tiene Quicksort en promedio y en el peor caso? ¿Por qué?</span></div>
+  <div class="r"><span class="n">15.</span><span>¿Por qué la medición empírica del tiempo puede ser engañosa?</span></div>
 </div>
 
 <h2 class="unit" id="labs">Laboratorios</h2>
@@ -1747,7 +1947,7 @@ for (int i = 1; i &lt; n; i *= 2) {
   <p>Practicá el análisis y la implementación de algoritmos con distinta complejidad. Cada ejercicio va en su propio paquete dentro de <code class="inl">ar.uba.fi.cb100.guia.i04_complejidad</code> (niveles <code class="inl">i02_facil</code>, <code class="inl">i03_medio</code>, <code class="inl">i04_dificil</code>; un paquete por ejercicio), con su test JUnit. Las teóricas se responden en <code class="inl">guia/i04_complejidad/i01_teorico</code>. <strong>El objetivo de toda la guía es calcular el <span class="mth">O(n)</span> de cada algoritmo</strong>: por Teorema Maestro, o por el método de expansión, o por ambos (cuando aplican los dos, <strong>verificá que dan lo mismo</strong>). En cada solución, anotá la complejidad en un comentario y <strong>justificala</strong>.</p>
 </div>
 
-<h3 id="gteo"><span class="num">4.17</span>Preguntas teóricas</h3>
+<h3 id="gteo"><span class="num">4.18</span>Preguntas teóricas</h3>
 
 <details class="qa"><summary><span class="n">1</span>¿Por qué medimos operaciones en función de <span class="mth">n</span> y no en segundos?</summary>
 <div class="ans">
@@ -1905,7 +2105,7 @@ for (int i = 1; i &lt; n; i *= 2) {
 <p>El salto que importa en la práctica es el de <span class="mth">O(n log n)</span> a <span class="mth">O(n²)</span>: ahí es donde un programa deja de terminar.</p>
 </div></details>
 
-<div class="exlevel"><span class="t" id="gfacil">4.18 · Nivel fácil</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gfacil">4.19 · Nivel fácil</span><span class="l"></span></div>
 
 <p>Implementar y <strong>anotar la complejidad con su justificación</strong>. Cada uno con su test.</p>
 
@@ -1963,7 +2163,7 @@ public static int paresIguales(int[] a) {
 }</code></pre>
 <p><strong>El conteo exacto:</strong> el interno da <span class="mth">n−1</span>, <span class="mth">n−2</span>, …, 1, 0 vueltas. Total <span class="mth">n(n−1)/2</span>, que es <strong>la mitad</strong> de <span class="mth">n²</span>… y sigue siendo <span class="mth">Θ(n²)</span>, porque la constante ½ se descarta (regla 6).</p>
 <p><strong>Por qué <code class="inl">j = i + 1</code></strong>: con <code class="inl">j = 0</code> compararías <code class="inl">a[i]</code> consigo mismo (siempre igual) y contarías el par (2,5) también como (5,2). El resultado saldría mal, no sólo más lento.</p>
-<p><strong>¿Se puede mejor?</strong> Sí, <span class="mth">Θ(n)</span> con una tabla de hash: contás cuántas veces aparece cada valor y por cada grupo de <span class="mth">k</span> repetidos sumás <span class="mth">k(k−1)/2</span>. Es el salto de <span class="mth">n²</span> a <span class="mth">n</span> que menciona 4.14.</p>
+<p><strong>¿Se puede mejor?</strong> Sí, <span class="mth">Θ(n)</span> con una tabla de hash: contás cuántas veces aparece cada valor y por cada grupo de <span class="mth">k</span> repetidos sumás <span class="mth">k(k−1)/2</span>. Es el salto de <span class="mth">n²</span> a <span class="mth">n</span> que menciona 4.15.</p>
 <pre><code class="java">@Test void cuentaPares() {
     assertEquals(0, paresIguales(new int[]{1, 2, 3}));
     assertEquals(1, paresIguales(new int[]{1, 2, 1}));
@@ -2301,7 +2501,7 @@ public static int iteraciones(int n) {
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gmedio">4.19 · Nivel medio</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gmedio">4.20 · Nivel medio</span><span class="l"></span></div>
 
 <p>Acá aparecen las recurrencias. En cada uno, <strong>escribí la ecuación en un comentario</strong> y resolvela por el método que corresponda.</p>
 
@@ -2787,7 +2987,7 @@ public static void ordenar(int[] a) {
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gdificil">4.20 · Nivel difícil</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gdificil">4.21 · Nivel difícil</span><span class="l"></span></div>
 
 <p>Los algoritmos que separan. En cada uno, <strong>la complejidad justificada</strong> vale tanto como el código que anda.</p>
 
@@ -3382,7 +3582,7 @@ private static int[] fusionarDos(int[] a, int[] b) {   // O(|a| + |b|)
   <p>El <strong>generador</strong> arma ejercicios nuevos cada vez y los corrige solo, con el razonamiento completo cuando errás: complejidad de fragmentos, recurrencias, los dos Teoremas Maestros, órdenes y amortizado. La <strong>autoevaluación</strong> son doce preguntas de repaso general.</p>
 </div>
 
-<h3 id="s421"><span class="num">4.21</span>Generador de ejercicios</h3>
+<h3 id="s422"><span class="num">4.22</span>Generador de ejercicios</h3>
 
 <p>Para las complejidades escribí la notación como quieras: <code class="inl">O(n log n)</code>, <code class="inl">n log n</code>, <code class="inl">O(nlogn)</code> — se acepta igual. En los de contar, un número.</p>
 
@@ -3421,7 +3621,7 @@ private static int[] fusionarDos(int[] a, int[] b) {   // O(|a| + |b|)
   </div>
 </div>
 
-<h3 id="s422"><span class="num">4.22</span>Autoevaluación</h3>
+<h3 id="s423"><span class="num">4.23</span>Autoevaluación</h3>
 
 <p>Doce preguntas sobre toda la unidad. Elegí una opción y se corrige al instante, con la explicación.</p>
 

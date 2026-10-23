@@ -695,6 +695,7 @@ code.inl{overflow-wrap:anywhere;white-space:normal}
   <div class="sb-group">Árboles</div>
   <a href="#s1"><span class="n">8.1</span>Un poco de historia</a>
   <a href="#s2"><span class="n">8.2</span>Terminología</a>
+  <a href="#s21" class="sub2"><span class="n">8.2.1</span>Lleno, completo y perfecto</a>
 
   <div class="sb-group">Árbol binario de búsqueda</div>
   <a href="#s3"><span class="n">8.3</span>El ABB</a>
@@ -707,8 +708,15 @@ code.inl{overflow-wrap:anywhere;white-space:normal}
   <div class="sb-group">Balanceados</div>
   <a href="#s4"><span class="n">8.4</span>El AVL</a>
   <a href="#s41" class="sub2"><span class="n">8.4.1</span>Rotaciones</a>
+  <a href="#s42" class="sub2"><span class="n">8.4.2</span>Rotación a la izquierda</a>
+  <a href="#s43" class="sub2"><span class="n">8.4.3</span>La doble (zig-zag)</a>
   <a href="#s5"><span class="n">8.5</span>Rojo-negro</a>
   <a href="#s6"><span class="n">8.6</span>Árboles B y B+</a>
+  <a href="#s61" class="sub2"><span class="n">8.6.1</span>Orden, claves e hijos</a>
+  <a href="#s62" class="sub2"><span class="n">8.6.2</span>Buscar</a>
+  <a href="#s63" class="sub2"><span class="n">8.6.3</span>Insertar: dividir</a>
+  <a href="#s64" class="sub2"><span class="n">8.6.4</span>Eliminar: prestar o fusionar</a>
+  <a href="#s65" class="sub2"><span class="n">8.6.5</span>El árbol B+</a>
 
   <div class="sb-group">En Java</div>
   <a href="#s7"><span class="n">8.7</span>TreeMap y TreeSet</a>
@@ -727,12 +735,13 @@ code.inl{overflow-wrap:anywhere;white-space:normal}
 
   <div class="sb-group">Guía de ejercicios</div>
   <a href="#gteo"><span class="n">8.11</span>Preguntas teóricas</a>
-  <a href="#gfacil"><span class="n">8.12</span>Nivel fácil (1–10)</a>
-  <a href="#gmedio"><span class="n">8.13</span>Nivel medio (1–10)</a>
-  <a href="#gdificil"><span class="n">8.14</span>Nivel difícil (1–10)</a>
+  <a href="#gsim"><span class="n">8.12</span>Ejercicio de simulación</a>
+  <a href="#gfacil"><span class="n">8.13</span>Nivel fácil (1–10)</a>
+  <a href="#gmedio"><span class="n">8.14</span>Nivel medio (1–10)</a>
+  <a href="#gdificil"><span class="n">8.15</span>Nivel difícil (1–10)</a>
 
   <div class="sb-group">Práctica</div>
-  <a href="#s15"><span class="n">8.15</span>Autoevaluación</a>
+  <a href="#s16"><span class="n">8.16</span>Autoevaluación</a>
 
   <div class="sb-group">Extras</div>
   <a href="#glosario"><span class="n">§</span>Glosario</a>
@@ -796,16 +805,16 @@ code.inl{overflow-wrap:anywhere;white-space:normal}
 
 <div class="objetivos">
   <div class="hd">Objetivos de la unidad</div>
-  <p>Al terminar esta unidad vas a poder: (1) manejar la <strong>terminología</strong> (raíz, hoja, nivel, altura, subárbol); (2) explicar el <strong>invariante del ABB</strong> y ejecutar a mano buscar, insertar y quitar, con sus tres casos; (3) aplicar los <strong>cuatro recorridos</strong> y saber para qué sirve cada uno; (4) explicar por qué un ABB puede <strong>degenerar</strong> y cómo el <strong>AVL</strong> lo evita con factores de equilibrio y rotaciones; (5) describir la idea del <strong>rojo-negro</strong> y de los <strong>árboles B/B+</strong>; y (6) usar <code class="inl">TreeMap</code> y <code class="inl">TreeSet</code> con sus consultas por rango.</p>
+  <p>Al terminar esta unidad vas a poder: (1) manejar la <strong>terminología</strong> de árboles (raíz, hoja, altura, subárbol) y distinguir un árbol <strong>lleno, completo y perfecto</strong>; (2) explicar el <strong>invariante del árbol binario de búsqueda</strong> y ejecutar a mano buscar, insertar y quitar (con sus tres casos); (3) aplicar los <strong>cuatro recorridos</strong> y saber para qué sirve cada uno; (4) explicar por qué un ABB puede <strong>degenerar</strong> y cómo el <strong>AVL</strong> lo evita con factores de equilibrio y rotaciones; (5) describir la idea del árbol <strong>rojo-negro</strong>; (6) enunciar las reglas del <strong>árbol B</strong> (orden, claves, hijos, mínimos) y ejecutar a mano buscar, insertar (con división) y eliminar (con préstamo y fusión), y explicar qué cambia en el <strong>B+</strong> y por qué es el índice de las bases de datos; y (7) usar <code class="inl">TreeMap</code> y <code class="inl">TreeSet</code> con sus consultas por rango.</p>
 </div>
 
 <p>Todas las estructuras que vimos hasta ahora son <strong>lineales</strong>: cada elemento tiene un anterior y un siguiente. En un árbol, cada elemento puede tener <strong>varios siguientes</strong>. Esa forma jerárquica aparece en todos lados: las carpetas del disco, el DOM de una página web, un organigrama o este mismo apunte (capítulos, secciones, subsecciones). Y resuelve lo que el hashing dejó pendiente: <strong>buscar rápido sin perder el orden</strong>.</p>
 
 <h3 id="s1"><span class="num">8.1</span>Un poco de historia</h3>
 
-<p>Los árboles de búsqueda aparecen a fines de los 50. El gran salto llegó en 1962 desde Moscú: Adelson-Velsky y Landis publicaron el primer árbol que se <strong>balancea solo</strong>, bautizado AVL por sus iniciales. En 1970 Bayer y McCreight inventaron los <strong>árboles B</strong> en Boeing, pensados para discos. En 1978 Guibas y Sedgewick dieron forma al <strong>rojo-negro</strong>, el que hoy usan por dentro el <code class="inl">TreeMap</code> de Java, los diccionarios ordenados de C++ y el kernel de Linux.</p>
+<p>Los árboles de búsqueda aparecen a fines de los 50 (Windley, Booth, Hibbard). El gran salto llegó en 1962 desde Moscú: Adelson-Velsky y Landis publicaron el primer árbol que se <strong>balancea solo</strong>, bautizado AVL por sus iniciales. En 1970 Bayer y McCreight inventaron los <strong>árboles B</strong> en Boeing, pensados para discos. En 1978 Guibas y Sedgewick dieron forma al <strong>rojo-negro</strong>, el que hoy usan por dentro el <code class="inl">TreeMap</code> de Java, los diccionarios ordenados de C++ y el kernel de Linux.</p>
 
-<h3 id="s2"><span class="num">8.2</span>Terminología</h3>
+<h3 id="s2"><span class="num">8.2</span>Terminología: el vocabulario de los árboles</h3>
 
 <p>Un árbol es un conjunto de <span class="anot" data-t="nodo">nodos</span> conectados jerárquicamente: uno arriba de todo y cada uno con cero o más hijos. En un <span class="anot" data-t="árbol binario">árbol binario</span>, cada nodo tiene <strong>a lo sumo dos hijos</strong>: izquierdo y derecho.</p>
 
@@ -829,6 +838,39 @@ code.inl{overflow-wrap:anywhere;white-space:normal}
 <div class="box nota">
   <div class="bh">La convención del código de clase</div>
   <div class="bb"><p>En <code class="inl">ArbolAVL</code> y en la guía, la altura se cuenta en <b>aristas</b>: una hoja tiene altura 0 y el árbol vacío (<code class="inl">null</code>), −1. Así, el árbol de arriba mide 2, y una «lista» de <span class="mth">n</span> nodos mide <span class="mth">n − 1</span>. Algunos libros cuentan nodos (hoja = 1). Lo que importa es usar siempre la misma convención, sobre todo al calcular factores de equilibrio.</p></div>
+</div>
+
+<h4 id="s21"><span class="num">8.2.1</span>Árbol lleno, completo y perfecto</h4>
+
+<p>Tres adjetivos que describen la <strong>forma</strong> de un árbol binario, sin mirar qué valores guarda. Se parecen, se confunden seguido, y cada uno habilita algo distinto:</p>
+
+<figure><pre><code class="txt">     LLENO (no completo)        COMPLETO (no lleno)          PERFECTO (lleno y completo)
+
+            o                          o                               o
+           / \                       /   \                           /   \
+          o   o                     o     o                         o     o
+             / \                   / \   /                         / \   / \
+            o   o                 o   o o                         o   o o   o
+
+  0 ó 2 hijos, nunca uno     niveles llenos salvo el       todos los niveles llenos,
+  (los niveles no importan)  último, corrido a la izq.     hojas al mismo nivel</code></pre><figcaption><b>Figura 8.2</b> — Las tres formas sobre árboles concretos. Lleno habla de los <b>nodos</b> (0 ó 2 hijos); completo habla de los <b>niveles</b> (todos llenos salvo el último, que se llena de izquierda a derecha); perfecto es las dos cosas a la vez.</figcaption></figure>
+
+<div class="box nota">
+  <div class="bh">Definición</div>
+  <div class="bb">
+    <ul>
+      <li><strong>Lleno</strong> (<em>full</em>): cada nodo tiene 0 ó 2 hijos. Nunca uno solo. No dice nada de los niveles: puede ser flaco y torcido, pero sin «hijos únicos».</li>
+      <li><strong>Completo</strong> (<em>complete</em>): todos los niveles están llenos salvo quizás el último, y en el último los nodos están corridos a la izquierda, sin huecos. Dice todo de los niveles y nada de los nodos: puede haber un nodo con un solo hijo (siempre el último padre del penúltimo nivel, con hijo izquierdo).</li>
+      <li><strong>Perfecto</strong> (<em>perfect</em>): lleno y completo: todos los niveles llenos, todas las hojas al mismo nivel. Un perfecto de altura <span class="mth">h</span> tiene exactamente <span class="mth">2<sup>h+1</sup> − 1</span> nodos y <span class="mth">2<sup>h</sup></span> hojas.</li>
+    </ul>
+  </div>
+</div>
+
+<p><strong>Por qué importan:</strong> el <strong>completo</strong> es el que entra en un arreglo sin huecos: si numerás los nodos por niveles de izquierda a derecha, el padre de <span class="mth">i</span> está en <span class="mth">(i − 1)/2</span> y sus hijos en <span class="mth">2i + 1</span> y <span class="mth">2i + 2</span>, sin ninguna celda vacía en el medio. Ésa es la forma del <strong>heap</strong> (Unidad 9), y por eso el heap no necesita nodos ni referencias. El <strong>perfecto</strong> es la cota: con <span class="mth">n</span> nodos no se puede tener menos altura que <span class="mth">⌊log<sub>2</sub> n⌋</span>, y ése es el piso que los árboles balanceados (AVL, rojo-negro) persiguen.</p>
+
+<div class="box error">
+  <div class="bh">Error común</div>
+  <div class="bb"><p>Ojo con la bibliografía: hay libros (y sitios) que intercambian «lleno» y «completo», y otros que llaman «completo» a lo que acá es «perfecto». Las definiciones de esta unidad son las de Cormen (CLRS) y <strong>las que se usan en el parcial</strong>. Si leés otro texto, fijate primero qué significa cada palabra ahí.</p></div>
 </div>
 
 <h3 id="s3"><span class="num">8.3</span>El árbol binario de búsqueda (ABB)</h3>
@@ -997,7 +1039,52 @@ public List&lt;T&gt; porNiveles() {
 
 <p>Miralo con calma: es el reenganche de referencias de la Unidad 5, con un propósito. El único subárbol que se muda es <strong>B</strong>, el del medio: estaba a la derecha de <span class="mth">x</span> y pasa a la izquierda de <span class="mth">y</span>. Como <span class="mth">x &lt; B &lt; y</span>, queda bien en los dos lugares. Son tres referencias cambiadas, el equilibrio vuelve y el orden queda intacto: <span class="mth">O(1)</span>. Después de rotar hay que recalcular las alturas, primero la del que bajó y después la del que subió.</p>
 
-<p><strong>¿Y si el desequilibrio viene en zig-zag?</strong> Si el peso está en el hijo «del medio» (casos izquierda-derecha o derecha-izquierda), una sola rotación no alcanza. Primero se endereza el zig-zag rotando al hijo, y después se aplica la rotación simple:</p>
+<h4 id="s42"><span class="num">8.4.2</span>La rotación a la izquierda, paso a paso</h4>
+
+<p>La rotación a la izquierda es el <strong>espejo exacto</strong>: se usa cuando el nodo quedó pesado hacia la derecha (FE = −2) y el peso viene derecha-derecha (el hijo derecho tiene FE ≤ 0). El hijo derecho sube, el nodo baja a su izquierda:</p>
+
+<figure><pre><code class="txt">  rotación a la IZQUIERDA sobre x (caso derecha-derecha):
+
+        x                          y
+       / \                        / \
+      A   y          →           x   C          (1) nuevaRaiz = x.derecho      (y)
+         / \                    / \             (2) x.derecho = y.izquierdo    (B se muda)
+        B   C                  A   B            (3) y.izquierdo = x            (x baja)
+
+  orden antes y después: A &lt; x &lt; B &lt; y &lt; C</code></pre><figcaption><b>Figura 8.11</b> — La rotación a la izquierda: <span class="mth">y</span> sube, <span class="mth">x</span> baja, y el subárbol del medio (B) se muda de <span class="mth">y</span> a <span class="mth">x</span>. A la derecha, los tres pasos del código en orden — cada uno re-engancha una referencia.</figcaption></figure>
+
+<p>Y éste es el método completo del repo (<code class="inl">ArbolAVL</code>), con los tres pasos numerados de la figura:</p>
+
+<pre><code class="java">private Nodo&lt;T&gt; rotarIzquierda(Nodo&lt;T&gt; nodo) {     // "nodo" es x
+    Nodo&lt;T&gt; nuevaRaiz = nodo.derecho;               // (1) y será la raíz
+    nodo.derecho = nuevaRaiz.izquierdo;             // (2) B se muda: de y a x
+    nuevaRaiz.izquierdo = nodo;                     // (3) x baja bajo y
+    actualizarAltura(nodo);                         // primero el de abajo...
+    actualizarAltura(nuevaRaiz);                    // ...después el de arriba
+    return nuevaRaiz;                               // y reemplaza a x
+}</code></pre>
+
+<p>Leé el orden de los pasos con ojo de Unidad 5: <strong>(1)</strong> guarda la referencia a <span class="mth">y</span> antes de tocar nada (si no, se pierde); <strong>(2)</strong> el subárbol del medio (<code class="inl">y.izquierdo</code>, nuestro B) pasa a colgar de <span class="mth">x</span> — puede hacerlo porque <span class="mth">x &lt; B &lt; y</span>: lo que estaba a la izquierda de <span class="mth">y</span> está a la derecha de <span class="mth">x</span>; <strong>(3)</strong> recién entonces <span class="mth">x</span> baja como hijo izquierdo de <span class="mth">y</span>. Y las alturas se actualizan <strong>de abajo hacia arriba</strong>: primero <span class="mth">x</span> (que ya tiene sus hijos definitivos), después <span class="mth">y</span> (cuya altura depende de la de <span class="mth">x</span>). El <code class="inl">return</code> le entrega la nueva raíz del subárbol al padre — por eso en el código del AVL las rotaciones se llaman como <code class="inl">nodo = rotarIzquierda(nodo)</code>.</p>
+
+<h4 id="s43"><span class="num">8.4.3</span>¿Y si el desequilibrio viene «en zig-zag»? La doble izquierda-derecha</h4>
+
+<p>Cuando el peso no está en la punta sino en el hijo <strong>del medio</strong> —caso izquierda-derecha (o su espejo derecha-izquierda)— una sola rotación no alcanza. ¿Por qué? Probalo: si al <span class="mth">z</span> desequilibrado le aplicás directamente la rotación a la derecha, el subárbol pesado (<span class="mth">y</span> y los suyos) se muda entero de lado… y el árbol queda desequilibrado para el otro lado. La rotación simple sabe levantar el peso de la punta, no el del medio.</p>
+
+<p>La solución es en <strong>dos tiempos</strong>: primero una rotación al hijo (<span class="mth">x</span>), que convierte el zig-zag en una línea — el caso izquierda-izquierda que ya sabemos arreglar —, y después la rotación conocida al nodo (<span class="mth">z</span>):</p>
+
+<figure><pre><code class="txt">          z                         z                          y
+         / \                       / \                       /   \
+        x   D     rotar x         y   D     rotar z         x     z
+       / \        a la izq.      / \        a la der.      / \   / \
+      A   y          →          x   B2         →          A  B1 B2  D
+         / \                   / \
+        B1  B2                A   B1
+
+  orden en los tres: A &lt; x &lt; B1 &lt; y &lt; B2 &lt; z &lt; D</code></pre><figcaption><b>Figura 8.12</b> — El caso izquierda-derecha en general. Paso 1: rotar <span class="mth">x</span> a la izquierda endereza el zig-zag (B1 se muda a <span class="mth">x</span>). Paso 2: rotar <span class="mth">z</span> a la derecha sube a <span class="mth">y</span>. Los DOS subárboles de <span class="mth">y</span> se reparten: B1 queda bajo <span class="mth">x</span>, B2 bajo <span class="mth">z</span>.</figcaption></figure>
+
+<p>Fijate el detalle que hace funcionar todo: <span class="mth">y</span>, el nodo del medio, tiene dos subárboles (B1 y B2), y la doble los reparte: B1 termina bajo <span class="mth">x</span> (vale, porque <span class="mth">x &lt; B1 &lt; y</span>) y B2 termina bajo <span class="mth">z</span> (vale, porque <span class="mth">y &lt; B2 &lt; z</span>). Por eso <span class="mth">y</span> puede subir a la raíz con las manos libres. En código no hay nada nuevo que escribir: son las dos rotaciones simples, una tras otra — <code class="inl">nodo.izquierdo = rotarIzquierda(nodo.izquierdo); return rotarDerecha(nodo);</code>.</p>
+
+<p>Con números, el ejemplo mínimo — insertar 30, 10, 20:</p>
 
 <pre><code class="txt">  rotación doble (izquierda-derecha), insertando 30, 10, 20:
 
@@ -1053,11 +1140,190 @@ public List&lt;T&gt; porNiveles() {
 </ol>
 <p><strong>Por qué garantizan altura logarítmica:</strong> por la regla 4, todos los caminos tienen los mismos negros; por la regla 3, el camino más largo posible alterna rojo y negro, mientras que el más corto es todo negro. Entonces ninguna rama mide más del doble que otra: altura <span class="mth">O(log n)</span>, con <strong>menos rotaciones que el AVL</strong> al modificar. Por eso lo eligen las bibliotecas: <code class="inl">TreeMap</code> y <code class="inl">TreeSet</code> son rojo-negro. El AVL queda algo más bajo (mejor si hay muchas lecturas) y el rojo-negro modifica más barato. Sus algoritmos de reparación exceden el curso: alcanza con saber las reglas, la garantía y dónde se usa.</p>
 
-<h3 id="s6"><span class="num">8.6</span>Árboles B y B+ (la idea)</h3>
+<h3 id="s6"><span class="num">8.6</span>Árboles B y B+</h3>
 
-<p>¿Y si el árbol no entra en memoria? En disco, leer un nodo cuesta el acceso a un bloque entero, miles de veces más lento que la RAM. Conviene entonces que cada lectura traiga mucha información y que el árbol sea <strong>bajo</strong>. Esa es la idea de los <span class="anot" data-t="árbol B">árboles B</span>: <strong>nodos anchos</strong>, con muchas claves y muchos hijos cada uno.</p>
+<p>¿Y si el árbol no entra en memoria? En disco, leer un nodo cuesta un acceso completo a un <strong>bloque</strong> (miles de veces más lento que la RAM): conviene que cada lectura traiga mucha información y que el árbol sea <strong>bajo</strong>. Ésa es la idea de los <span class="anot" data-t="árbol B">árboles B</span>: <strong>nodos anchos</strong>, con muchas claves y muchos hijos por nodo, y <strong>todas las hojas al mismo nivel</strong>. Un AVL con un millón de claves mide unos 20 niveles; un árbol B con 500 claves por nodo, tres.</p>
 
-<p>La variante <span class="anot" data-t="árbol B+">B+</span> agrega dos mejoras: los datos viven <strong>solo en las hojas</strong> (los nodos internos son puro índice, así entran más claves por bloque), y las hojas están <strong>enlazadas entre sí</strong>. Un rango como «todos los legajos entre 1000 y 2000» se responde bajando una vez y caminando las hojas como una lista. Con miles de claves por nodo, un B+ de altura 3 indexa miles de millones de registros. Por eso es el índice de MySQL, de PostgreSQL y de los sistemas de archivos. No se implementa en la materia: lo esencial es saber por qué existe (el costo del disco) y dónde lo vas a encontrar (en todas las bases de datos).</p>
+<figure><pre><code class="txt">  ÁRBOL B                                   ÁRBOL B+
+
+            [ 20  40 ]                              [ 20  40 ]          ← sólo separadores
+           /    |     \                            /    |     \
+   [10 15]  [25 33]  [50 61 70]          [10 15] → [20 25 33] → [40 50 61 70]
+                                          los datos, sólo en las hojas, enlazadas</code></pre><figcaption><b>Figura 8.15</b> — El árbol B usa nodos con varias claves (árbol bajo: ideal para disco). El B+ guarda los datos sólo en las hojas y las encadena: recorrer un rango es caminar las hojas.</figcaption></figure>
+
+<h4 id="s61"><span class="num">8.6.1</span>Las definiciones: orden, claves e hijos</h4>
+
+<p>Un árbol B se define por un número, el <strong>orden <span class="mth">m</span></strong>, que fija cuán ancho puede ser un nodo. Con eso quedan determinadas todas las reglas:</p>
+
+<div class="box nota">
+  <div class="bh">Definición</div>
+  <div class="bb">
+    <p>Un <strong>árbol B de orden <span class="mth">m</span></strong> cumple, en todo momento:</p>
+    <ol>
+      <li><strong>Hijos:</strong> cada nodo tiene a lo sumo <span class="mth">m</span> hijos.</li>
+      <li><strong>Claves:</strong> un nodo con <span class="mth">k</span> hijos tiene exactamente <span class="mth">k − 1</span> claves, ordenadas de menor a mayor dentro del nodo. Como máximo, entonces, <span class="mth">m − 1</span> claves.</li>
+      <li><strong>Mínimo:</strong> todo nodo salvo la raíz tiene al menos <span class="mth">⌈m/2⌉</span> hijos, o sea al menos <span class="mth">⌈m/2⌉ − 1</span> claves. Ningún nodo (salvo la raíz) puede estar «casi vacío»: cada bloque leído del disco trae por lo menos la mitad de lo que podría.</li>
+      <li><strong>Raíz:</strong> si no es hoja, tiene al menos 2 hijos (una clave). Es el único nodo que puede quedar con una sola clave.</li>
+      <li><strong>Separadores:</strong> las claves de un nodo separan a sus hijos: el hijo <span class="mth">i</span> contiene sólo claves entre la clave <span class="mth">i − 1</span> y la clave <span class="mth">i</span> del nodo. Es el invariante del ABB, generalizado: en vez de «menor a la izquierda, mayor a la derecha», es «menor que la primera, entre la primera y la segunda, …, mayor que la última».</li>
+      <li><strong>Hojas:</strong> todas al mismo nivel. El árbol está perfectamente balanceado <strong>por construcción</strong>, no por reparación.</li>
+    </ol>
+  </div>
+</div>
+
+<p>En números, para el <strong>orden 3</strong> (el que usa el generador de ejercicios de la guía y el simulador con <em>Max. Degree = 3</em>): a lo sumo 3 hijos y 2 claves por nodo; al menos 2 hijos y 1 clave (salvo la raíz). Es el llamado <strong>árbol 2-3</strong>: cada nodo es un «2-nodo» (1 clave, 2 hijos) o un «3-nodo» (2 claves, 3 hijos). Para un orden real de disco, <span class="mth">m</span> ronda los cientos: un bloque de 4 KB con claves de 8 bytes más un puntero de 8 bytes da <span class="mth">m ≈ 250</span>.</p>
+
+<div class="box error">
+  <div class="bh">Error común</div>
+  <div class="bb"><p>«Orden» no significa lo mismo en todos los libros. Acá, <strong>orden <span class="mth">m</span> = máximo de hijos</strong> (la definición de Knuth, y la del simulador). Cormen (CLRS) define el árbol por el <em>grado mínimo</em> <span class="mth">t</span>: entre <span class="mth">t − 1</span> y <span class="mth">2t − 1</span> claves, entre <span class="mth">t</span> y <span class="mth">2t</span> hijos, que equivale a <span class="mth">m = 2t</span>. Otros textos llaman orden al máximo de claves. Antes de resolver un ejercicio de otro libro, fijate cuál de las tres convenciones usa; el algoritmo es el mismo, cambian los números.</p></div>
+</div>
+
+<p>La altura es lo que justifica todo: con <span class="mth">n</span> claves y mínimo de <span class="mth">⌈m/2⌉</span> hijos por nodo, <span class="mth">h ≤ log<sub>⌈m/2⌉</sub>((n + 1)/2)</span>. Para <span class="mth">m = 250</span> y <span class="mth">n = 10<sup>9</sup></span> (mil millones de claves), <span class="mth">h ≤ 4</span>: <strong>cuatro lecturas de disco</strong> para encontrar cualquier cosa.</p>
+
+<h4 id="s62"><span class="num">8.6.2</span>Buscar</h4>
+
+<p>Es la búsqueda del ABB con un paso más: dentro de cada nodo hay que elegir por cuál de los <span class="mth">k + 1</span> hijos seguir.</p>
+<ol>
+  <li>Arrancar en la raíz.</li>
+  <li>En el nodo actual, recorrer sus claves ordenadas buscando <span class="mth">x</span> (lineal, o binaria si el nodo es grande). Si <span class="mth">x</span> está, terminó: encontrado.</li>
+  <li>Si no está, la búsqueda se detiene en la primera clave mayor que <span class="mth">x</span>, digamos la clave <span class="mth">i</span>: <span class="mth">x</span> sólo puede estar en el hijo <span class="mth">i</span> (el que vive «entre» la clave <span class="mth">i − 1</span> y la <span class="mth">i</span>). Si todas son menores, es el último hijo.</li>
+  <li>Si ese hijo no existe (el nodo era hoja), <span class="mth">x</span> no está. Si existe, bajar y volver al paso 2.</li>
+</ol>
+<p>Sobre el árbol B de la figura anterior, buscar 61: en la raíz [20 40], 61 es mayor que todas, se baja por el tercer hijo; en [50 61 70] está. Dos nodos leídos. Buscar 35: en [20 40], 35 es mayor que 20 y menor que 40, se baja por el hijo del medio; en [25 33] es mayor que todas y el nodo es hoja: no está.</p>
+<p>El costo es <span class="mth">O(h)</span> nodos visitados, y en cada nodo <span class="mth">O(m)</span> comparaciones (o <span class="mth">O(log m)</span> con búsqueda binaria dentro del nodo). Lo que se paga en disco es <span class="mth">h</span>, y <span class="mth">h</span> es diminuto: ése es el trato.</p>
+
+<h4 id="s63"><span class="num">8.6.3</span>Insertar: dividir y subir la del medio</h4>
+
+<p>Toda inserción empieza en una hoja: se busca <span class="mth">x</span> como en la sección anterior y, al caerse del árbol, se mete <span class="mth">x</span> en la hoja donde la búsqueda terminó, en su lugar ordenado. Si la hoja tenía lugar (menos de <span class="mth">m − 1</span> claves), listo. Si <strong>desborda</strong> (queda con <span class="mth">m</span> claves, una más de lo permitido), se repara con una división:</p>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb"><p><strong>División de un nodo desbordado:</strong> la clave <strong>del medio sube al padre</strong>, y las claves de la izquierda y de la derecha quedan en dos nodos separados, hijos de esa clave. Si el padre desborda por la clave que recibió, se divide él también, y así hasta arriba. Si la raíz se divide, nace una raíz nueva con una sola clave: es <strong>la única forma en que el árbol gana altura</strong>, y como lo hace por arriba, todas las hojas siguen al mismo nivel.</p></div>
+</div>
+
+<p>Paso a paso, insertando 10, 20, 30, 40, 50, 60, 70 en un árbol B de orden 3 (máximo 2 claves por nodo):</p>
+
+<figure><pre><code class="txt">  (1) 10, 20 caben: [10 20].  30 → [10 20 30] desborda, sube 20:
+
+            [20]
+           /    \
+        [10]    [30]
+
+  (2) 40 → [30 40].  50 → [30 40 50] desborda, sube 40 (el padre tenía lugar):
+
+           [20 40]
+          /   |   \
+       [10] [30]  [50]
+
+  (3) 60 → [50 60].  70 → [50 60 70] desborda, sube 60 → la raíz queda [20 40 60]: desborda, sube 40:
+
+  (4)            [40]                ← raíz nueva: altura 2
+               /      \
+           [20]        [60]
+          /    \      /    \
+       [10]   [30]  [50]   [70]       ← todas las hojas al mismo nivel</code></pre><figcaption><b>Figura 8.16</b> — Insertar en un árbol B de orden 3. (1) Las dos primeras caben; la tercera desborda y la del medio sube: nace la raíz. (2) 40 y 50 bajan a la hoja de la derecha; desborda, 40 sube, el padre tenía lugar. (3) 60 y 70: la hoja desborda, sube 60, y ahora desborda la raíz: sube 40 otra vez. (4) Raíz nueva, altura 2.</figcaption></figure>
+
+<p>El detalle que conviene mirar en el paso (3): la <strong>división en cascada</strong>. Cuando 60 sube a la raíz [20 40], ésta queda [20 40 60] con 3 claves: desborda. Se divide igual que una hoja: 40 sube (a una raíz nueva), 20 queda a la izquierda con los hijos [10] y [30], 60 queda a la derecha con [50] y [70]. Cada clave que sube arrastra la mitad de los hijos del nodo dividido; por eso el invariante «<span class="mth">k</span> claves, <span class="mth">k + 1</span> hijos» se mantiene solo.</p>
+
+<p>Dos observaciones que después hacen fáciles los ejercicios:</p>
+<ul>
+  <li>Insertar en orden creciente (como arriba) <strong>no degenera nada</strong>: el árbol B no tiene el problema del ABB degenerado. Las divisiones lo mantienen balanceado sin rotaciones.</li>
+  <li>Una inserción cuesta <span class="mth">O(h)</span> para bajar y, en el peor caso, <span class="mth">O(h)</span> divisiones para subir: <span class="mth">O(h) = O(log n)</span> en total, pero lo habitual es ninguna división. Para <span class="mth">m</span> grande, dividir es rarísimo: la mayoría de las inserciones tocan un solo nodo.</li>
+</ul>
+
+<p>En pseudocódigo, el algoritmo completo:</p>
+<figure><pre><code class="txt">insertar(x):
+    hoja = bajar desde la raíz como en buscar, hasta la hoja donde iría x
+    insertar x en hoja, en orden
+    nodo = hoja
+    mientras nodo tiene m claves (desbordó):
+        medio = la clave del medio de nodo
+        izq = nodo con las claves menores que medio (y sus hijos)
+        der = nodo con las claves mayores que medio (y sus hijos)
+        si nodo era la raíz:
+            raíz = nodo nuevo con [medio], hijos izq y der      // crece la altura
+            terminar
+        insertar medio en el padre de nodo, en orden,
+            con izq y der como hijos a los costados de medio
+        nodo = padre                                            // ¿desbordó él?</code></pre>
+
+<h4 id="s64"><span class="num">8.6.4</span>Eliminar: prestar o fusionar</h4>
+
+<p>Eliminar es la operación con casos, igual que en el ABB, porque hay que sostener el <strong>mínimo de claves por nodo</strong> (regla 3). En orden 3 el mínimo es 1: un nodo que queda vacío está <em>en falta</em> y hay que repararlo.</p>
+
+<pre><code class="txt">  (1) hoja que sobrevive      (2) clave interna            (3) préstamo                (4) fusión
+      quitar 25 de [25 33]        quitar 40 de la raíz          la hoja quedó vacía,        la hoja quedó vacía y
+      → [33]. Listo.              → se reemplaza por su         el hermano tiene de         ningún hermano presta:
+                                  predecesor (30, en una        sobra: baja el separador    hoja + separador + hermano
+                                  hoja); el problema baja       del padre, sube la clave    en un nodo; el padre
+                                  a esa hoja                    extrema del hermano         pierde una clave</code></pre><figcaption><b>Figura 8.17</b> — Los cuatro casos de eliminar en un árbol B de orden 3.</figcaption></figure>
+
+<p><strong>Caso 1: la clave está en una hoja y la hoja sobrevive.</strong> Se borra la clave y el nodo sigue cumpliendo el mínimo. Nada más que hacer. Es, por lejos, el caso más frecuente en un árbol real.</p>
+<p><strong>Caso 2: la clave está en un nodo interno.</strong> No se puede borrar una clave que separa dos hijos sin dejar un hueco en el índice. Se hace como en el ABB: se reemplaza por su <strong>predecesor</strong> (la mayor clave del subárbol izquierdo) o su <strong>sucesor</strong> (la menor del derecho). Las dos viven en una hoja, así que el problema se traslada a borrar esa clave de la hoja, que es caso 1, 3 ó 4. Por ejemplo, eliminar 40 de la raíz lo reemplaza por 30, y la hoja [30] queda vacía: hay que seguir.</p>
+<p><strong>Caso 3: la hoja queda en falta y un hermano adyacente tiene de sobra</strong> (más del mínimo). Se hace un <strong>préstamo</strong>, que es una rotación a través del padre: la clave del padre que separa a los dos hermanos baja a la hoja en falta, y la clave del hermano más cercana a ella (la menor del hermano derecho, o la mayor del izquierdo) sube al padre a ocupar su lugar. El orden se conserva porque las tres claves se corren un lugar en el mismo sentido, y nadie queda en falta.</p>
+<p><strong>Caso 4: la hoja queda en falta y ningún hermano puede prestar</strong> (los adyacentes están justo en el mínimo). Entonces se <strong>fusiona</strong>: la hoja en falta, la clave del padre que la separa de un hermano, y ese hermano, se juntan en un solo nodo. Cabe, porque mínimo más mínimo más uno nunca supera el máximo. El padre pierde una clave: si él también queda por debajo del mínimo, se le aplica el caso 3 ó 4 a él, y así hacia arriba. Si la raíz se queda sin claves, su único hijo pasa a ser la raíz: <strong>el árbol pierde altura, otra vez por arriba</strong>, y las hojas siguen todas al mismo nivel.</p>
+<p>Sobre el árbol final de la figura de insertar, eliminar 30 muestra la cascada completa: 30 deja vacía la hoja [30], su hermano [10] está en el mínimo, así que fusionan con el 20 del padre en [10 20]; el padre [20] queda vacío, su hermano [60] está en el mínimo, así que fusionan con el 40 de la raíz en [40 60]; la raíz quedó vacía, y [40 60] es la nueva raíz. El árbol bajó de altura 2 a altura 1.</p>
+
+<p>En pseudocódigo:</p>
+<figure><pre><code class="txt">eliminar(x):
+    nodo = buscar el nodo que contiene x (si no está, terminar)
+    si nodo no es hoja:
+        pred = la mayor clave del subárbol izquierdo de x (está en una hoja)
+        reemplazar x por pred en nodo
+        nodo = la hoja de pred; x = pred
+    quitar x de nodo (es hoja)
+    mientras nodo no es la raíz y nodo tiene menos del mínimo de claves:
+        si un hermano adyacente tiene más del mínimo:
+            préstamo: baja la clave separadora del padre, sube la extrema del hermano
+            terminar
+        si no:
+            fusionar nodo + clave separadora del padre + hermano en un nodo
+            nodo = padre                                     // ¿quedó en falta él?
+    si la raíz quedó sin claves y tiene un hijo: raíz = ese hijo   // baja la altura</code></pre>
+
+<h4 id="s65"><span class="num">8.6.5</span>El árbol B+</h4>
+
+<p>La variante <span class="anot" data-t="árbol B+">B+</span> es la que de verdad usan las bases de datos, y cambia dos cosas respecto del B:</p>
+<ol>
+  <li><strong>Los datos viven sólo en las hojas.</strong> Los nodos internos guardan únicamente <em>separadores</em>: copias de claves que sirven para decidir por dónde bajar, sin datos asociados. Como un separador es más chico que un registro, en un bloque entran muchos más: el árbol es todavía más ancho y más bajo.</li>
+  <li><strong>Las hojas están enlazadas entre sí</strong>, de menor a mayor, como una lista (Unidad 5). Todas las claves del árbol están en las hojas y en orden: el recorrido ordenado completo, o de un rango, es caminar las hojas sin volver a subir.</li>
+</ol>
+
+<pre><code class="txt">  dividir la hoja [10 20 30] (orden 3):
+
+     en el B:   [20]                   en el B+:    [20]          ← sube una COPIA
+               /    \                              /    \
+           [10]      [30]                      [10] → [20 30]     ← el 20 se queda abajo
+           (el 20 se fue de la hoja)            (hojas enlazadas)
+
+  rango [25, 61] en un B+: bajar UNA vez hasta la hoja del 25 y caminar → → hasta pasarse de 61</code></pre><figcaption><b>Figura 8.18</b> — La misma división en los dos árboles: en el B la clave del medio sube y se va de la hoja; en el B+ sube una copia y la clave se queda abajo, con las hojas enlazadas. Una consulta por rango baja una sola vez y camina los enlaces.</figcaption></figure>
+
+<p>Las operaciones son las del árbol B con tres ajustes:</p>
+<ul>
+  <li><strong>Buscar</strong> siempre llega hasta una hoja, aunque encuentre la clave en un nodo interno: ahí arriba es sólo un separador, el dato está abajo. Por eso toda búsqueda cuesta exactamente <span class="mth">h</span> lecturas, ni una menos.</li>
+  <li><strong>Insertar</strong> divide una hoja desbordada igual que el B, pero la clave que sube es una <strong>copia</strong> de la primera clave de la mitad derecha: sube para separar y también se queda en la hoja. Cuando el que desborda es un nodo interno, la división es la del B común: la del medio se muda arriba sin dejar copia, porque los internos no guardan datos. En la figura, dividir [10 20 30] deja [10] y [20 30] abajo, y el 20 arriba.</li>
+  <li><strong>Eliminar</strong> se hace siempre en una hoja, con préstamo o fusión como en el B. Al prestar o fusionar hay que actualizar el separador del padre para que siga apuntando bien. Un detalle que simplifica: si se borra una clave de una hoja y arriba queda una copia como separador, no hace falta tocarla. Un separador no tiene que existir en las hojas, sólo tiene que dividir bien.</li>
+</ul>
+
+<p>La <strong>consulta por rango</strong> («todos los legajos entre 1000 y 2000», «las ventas de marzo») es el motivo de todo: bajar una vez hasta la hoja del 1000 y caminar enlaces hasta pasarse de 2000. Cuesta <span class="mth">O(h + k)</span> para <span class="mth">k</span> resultados, y los <span class="mth">k</span> salen de bloques contiguos y ordenados, que es lo mejor que le puede pasar a un disco. En un árbol B común el mismo rango es un recorrido in-orden que sube y baja por nodos internos.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th class="l"></th><th class="l">Árbol B</th><th class="l">Árbol B+</th></tr></thead>
+  <tbody>
+    <tr><td class="l">Dónde están los datos</td><td class="l">en todos los nodos</td><td class="l">sólo en las hojas</td></tr>
+    <tr><td class="l">Una clave aparece</td><td class="l">una vez</td><td class="l">en la hoja, y quizás copiada como separador</td></tr>
+    <tr><td class="l">Buscar</td><td class="l">puede terminar en un nodo interno</td><td class="l">siempre llega a una hoja: <span class="mth">h</span> lecturas</td></tr>
+    <tr><td class="l">Nodos internos</td><td class="l">claves con datos: entran menos</td><td class="l">sólo separadores: entran más, árbol más bajo</td></tr>
+    <tr><td class="l">Rango / recorrido ordenado</td><td class="l">in-orden, subiendo y bajando</td><td class="l">caminar las hojas enlazadas</td></tr>
+    <tr><td class="l">Dónde se usa</td><td class="l">índices en memoria, algunos sistemas de archivos</td><td class="l">MySQL (InnoDB), PostgreSQL, SQLite, Oracle; NTFS, ext4, APFS</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb"><p>Con <span class="mth">m</span> en los cientos, un B+ de altura 3 indexa miles de millones de registros, y las dos primeras lecturas (raíz y nivel 1) casi siempre están en caché. Cuando hacés <code class="inl">CREATE INDEX</code> en una base de datos, esto es lo que se construye; cuando una consulta «usa el índice», es esta búsqueda; cuando un <code class="inl">BETWEEN</code> es rápido, son las hojas enlazadas. No lo implementamos en la materia: lo que hay que poder es <strong>ejecutarlo a mano</strong> (es un ejercicio de la guía, 8.12) y reconocer por qué existe (el costo del disco) y dónde lo vas a encontrar (todas las bases de datos).</p></div>
+</div>
 
 <h3 id="s7"><span class="num">8.7</span>De lo nuestro a la API de Java</h3>
 
@@ -1121,36 +1387,49 @@ nombres.headSet("leo");                      // ["ana"]: los menores que "leo"</
   <div class="bh">Error común</div>
   <div class="bb">
     <ul>
-      <li>Confundir <b>árbol binario</b> con <b>ABB</b>: el binario solo limita a dos hijos; el ABB además ordena.</li>
-      <li>Decir que buscar en un ABB «es <span class="mth">O(log n)</span>» a secas: es <span class="mth">O(h)</span>, y sin balanceo <span class="mth">h</span> puede ser <span class="mth">n</span> (datos ordenados).</li>
-      <li>Verificar el invariante comparando cada nodo solo con sus hijos directos: un nieto puede violarlo. Hay que bajar con cotas (mín, máx).</li>
+      <li>Confundir <b>árbol binario</b> con <b>ABB</b>: el binario sólo limita a dos hijos; el ABB además ordena.</li>
+      <li>Decir que buscar en un ABB «es <span class="mth">O(log n)</span>» a secas: es <span class="mth">O(h)</span>, y sin balanceo <span class="mth">h</span> puede ser <span class="mth">n</span> (datos ordenados → lista).</li>
+      <li>Verificar el invariante comparando cada nodo sólo con sus hijos directos: un nieto puede violarlo. Hay que bajar con cotas (mín, máx).</li>
       <li>En quitar con dos hijos, reemplazar por un hijo directo en vez del sucesor: rompe el invariante.</li>
-      <li>Olvidar que el in-orden de un ABB sale ordenado (y al revés: si el in-orden no sale ordenado, no es un ABB).</li>
-      <li>Creer que el AVL rota «de a muchos»: cada rotación es <span class="mth">O(1)</span> y reengancha tres referencias.</li>
-      <li>Calcular el factor de equilibrio con <b>cantidades de nodos</b>: se calcula con <b>alturas</b>.</li>
-      <li>Usar <code class="inl">TreeMap</code> cuando solo se busca por clave exacta (pagás <span class="mth">log n</span> sin necesidad), o <code class="inl">HashMap</code> cuando se necesitan rangos (no los puede responder).</li>
+      <li>Olvidar que el in-orden del ABB da los valores ordenados (y usarlo al revés: si el in-orden no sale ordenado, el árbol no es un ABB).</li>
+      <li>Creer que el AVL rota «de a muchos»: cada rotación es <span class="mth">O(1)</span> y re-engancha tres referencias.</li>
+      <li>En el examen de factores: el FE se calcula con <b>alturas</b>, no con cantidades de nodos.</li>
+      <li>Confundir <b>lleno</b> con <b>completo</b>: lleno habla de los nodos (0 ó 2 hijos); completo, de los niveles (todos llenos salvo el último, corrido a la izquierda). El heap necesita completo, no lleno.</li>
+      <li>En el árbol B, dividir subiendo la primera clave (o la última) en vez de <b>la del medio</b>: los dos nodos resultantes quedan desparejos y uno puede violar el mínimo.</li>
+      <li>Creer que el árbol B crece por las hojas: <b>crece por la raíz</b> (al dividirla) y se achica por la raíz (al vaciarse). Las hojas están siempre al mismo nivel.</li>
+      <li>Al eliminar una clave interna del árbol B, borrarla «y listo»: hay que reemplazarla por el predecesor o sucesor de una hoja, y recién ahí reparar esa hoja.</li>
+      <li>En el B+, parar la búsqueda al encontrar la clave en un nodo interno: ahí es sólo un separador, el dato está en la hoja. La búsqueda siempre baja hasta abajo.</li>
+      <li>Usar <code class="inl">TreeMap</code> cuando sólo se busca por clave exacta (pagás <span class="mth">log n</span> sin necesidad) — o <code class="inl">HashMap</code> cuando se necesitan rangos (no los puede responder).</li>
     </ul>
   </div>
 </div>
 
 <h3 id="s10"><span class="num">8.10</span>Repaso</h3>
 
-<p>Si podés responder estas sin mirar, la unidad está. Son las 13 del repaso del apunte.</p>
+<p>Si podés responder estas sin mirar, la unidad está. Son las 21 del repaso del apunte (v29).</p>
 
 <div class="repaso">
   <div class="r"><span class="n">1.</span><span>Definí raíz, hoja, nivel y altura. ¿Por qué la altura es «el» número de la unidad?</span></div>
-  <div class="r"><span class="n">2.</span><span>Enunciá el invariante del ABB. ¿Por qué permite descartar medio árbol con cada comparación?</span></div>
-  <div class="r"><span class="n">3.</span><span>Insertá a mano 35 en el árbol 50/30/70/20/40/60/80: ¿qué camino sigue y dónde queda?</span></div>
+  <div class="r"><span class="n">2.</span><span>Enunciá el invariante del ABB. ¿Por qué habilita el descarte de medio árbol por comparación?</span></div>
+  <div class="r"><span class="n">3.</span><span>Ejecutá a mano <code class="inl">insertar(35)</code> en el árbol 50/30/70/20/40/60/80: ¿qué camino sigue y dónde queda?</span></div>
   <div class="r"><span class="n">4.</span><span>Explicá los tres casos de quitar. En el caso de dos hijos, ¿por qué el sucesor mantiene el invariante?</span></div>
   <div class="r"><span class="n">5.</span><span>Escribí los cuatro recorridos del árbol 50/30/70/20/40/60/80 y decí para qué sirve cada uno.</span></div>
   <div class="r"><span class="n">6.</span><span>¿Qué pasa si insertás 1, 2, 3, …, n en orden en un ABB común? ¿Qué altura queda y cuánto cuesta buscar?</span></div>
   <div class="r"><span class="n">7.</span><span>¿Qué es el factor de equilibrio? ¿Qué valores admite el AVL?</span></div>
   <div class="r"><span class="n">8.</span><span>Insertá 10, 20, 30 en un AVL y mostrá la rotación que se dispara. ¿Quién queda de raíz?</span></div>
-  <div class="r"><span class="n">9.</span><span>¿Cuándo hace falta una rotación doble? ¿Quién termina arriba en los cuatro casos?</span></div>
-  <div class="r"><span class="n">10.</span><span>Enunciá las reglas del rojo-negro y explicá por qué garantizan altura <span class="mth">O(log n)</span>.</span></div>
-  <div class="r"><span class="n">11.</span><span>¿Por qué los árboles B tienen nodos «anchos»? ¿Qué agrega el B+ y por qué es el índice de las bases de datos?</span></div>
-  <div class="r"><span class="n">12.</span><span>¿HashMap o TreeMap? Dá dos casos de uso de cada uno y justificá con complejidades.</span></div>
-  <div class="r"><span class="n">13.</span><span>En el autocompletador, ¿por qué las palabras con un prefijo forman un rango? ¿Qué operación de TreeSet lo resuelve?</span></div>
+  <div class="r"><span class="n">9.</span><span>¿Cuándo hace falta rotación doble? ¿Quién termina arriba en los cuatro casos?</span></div>
+  <div class="r"><span class="n">10.</span><span>Escribí de memoria los tres pasos de <code class="inl">rotarIzquierda</code>. ¿Por qué el paso (1) va primero, y por qué las alturas se actualizan de abajo hacia arriba?</span></div>
+  <div class="r"><span class="n">11.</span><span>En la doble izquierda-derecha, ¿por qué la rotación simple sola no alcanza? ¿Qué pasa con los dos subárboles del nodo del medio?</span></div>
+  <div class="r"><span class="n">12.</span><span>Enunciá las reglas del rojo-negro y explicá por qué garantizan altura <span class="mth">O(log n)</span>.</span></div>
+  <div class="r"><span class="n">13.</span><span>Dibujá un árbol binario lleno que no sea completo, y uno completo que no sea lleno. ¿Cuál de los dos entra en un arreglo sin huecos, y por qué eso le importa al heap?</span></div>
+  <div class="r"><span class="n">14.</span><span>¿Por qué los árboles B tienen nodos «anchos»? Para orden <span class="mth">m = 5</span>: ¿cuántas claves e hijos tiene un nodo como máximo y como mínimo? ¿Y la raíz?</span></div>
+  <div class="r"><span class="n">15.</span><span>Insertá 10, 20, 30, 40, 50, 60, 70 en un árbol B de orden 3 dibujando el árbol después de cada división. ¿Cuántas veces creció la altura y qué nodo se dividió cada vez?</span></div>
+  <div class="r"><span class="n">16.</span><span>Sobre el árbol anterior, eliminá 15 (si lo insertaste), 30 y después 40. Marcá en cada paso si fue borrado simple, reemplazo por predecesor, préstamo o fusión.</span></div>
+  <div class="r"><span class="n">17.</span><span>¿Por qué todas las hojas de un árbol B están siempre al mismo nivel? ¿Cuál es la única operación que cambia la altura?</span></div>
+  <div class="r"><span class="n">18.</span><span>¿Qué dos cosas cambia el B+ respecto del B? Explicá por qué en el B+ una división de hoja copia la clave hacia arriba y una de nodo interno la mueve.</span></div>
+  <div class="r"><span class="n">19.</span><span>¿Por qué una consulta por rango es barata en un B+ y no tanto en un B? ¿Qué cuesta en función de <span class="mth">h</span> y de la cantidad de resultados <span class="mth">k</span>?</span></div>
+  <div class="r"><span class="n">20.</span><span>¿HashMap o TreeMap? Dá dos casos de uso para cada uno y justificá con complejidades.</span></div>
+  <div class="r"><span class="n">21.</span><span>En el autocompletador, ¿por qué las palabras con un prefijo forman un rango? ¿Qué operación de TreeSet lo resuelve?</span></div>
 </div>
 
 <h2 class="unit" id="labs">Laboratorios</h2>
@@ -1315,7 +1594,36 @@ nombres.headSet("leo");                      // ["ana"]: los menores que "leo"</
 <p>Conviene cuando el problema necesita <strong>orden</strong> entre las claves, aceptando pagar <span class="mth">O(log n)</span> por operación en vez del <span class="mth">O(1)</span> promedio del hash. Consultas que el árbol responde bien y el hash no puede responder sin recorrer todo:</p><ol><li><strong>Rangos</strong>: "todas las claves entre A y B" (<code class="inl">subMap</code>/<code class="inl">subSet</code>) — por ejemplo, los legajos entre 1000 y 2000, o las palabras con un prefijo dado (autocompletar).</li><li><strong>Vecinos más cercanos</strong>: "el mayor ≤ x" o "el menor ≥ x" (<code class="inl">floorKey</code>/<code class="inl">ceilingKey</code>) — por ejemplo, el próximo turno disponible desde las 15:00.</li><li><strong>Extremos y recorrido ordenado</strong>: mínimo/máximo (<code class="inl">firstKey</code>/<code class="inl">lastKey</code>) y recorrer las claves <strong>siempre en orden</strong> — por ejemplo, un ranking o una agenda alfabética.</li></ol><p>Si nada de eso hace falta y sólo se busca por clave exacta, <code class="inl">HashMap</code> es la elección correcta: más rápido y sin exigir claves comparables.</p>
 </div></details>
 
-<div class="exlevel"><span class="t" id="gfacil">8.12 · Nivel fácil</span><span class="l"></span></div>
+<h3 id="gsim"><span class="num">8.12</span>El ejercicio de simulación: insertar, buscar y eliminar en cada árbol</h3>
+
+<p>Éste es el <strong>ejercicio de entrenamiento para el parcial</strong>, y es <strong>único por estudiante</strong>. En el repo está el generador: <code class="inl">material.i08_arboles.GeneradorDeEjercicios</code>. Ejecutalo pasándole tu padrón como argumento (en IntelliJ: <em>Run → Edit Configurations → Program arguments</em>):</p>
+
+<pre><code class="txt">java ... GeneradorDeEjercicios 104523</code></pre>
+
+<p>El programa sortea un tipo de árbol (<strong>ABB, AVL o Árbol B de orden 3</strong>) y genera tu secuencia: <strong>40 números a insertar, 6 búsquedas y 8 eliminaciones</strong>. Con eso:</p>
+<ol>
+  <li><strong>Insertá</strong> los 40 valores a mano, dibujando el árbol tras los primeros 10, tras 20, tras 30 y tras los 40. En el AVL, anotá cada rotación (tipo y nodo); en el B, cada división de nodo.</li>
+  <li><strong>Buscá</strong> los 6 valores: para cada uno, decí si está y cuántos nodos visitaste (ésa es la altura trabajando a tu favor… o en contra).</li>
+  <li><strong>Eliminá</strong> los 8 valores en orden, dibujando el árbol después de cada eliminación e indicando el caso (hoja / un hijo / dos hijos — y en el AVL, qué rotación disparó; en el B, qué fusión o préstamo).</li>
+  <li><strong>Verificá</strong> cada etapa en el simulador del tipo que te tocó (la misma secuencia, en el mismo orden):</li>
+</ol>
+
+<div class="tw">
+<table>
+  <thead><tr><th class="l">Árbol</th><th class="l">Simulador para verificar (y para corregir)</th></tr></thead>
+  <tbody>
+    <tr><td class="l">ABB</td><td class="l"><a href="https://cmps-people.ok.ubc.ca/ylucet/DS/BST.html" target="_blank" rel="noopener">cmps-people.ok.ubc.ca/ylucet/DS/BST.html</a></td></tr>
+    <tr><td class="l">AVL</td><td class="l"><a href="https://cmps-people.ok.ubc.ca/ylucet/DS/AVLtree.html" target="_blank" rel="noopener">cmps-people.ok.ubc.ca/ylucet/DS/AVLtree.html</a></td></tr>
+    <tr><td class="l">Árbol B (orden 3)</td><td class="l"><a href="https://cmps-people.ok.ubc.ca/ylucet/DS/BTree.html" target="_blank" rel="noopener">cmps-people.ok.ubc.ca/ylucet/DS/BTree.html</a> (con <em>Max. Degree = 3</em>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>(Los tres son el mismo sitio de visualizaciones — Universidad de British Columbia Okanagan —, así que la interfaz es idéntica; existe un espejo en <a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">cs.usfca.edu/~galles/visualization</a> por si el primero no responde.)</p>
+
+<p>Se entrega el PDF con los dibujos de los puntos de control (foto del papel o pizarra digital, da igual) con tu padrón visible. La cátedra corrige regenerando tu ejercicio con tu padrón y reproduciéndolo en el simulador: la semilla hace que tu secuencia sea exactamente reproducible.</p>
+
+<div class="exlevel"><span class="t" id="gfacil">8.13 · Nivel fácil</span><span class="l"></span></div>
 
 <p>Con la API de Java: <code class="inl">TreeMap</code> y <code class="inl">TreeSet</code> para orden, rangos, extremos y el más cercano.</p>
 
@@ -1753,7 +2061,7 @@ public final class FrecuenciasOrdenadas {
 
 <div class="ex" data-ex="f9">
   <div class="ex-hd"><div class="ex-n">9</div>
-    <div class="ex-body"><span class="ti">K-ésimo menor (simple)</span><p>K-ésimo menor elemento. El iterador de un <code class="inl">TreeSet</code> recorre los elementos en orden ascendente (recorrido in-order del árbol), así que el k-ésimo menor es simplemente el k-ésimo del recorrido.</p></div>
+    <div class="ex-body"><span class="ti">Mediana incremental (simple)</span><p>K-ésimo menor elemento. El iterador de un <code class="inl">TreeSet</code> recorre los elementos en orden ascendente (recorrido in-order del árbol), así que el k-ésimo menor es simplemente el k-ésimo del recorrido.</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="sol">⟨/⟩ Solución</button></div>
   <div class="ex-panel" data-p="sol">
@@ -1857,7 +2165,7 @@ public final class Vecinos {
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gmedio">8.13 · Nivel medio</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gmedio">8.14 · Nivel medio</span><span class="l"></span></div>
 
 <p>Con nodos propios: altura, recorridos, validar ABB y AVL, espejo, caminos y construir un árbol balanceado. Todo recursivo, con el caso base en el árbol vacío.</p>
 
@@ -2790,7 +3098,7 @@ class Nodo {
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gdificil">8.14 · Nivel difícil</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gdificil">8.15 · Nivel difícil</span><span class="l"></span></div>
 
 <p>Implementados a mano: el ABB con quitar, piso y techo, iterador, rotaciones, AVL con insertar y quitar, serialización y k-ésimo.</p>
 
@@ -3909,13 +4217,80 @@ public class ArbolAvlConQuitar&lt;T extends Comparable&lt;T&gt;&gt; {
 
 <div class="ex" data-ex="d8">
   <div class="ex-hd"><div class="ex-n">8</div>
-    <div class="ex-body"><span class="ti">ABB completo</span><p>ABB de enteros (réplica del ejercicio 1, especializado en Integer), con el recorrido en PRE-orden además del en orden.</p></div>
+    <div class="ex-body"><span class="ti">Serializar y reconstruir</span><p><code class="inl">String aPreOrden(arbol)</code> (valores separados por coma) y <code class="inl">reconstruir(String)</code> que inserta en ese orden; test: el árbol reconstruido tiene el mismo pre-orden e in-orden.</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
-  <div class="ex-actions"><button data-p="hint">💡 Idea</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Idea</b><p>El pre-orden (nodo, izquierda, derecha) es el recorrido clave para serializar: visita cada nodo ANTES que a sus hijos, o sea, en el mismo orden en que habría que insertarlos para reconstruir el árbol con la misma forma.</p></div></div>
+  <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>El pre-orden visita cada nodo <strong>antes</strong> que a sus hijos. Si insertás los valores en ese mismo orden en un ABB vacío, la raíz entra primero, después cada hijo cae exactamente donde estaba: la forma se reconstruye idéntica. Ojo: vale porque es un <strong>ABB</strong> (el orden de inserción determina la forma); para un binario cualquiera el pre-orden solo no alcanza. Costo de reconstruir: <span class="mth">n</span> inserciones de <span class="mth">O(h)</span>.</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="ans">
-<pre><code class="java">// ArbolBusqueda.java
+<div class="filelabel">guia/i08_arboles/i04_dificil/e08/SerializadorAbb.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i08_arboles.i04_dificil.e08;
+
+import java.util.StringJoiner;
+
+/**
+ * Serializar un ABB a texto y reconstruirlo despues.
+ *
+ * La clave: el PRE-orden alcanza para reconstruir un ABB identico.
+ * Como el pre-orden visita cada nodo antes que a sus hijos, insertar
+ * los valores en ese mismo orden vuelve a colgar cada nodo exactamente
+ * donde estaba (la raiz entra primero, despues su hijo, etc.).
+ *
+ * Ojo: esto vale porque el arbol es un ABB (el orden de insercion
+ * determina la forma). Para un arbol binario cualquiera el pre-orden
+ * solo no alcanza: haria falta marcar los null o sumar el en-orden.
+ */
+public class SerializadorAbb {
+
+    private SerializadorAbb() {
+        // Clase de metodos estaticos: no se instancia.
+    }
+
+    /**
+     * Serializa el arbol como sus valores en pre-orden separados por coma.
+     * Un arbol vacio se serializa como cadena vacia. O(n).
+     */
+    public static String aPreOrden(ArbolBusqueda arbol) {
+        StringJoiner joiner = new StringJoiner(",");
+        for (Integer valor : arbol.preOrden()) {
+            joiner.add(String.valueOf(valor));
+        }
+        return joiner.toString();
+    }
+
+    /**
+     * Reconstruye el arbol insertando los valores en el orden en que
+     * aparecen en el texto. Si el texto vino de aPreOrden, el arbol
+     * resultante tiene EXACTAMENTE la misma forma que el original.
+     * O(n * h): n inserciones de costo O(h).
+     */
+    public static ArbolBusqueda reconstruir(String texto) {
+        ArbolBusqueda arbol = new ArbolBusqueda();
+        if (texto == null || texto.isBlank()) {
+            return arbol; // Cadena vacia: arbol vacio.
+        }
+        for (String parte : texto.split(",")) {
+            arbol.insertar(Integer.parseInt(parte.trim()));
+        }
+        return arbol;
+    }
+
+    /** Demostracion: ida y vuelta sin perder la forma del arbol. */
+    public static void main(String[] args) {
+        ArbolBusqueda original = new ArbolBusqueda();
+        for (int valor : new int[] {50, 30, 70, 20, 40}) {
+            original.insertar(valor);
+        }
+        String texto = aPreOrden(original);
+        System.out.println("serializado  = " + texto);
+
+        ArbolBusqueda copia = reconstruir(texto);
+        System.out.println("preOrden igual: " + original.preOrden().equals(copia.preOrden()));
+        System.out.println("enOrden  igual: " + original.enOrden().equals(copia.enOrden()));
+    }
+}</code></pre>
+<div class="filelabel">guia/i08_arboles/i04_dificil/e08/ArbolBusqueda.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i08_arboles.i04_dificil.e08;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -3998,74 +4373,81 @@ public class ArbolBusqueda {
         preOrden(nodo.izq, resultado);
         preOrden(nodo.der, resultado);
     }
-}
+}</code></pre>
+<div class="filelabel">test/…/guia/i08_arboles/i04_dificil/e08/SerializadorAbbTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i08_arboles.i04_dificil.e08;
 
-// SerializadorAbb.java
-import java.util.StringJoiner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Serializar un ABB a texto y reconstruirlo despues.
- *
- * La clave: el PRE-orden alcanza para reconstruir un ABB identico.
- * Como el pre-orden visita cada nodo antes que a sus hijos, insertar
- * los valores en ese mismo orden vuelve a colgar cada nodo exactamente
- * donde estaba (la raiz entra primero, despues su hijo, etc.).
- *
- * Ojo: esto vale porque el arbol es un ABB (el orden de insercion
- * determina la forma). Para un arbol binario cualquiera el pre-orden
- * solo no alcanza: haria falta marcar los null o sumar el en-orden.
- */
-public class SerializadorAbb {
+import java.util.List;
 
-    private SerializadorAbb() {
-        // Clase de metodos estaticos: no se instancia.
-    }
+class SerializadorAbbTest {
 
-    /**
-     * Serializa el arbol como sus valores en pre-orden separados por coma.
-     * Un arbol vacio se serializa como cadena vacia. O(n).
-     */
-    public static String aPreOrden(ArbolBusqueda arbol) {
-        StringJoiner joiner = new StringJoiner(&quot;,&quot;);
-        for (Integer valor : arbol.preOrden()) {
-            joiner.add(String.valueOf(valor));
-        }
-        return joiner.toString();
-    }
-
-    /**
-     * Reconstruye el arbol insertando los valores en el orden en que
-     * aparecen en el texto. Si el texto vino de aPreOrden, el arbol
-     * resultante tiene EXACTAMENTE la misma forma que el original.
-     * O(n * h): n inserciones de costo O(h).
-     */
-    public static ArbolBusqueda reconstruir(String texto) {
+    /** Arma el arbol de la consigna: 50,30,70,20,40. */
+    private ArbolBusqueda armarArbol() {
         ArbolBusqueda arbol = new ArbolBusqueda();
-        if (texto == null || texto.isBlank()) {
-            return arbol; // Cadena vacia: arbol vacio.
-        }
-        for (String parte : texto.split(&quot;,&quot;)) {
-            arbol.insertar(Integer.parseInt(parte.trim()));
+        for (int valor : new int[] {50, 30, 70, 20, 40}) {
+            arbol.insertar(valor);
         }
         return arbol;
     }
 
-    /** Demostracion: ida y vuelta sin perder la forma del arbol. */
-    public static void main(String[] args) {
-        ArbolBusqueda original = new ArbolBusqueda();
-        for (int valor : new int[] {50, 30, 70, 20, 40}) {
-            original.insertar(valor);
-        }
-        String texto = aPreOrden(original);
-        System.out.println(&quot;serializado  = &quot; + texto);
+    @Test
+    @DisplayName("El pre-orden de 50,30,70,20,40 se serializa como 50,30,20,40,70")
+    void serializarEnPreOrden() {
+        assertEquals("50,30,20,40,70", SerializadorAbb.aPreOrden(armarArbol()));
+    }
 
-        ArbolBusqueda copia = reconstruir(texto);
-        System.out.println(&quot;preOrden igual: &quot; + original.preOrden().equals(copia.preOrden()));
-        System.out.println(&quot;enOrden  igual: &quot; + original.enOrden().equals(copia.enOrden()));
+    @Test
+    @DisplayName("Serializar y reconstruir devuelve un arbol con el mismo preOrden y enOrden")
+    void idaYVuelta() {
+        ArbolBusqueda original = armarArbol();
+        String texto = SerializadorAbb.aPreOrden(original);
+        ArbolBusqueda copia = SerializadorAbb.reconstruir(texto);
+
+        // Mismo preOrden =&gt; misma FORMA; mismo enOrden =&gt; mismos valores.
+        assertEquals(original.preOrden(), copia.preOrden());
+        assertEquals(original.enOrden(), copia.enOrden());
+        assertEquals(original.tamanio(), copia.tamanio());
+    }
+
+    @Test
+    @DisplayName("Reconstruir inserta en el orden del texto")
+    void reconstruirDesdeTexto() {
+        ArbolBusqueda arbol = SerializadorAbb.reconstruir("50,30,20,40,70");
+        assertEquals(List.of(50, 30, 20, 40, 70), arbol.preOrden());
+        assertEquals(List.of(20, 30, 40, 50, 70), arbol.enOrden());
+        assertEquals(5, arbol.tamanio());
+    }
+
+    @Test
+    @DisplayName("Un arbol vacio va y vuelve como cadena vacia")
+    void arbolVacio() {
+        ArbolBusqueda vacio = new ArbolBusqueda();
+        assertEquals("", SerializadorAbb.aPreOrden(vacio));
+        ArbolBusqueda reconstruido = SerializadorAbb.reconstruir("");
+        assertEquals(0, reconstruido.tamanio());
+        assertTrue(reconstruido.enOrden().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Reconstruir tolera espacios alrededor de las comas")
+    void reconstruirConEspacios() {
+        ArbolBusqueda arbol = SerializadorAbb.reconstruir(" 50 , 30 , 70 ");
+        assertEquals(List.of(30, 50, 70), arbol.enOrden());
+    }
+
+    @Test
+    @DisplayName("Serializar la copia da exactamente el mismo texto")
+    void serializarDosVecesDaLoMismo() {
+        String texto = SerializadorAbb.aPreOrden(armarArbol());
+        ArbolBusqueda copia = SerializadorAbb.reconstruir(texto);
+        assertEquals(texto, SerializadorAbb.aPreOrden(copia));
     }
 }</code></pre>
-<div class="ex-note">Archivo del repo: <code class="inl">guia/i08_arboles/i04_dificil/e08/ArbolBusqueda.java</code>. Tiene su test en el mismo paquete de <code class="inl">src/test</code>.</div>
-</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29).</div>
   </div>
 </div>
 
@@ -4459,7 +4841,7 @@ public class ComparativaArboles {
   <p>Quince preguntas sobre toda la unidad. Elegí una opción y se corrige al instante, con la explicación. Si errás, volvé a la sección que indica la explicación.</p>
 </div>
 
-<h3 id="s15"><span class="num">8.15</span>Autoevaluación</h3>
+<h3 id="s16"><span class="num">8.16</span>Autoevaluación</h3>
 
 <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:16px 0">
   <span id="quizScore">Respondidas 0 de 15</span>

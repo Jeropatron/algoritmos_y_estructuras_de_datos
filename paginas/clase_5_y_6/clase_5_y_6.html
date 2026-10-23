@@ -747,11 +747,11 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
 
 <p>Un <strong>Tipo de Dato Abstracto</strong> es la especificación de un tipo por sus <strong>operaciones</strong> y sus <strong>propiedades</strong>, sin comprometerse con una implementación. Un TDA se define con: un <strong>nombre</strong>, un conjunto de <strong>operaciones</strong> (con sus <strong>precondiciones</strong> y <strong>postcondiciones</strong>) y sus <strong>invariantes</strong> (lo que siempre debe cumplirse). Eso es <strong>el contrato</strong>.</p>
 
-<p>La clave es que <strong>el contrato es independiente de la implementación</strong>. Una <code class="inl">Pila</code> (operaciones <code class="inl">apilar</code>, <code class="inl">desapilar</code>, <code class="inl">tope</code>, con la regla <strong>LIFO</strong>) es un TDA; podés implementarla con un arreglo o con una lista enlazada, y quien la usa no debería notar la diferencia. Vas a ver este principio en cada estructura de la materia.</p>
+<p>La clave es que <strong>el contrato es independiente de la implementación</strong>. Un <code class="inl">Tablero</code> de ta-te-ti (operaciones <code class="inl">poner</code>, <code class="inl">fichaEn</code>, <code class="inl">hayGanador</code>, con sus invariantes: <strong>es de 3×3</strong>, <strong>una casilla ocupada no se pisa</strong>, <strong>los turnos se alternan</strong>) es un TDA; podés implementarlo con una matriz <code class="inl">Ficha[3][3]</code> o con un arreglo plano <code class="inl">Ficha[9]</code> (donde la casilla <code class="inl">(fila, col)</code> vive en la posición <code class="inl">fila * 3 + col</code>), y quien lo usa no debería notar la diferencia. Vas a ver este principio en cada estructura de la materia.</p>
 
 <figure>
   <div class="svg-hint">pasá el mouse por cada pieza</div>
-  <svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="El TDA como contrato con dos implementaciones">
+  <svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="El TDA Tablero como contrato con dos implementaciones">
     <defs>
       <marker id="t1" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
         <path d="M0,0 L7,3.2 L0,6.4 z" fill="#2f5ea8"/>
@@ -760,72 +760,61 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
         <path d="M0,0 L12,6 L0,12 z" fill="#12161f" stroke="#2f5ea8" stroke-width="1.4"/>
       </marker>
     </defs>
-    <g class="hot"><title>Quien usa la Pila conoce sólo esto: qué operaciones hay y qué garantizan. No sabe ni le importa cómo está hecha por dentro.</title>
+    <g class="hot"><title>Quien usa el Tablero conoce sólo esto: qué operaciones hay y qué invariantes garantizan. No sabe ni le importa si por dentro hay una matriz o un arreglo plano.</title>
       <rect class="s-box" x="30" y="26" width="240" height="132" rx="10" stroke="#2a4d80" stroke-width="1.8"/>
-      <text class="s-dim" x="150" y="46" text-anchor="middle" fill="#9cc4ff">«el que usa la pila»</text>
+      <text class="s-dim" x="150" y="46" text-anchor="middle" fill="#9cc4ff">«el que usa el tablero»</text>
       <text class="s-mono" x="150" y="68" text-anchor="middle" fill="#4f8cff" font-size="13" font-weight="600">ve sólo el CONTRATO</text>
-      <text class="s-mono" x="52" y="94" font-size="12">apilar(x)</text>
-      <text class="s-mono" x="52" y="112" font-size="12">desapilar()</text>
-      <text class="s-mono" x="52" y="130" font-size="12">tope()</text>
-      <text class="s-mono" x="164" y="94" fill="#3fb98a" font-size="11.5">propiedad:</text>
-      <text class="s-mono" x="164" y="112" fill="#3fb98a" font-size="12" font-weight="600">LIFO</text>
-      <text class="s-dim" x="164" y="130" font-size="10.5">last in, first out</text>
+      <text class="s-mono" x="52" y="94" font-size="12">poner(f, fila, col)</text>
+      <text class="s-mono" x="52" y="112" font-size="12">fichaEn(fila, col)</text>
+      <text class="s-mono" x="52" y="130" font-size="12">hayGanador()</text>
     </g>
-
     <g class="hot"><title>El TDA: nombre, operaciones con sus precondiciones y postcondiciones, e invariantes. Es una especificación, no código.</title>
       <rect class="s-box" x="330" y="26" width="440" height="132" rx="10" stroke="#2c6349" stroke-width="1.8"/>
       <text class="s-dim" x="550" y="46" text-anchor="middle" fill="#3fb98a">«TDA»</text>
-      <text class="s-mono" x="550" y="68" text-anchor="middle" fill="#3fb98a" font-size="14" font-weight="600">Pila&lt;T&gt;</text>
+      <text class="s-mono" x="550" y="68" text-anchor="middle" fill="#3fb98a" font-size="14" font-weight="600">Tablero</text>
       <line x1="352" y1="80" x2="748" y2="80" stroke="#232a38"/>
-      <text class="s-mono" x="352" y="100" font-size="11.5">+ apilar(T) : void</text>
-      <text class="s-dim" x="560" y="100" font-size="10.5">post: el elemento queda arriba</text>
-      <text class="s-mono" x="352" y="118" font-size="11.5">+ desapilar() : T</text>
-      <text class="s-dim" x="560" y="118" font-size="10.5">pre: la pila no está vacía</text>
-      <text class="s-mono" x="352" y="136" font-size="11.5">+ tope() : T</text>
-      <text class="s-dim" x="560" y="136" font-size="10.5">invariante: sale el último que entró</text>
+      <text class="s-mono" x="346" y="100" font-size="11">+ poner(Ficha, int, int)</text>
+      <text class="s-dim" x="604" y="100" font-size="10">pre: libre y es su turno</text>
+      <text class="s-mono" x="346" y="118" font-size="11">+ fichaEn(int, int): Ficha</text>
+      <text class="s-dim" x="604" y="118" font-size="10">post: null si está vacía</text>
+      <text class="s-mono" x="346" y="136" font-size="11">+ hayGanador(): boolean</text>
+      <text class="s-dim" x="604" y="136" font-size="10">inv.: 3×3, no se pisa</text>
     </g>
     <path class="s-arrow" d="M270 92 L324 92" marker-end="url(#t1)"/>
-
-    <text class="s-dim" x="400" y="196" text-anchor="middle" fill="#5f6b7c">↓ dos implementaciones intercambiables: cambiar una por otra no afecta al que usa ↓</text>
-
-    <g class="hot"><title>Implementación sobre arreglo: guarda los elementos en celdas contiguas y lleva un índice al tope. Crece copiando a un arreglo mayor.</title>
+    <text class="s-dim" x="400" y="196" text-anchor="middle" fill="#5f6b7c">↓ dos implementaciones intercambiables — matriz o arreglo plano — ↓</text>
+    <g class="hot"><title>Implementación con matriz: la casilla (fila, col) es casillas[fila][col].</title>
       <rect class="s-box" x="90" y="216" width="280" height="102" rx="10" stroke="#5c4a1e"/>
-      <text class="s-mono" x="230" y="240" text-anchor="middle" fill="#f0b429" font-size="12.5" font-weight="600">PilaSobreArreglo&lt;T&gt;</text>
-      <text class="s-mono" x="110" y="264" fill="#8b97a8" font-size="11">- T[] datos</text>
-      <text class="s-mono" x="110" y="282" fill="#8b97a8" font-size="11">- int tope</text>
-      <rect class="s-box" x="228" y="252" width="32" height="26" rx="4"/><text class="s-mono" x="244" y="270" text-anchor="middle" font-size="11">a</text>
-      <rect class="s-box" x="260" y="252" width="32" height="26" rx="4"/><text class="s-mono" x="276" y="270" text-anchor="middle" font-size="11">b</text>
-      <rect class="s-box" x="292" y="252" width="32" height="26" rx="4" stroke-dasharray="3 3"/>
-      <text class="s-dim" x="230" y="304" text-anchor="middle" font-size="10.5">celdas contiguas + índice al tope</text>
+      <text class="s-mono" x="230" y="240" text-anchor="middle" fill="#f0b429" font-size="12.5" font-weight="600">TableroConMatriz</text>
+      <text class="s-mono" x="110" y="266" fill="#8b97a8" font-size="11">- Ficha[3][3] casillas</text>
+      <text class="s-mono" x="110" y="284" fill="#8b97a8" font-size="11">casillas[fila][col]</text>
+      <rect class="s-box" x="286" y="250" width="18" height="18" rx="2"/><rect class="s-box" x="304" y="250" width="18" height="18" rx="2"/><rect class="s-box" x="322" y="250" width="18" height="18" rx="2"/>
+      <rect class="s-box" x="286" y="268" width="18" height="18" rx="2"/><rect class="s-box" x="304" y="268" width="18" height="18" rx="2"/><text class="s-mono" x="313" y="282" text-anchor="middle" font-size="11">X</text><rect class="s-box" x="322" y="268" width="18" height="18" rx="2"/>
+      <rect class="s-box" x="286" y="286" width="18" height="18" rx="2"/><rect class="s-box" x="304" y="286" width="18" height="18" rx="2"/><rect class="s-box" x="322" y="286" width="18" height="18" rx="2"/>
     </g>
-    <g class="hot"><title>Implementación enlazada: cada nodo apunta al siguiente. No hay que redimensionar nada; apilar es crear un nodo nuevo adelante.</title>
+    <g class="hot"><title>Implementación con arreglo plano: la casilla (fila, col) vive en la posición fila * 3 + col. El centro (1,1) es la posición 4.</title>
       <rect class="s-box" x="430" y="216" width="280" height="102" rx="10" stroke="#5a3d7a"/>
-      <text class="s-mono" x="570" y="240" text-anchor="middle" fill="#c8aaf7" font-size="12.5" font-weight="600">PilaEnlazada&lt;T&gt;</text>
-      <text class="s-mono" x="450" y="264" fill="#8b97a8" font-size="11">- Nodo cima</text>
-      <text class="s-mono" x="450" y="282" fill="#8b97a8" font-size="11">- int tamanio</text>
-      <rect class="s-box" x="560" y="252" width="38" height="26" rx="4"/><text class="s-mono" x="579" y="270" text-anchor="middle" font-size="11">b</text>
-      <path d="M598 265 L618 265" stroke="#5a3d7a" stroke-width="1.5" fill="none" marker-end="url(#t1)"/>
-      <rect class="s-box" x="622" y="252" width="38" height="26" rx="4"/><text class="s-mono" x="641" y="270" text-anchor="middle" font-size="11">a</text>
-      <text class="s-dim" x="570" y="304" text-anchor="middle" font-size="10.5">nodos conectados por referencias</text>
+      <text class="s-mono" x="570" y="240" text-anchor="middle" fill="#c8aaf7" font-size="12.5" font-weight="600">TableroPlano</text>
+      <text class="s-mono" x="450" y="262" fill="#8b97a8" font-size="11">- Ficha[9] casillas</text>
+      <text class="s-mono" x="450" y="280" fill="#8b97a8" font-size="11">casillas[fila * 3 + col]</text>
+      <rect class="s-box" x="450" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="472" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="494" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="516" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="538" y="290" width="22" height="18" rx="2"/><text class="s-mono" x="549" y="304" text-anchor="middle" font-size="11">X</text><rect class="s-box" x="560" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="582" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="604" y="290" width="22" height="18" rx="2"/><rect class="s-box" x="626" y="290" width="22" height="18" rx="2"/>
     </g>
     <path d="M230 216 L230 176 L520 176 L520 158" stroke="#2f5ea8" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#t1h)"/>
     <path d="M570 216 L570 176" stroke="#2f5ea8" stroke-width="1.5" fill="none" stroke-dasharray="5 4"/>
   </svg>
-  <figcaption><b>Figura 3.1</b> — El TDA como contrato: quien usa la <code class="inl">Pila</code> conoce sólo sus operaciones y su propiedad LIFO. Abajo, dos implementaciones intercambiables: cambiar una por otra no afecta al usuario.</figcaption>
+  <figcaption><b>Figura 3.1</b> — El TDA como contrato: quien usa el <code class="inl">Tablero</code> conoce sólo sus operaciones y sus invariantes. Abajo, dos implementaciones intercambiables — matriz o arreglo plano —: cambiar una por otra no afecta al usuario.</figcaption>
 </figure>
 
-<p>Veamos el contrato en acción. Sin saber nada de cómo está implementada la pila, el contrato alcanza para predecir qué pasa:</p>
+<p>Veamos el contrato en acción. Sin saber nada de cómo está implementado el tablero, el contrato alcanza para predecir qué pasa:</p>
 
-<pre><code class="java">Pila&lt;String&gt; p = /* cualquiera de las dos implementaciones */;
-p.apilar("a");       // pila: a
-p.apilar("b");       // pila: a b         (b quedó arriba)
-p.apilar("c");       // pila: a b c       (c quedó arriba)
-p.tope();            // "c"   — mira el de arriba, sin sacarlo
-p.desapilar();       // "c"   — LIFO: sale el ÚLTIMO que entró
-p.desapilar();       // "b"
-p.tope();            // "a"   — quedó el primero de todos</code></pre>
+<pre><code class="java">Tablero t = /* cualquiera de las dos implementaciones */;
+t.poner(Ficha.X, 1, 1);   // X al centro
+t.poner(Ficha.O, 0, 0);   // O a la esquina
+t.fichaEn(1, 1);          // X — lo que se puso se puede consultar
+t.fichaEn(2, 2);          // null: casilla todavía vacía
+t.poner(Ficha.X, 0, 0);   // ¡EXCEPCIÓN! el invariante dice: ocupada no se pisa
+t.hayGanador();           // false: nadie tiene tres en línea todavía</code></pre>
 
-<p>Cada línea se dedujo <strong>del contrato</strong> (la regla LIFO), no del código interno. Ése es el poder del TDA: podés razonar, testear y hasta escribir programas enteros contra el contrato, y recién después decidir (o cambiar) la implementación.</p>
+<p>Cada línea se dedujo <strong>del contrato</strong> (las operaciones y los invariantes), no del código interno. Ése es el poder del TDA: podés razonar, testear y hasta escribir programas enteros contra el contrato, y recién después decidir (o cambiar) la implementación — de la matriz al arreglo plano, sin que el resto del programa se entere. <span class="repo">En el repo: guia.i03_poo.i04_dificil.e10 (TableroConMatriz y TableroPlano), que ya hiciste.</span></p>
 
 <div class="box idea">
   <div class="bh">Idea clave</div>
@@ -1750,28 +1739,57 @@ Arrays.sort(ordenables);                          // usa compareTo (orden por á
 </div>
 
 <ol start="2">
-  <li><strong>Conjunto completo de operaciones.</strong> Se verifica con un <em>caso de uso</em>: una historia concreta de punta a punta (para un TDA Cine: se crea la sala, se venden tres entradas, alguien quiere una butaca vendida y se lo rechaza, se pregunta la recaudación, se cancela una venta). Escribí el <code class="inl">main</code> o el test de esa historia: si te faltó un método, el TDA estaba incompleto; si uno nunca apareció, probablemente sobra. Pensalo desde el usuario, que solo ve los métodos públicos.</li>
-  <li><strong>Robustez:</strong> cada método público valida sus parámetros y falla con una excepción clara (<code class="inl">IllegalArgumentException</code>).</li>
-  <li><strong>Encapsular:</strong> atributos <code class="inl">private</code>, siempre. Los únicos caminos a los datos son los métodos, y ellos defienden el invariante.</li>
-  <li><strong>Pre y post en cada método:</strong> el javadoc dice qué exige, qué garantiza, qué devuelve y qué lanza.</li>
-  <li><strong>Cada TDA implementa lo suyo.</strong> Si Biblioteca contiene Libro, «¿está vencido?» vive en Libro: la Biblioteca le pregunta, no lo resuelve por él.</li>
-  <li><strong>equals y toString:</strong> <code class="inl">equals</code> por contenido (con su <code class="inl">hashCode</code>) y un <code class="inl">toString</code> que muestre todo el estado.</li>
-  <li><strong>Nunca hardcoding:</strong> nada de números ni textos mágicos sueltos. Constantes con nombre (<code class="inl">CAPACIDAD_MAXIMA</code>) o parámetros.</li>
-  <li><strong>Si hay un vector, su capacidad entra por el constructor</strong> (o el vector se redimensiona). <code class="inl">new Pelicula[100]</code> con el 100 clavado viola el 8 y el 9 a la vez.</li>
-  <li><strong>«Sin valor» se dice <code class="inl">null</code>, nunca −1 ni <code class="inl">MAX_VALUE</code>.</strong> Si un dato puede no estar todavía (la mejor nota, el primer turno), usá el wrapper (<code class="inl">Integer</code>, <code class="inl">Double</code>) en <code class="inl">null</code>. Un −1 es un valor disfrazado de ausencia: el día que −1 sea un dato válido, el TDA miente.</li>
-  <li><strong>Si el TDA pasa por etapas, el estado es un <code class="inl">enum</code>, no booleans.</strong> Dibujá el diagrama de estados (pendiente → confirmada → cancelada). Dos booleans permiten el estado imposible «confirmada y cancelada»; el enum lo vuelve irrepresentable.</li>
-  <li><strong>El tipo de dato no va en los nombres:</strong> <code class="inl">aplicaciones</code>, no <code class="inl">vectorDeAplicaciones</code>. El nombre habla del dominio; la estructura interna es un secreto.</li>
-  <li><strong><code class="inl">null</code> es ideal para máximos y mínimos:</strong> sin centinelas ni casos especiales (ejemplo abajo).</li>
-  <li><strong>En el ejercicio de TDA NO se usan listas, pilas ni colas</strong>, ni de <code class="inl">java.util</code> ni propias: arreglos administrados por vos. Administrar el arreglo es parte de lo que se evalúa.</li>
-  <li><strong>Lo calculable es un MÉTODO, no un atributo.</strong> La recaudación es la suma de lo vendido: <code class="inl">recaudacion()</code> la calcula cuando se la piden. Un atributo que hay que «mantener actualizado» es un bug en cámara lenta.</li>
-  <li><strong>Recibí el TDA entero por parámetro</strong>, no sus atributos sueltos: <code class="inl">agregar(Pelicula p)</code>, no <code class="inl">agregar(titulo, duracion, genero)</code>. La excepción razonable: un id para buscar.</li>
-  <li><strong>Nada de <code class="inl">System.out</code> adentro del TDA</strong> (salvo que el TDA sea la pantalla). El TDA devuelve datos; imprimirlos lo decide quien lo usa.</li>
-  <li><strong>Copia defensiva al devolver lo interno:</strong> si devolvés tu arreglo, devolvé una copia (<code class="inl">Arrays.copyOf</code>).</li>
-  <li><strong>El constructor entrega un TDA válido:</strong> valida sus parámetros y deja los invariantes cumplidos desde el primer instante. Lo que no cambia nunca, <code class="inl">final</code>.</li>
-  <li><strong>El test también prueba lo inválido:</strong> por cada validación, un <code class="inl">assertThrows</code> que demuestre que el TDA se defiende.</li>
+  <li><strong>Conjunto completo de operaciones.</strong> ¿Cómo sabés que no te falta ni sobra ninguna? Con un <em>caso de uso</em>: una historia concreta y completa de uso del TDA, contada de punta a punta. Para un TDA Cine: «se crea la sala con 30 butacas, se venden tres entradas, alguien intenta comprar una butaca vendida y se lo rechaza, se pregunta la recaudación, se cancela una venta». Cuatro formas de detectarlo, todas con el mismo espíritu:
+    <ul>
+      <li><strong>Escribí el <code class="inl">main</code> del caso de uso:</strong> si para contar la historia te faltó un método, el conjunto estaba incompleto; si un método no apareció nunca, probablemente sobre.</li>
+      <li><strong>Escribí el test del caso de uso:</strong> mismo efecto, con la ventaja de que queda verificado para siempre (JUnit, U1B).</li>
+      <li><strong>Mirá el TDA desde el punto de vista del USUARIO</strong> (el que lo usa sin ver la implementación): ¿puede hacer todo lo que el dominio pide, sólo con los métodos públicos?</li>
+      <li><strong>Imprimí el contenido:</strong> el TDA tiene que poder mostrar TODOS los atributos con los que opera (su <code class="inl">toString</code>, punto 7). Si algo no se puede ver, difícilmente esté bien pensado.</li>
+    </ul></li>
+  <li><strong>Robustez: validá los parámetros de CADA método.</strong> Todo método público verifica sus precondiciones y falla con una excepción clara (<code class="inl">IllegalArgumentException</code> y compañía, U1B). Un TDA que acepta basura promete cualquier cosa.</li>
+  <li><strong>Encapsular: que nadie rompa tu TDA por acceso directo.</strong> Atributos <code class="inl">private</code>, siempre. El único camino a los datos son los métodos — y ellos defienden el invariante.</li>
+  <li><strong>Pre y post: cada método tiene contrato.</strong> El javadoc dice qué exige (pre), qué garantiza (post), qué devuelve y qué lanza. Quien llama sabe a qué atenerse sin leer la implementación.</li>
+  <li><strong>No implementes los métodos del TDA chico en el TDA que lo contiene.</strong> Si Biblioteca contiene Libro, la lógica de un libro (¿está vencido?, ¿es del autor X?) vive en Libro — la Biblioteca le pregunta, no lo resuelve por él. <strong>Cada TDA implementa lo suyo; el contenedor coordina.</strong></li>
+  <li><strong><code class="inl">equals</code> y <code class="inl">toString</code>.</strong> <code class="inl">equals</code> por contenido (con su <code class="inl">hashCode</code>, «Los métodos estándar») y un <code class="inl">toString</code> que muestre el estado completo (punto 2). Sin ellos, el TDA no se puede comparar ni inspeccionar.</li>
+  <li><strong>Nunca hardcoding.</strong> Ni números ni textos mágicos sueltos en el código: constantes con nombre (<code class="inl">CAPACIDAD_MAXIMA</code>) o parámetros. Si un valor puede cambiar, entra por el constructor.</li>
+  <li><strong>Si hay un vector, la capacidad entra por el constructor</strong> (o el vector se redimensiona, U2). <code class="inl">new Pelicula[100]</code> con el 100 clavado en el código es el punto 8 y el 9 violados a la vez.</li>
+  <li><strong>«Sin valor» se dice <code class="inl">null</code> — nunca −1 ni <code class="inl">MAX_VALUE</code>.</strong> Cuando un dato puede «todavía no estar» (la mejor nota, el primer turno, la fecha de devolución), usá el tipo wrapper (<code class="inl">Integer</code>, <code class="inl">Double</code>) inicializado en <code class="inl">null</code>. Un centinela mágico como −1 es un valor DISFRAZADO de ausencia: el día que −1 sea un dato válido, el TDA miente.</li>
+  <li><strong>¿Hace falta diagrama de estados? Y el estado es un ENUM, no un boolean.</strong> Si el TDA pasa por etapas (pendiente → confirmada → cancelada), dibujá el diagrama de estados y modelalo con un <code class="inl">enum</code> (U1B). Dos booleans (<code class="inl">confirmada</code>, <code class="inl">cancelada</code>) permiten el estado imposible <code class="inl">confirmada &amp;&amp; cancelada</code>; el enum lo hace irrepresentable.</li>
+  <li><strong>El tipo de dato no va en los nombres.</strong> <code class="inl">aplicaciones</code>, no <code class="inl">vectorDeAplicaciones</code>; <code class="inl">Agenda</code>, no <code class="inl">VectorDeTurnos</code>. El nombre habla del DOMINIO; la estructura interna es un secreto de implementación (que mañana puede cambiar — y el nombre quedaría mintiendo).</li>
+  <li><strong>El <code class="inl">null</code> es ideal para máximos y mínimos.</strong> Es la otra cara del punto 10, y queda así de limpio — sin centinelas, sin casos especiales (ejemplo abajo).</li>
+  <li><strong>En el ejercicio de TDA NO se usan listas, ni pilas, ni colas.</strong> Ni de <code class="inl">java.util</code> ni propias: arreglos administrados por vos (con su cantidad, su redimensión si hace falta). Administrar el arreglo ES parte de lo que el ejercicio evalúa. Las colecciones llegan en la Unidad 5, y desde ahí sí.</li>
+  <li><strong>Lo calculable es un MÉTODO, no un atributo.</strong> La recaudación es la suma de las entradas vendidas: <code class="inl">recaudacion()</code> la calcula cuando se la piden. Un atributo <code class="inl">recaudacion</code> que hay que «mantener actualizado» es un bug en cámara lenta: tarde o temprano se desincroniza del dato real.</li>
+  <li><strong>Recibí el TDA entero por parámetro, no sus atributos sueltos</strong> (la excepción: un id para buscar). El TDA viaja completo:
+<pre><code class="java">// así NO: la película desarmada en pedacitos
+public void agregar(String titulo, int duracion, String genero) { ... }
+
+// así SÍ: el TDA entero...
+public void agregar(Pelicula pelicula) { ... }
+
+// ...y la excepción razonable: un id para buscar
+public Pelicula buscarPorId(int id) { ... }</code></pre></li>
+  <li><strong>Nada de <code class="inl">System.out</code> adentro del TDA</strong> (salvo que el TDA sea el manejo de pantalla). El TDA devuelve datos; imprimirlos es decisión de quien lo usa (el main, la pantalla). Un TDA que imprime no se puede usar en un test, en una ventana ni en un servidor — quedó soldado a la consola.</li>
+</ol>
+<p>Y tres más que redondean la lista:</p>
+<ol start="18">
+  <li><strong>Copia defensiva al devolver lo interno.</strong> Si un método devuelve tu arreglo interno (o un objeto mutable tuyo), devolvé una copia (<code class="inl">Arrays.copyOf</code>): si entregás el original, el punto 4 era decorativo — cualquiera edita tu estado por afuera.</li>
+  <li><strong>El constructor entrega un TDA válido.</strong> Los invariantes valen desde el primer instante: el constructor valida sus parámetros (punto 3) y deja todo listo. Lo que no cambia nunca, <code class="inl">final</code>.</li>
+  <li><strong>El test también prueba lo INVÁLIDO.</strong> Por cada validación del punto 3, un <code class="inl">assertThrows</code> que demuestre que el TDA se defiende. El caso de uso (punto 2) prueba que hace lo que debe; estos prueban que NO hace lo que no debe.</li>
 </ol>
 
-<p>El punto 13, con un ejemplo distinto al del apunte: la canción más larga de una playlist sobre arreglo.</p>
+<p>El punto 13 en el apunte:</p>
+
+<pre><code class="java">public Pelicula laMasLarga() {
+    Pelicula maxima = null;
+    for (int i = 0; i &lt; cantidad; i++) {
+        if (maxima == null || peliculas[i].duracion() &gt; maxima.duracion()) {
+            maxima = peliculas[i];
+        }
+    }
+    return maxima;          // null si no hay películas: ausencia honesta
+}</code></pre>
+
+<p>Y el mismo patrón con otro dominio: la canción más larga de una playlist sobre arreglo.</p>
 
 <pre><code class="java">public Cancion laMasLarga() {
     Cancion maxima = null;
@@ -2793,228 +2811,576 @@ public class Termometro {
 
 <div class="ex" data-ex="m1">
   <div class="ex-hd"><div class="ex-n">1</div>
-    <div class="ex-body"><span class="ti">TDA Pila</span><p>Sobre arreglo: <code class="inl">apilar</code>, <code class="inl">desapilar</code>, <code class="inl">tope</code>, <code class="inl">estaVacia</code>, <code class="inl">tamanio</code>; test del comportamiento LIFO.</p></div>
+    <div class="ex-body"><span class="ti">TDA Cadena</span><p>Sobre <code class="inl">char[]</code> (sin <code class="inl">String</code> por dentro, salvo en <code class="inl">toString</code>): <code class="inl">largo()</code>, <code class="inl">caracterEn(i)</code>, <code class="inl">contiene(char)</code>, <code class="inl">enMayusculas()</code> e <code class="inl">invertida()</code> (devuelven una Cadena NUEVA: inmutable), <code class="inl">equals</code> y <code class="inl">toString</code>. Test.</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Un arreglo <code class="inl">Object[]</code> y un índice <code class="inl">tope</code> que apunta a la primera celda libre. <code class="inl">apilar</code> escribe en <code class="inl">tope</code> y lo incrementa; <code class="inl">desapilar</code> lo decrementa y lee. Dos cosas que suman: al desapilar poné la celda en <code class="inl">null</code> (fuga lógica, Unidad 2), y definí en el contrato qué pasa al desapilar de una pila vacía.</div></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>El estado es un <code class="inl">final char[]</code> que se copia en el constructor (copia defensiva: si te pasan un arreglo y lo guardás tal cual, el que te lo pasó puede cambiarlo por afuera). Las operaciones que «transforman» no tocan el arreglo: arman uno nuevo y devuelven <code class="inl">new Cadena(...)</code>. <code class="inl">equals</code> compara contenido con <code class="inl">Arrays.equals</code>, y <code class="inl">hashCode</code> con <code class="inl">Arrays.hashCode</code>.</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="filelabel">guia/i03_poo/i03_medio/e01/PilaVacíaException.java</div>
+<div class="filelabel">guia/i03_poo/i03_medio/e01/Cadena.java</div>
 <pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i03_medio.e01;
 
-public class PilaVaciaException extends RuntimeException {
-    public PilaVaciaException(String operacion) {
-        super("no se puede " + operacion + " de una pila vacía");
-    }
-}</code></pre>
-<div class="filelabel">guia/i03_poo/i03_medio/e01/PilaSobreArreglo.java</div>
-<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i03_medio.e01;
+import java.util.Arrays;
 
 /**
- * TDA Pila: colección LIFO (last in, first out).
- * INVARIANTE: 0 &lt;= tope &lt;= datos.length
+ * TDA Cadena: una secuencia INMUTABLE de caracteres implementada sobre un
+ * {@code char[]} nativo (sin usar {@code String} por dentro, salvo para
+ * construir y para {@code toString}).
+ *
+ * &lt;p&gt;Inmutable: ninguna operación modifica esta cadena; las que "transforman"
+ * ({@link #enMayusculas()}, {@link #invertida()}) devuelven una Cadena NUEVA.&lt;/p&gt;
  */
-public class PilaSobreArreglo&lt;T&gt; {
+public final class Cadena {
 
-    private static final int CAPACIDAD_INICIAL = 8;
+    private final char[] caracteres;
 
-    private Object[] datos = new Object[CAPACIDAD_INICIAL];
-    private int tope;                 // primera celda LIBRE
-
-    /** POST: el elemento queda arriba de todo. */
-    public void apilar(T elemento) {
-        if (tope == datos.length) {
-            datos = java.util.Arrays.copyOf(datos, datos.length * 2);
+    /**
+     * Crea una cadena a partir de un texto.
+     *
+     * &lt;p&gt;pre: {@code texto} no es null (puede ser vacío).&lt;br&gt;
+     * post: la cadena contiene los mismos caracteres que {@code texto},
+     * copiados una única vez a un arreglo interno.&lt;/p&gt;
+     *
+     * @param texto el texto de origen.
+     * @throws IllegalArgumentException si {@code texto} es null.
+     */
+    public Cadena(String texto) {
+        if (texto == null) {
+            throw new IllegalArgumentException("El texto no puede ser null");
         }
-        datos[tope++] = elemento;
+        this.caracteres = texto.toCharArray();
     }
 
-    /** PRE: la pila no está vacía.  POST: sale el ÚLTIMO que entró. */
-    @SuppressWarnings("unchecked")
-    public T desapilar() {
-        if (estaVacia()) throw new PilaVaciaException("desapilar");
-        T elemento = (T) datos[--tope];
-        datos[tope] = null;           // suelta la referencia: evita la fuga lógica
-        return elemento;
+    /**
+     * Crea una cadena a partir de un arreglo de caracteres.
+     *
+     * &lt;p&gt;pre: {@code caracteres} no es null (puede tener largo 0).&lt;br&gt;
+     * post: la cadena contiene una COPIA del arreglo (copia defensiva):
+     * modificar el arreglo original después no afecta a esta cadena.&lt;/p&gt;
+     *
+     * @param caracteres los caracteres de origen.
+     * @throws IllegalArgumentException si {@code caracteres} es null.
+     */
+    public Cadena(char[] caracteres) {
+        if (caracteres == null) {
+            throw new IllegalArgumentException("El arreglo de caracteres no puede ser null");
+        }
+        this.caracteres = Arrays.copyOf(caracteres, caracteres.length);
     }
 
-    /** PRE: la pila no está vacía.  POST: la pila no cambia. */
-    @SuppressWarnings("unchecked")
-    public T tope() {
-        if (estaVacia()) throw new PilaVaciaException("consultar el tope");
-        return (T) datos[tope - 1];
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la cantidad de caracteres de la cadena (0 si es vacía).
+     *
+     * @return el largo de la cadena.
+     */
+    public int largo() {
+        return caracteres.length;
     }
 
-    public boolean estaVacia() { return tope == 0; }
-    public int tamanio()       { return tope; }
+    /**
+     * pre: {@code indice} está en el rango [0, largo()).&lt;br&gt;
+     * post: devuelve el carácter en la posición {@code indice} (base 0),
+     * sin modificar la cadena.
+     *
+     * @param indice posición del carácter pedido.
+     * @return el carácter en esa posición.
+     * @throws IllegalArgumentException si {@code indice} está fuera de rango.
+     */
+    public char caracterEn(int indice) {
+        if (indice &lt; 0 || indice &gt;= caracteres.length) {
+            throw new IllegalArgumentException(
+                    "Índice fuera de rango: " + indice + " (largo=" + caracteres.length + ")");
+        }
+        return caracteres[indice];
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve true si y sólo si {@code buscado} aparece al menos una
+     * vez en la cadena; la cadena no se modifica.
+     *
+     * @param buscado el carácter a buscar.
+     * @return true si la cadena contiene el carácter.
+     */
+    public boolean contiene(char buscado) {
+        for (char caracter : caracteres) {
+            if (caracter == buscado) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve una cadena NUEVA con cada carácter pasado a mayúscula;
+     * esta cadena queda intacta (inmutabilidad).
+     *
+     * @return una nueva Cadena en mayúsculas.
+     */
+    public Cadena enMayusculas() {
+        char[] resultado = new char[caracteres.length];
+        for (int i = 0; i &lt; caracteres.length; i++) {
+            resultado[i] = Character.toUpperCase(caracteres[i]);
+        }
+        return new Cadena(resultado);
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve una cadena NUEVA con los caracteres en orden inverso;
+     * esta cadena queda intacta (inmutabilidad).
+     *
+     * @return una nueva Cadena invertida.
+     */
+    public Cadena invertida() {
+        char[] resultado = new char[caracteres.length];
+        for (int i = 0; i &lt; caracteres.length; i++) {
+            resultado[i] = caracteres[caracteres.length - 1 - i];
+        }
+        return new Cadena(resultado);
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve true si y sólo si {@code otro} es una Cadena con los
+     * mismos caracteres en el mismo orden.
+     */
+    @Override
+    public boolean equals(Object otro) {
+        if (this == otro) {
+            return true;
+        }
+        if (!(otro instanceof Cadena otraCadena)) {
+            return false;
+        }
+        return Arrays.equals(this.caracteres, otraCadena.caracteres);
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve un hash consistente con {@link #equals(Object)}.
+     */
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(caracteres);
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el contenido COMPLETO de la cadena como String
+     * (único lugar donde se usa String como representación).
+     */
+    @Override
+    public String toString() {
+        return new String(caracteres);
+    }
+
+    /**
+     * Demostración breve del TDA Cadena.
+     */
+    public static void main(String[] args) {
+        Cadena saludo = new Cadena("hola mundo");
+        System.out.println("Cadena: " + saludo);
+        System.out.println("largo(): " + saludo.largo());
+        System.out.println("caracterEn(4): '" + saludo.caracterEn(4) + "'");
+        System.out.println("contiene('m'): " + saludo.contiene('m'));
+        System.out.println("contiene('z'): " + saludo.contiene('z'));
+        System.out.println("enMayusculas(): " + saludo.enMayusculas());
+        System.out.println("invertida(): " + saludo.invertida());
+        System.out.println("La original NO cambió (inmutable): " + saludo);
+        System.out.println("equals con otra igual: " + saludo.equals(new Cadena("hola mundo")));
+    }
 }</code></pre>
-<div class="filelabel">test · PilaSobreArregloTest.java</div>
-<pre><code class="java">class PilaSobreArregloTest {
+<div class="filelabel">test/…/guia/i03_poo/i03_medio/e01/CadenaTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i03_medio.e01;
 
-    @Test @DisplayName("Pila recién creada")
-    void reciénCreada() {
-        var p = new PilaSobreArreglo&lt;String&gt;();
-        assertTrue(p.estaVacia());
-        assertEquals(0, p.tamanio());
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class CadenaTest {
+
+    @Test
+    @DisplayName("largo y caracterEn responden sobre el contenido construido")
+    void largoYCaracterEn() {
+        Cadena cadena = new Cadena("hola");
+        assertEquals(4, cadena.largo());
+        assertEquals('h', cadena.caracterEn(0));
+        assertEquals('a', cadena.caracterEn(3));
     }
 
-    @Test @DisplayName("LIFO: sale el último que entró")
-    void lifo() {
-        var p = new PilaSobreArreglo&lt;String&gt;();
-        p.apilar("a"); p.apilar("b"); p.apilar("c");
-
-        assertEquals("c", p.desapilar());
-        assertEquals("b", p.desapilar());
-        assertEquals("a", p.desapilar());
-        assertTrue(p.estaVacia());
+    @Test
+    @DisplayName("la cadena vacía tiene largo 0")
+    void cadenaVacia() {
+        Cadena vacia = new Cadena("");
+        assertEquals(0, vacia.largo());
+        assertFalse(vacia.contiene('a'));
+        assertEquals("", vacia.toString());
     }
 
-    @Test @DisplayName("tope mira sin sacar")
-    void topeNoSaca() {
-        var p = new PilaSobreArreglo&lt;String&gt;();
-        p.apilar("a"); p.apilar("b");
-
-        assertEquals("b", p.tope());
-        assertEquals(2, p.tamanio(), "tope no debe modificar la pila");
-        assertEquals("b", p.tope());
+    @Test
+    @DisplayName("contiene encuentra caracteres presentes y no los ausentes")
+    void contiene() {
+        Cadena cadena = new Cadena("programar");
+        assertTrue(cadena.contiene('g'));
+        assertTrue(cadena.contiene('r'));
+        assertFalse(cadena.contiene('z'));
     }
 
-    @Test @DisplayName("Desapilar o mirar el tope de una pila vacía")
-    void vacia() {
-        var p = new PilaSobreArreglo&lt;String&gt;();
-        assertThrows(PilaVaciaException.class, p::desapilar);
-        assertThrows(PilaVaciaException.class, p::tope);
+    @Test
+    @DisplayName("enMayusculas devuelve una cadena nueva y no modifica la original")
+    void enMayusculasEsInmutable() {
+        Cadena original = new Cadena("Hola");
+        Cadena mayusculas = original.enMayusculas();
+        assertEquals("HOLA", mayusculas.toString());
+        assertEquals("Hola", original.toString());
+        assertNotSame(original, mayusculas);
     }
 
-    @Test @DisplayName("Crece más allá de la capacidad inicial")
-    void crece() {
-        var p = new PilaSobreArreglo&lt;Integer&gt;();
-        for (int i = 0; i &lt; 100; i++) p.apilar(i);
-        assertEquals(100, p.tamanio());
-        assertEquals(99, p.desapilar());
+    @Test
+    @DisplayName("invertida devuelve una cadena nueva y no modifica la original")
+    void invertidaEsInmutable() {
+        Cadena original = new Cadena("neuquen");
+        Cadena invertida = original.invertida();
+        assertEquals("neuquen", invertida.toString());
+        assertEquals("neuquen", original.toString());
+
+        Cadena otra = new Cadena("abc");
+        assertEquals("cba", otra.invertida().toString());
+        assertEquals("abc", otra.toString());
     }
 
-    @Test @DisplayName("Intercalar apilar y desapilar")
-    void intercalado() {
-        var p = new PilaSobreArreglo&lt;String&gt;();
-        p.apilar("a"); p.apilar("b");
-        assertEquals("b", p.desapilar());
-        p.apilar("c");
-        assertEquals("c", p.desapilar());
-        assertEquals("a", p.desapilar());
+    @Test
+    @DisplayName("equals compara por contenido y toString muestra todo")
+    void equalsYToString() {
+        Cadena una = new Cadena("test");
+        Cadena otra = new Cadena(new char[]{'t', 'e', 's', 't'});
+        assertEquals(una, otra);
+        assertEquals(una.hashCode(), otra.hashCode());
+        assertNotEquals(una, new Cadena("otra"));
+        assertNotEquals(una, "test");
+        assertEquals("test", una.toString());
+    }
+
+    @Test
+    @DisplayName("el constructor desde char[] hace copia defensiva")
+    void copiaDefensivaEnConstructor() {
+        char[] origen = {'a', 'b', 'c'};
+        Cadena cadena = new Cadena(origen);
+        origen[0] = 'z';
+        assertEquals('a', cadena.caracterEn(0), "modificar el arreglo original no debe afectar la cadena");
+    }
+
+    @Test
+    @DisplayName("parámetros inválidos lanzan excepciones claras")
+    void invalidos() {
+        assertThrows(IllegalArgumentException.class, () -&gt; new Cadena((String) null));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Cadena((char[]) null));
+
+        Cadena cadena = new Cadena("hola");
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.caracterEn(-1));
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.caracterEn(4));
     }
 }</code></pre>
-<div class="ex-note">Fijate que los tests están escritos <b>contra el contrato</b>: ninguno mira el arreglo interno. Por eso el mismo test va a servir tal cual para la implementación enlazada del difícil 10.</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29). Se sacaron los comentarios <code class="inl">// TODO</code> de la plantilla.</div>
   </div>
 </div>
 
 <div class="ex" data-ex="m2">
   <div class="ex-hd"><div class="ex-n">2</div>
-    <div class="ex-body"><span class="ti">TDA Cola</span><p>Sobre arreglo: <code class="inl">encolar</code>, <code class="inl">desencolar</code>, <code class="inl">frente</code>; test FIFO.</p></div>
+    <div class="ex-body"><span class="ti">TDA Tablero (ta-te-ti)</span><p>El del apunte (3.2): <code class="inl">enum Ficha (X, O)</code>, <code class="inl">poner(ficha, fila, col)</code> validando casilla libre y turno alternado, <code class="inl">fichaEn</code>, <code class="inl">hayGanador</code>, <code class="inl">hayEmpate</code>. Elegí matriz 3×3 o arreglo plano de 9 — y justificá en el javadoc. Test con una partida completa y con jugadas inválidas.</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Con dos índices (<code class="inl">frente</code> y <code class="inl">fin</code>) que sólo avanzan, el arreglo se “consume” por la izquierda y desperdiciás lugar. La solución clásica es el <b>arreglo circular</b>: los índices dan la vuelta con <code class="inl">% capacidad</code>. Guardá el <code class="inl">tamanio</code> aparte para distinguir la cola vacía de la llena, porque en ambas <code class="inl">frente == fin</code>.</div></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Tres invariantes, tres validaciones en <code class="inl">poner</code>: coordenadas en rango (<code class="inl">IllegalArgumentException</code>), casilla libre y turno correcto (<code class="inl">IllegalStateException</code>). El turno es estado: la solución guarda <code class="inl">proximoTurno</code> (arranca X) y lo alterna en cada <code class="inl">poner</code>. <code class="inl">fichaEn</code> devuelve <code class="inl">null</code> para la casilla vacía (checklist 10). Para <code class="inl">hayGanador</code>, chequeá las 3 filas, las 3 columnas y las 2 diagonales con un auxiliar <code class="inl">tresIguales(a, b, c)</code>.</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="filelabel">guia/i03_poo/i03_medio/e02/ColaSobreArreglo.java</div>
+<div class="filelabel">guia/i03_poo/i03_medio/e02/Ficha.java</div>
 <pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i03_medio.e02;
 
 /**
- * TDA Cola: colección FIFO (first in, first out).
- * Implementada con un arreglo CIRCULAR para no desperdiciar lugar.
+ * Las dos fichas posibles del ta-te-ti. Un enum (y no un char o un boolean)
+ * hace imposible representar una ficha inválida.
  */
-public class ColaSobreArreglo&lt;T&gt; {
+public enum Ficha {
+    X,
+    O
+}</code></pre>
+<div class="filelabel">guia/i03_poo/i03_medio/e02/Tablero.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i03_medio.e02;
 
-    private Object[] datos = new Object[8];
-    private int frente;      // índice del primero
-    private int fin;         // primera celda libre
-    private int tamanio;     // necesario: con frente == fin no se distingue vacía de llena
+/**
+ * TDA Tablero de ta-te-ti (3x3).
+ *
+ * &lt;p&gt;Decisión de representación: elegimos una MATRIZ {@code Ficha[3][3]}
+ * porque el dominio (fila, columna) mapea directo a los dos índices y las
+ * verificaciones de filas, columnas y diagonales se leen tal cual se piensan.
+ * La alternativa (arreglo plano de 9 con {@code fila * 3 + columna}) ahorra
+ * un nivel de indirección pero obliga a hacer la aritmética de índices a mano;
+ * para este TDA priorizamos claridad.&lt;/p&gt;
+ *
+ * &lt;p&gt;Reglas que el tablero garantiza: arranca X, los turnos se alternan,
+ * no se puede poner en una casilla ocupada ni jugar terminada la partida.&lt;/p&gt;
+ */
+public class Tablero {
 
-    /** POST: el elemento queda al final. */
-    public void encolar(T elemento) {
-        if (tamanio == datos.length) redimensionar();
-        datos[fin] = elemento;
-        fin = (fin + 1) % datos.length;      // da la vuelta
-        tamanio++;
+    private static final int DIMENSION = 3;
+
+    private final Ficha[][] casillas;
+    private Ficha proximoTurno;
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: crea un tablero de 3x3 vacío donde el próximo turno es de X.
+     */
+    public Tablero() {
+        this.casillas = new Ficha[DIMENSION][DIMENSION];
+        this.proximoTurno = Ficha.X;
     }
 
-    /** PRE: la cola no está vacía.  POST: sale el PRIMERO que entró. */
-    @SuppressWarnings("unchecked")
-    public T desencolar() {
-        if (estaVacia()) throw new ColaVaciaException("desencolar");
-        T elemento = (T) datos[frente];
-        datos[frente] = null;
-        frente = (frente + 1) % datos.length;
-        tamanio--;
-        return elemento;
-    }
-
-    /** PRE: la cola no está vacía.  POST: la cola no cambia. */
-    @SuppressWarnings("unchecked")
-    public T frente() {
-        if (estaVacia()) throw new ColaVaciaException("consultar el frente");
-        return (T) datos[frente];
-    }
-
-    public boolean estaVacia() { return tamanio == 0; }
-    public int tamanio()       { return tamanio; }
-
-    private void redimensionar() {
-        Object[] nuevo = new Object[datos.length * 2];
-        for (int i = 0; i &lt; tamanio; i++) {          // se "desenrolla" el círculo
-            nuevo[i] = datos[(frente + i) % datos.length];
+    /**
+     * Pone una ficha en la casilla indicada.
+     *
+     * &lt;p&gt;pre: {@code ficha} no es null y es la del turno actual (arranca X y
+     * se alterna); {@code fila} y {@code columna} están en [0, 3); la casilla
+     * está libre; la partida no terminó.&lt;br&gt;
+     * post: la casilla queda ocupada por {@code ficha} y el turno pasa a la
+     * otra ficha.&lt;/p&gt;
+     *
+     * @param ficha la ficha a poner.
+     * @param fila fila de la casilla (base 0).
+     * @param columna columna de la casilla (base 0).
+     * @throws IllegalArgumentException si la ficha es null o la casilla está fuera de rango.
+     * @throws IllegalStateException si no es el turno de esa ficha, la casilla
+     *         está ocupada o la partida ya terminó.
+     */
+    public void poner(Ficha ficha, int fila, int columna) {
+        if (ficha == null) {
+            throw new IllegalArgumentException("La ficha no puede ser null");
         }
-        datos = nuevo;
-        frente = 0;
-        fin = tamanio;
+        validarCasilla(fila, columna);
+        if (hayGanador() || hayEmpate()) {
+            throw new IllegalStateException("La partida ya terminó: no se pueden poner más fichas");
+        }
+        if (ficha != proximoTurno) {
+            throw new IllegalStateException(
+                    "No es el turno de " + ficha + ": le toca a " + proximoTurno);
+        }
+        if (casillas[fila][columna] != null) {
+            throw new IllegalStateException(
+                    "La casilla (" + fila + ", " + columna + ") ya está ocupada por "
+                            + casillas[fila][columna]);
+        }
+        casillas[fila][columna] = ficha;
+        proximoTurno = (proximoTurno == Ficha.X) ? Ficha.O : Ficha.X;
+    }
+
+    /**
+     * pre: {@code fila} y {@code columna} están en [0, 3).&lt;br&gt;
+     * post: devuelve la ficha de esa casilla, o null si está vacía
+     * ("sin valor" se representa con null, nunca con un valor centinela).
+     *
+     * @param fila fila de la casilla (base 0).
+     * @param columna columna de la casilla (base 0).
+     * @return la ficha en esa casilla, o null si está libre.
+     * @throws IllegalArgumentException si la casilla está fuera de rango.
+     */
+    public Ficha fichaEn(int fila, int columna) {
+        validarCasilla(fila, columna);
+        return casillas[fila][columna];
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve true si alguna ficha completó una fila, una columna o
+     * una diagonal; el tablero no se modifica (es calculable: MÉTODO, no atributo).
+     *
+     * @return true si hay tres en línea.
+     */
+    public boolean hayGanador() {
+        for (int i = 0; i &lt; DIMENSION; i++) {
+            if (lineaCompleta(casillas[i][0], casillas[i][1], casillas[i][2])) {
+                return true;
+            }
+            if (lineaCompleta(casillas[0][i], casillas[1][i], casillas[2][i])) {
+                return true;
+            }
+        }
+        return lineaCompleta(casillas[0][0], casillas[1][1], casillas[2][2])
+                || lineaCompleta(casillas[0][2], casillas[1][1], casillas[2][0]);
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve true si el tablero está completo y nadie ganó;
+     * el tablero no se modifica.
+     *
+     * @return true si la partida terminó empatada.
+     */
+    public boolean hayEmpate() {
+        if (hayGanador()) {
+            return false;
+        }
+        for (int fila = 0; fila &lt; DIMENSION; fila++) {
+            for (int columna = 0; columna &lt; DIMENSION; columna++) {
+                if (casillas[fila][columna] == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el contenido completo del tablero, casilla por casilla,
+     * con '.' para las libres.
+     */
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder();
+        for (int fila = 0; fila &lt; DIMENSION; fila++) {
+            for (int columna = 0; columna &lt; DIMENSION; columna++) {
+                Ficha ficha = casillas[fila][columna];
+                texto.append(ficha == null ? "." : ficha.toString());
+                if (columna &lt; DIMENSION - 1) {
+                    texto.append(' ');
+                }
+            }
+            texto.append('\n');
+        }
+        return texto.toString();
+    }
+
+    private void validarCasilla(int fila, int columna) {
+        if (fila &lt; 0 || fila &gt;= DIMENSION || columna &lt; 0 || columna &gt;= DIMENSION) {
+            throw new IllegalArgumentException(
+                    "Casilla fuera de rango: (" + fila + ", " + columna + "); debe estar en [0, 3)");
+        }
+    }
+
+    private boolean lineaCompleta(Ficha primera, Ficha segunda, Ficha tercera) {
+        return primera != null &amp;&amp; primera == segunda &amp;&amp; segunda == tercera;
+    }
+
+    /**
+     * Demostración breve: una partida donde gana X por la primera columna.
+     */
+    public static void main(String[] args) {
+        Tablero tablero = new Tablero();
+        tablero.poner(Ficha.X, 0, 0);
+        tablero.poner(Ficha.O, 0, 1);
+        tablero.poner(Ficha.X, 1, 0);
+        tablero.poner(Ficha.O, 1, 1);
+        tablero.poner(Ficha.X, 2, 0);
+        System.out.println(tablero);
+        System.out.println("hayGanador(): " + tablero.hayGanador());
+        System.out.println("hayEmpate(): " + tablero.hayEmpate());
+        System.out.println("fichaEn(2, 2): " + tablero.fichaEn(2, 2) + " (null = vacía)");
     }
 }</code></pre>
-<div class="filelabel">test · ColaSobreArregloTest.java</div>
-<pre><code class="java">class ColaSobreArregloTest {
+<div class="filelabel">test/…/guia/i03_poo/i03_medio/e02/TableroTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i03_medio.e02;
 
-    @Test @DisplayName("FIFO: sale el primero que entró")
-    void fifo() {
-        var c = new ColaSobreArreglo&lt;String&gt;();
-        c.encolar("a"); c.encolar("b"); c.encolar("c");
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-        assertEquals("a", c.desencolar());
-        assertEquals("b", c.desencolar());
-        assertEquals("c", c.desencolar());
-        assertTrue(c.estaVacia());
+import static org.junit.jupiter.api.Assertions.*;
+
+class TableroTest {
+
+    @Test
+    @DisplayName("partida completa: X gana por la diagonal principal")
+    void partidaConGanador() {
+        Tablero tablero = new Tablero();
+        tablero.poner(Ficha.X, 0, 0);
+        tablero.poner(Ficha.O, 0, 1);
+        tablero.poner(Ficha.X, 1, 1);
+        tablero.poner(Ficha.O, 0, 2);
+        assertFalse(tablero.hayGanador(), "todavía nadie ganó");
+
+        tablero.poner(Ficha.X, 2, 2);
+        assertTrue(tablero.hayGanador());
+        assertFalse(tablero.hayEmpate());
+        assertEquals(Ficha.X, tablero.fichaEn(1, 1));
+        assertEquals(Ficha.O, tablero.fichaEn(0, 1));
     }
 
-    @Test @DisplayName("frente mira sin sacar")
-    void frenteNoSaca() {
-        var c = new ColaSobreArreglo&lt;String&gt;();
-        c.encolar("a"); c.encolar("b");
-        assertEquals("a", c.frente());
-        assertEquals(2, c.tamanio());
+    @Test
+    @DisplayName("partida completa sin tres en línea: empate")
+    void partidaEmpatada() {
+        Tablero tablero = new Tablero();
+        // X O X / X O O / O X X : nadie hace tres en línea.
+        tablero.poner(Ficha.X, 0, 0);
+        tablero.poner(Ficha.O, 0, 1);
+        tablero.poner(Ficha.X, 0, 2);
+        tablero.poner(Ficha.O, 1, 1);
+        tablero.poner(Ficha.X, 1, 0);
+        tablero.poner(Ficha.O, 1, 2);
+        tablero.poner(Ficha.X, 2, 1);
+        tablero.poner(Ficha.O, 2, 0);
+        assertFalse(tablero.hayEmpate(), "con una casilla libre todavía no es empate");
+
+        tablero.poner(Ficha.X, 2, 2);
+        assertTrue(tablero.hayEmpate());
+        assertFalse(tablero.hayGanador());
     }
 
-    @Test @DisplayName("Cola vacía")
-    void vacia() {
-        var c = new ColaSobreArreglo&lt;String&gt;();
-        assertThrows(ColaVaciaException.class, c::desencolar);
-        assertThrows(ColaVaciaException.class, c::frente);
+    @Test
+    @DisplayName("una casilla vacía devuelve null y el tablero nuevo no tiene ganador ni empate")
+    void tableroNuevo() {
+        Tablero tablero = new Tablero();
+        assertNull(tablero.fichaEn(1, 1));
+        assertFalse(tablero.hayGanador());
+        assertFalse(tablero.hayEmpate());
     }
 
-    @Test @DisplayName("El arreglo circular reutiliza el lugar liberado")
-    void circular() {
-        var c = new ColaSobreArreglo&lt;Integer&gt;();
-        for (int i = 0; i &lt; 8; i++) c.encolar(i);      // se llena
-        for (int i = 0; i &lt; 5; i++) c.desencolar();    // libera 5 al principio
-        for (int i = 100; i &lt; 105; i++) c.encolar(i);  // deben entrar sin crecer
-
-        assertEquals(8, c.tamanio());
-        assertEquals(5, c.desencolar());
+    @Test
+    @DisplayName("no se puede poner en una casilla ocupada")
+    void casillaOcupada() {
+        Tablero tablero = new Tablero();
+        tablero.poner(Ficha.X, 1, 1);
+        assertThrows(IllegalStateException.class, () -&gt; tablero.poner(Ficha.O, 1, 1));
     }
 
-    @Test @DisplayName("Crece y conserva el orden")
-    void creceOrdenado() {
-        var c = new ColaSobreArreglo&lt;Integer&gt;();
-        for (int i = 0; i &lt; 100; i++) c.encolar(i);
-        for (int i = 0; i &lt; 100; i++) assertEquals(i, c.desencolar());
+    @Test
+    @DisplayName("no se puede jugar fuera del turno: arranca X y se alterna")
+    void turnoEquivocado() {
+        Tablero tablero = new Tablero();
+        assertThrows(IllegalStateException.class, () -&gt; tablero.poner(Ficha.O, 0, 0),
+                "arranca X, no puede empezar O");
+
+        tablero.poner(Ficha.X, 0, 0);
+        assertThrows(IllegalStateException.class, () -&gt; tablero.poner(Ficha.X, 0, 1),
+                "X no puede jugar dos veces seguidas");
+    }
+
+    @Test
+    @DisplayName("casillas fuera de rango y ficha null lanzan IllegalArgumentException")
+    void parametrosInvalidos() {
+        Tablero tablero = new Tablero();
+        assertThrows(IllegalArgumentException.class, () -&gt; tablero.poner(Ficha.X, -1, 0));
+        assertThrows(IllegalArgumentException.class, () -&gt; tablero.poner(Ficha.X, 0, 3));
+        assertThrows(IllegalArgumentException.class, () -&gt; tablero.poner(Ficha.X, 3, 3));
+        assertThrows(IllegalArgumentException.class, () -&gt; tablero.poner(null, 0, 0));
+        assertThrows(IllegalArgumentException.class, () -&gt; tablero.fichaEn(0, -1));
+        assertThrows(IllegalArgumentException.class, () -&gt; tablero.fichaEn(5, 0));
+    }
+
+    @Test
+    @DisplayName("terminada la partida no se puede seguir jugando")
+    void partidaTerminada() {
+        Tablero tablero = new Tablero();
+        tablero.poner(Ficha.X, 0, 0);
+        tablero.poner(Ficha.O, 1, 0);
+        tablero.poner(Ficha.X, 0, 1);
+        tablero.poner(Ficha.O, 1, 1);
+        tablero.poner(Ficha.X, 0, 2); // X gana por la primera fila.
+        assertTrue(tablero.hayGanador());
+        assertThrows(IllegalStateException.class, () -&gt; tablero.poner(Ficha.O, 2, 2));
     }
 }</code></pre>
-<div class="ex-note">El test <code class="inl">circular</code> es el que verifica que realmente implementaste el arreglo circular y no dos índices que sólo avanzan. Y el de crecer comprueba lo más delicado de la redimensión: que al “desenrollar” el círculo el orden se conserve.</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29). Se sacaron los comentarios <code class="inl">// TODO</code> de la plantilla.</div>
   </div>
 </div>
 
@@ -3715,361 +4081,1197 @@ public class EquipoSuperficial {
 
 <div class="ex" data-ex="d1">
   <div class="ex-hd"><div class="ex-n">1</div>
-    <div class="ex-body"><span class="ti">Pila con redimensión</span><p><code class="inl">Pila&lt;T&gt;</code> sobre arreglo que crezca al llenarse; test que soporta más que su capacidad inicial.</p></div>
+    <div class="ex-body"><span class="ti">TDA Zoologico</span><p><code class="inl">Animal</code> (nombre, especie, peso) + <code class="inl">Zoologico</code> sobre arreglo con capacidad por constructor: <code class="inl">ingresar(animal)</code>, <code class="inl">buscarPorNombre(nombre)</code>, <code class="inl">elMasPesado()</code> (con <code class="inl">null</code> si no hay animales — checklist 13), <code class="inl">pesoTotal()</code> CALCULADO (checklist 15), <code class="inl">toString</code> con todo el contenido. Pasale el checklist completo antes de entregar; el test incluye los casos inválidos (checklist 20).</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Duplicá la capacidad al llenarse, no le sumes uno: duplicando, el costo promedio por inserción queda constante (eso se llama <b>análisis amortizado</b> y se ve en la Unidad 5). Encapsulá la redimensión en un método privado. Y probá también achicar cuando queda muy vacía — pero con histéresis, a un cuarto y no a la mitad, para no oscilar.</div></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Es el molde del ejercicio 2 del parcial. Atributos: <code class="inl">Animal[] animales</code> (capacidad por constructor, checklist 9) y <code class="inl">int cantidad</code>. <code class="inl">ingresar</code> recibe el <code class="inl">Animal</code> entero (checklist 16) y valida null, lleno y nombre repetido (reusando <code class="inl">buscarPorNombre</code>). <code class="inl">elMasPesado</code> es el patrón del punto 13: <code class="inl">maximo = null</code> y <code class="inl">maximo == null || ... &gt; ...</code>. <code class="inl">pesoTotal</code> recorre y suma: no hay atributo <code class="inl">pesoTotal</code>.</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="filelabel">guia/i03_poo/i04_dificil/e01/Pila.java</div>
+<div class="filelabel">guia/i03_poo/i04_dificil/e01/Animal.java</div>
 <pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e01;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
+/**
+ * Un animal del zoológico: nombre, especie y peso en kilos.
+ *
+ * &lt;p&gt;Es un record porque es un valor inmutable sin identidad propia más allá
+ * de sus datos; el constructor compacto valida y garantiza que todo Animal
+ * construido es válido.&lt;/p&gt;
+ *
+ * @param nombre nombre propio del animal (no vacío).
+ * @param especie especie del animal (no vacía).
+ * @param pesoEnKilos peso estrictamente positivo.
+ */
+public record Animal(String nombre, String especie, double pesoEnKilos) {
+
+    /**
+     * pre: {@code nombre} y {@code especie} no son null ni vacíos;
+     * {@code pesoEnKilos} es mayor que 0.&lt;br&gt;
+     * post: el animal queda construido y válido.
+     *
+     * @throws IllegalArgumentException si algún parámetro es inválido.
+     */
+    public Animal {
+        if (nombre == null || nombre.isBlank()){
+            throw new IllegalArgumentException("El nombre no puede ser null o estar vacio.");
+        }
+
+        if (especie == null || especie.isBlank()){
+            throw new IllegalArgumentException("La especie no puede ser null o estar vacio.");
+        }
+
+        if (pesoEnKilos &lt;= 0) {
+            throw new IllegalArgumentException("El peso no puede ser menor o igual a 0.");
+        }
+
+    }
+}</code></pre>
+<div class="filelabel">guia/i03_poo/i04_dificil/e01/Zoologico.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e01;
 
 /**
- * TDA Pila (LIFO) sobre arreglo con redimensión automática.
- * INVARIANTE: 0 &lt;= tope &lt;= datos.length
+ * TDA Zoologico: administra los animales ingresados sobre un arreglo nativo
+ * cuya capacidad se fija por parámetro del constructor (nunca hardcodeada).
+ *
+ * &lt;p&gt;Invariante: las posiciones [0, cantidad) del arreglo tienen animales
+ * (sin nulls intercalados) y no hay dos animales con el mismo nombre.&lt;/p&gt;
  */
-public class Pila&lt;T&gt; {
+public class Zoologico {
 
-    private static final int CAPACIDAD_INICIAL = 4;
+    private final Animal[] animales;
+    private int cantidad;
 
-    private Object[] datos = new Object[CAPACIDAD_INICIAL];
-    private int tope;
-
-    public void apilar(T elemento) {
-        if (tope == datos.length) redimensionar(datos.length * 2);
-        datos[tope++] = elemento;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T desapilar() {
-        if (estaVacia()) throw new NoSuchElementException("pila vacía");
-        T elemento = (T) datos[--tope];
-        datos[tope] = null;                       // evita la fuga lógica
-
-        // achica a la mitad cuando queda en un cuarto: histéresis, para no oscilar
-        if (tope &gt; 0 &amp;&amp; tope == datos.length / 4 &amp;&amp; datos.length &gt; CAPACIDAD_INICIAL) {
-            redimensionar(datos.length / 2);
+    /**
+     * pre: {@code capacidadMaxima} es mayor que 0.&lt;br&gt;
+     * post: crea un zoológico vacío que admite hasta {@code capacidadMaxima}
+     * animales.
+     *
+     * @param capacidadMaxima cantidad máxima de animales que entran.
+     * @throws IllegalArgumentException si la capacidad no es positiva.
+     */
+    public Zoologico(int capacidadMaxima) {
+        if (capacidadMaxima &lt;= 0) {
+            throw new IllegalArgumentException(
+                    "La capacidad debe ser mayor que 0, se recibió: " + capacidadMaxima);
         }
-        return elemento;
+        this.animales = new Animal[capacidadMaxima];
+        this.cantidad = 0;
     }
 
-    @SuppressWarnings("unchecked")
-    public T tope() {
-        if (estaVacia()) throw new NoSuchElementException("pila vacía");
-        return (T) datos[tope - 1];
+    /**
+     * Ingresa un animal al zoológico. Se recibe el TDA Animal ENTERO,
+     * no sus atributos sueltos.
+     *
+     * &lt;p&gt;pre: {@code animal} no es null, hay lugar y no existe otro animal
+     * con el mismo nombre.&lt;br&gt;
+     * post: el animal queda ingresado y {@code cantidadDeAnimales()} aumenta en 1.&lt;/p&gt;
+     *
+     * @param animal el animal a ingresar.
+     * @throws IllegalArgumentException si {@code animal} es null.
+     * @throws IllegalStateException si el zoológico está lleno o ya hay un
+     *         animal con ese nombre.
+     */
+    public void ingresar(Animal animal) {
+        if (animal == null) {
+            throw new IllegalArgumentException("El animal no puede ser null.");
+        }
+
+        if (cantidad == animales.length) {
+            throw new IllegalStateException("El arreglo esta lleno.");
+        }
+
+        if (buscarPorNombre(animal.nombre()) != null) {
+            throw new IllegalStateException("El animal ya se encuentra registrado.");
+        }
+
+        animales[cantidad] = animal;
+
+        cantidad++;
     }
 
-    public boolean estaVacia() { return tope == 0; }
-    public int tamanio()       { return tope; }
+    /**
+     * Busca un animal por su nombre. Decisión de diseño: no encontrarlo NO es
+     * un error del que llama (preguntar es legítimo), así que devolvemos null
+     * en vez de lanzar una excepción; el nombre es la única búsqueda por
+     * "atributo suelto" admitida (es el identificador).
+     *
+     * &lt;p&gt;pre: {@code nombre} no es null ni vacío.&lt;br&gt;
+     * post: devuelve el animal con ese nombre, o null si no hay ninguno;
+     * el zoológico no se modifica.&lt;/p&gt;
+     *
+     * @param nombre el nombre a buscar.
+     * @return el animal encontrado, o null si no está.
+     * @throws IllegalArgumentException si {@code nombre} es null o vacío.
+     */
+    public Animal buscarPorNombre(String nombre) {
+        if (nombre == null || nombre.isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo ni estar en blanco.");
+        }
 
-    /** Sólo para los tests: la capacidad interna no es parte del contrato. */
-    int capacidad() { return datos.length; }
+        for (int i = 0; i &lt; cantidad; i++) {
+            if (animales[i].nombre().equals(nombre)) {
+                return animales[i];
+            }
+        }
+        return null;
+    }
 
-    private void redimensionar(int nuevaCapacidad) {
-        datos = Arrays.copyOf(datos, nuevaCapacidad);
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el animal de mayor peso, o null si el zoológico está
+     * vacío ("sin valor" = null, nunca un centinela); no se modifica nada.
+     *
+     * @return el animal más pesado, o null si no hay animales.
+     */
+    public Animal elMasPesado() {
+        Animal maximo = null;
+
+        for (int i = 0; i &lt; cantidad; i++) {
+            if (maximo == null || animales[i].pesoEnKilos() &gt; maximo.pesoEnKilos()) {
+                maximo = animales[i];
+            }
+        }
+        return maximo;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la suma de los pesos de todos los animales (0 si está
+     * vacío). Es calculable recorriendo, por eso es MÉTODO y no atributo.
+     *
+     * @return el peso total en kilos.
+     */
+    public double pesoTotal() {
+        double total = 0;
+
+        for (int i = 0; i &lt; cantidad; i++) {
+            total += animales[i].pesoEnKilos();
+        }
+        return total;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve cuántos animales hay ingresados.
+     *
+     * @return la cantidad de animales.
+     */
+    public int cantidadDeAnimales() {
+        return cantidad;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve una descripción con TODOS los animales del zoológico.
+     */
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder("Zoologico (")
+                .append(cantidad).append('/').append(animales.length).append(" animales)");
+        for (int i = 0; i &lt; cantidad; i++) {
+            texto.append("\n  - ").append(animales[i]);
+        }
+        return texto.toString();
+    }
+
+    /**
+     * Demostración breve del TDA Zoologico.
+     */
+    public static void main(String[] args) {
+        Zoologico zoologico = new Zoologico(5);
+        zoologico.ingresar(new Animal("Clemente", "Elefante", 4200));
+        zoologico.ingresar(new Animal("Rita", "Jirafa", 900));
+        zoologico.ingresar(new Animal("Simba", "Leon", 190));
+
+        System.out.println(zoologico);
+        System.out.println("elMasPesado(): " + zoologico.elMasPesado());
+        System.out.println("pesoTotal(): " + zoologico.pesoTotal() + " kg");
+        System.out.println("buscarPorNombre(\"Rita\"): " + zoologico.buscarPorNombre("Rita"));
+        System.out.println("buscarPorNombre(\"Dumbo\"): " + zoologico.buscarPorNombre("Dumbo"));
     }
 }</code></pre>
-<div class="filelabel">test · PilaTest.java</div>
-<pre><code class="java">class PilaTest {
+<div class="filelabel">test/…/guia/i03_poo/i04_dificil/e01/ZoologicoTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e01;
 
-    @Test @DisplayName("Soporta muchos más que la capacidad inicial")
-    void creceLoQueHagaFalta() {
-        var p = new Pila&lt;Integer&gt;();
-        for (int i = 0; i &lt; 10_000; i++) p.apilar(i);
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-        assertEquals(10_000, p.tamanio());
-        for (int i = 9_999; i &gt;= 0; i--) assertEquals(i, p.desapilar());
-        assertTrue(p.estaVacia());
+import static org.junit.jupiter.api.Assertions.*;
+
+class ZoologicoTest {
+
+    @Test
+    @DisplayName("ingresar suma animales y cantidadDeAnimales los cuenta")
+    void ingresarYContar() {
+        Zoologico zoologico = new Zoologico(3);
+        assertEquals(0, zoologico.cantidadDeAnimales());
+
+        zoologico.ingresar(new Animal("Clemente", "Elefante", 4200));
+        zoologico.ingresar(new Animal("Rita", "Jirafa", 900));
+        assertEquals(2, zoologico.cantidadDeAnimales());
     }
 
-    @Test @DisplayName("La capacidad se duplica, no crece de a uno")
-    void duplica() {
-        var p = new Pila&lt;Integer&gt;();
-        int inicial = p.capacidad();
-        for (int i = 0; i &lt; inicial + 1; i++) p.apilar(i);
-        assertEquals(inicial * 2, p.capacidad());
+    @Test
+    @DisplayName("buscarPorNombre devuelve el animal, o null si no está")
+    void buscarPorNombre() {
+        Zoologico zoologico = new Zoologico(3);
+        Animal rita = new Animal("Rita", "Jirafa", 900);
+        zoologico.ingresar(rita);
+
+        assertEquals(rita, zoologico.buscarPorNombre("Rita"));
+        assertNull(zoologico.buscarPorNombre("Dumbo"));
     }
 
-    @Test @DisplayName("Achica al vaciarse, sin perder elementos")
-    void achica() {
-        var p = new Pila&lt;Integer&gt;();
-        for (int i = 0; i &lt; 64; i++) p.apilar(i);
-        int grande = p.capacidad();
-        for (int i = 0; i &lt; 60; i++) p.desapilar();
+    @Test
+    @DisplayName("elMasPesado devuelve null en un zoológico vacío y el máximo con animales")
+    void elMasPesado() {
+        Zoologico zoologico = new Zoologico(3);
+        assertNull(zoologico.elMasPesado());
 
-        assertTrue(p.capacidad() &lt; grande, "debería haber achicado");
-        assertEquals(4, p.tamanio());
-        assertEquals(3, p.desapilar());
+        zoologico.ingresar(new Animal("Simba", "Leon", 190));
+        zoologico.ingresar(new Animal("Clemente", "Elefante", 4200));
+        zoologico.ingresar(new Animal("Rita", "Jirafa", 900));
+        assertEquals("Clemente", zoologico.elMasPesado().nombre());
     }
 
-    @Test @DisplayName("LIFO y bordes")
-    void contrato() {
-        var p = new Pila&lt;String&gt;();
-        assertThrows(NoSuchElementException.class, p::desapilar);
-        p.apilar("a"); p.apilar("b");
-        assertEquals("b", p.tope());
-        assertEquals("b", p.desapilar());
-        assertEquals("a", p.desapilar());
-        assertThrows(NoSuchElementException.class, p::tope);
+    @Test
+    @DisplayName("pesoTotal se calcula recorriendo (0 si está vacío)")
+    void pesoTotal() {
+        Zoologico zoologico = new Zoologico(3);
+        assertEquals(0.0, zoologico.pesoTotal());
+
+        zoologico.ingresar(new Animal("Simba", "Leon", 190.5));
+        zoologico.ingresar(new Animal("Rita", "Jirafa", 900.0));
+        assertEquals(1090.5, zoologico.pesoTotal());
+    }
+
+    @Test
+    @DisplayName("ingresar lanza si está lleno o si el nombre está duplicado")
+    void ingresarInvalido() {
+        Zoologico zoologico = new Zoologico(2);
+        zoologico.ingresar(new Animal("Simba", "Leon", 190));
+        assertThrows(IllegalStateException.class,
+                () -&gt; zoologico.ingresar(new Animal("Simba", "Tigre", 220)),
+                "no puede haber dos animales con el mismo nombre");
+
+        zoologico.ingresar(new Animal("Rita", "Jirafa", 900));
+        assertThrows(IllegalStateException.class,
+                () -&gt; zoologico.ingresar(new Animal("Clemente", "Elefante", 4200)),
+                "está lleno");
+        assertThrows(IllegalArgumentException.class, () -&gt; zoologico.ingresar(null));
+    }
+
+    @Test
+    @DisplayName("los parámetros inválidos de Animal y Zoologico lanzan excepciones")
+    void construccionInvalida() {
+        assertThrows(IllegalArgumentException.class, () -&gt; new Zoologico(0));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Zoologico(-3));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Animal(null, "Leon", 190));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Animal("  ", "Leon", 190));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Animal("Simba", "", 190));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Animal("Simba", "Leon", 0));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Animal("Simba", "Leon", -5));
+
+        Zoologico zoologico = new Zoologico(1);
+        assertThrows(IllegalArgumentException.class, () -&gt; zoologico.buscarPorNombre(null));
+        assertThrows(IllegalArgumentException.class, () -&gt; zoologico.buscarPorNombre(" "));
+    }
+
+    @Test
+    @DisplayName("toString muestra todos los animales")
+    void toStringMuestraTodo() {
+        Zoologico zoologico = new Zoologico(2);
+        zoologico.ingresar(new Animal("Simba", "Leon", 190));
+        zoologico.ingresar(new Animal("Rita", "Jirafa", 900));
+        String texto = zoologico.toString();
+        assertTrue(texto.contains("Simba"));
+        assertTrue(texto.contains("Rita"));
+        assertTrue(texto.contains("Jirafa"));
     }
 }</code></pre>
-<div class="ex-note">El método <code class="inl">capacidad()</code> es <em>package-private</em> a propósito: el test lo necesita, pero <b>no es parte del contrato</b> del TDA. Quien usa la pila no debe saber que hay un arreglo adentro.</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29). Se sacaron los comentarios <code class="inl">// TODO</code> de la plantilla.</div>
   </div>
 </div>
 
 <div class="ex" data-ex="d2">
   <div class="ex-hd"><div class="ex-n">2</div>
-    <div class="ex-body"><span class="ti">Conjunto (Set)</span><p><code class="inl">Conjunto&lt;T&gt;</code> sobre arreglo que no admita duplicados (usando <code class="inl">equals</code>), con <code class="inl">agregar</code>, <code class="inl">contiene</code>, <code class="inl">tamanio</code>; test.</p></div>
+    <div class="ex-body"><span class="ti">TDA Tren con vagones</span><p><code class="inl">Vagon</code> (capacidad en kilos, carga actual; su <code class="inl">cargar</code> valida y ES SU lógica — checklist 6: el tren delega) + <code class="inl">Tren</code>: <code class="inl">engancharVagon</code>, <code class="inl">desengancharUltimo</code>, <code class="inl">cargar(kilos)</code> que reparte al primer vagón con lugar (y lanza si no entra en ninguno), <code class="inl">cargaTotal()</code> calculada, <code class="inl">vagonMasCargado()</code> (con <code class="inl">null</code>). Test del reparto y de los bordes.</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>“No admite duplicados” significa: antes de agregar, buscá con <code class="inl">contiene</code>. Y esa búsqueda tiene que usar <code class="inl">equals</code>, no <code class="inl">==</code> — es todo el punto del ejercicio. Usá <code class="inl">Objects.equals</code> para tolerar <code class="inl">null</code>. Que <code class="inl">agregar</code> devuelva <code class="inl">boolean</code> (si lo agregó o ya estaba) es la convención de <code class="inl">Set</code> en Java.</div></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>La clave es la <strong>delegación</strong> (checklist 6): el <code class="inl">Tren</code> decide <em>en qué</em> vagón cargar preguntando <code class="inl">lugarLibre()</code>; el <em>cómo</em> (validar y sumar) lo hace <code class="inl">Vagon.cargar</code>. <code class="inl">lugarLibre()</code> es calculable (capacidad − carga): método, no atributo. Al desenganchar, dejá la celda en <code class="inl">null</code> para no retener la referencia. (Un Tren con vagones también fue el ej. 3 del parcial 2022-1C o03.)</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="filelabel">guia/i03_poo/i04_dificil/e02/Conjunto.java</div>
+<div class="filelabel">guia/i03_poo/i04_dificil/e02/Vagon.java</div>
 <pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e02;
 
-import java.util.Arrays;
-import java.util.Objects;
+/**
+ * TDA Vagon: un vagón de carga con capacidad fija en kilos.
+ *
+ * &lt;p&gt;La lógica de SU carga vive acá (delegación): el Tren nunca toca
+ * {@code cargaActual} de un vagón, siempre pasa por estos métodos.&lt;/p&gt;
+ */
+public class Vagon {
+
+    private final double capacidadEnKilos;
+    private double cargaActualEnKilos;
+
+    /**
+     * pre: {@code capacidadEnKilos} es mayor que 0.&lt;br&gt;
+     * post: crea un vagón vacío con esa capacidad.
+     *
+     * @param capacidadEnKilos capacidad máxima de carga.
+     * @throws IllegalArgumentException si la capacidad no es positiva.
+     */
+    public Vagon(double capacidadEnKilos) {
+        if (capacidadEnKilos &lt;= 0) {
+            throw new IllegalArgumentException(
+                    "La capacidad debe ser mayor que 0, se recibió: " + capacidadEnKilos);
+        }
+        this.capacidadEnKilos = capacidadEnKilos;
+        this.cargaActualEnKilos = 0;
+    }
+
+    /**
+     * Carga kilos en este vagón, validando que entren.
+     *
+     * &lt;p&gt;pre: {@code kilos} es mayor que 0 y no supera {@link #lugarLibre()}.&lt;br&gt;
+     * post: la carga actual aumenta en {@code kilos}.&lt;/p&gt;
+     *
+     * @param kilos los kilos a cargar.
+     * @throws IllegalArgumentException si {@code kilos} no es positivo.
+     * @throws IllegalStateException si la carga no entra en el lugar libre.
+     */
+    public void cargar(double kilos) {
+        if (kilos &lt;= 0) {
+            throw new IllegalArgumentException("Kilos no puede ser menor igual a 0.");
+        }
+
+        if (kilos &gt; lugarLibre()) {
+            throw new IllegalStateException("No puede entrar al cargamento.");
+        }
+
+        cargaActualEnKilos += kilos;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve cuántos kilos más admite el vagón (calculable a partir
+     * de capacidad y carga: MÉTODO, no atributo).
+     *
+     * @return el lugar libre en kilos.
+     */
+    public double lugarLibre() {
+        return capacidadEnKilos - cargaActualEnKilos;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la carga actual en kilos.
+     *
+     * @return la carga actual.
+     */
+    public double cargaActual() {
+        return cargaActualEnKilos;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la capacidad máxima en kilos.
+     *
+     * @return la capacidad del vagón.
+     */
+    public double capacidad() {
+        return capacidadEnKilos;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la carga y la capacidad del vagón.
+     */
+    @Override
+    public String toString() {
+        return "Vagon[" + cargaActualEnKilos + "/" + capacidadEnKilos + " kg]";
+    }
+}</code></pre>
+<div class="filelabel">guia/i03_poo/i04_dificil/e02/Tren.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e02;
 
 /**
- * TDA Conjunto: colección SIN duplicados y sin orden garantizado.
- * INVARIANTE: no hay dos elementos e1, e2 con e1.equals(e2).
- * Búsqueda lineal: O(n). En la Unidad 9 lo haremos O(1) con hashing.
+ * TDA Tren: una formación de vagones sobre un arreglo nativo cuya cantidad
+ * máxima de vagones se fija por parámetro del constructor.
+ *
+ * &lt;p&gt;Delegación: el Tren decide EN QUÉ vagón cargar, pero el CÓMO (validar
+ * que entre, actualizar la carga) es responsabilidad del {@link Vagon}.&lt;/p&gt;
+ *
+ * &lt;p&gt;Invariante: las posiciones [0, cantidadDeVagones) del arreglo tienen
+ * vagones enganchados, en orden de enganche.&lt;/p&gt;
  */
-public class Conjunto&lt;T&gt; {
+public class Tren {
 
-    private Object[] datos = new Object[8];
-    private int tamanio;
+    private final Vagon[] vagones;
+    private int cantidadDeVagones;
 
-    /** @return true si se agregó; false si ya estaba. */
-    public boolean agregar(T elemento) {
-        if (contiene(elemento)) return false;      // el invariante se protege acá
-        if (tamanio == datos.length) datos = Arrays.copyOf(datos, datos.length * 2);
-        datos[tamanio++] = elemento;
-        return true;
-    }
-
-    /** Usa EQUALS, no ==: dos objetos distintos de igual contenido son el mismo elemento. */
-    public boolean contiene(T elemento) {
-        for (int i = 0; i &lt; tamanio; i++) {
-            if (Objects.equals(datos[i], elemento)) return true;
+    /**
+     * pre: {@code maximoDeVagones} es mayor que 0.&lt;br&gt;
+     * post: crea un tren sin vagones que admite hasta {@code maximoDeVagones}.
+     *
+     * @param maximoDeVagones cantidad máxima de vagones enganchables.
+     * @throws IllegalArgumentException si el máximo no es positivo.
+     */
+    public Tren(int maximoDeVagones) {
+        if (maximoDeVagones &lt;= 0) {
+            throw new IllegalArgumentException(
+                    "El máximo de vagones debe ser mayor que 0, se recibió: " + maximoDeVagones);
         }
-        return false;
+        this.vagones = new Vagon[maximoDeVagones];
+        this.cantidadDeVagones = 0;
     }
 
-    public boolean quitar(T elemento) {
-        for (int i = 0; i &lt; tamanio; i++) {
-            if (Objects.equals(datos[i], elemento)) {
-                datos[i] = datos[--tamanio];       // trae el último al hueco
-                datos[tamanio] = null;
-                return true;
+    /**
+     * Engancha un vagón al final de la formación. Se recibe el TDA Vagon
+     * ENTERO, no su capacidad suelta.
+     *
+     * &lt;p&gt;pre: {@code vagon} no es null y hay lugar en la formación.&lt;br&gt;
+     * post: el vagón queda enganchado al final.&lt;/p&gt;
+     *
+     * @param vagon el vagón a enganchar.
+     * @throws IllegalArgumentException si {@code vagon} es null.
+     * @throws IllegalStateException si la formación está completa.
+     */
+    public void engancharVagon(Vagon vagon) {
+        if (vagon == null) {
+            throw new IllegalArgumentException("El vagon no puede ser nulo.");
+        }
+
+        if (cantidadDeVagones == vagones.length) {
+            throw new IllegalStateException("La cantidad de vagones esta completa.");
+        }
+
+        vagones[cantidadDeVagones] = vagon;
+
+        cantidadDeVagones++;
+    }
+
+    /**
+     * Desengancha el último vagón de la formación.
+     *
+     * &lt;p&gt;pre: hay al menos un vagón enganchado.&lt;br&gt;
+     * post: el último vagón deja de pertenecer al tren y se devuelve;
+     * la posición liberada queda en null para no retener la referencia.&lt;/p&gt;
+     *
+     * @return el vagón desenganchado.
+     * @throws IllegalStateException si no hay vagones.
+     */
+    public Vagon desengancharUltimo() {
+        if (cantidadDeVagones == 0) {
+            throw new IllegalStateException("La cantidad de vagones no puede ser 0.");
+        }
+
+        cantidadDeVagones--;
+
+        Vagon vagon = vagones[cantidadDeVagones];
+
+        vagones[cantidadDeVagones] = null;
+
+        return vagon;
+    }
+
+    /**
+     * Carga un cargamento ENTERO en el PRIMER vagón (en orden de enganche)
+     * que tenga lugar suficiente. El tren delega en el vagón: pregunta
+     * {@code lugarLibre()} y ordena {@code cargar(kilos)}.
+     *
+     * &lt;p&gt;pre: {@code kilos} es mayor que 0 y algún vagón tiene lugar
+     * suficiente para el cargamento completo (no se parte).&lt;br&gt;
+     * post: la carga queda en el primer vagón con lugar suficiente.&lt;/p&gt;
+     *
+     * @param kilos los kilos a cargar.
+     * @throws IllegalArgumentException si {@code kilos} no es positivo.
+     * @throws IllegalStateException si el cargamento no entra entero en ningún vagón.
+     */
+    public void cargar(double kilos) {
+        if (kilos &lt;= 0) {
+            throw new IllegalArgumentException("Kilos no puede ser menor igual a 0.");
+        }
+
+        for (int i = 0; i &lt; cantidadDeVagones; i++) {
+            if(vagones[i].lugarLibre() &gt;= kilos) {
+                vagones[i].cargar(kilos);
+                return;
             }
         }
-        return false;
+        throw new IllegalStateException("Ningun vagon tiene lugar para " + kilos + " kg");
     }
 
-    public int tamanio()       { return tamanio; }
-    public boolean estaVacio() { return tamanio == 0; }
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la suma de las cargas de todos los vagones (0 si no hay).
+     * Es calculable recorriendo: MÉTODO, no atributo.
+     *
+     * @return la carga total en kilos.
+     */
+    public double cargaTotal() {
+        double cargaTotal = 0;
+
+        for (int i = 0; i &lt; cantidadDeVagones; i++) {
+            cargaTotal += vagones[i].cargaActual();
+        }
+
+        return cargaTotal;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el vagón con más carga, o null si no hay vagones
+     * ("sin valor" = null, nunca un centinela).
+     *
+     * @return el vagón más cargado, o null.
+     */
+    public Vagon vagonMasCargado() {
+        Vagon masCargado = null;
+
+        for (int i = 0; i &lt; cantidadDeVagones; i++) {
+            if (masCargado == null || vagones[i].cargaActual() &gt; masCargado.cargaActual()) {
+                masCargado = vagones[i];
+            }
+        }
+        return masCargado;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve cuántos vagones tiene la formación.
+     *
+     * @return la cantidad de vagones enganchados.
+     */
+    public int cantidadDeVagones() {
+        return cantidadDeVagones;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la formación completa, vagón por vagón.
+     */
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder("Tren (")
+                .append(cantidadDeVagones).append('/').append(vagones.length).append(" vagones)");
+        for (int i = 0; i &lt; cantidadDeVagones; i++) {
+            texto.append("\n  ").append(i).append(": ").append(vagones[i]);
+        }
+        return texto.toString();
+    }
+
+    /**
+     * Demostración breve: el reparto va al primer vagón con lugar suficiente.
+     */
+    public static void main(String[] args) {
+        Tren tren = new Tren(3);
+        tren.engancharVagon(new Vagon(1000));
+        tren.engancharVagon(new Vagon(2000));
+
+        tren.cargar(800);   // entra en el primero
+        tren.cargar(500);   // el primero tiene 200 de lugar: va al segundo
+        System.out.println(tren);
+        System.out.println("cargaTotal(): " + tren.cargaTotal() + " kg");
+        System.out.println("vagonMasCargado(): " + tren.vagonMasCargado());
+
+        Vagon desenganchado = tren.desengancharUltimo();
+        System.out.println("desengancharUltimo(): " + desenganchado);
+        System.out.println(tren);
+    }
 }</code></pre>
-<div class="filelabel">test · ConjuntoTest.java</div>
-<pre><code class="java">class ConjuntoTest {
+<div class="filelabel">test/…/guia/i03_poo/i04_dificil/e02/TrenTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e02;
 
-    @Test @DisplayName("No admite duplicados por contenido")
-    void sinDuplicados() {
-        var c = new Conjunto&lt;String&gt;();
-        assertTrue(c.agregar(new String("a")));
-        assertFalse(c.agregar(new String("a")), "otro objeto, mismo contenido");
-        assertEquals(1, c.tamanio());
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class TrenTest {
+
+    @Test
+    @DisplayName("el vagón valida su propia carga y calcula su lugar libre")
+    void vagonValidaSuCarga() {
+        Vagon vagon = new Vagon(100);
+        assertEquals(100.0, vagon.lugarLibre());
+
+        vagon.cargar(60);
+        assertEquals(60.0, vagon.cargaActual());
+        assertEquals(40.0, vagon.lugarLibre());
+
+        assertThrows(IllegalStateException.class, () -&gt; vagon.cargar(50),
+                "no entran 50 kg en 40 kg de lugar");
+        assertThrows(IllegalArgumentException.class, () -&gt; vagon.cargar(0));
+        assertThrows(IllegalArgumentException.class, () -&gt; vagon.cargar(-10));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Vagon(0));
     }
 
-    @Test @DisplayName("Usa equals, no ==")
-    void usaEquals() {
-        var c = new Conjunto&lt;String&gt;();
-        c.agregar(new String("hola"));
-        assertTrue(c.contiene(new String("hola")));   // objeto distinto, igual contenido
+    @Test
+    @DisplayName("cargar reparte al PRIMER vagón con lugar suficiente")
+    void repartoAlPrimerVagonConLugar() {
+        Tren tren = new Tren(3);
+        Vagon primero = new Vagon(1000);
+        Vagon segundo = new Vagon(2000);
+        tren.engancharVagon(primero);
+        tren.engancharVagon(segundo);
+
+        tren.cargar(800);
+        assertEquals(800.0, primero.cargaActual(), "el primer cargamento va al primer vagón");
+        assertEquals(0.0, segundo.cargaActual());
+
+        tren.cargar(500);
+        assertEquals(800.0, primero.cargaActual(), "al primero le quedan 200: no entra");
+        assertEquals(500.0, segundo.cargaActual(), "el segundo cargamento va al segundo vagón");
+
+        tren.cargar(200);
+        assertEquals(1000.0, primero.cargaActual(), "200 sí entran en el primero");
     }
 
-    @Test @DisplayName("Funciona con clases propias que definen equals")
-    void conClasePropia() {
-        record P(int x, int y) { }
-        var c = new Conjunto&lt;P&gt;();
-        c.agregar(new P(1, 2));
-        assertFalse(c.agregar(new P(1, 2)));
-        assertTrue(c.contiene(new P(1, 2)));
+    @Test
+    @DisplayName("cargar lanza si el cargamento no entra entero en ningún vagón")
+    void cargaQueNoEntra() {
+        Tren tren = new Tren(2);
+        tren.engancharVagon(new Vagon(100));
+        tren.engancharVagon(new Vagon(100));
+
+        assertThrows(IllegalStateException.class, () -&gt; tren.cargar(150),
+                "no se parte el cargamento entre vagones");
+        assertThrows(IllegalArgumentException.class, () -&gt; tren.cargar(0));
+
+        Tren sinVagones = new Tren(1);
+        assertThrows(IllegalStateException.class, () -&gt; sinVagones.cargar(10));
     }
 
-    @Test @DisplayName("Quitar")
-    void quitar() {
-        var c = new Conjunto&lt;String&gt;();
-        c.agregar("a"); c.agregar("b"); c.agregar("c");
-        assertTrue(c.quitar("b"));
-        assertFalse(c.contiene("b"));
-        assertTrue(c.contiene("a") &amp;&amp; c.contiene("c"), "no debe perder los otros");
-        assertEquals(2, c.tamanio());
-        assertFalse(c.quitar("z"));
+    @Test
+    @DisplayName("cargaTotal se calcula y vagonMasCargado devuelve null sin vagones")
+    void cargaTotalYMasCargado() {
+        Tren tren = new Tren(3);
+        assertEquals(0.0, tren.cargaTotal());
+        assertNull(tren.vagonMasCargado());
+
+        Vagon liviano = new Vagon(500);
+        Vagon pesado = new Vagon(500);
+        tren.engancharVagon(liviano);
+        tren.engancharVagon(pesado);
+        tren.cargar(100);   // al primero
+        tren.cargar(300);   // entra en el primero (quedan 400)... 100+300=400 en el primero
+
+        assertEquals(400.0, tren.cargaTotal());
+        assertSame(liviano, tren.vagonMasCargado());
     }
 
-    @Test @DisplayName("Admite null como elemento")
-    void conNull() {
-        var c = new Conjunto&lt;String&gt;();
-        assertTrue(c.agregar(null));
-        assertFalse(c.agregar(null));
-        assertTrue(c.contiene(null));
+    @Test
+    @DisplayName("enganchar y desenganchar respetan los límites")
+    void engancharYDesenganchar() {
+        Tren tren = new Tren(2);
+        assertThrows(IllegalStateException.class, tren::desengancharUltimo,
+                "sin vagones no hay nada que desenganchar");
+        assertThrows(IllegalArgumentException.class, () -&gt; tren.engancharVagon(null));
+
+        Vagon primero = new Vagon(100);
+        Vagon segundo = new Vagon(200);
+        tren.engancharVagon(primero);
+        tren.engancharVagon(segundo);
+        assertEquals(2, tren.cantidadDeVagones());
+        assertThrows(IllegalStateException.class, () -&gt; tren.engancharVagon(new Vagon(50)),
+                "la formación está completa");
+
+        assertSame(segundo, tren.desengancharUltimo());
+        assertEquals(1, tren.cantidadDeVagones());
+        assertSame(primero, tren.desengancharUltimo());
+        assertThrows(IllegalStateException.class, tren::desengancharUltimo);
     }
 
-    @Test @DisplayName("Crece y no pierde elementos")
-    void crece() {
-        var c = new Conjunto&lt;Integer&gt;();
-        for (int i = 0; i &lt; 200; i++) c.agregar(i);
-        assertEquals(200, c.tamanio());
-        for (int i = 0; i &lt; 200; i++) assertTrue(c.contiene(i));
+    @Test
+    @DisplayName("el constructor del tren valida el máximo de vagones")
+    void constructorInvalido() {
+        assertThrows(IllegalArgumentException.class, () -&gt; new Tren(0));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Tren(-1));
     }
 }</code></pre>
-<div class="ex-note">El truco de <code class="inl">quitar</code> —traer el último al hueco en vez de correr todo— es válido porque un conjunto <b>no garantiza orden</b>. Es una decisión que el contrato habilita: si fuera una lista, no podrías.</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29). Se sacaron los comentarios <code class="inl">// TODO</code> de la plantilla.</div>
   </div>
 </div>
 
 <div class="ex" data-ex="d3">
   <div class="ex-hd"><div class="ex-n">3</div>
-    <div class="ex-body"><span class="ti">Diccionario (Map) simple</span><p><code class="inl">Diccionario&lt;K,V&gt;</code> sobre arreglos paralelos con <code class="inl">poner</code>, <code class="inl">obtener</code>, <code class="inl">contieneClave</code>; test.</p></div>
+    <div class="ex-body"><span class="ti">TDA Restaurant con mesas</span><p><code class="inl">Mesa</code> (número, capacidad, estado ENUM <code class="inl">LIBRE/RESERVADA/OCUPADA</code> — checklist 11: dibujá el diagrama de estados en el javadoc) + <code class="inl">Restaurant</code>: <code class="inl">reservar(personas)</code> asigna la mesa LIBRE más chica en la que entren (ésa es la problemática — pensala bien), <code class="inl">ocupar(numero)</code>, <code class="inl">liberar(numero, gasto)</code>, <code class="inl">recaudacion()</code> calculada y <code class="inl">mesasLibres()</code>. Test de todas las transiciones de estado inválidas (ocupar sin reserva, liberar una libre, reservar sin lugar).</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Dos arreglos con el mismo índice: <code class="inl">claves[i]</code> corresponde a <code class="inl">valores[i]</code>. La decisión de diseño está en <code class="inl">poner</code> con una clave que ya existe: lo correcto es <b>reemplazar el valor</b> y devolver el anterior, no agregar otra entrada. Y <code class="inl">obtener</code> de una clave ausente devuelve <code class="inl">null</code> — mejor todavía, un <code class="inl">Optional</code>.</div></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Primero el diagrama de estados de la <code class="inl">Mesa</code>: LIBRE → RESERVADA (reservar) → OCUPADA (ocupar) → LIBRE (liberar). Cada transición inválida es una <code class="inl">IllegalStateException</code> que lanza la propia <code class="inl">Mesa</code> (delegación). <code class="inl">reservar</code> es un mínimo con condición: recorré las mesas LIBRES con capacidad suficiente y quedate con la de menor capacidad, arrancando en <code class="inl">null</code>. Si al final sigue en <code class="inl">null</code>, no hay lugar. <strong>Ojo con la recaudación:</strong> la solución la guarda como <strong>atributo</strong> y lo justifica en el javadoc: el gasto de cada mesa no queda guardado en ningún lado (la mesa vuelve a LIBRE), así que no hay de dónde recalcularlo. El checklist 15 dice «lo <em>calculable</em> es un método»; si no es calculable, va atributo.</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="filelabel">guia/i03_poo/i04_dificil/e03/Diccionario.java</div>
+<div class="filelabel">guia/i03_poo/i04_dificil/e03/EstadoDeMesa.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e03;
+
+/**
+ * Los estados posibles de una mesa. Un enum (y no booleans sueltos como
+ * {@code estaLibre}/{@code estaReservada}) hace imposibles los estados
+ * contradictorios.
+ */
+public enum EstadoDeMesa {
+    LIBRE,
+    RESERVADA,
+    OCUPADA
+}</code></pre>
+<div class="filelabel">guia/i03_poo/i04_dificil/e03/Mesa.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e03;
+
+/**
+ * TDA Mesa: una mesa del restaurant con número, capacidad y estado.
+ *
+ * &lt;p&gt;Diagrama de estados (SUS transiciones válidas, y ninguna otra):&lt;/p&gt;
+ * &lt;pre&gt;
+ *   LIBRE --reservar()--&amp;gt; RESERVADA --ocupar()--&amp;gt; OCUPADA --liberar()--&amp;gt; LIBRE
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;Las transiciones validan el estado ACTUAL: reservar una mesa ocupada,
+ * ocupar una libre o liberar una reservada son errores. Esa lógica vive acá
+ * (delegación): el Restaurant nunca asigna el estado de una mesa a mano.&lt;/p&gt;
+ */
+public class Mesa {
+
+    private final int numero;
+    private final int capacidad;
+    private EstadoDeMesa estado;
+
+    /**
+     * pre: {@code numero} no es negativo y {@code capacidad} es mayor que 0.&lt;br&gt;
+     * post: crea una mesa LIBRE con ese número y capacidad.
+     *
+     * @param numero número identificador de la mesa.
+     * @param capacidad cantidad máxima de comensales.
+     * @throws IllegalArgumentException si algún parámetro es inválido.
+     */
+    public Mesa(int numero, int capacidad) {
+        if (numero &lt; 0) {
+            throw new IllegalArgumentException(
+                    "El número de mesa no puede ser negativo: " + numero);
+        }
+        if (capacidad &lt;= 0) {
+            throw new IllegalArgumentException(
+                    "La capacidad debe ser mayor que 0, se recibió: " + capacidad);
+        }
+        this.numero = numero;
+        this.capacidad = capacidad;
+        this.estado = EstadoDeMesa.LIBRE;
+    }
+
+    /**
+     * Transición LIBRE -&amp;gt; RESERVADA.
+     *
+     * &lt;p&gt;pre: la mesa está LIBRE.&lt;br&gt;
+     * post: la mesa queda RESERVADA.&lt;/p&gt;
+     *
+     * @throws IllegalStateException si la mesa no está libre.
+     */
+    public void reservar() {
+        if (estado != EstadoDeMesa.LIBRE) {
+            throw new IllegalStateException("Solo se puede reservar una mesa LIBRE; está " + estado);
+        }
+
+        estado = EstadoDeMesa.RESERVADA;
+    }
+
+    /**
+     * Transición RESERVADA -&amp;gt; OCUPADA.
+     *
+     * &lt;p&gt;pre: la mesa está RESERVADA.&lt;br&gt;
+     * post: la mesa queda OCUPADA.&lt;/p&gt;
+     *
+     * @throws IllegalStateException si la mesa no está reservada.
+     */
+    public void ocupar() {
+        if (estado != EstadoDeMesa.RESERVADA) {
+            throw new IllegalStateException("Solo se puede ocupar una mesa RESERVADA; está " + estado);
+        }
+
+        estado = EstadoDeMesa.OCUPADA;
+    }
+
+    /**
+     * Transición OCUPADA -&amp;gt; LIBRE.
+     *
+     * &lt;p&gt;pre: la mesa está OCUPADA.&lt;br&gt;
+     * post: la mesa queda LIBRE.&lt;/p&gt;
+     *
+     * @throws IllegalStateException si la mesa no está ocupada.
+     */
+    public void liberar() {
+        if (estado != EstadoDeMesa.OCUPADA) {
+            throw new IllegalStateException("Solo se puede liberar una mesa OCUPADA; está " + estado);
+        }
+
+        estado = EstadoDeMesa.LIBRE;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el número de la mesa.
+     *
+     * @return el número identificador.
+     */
+    public int numero() {
+        return numero;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la capacidad de comensales.
+     *
+     * @return la capacidad.
+     */
+    public int capacidad() {
+        return capacidad;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el estado actual de la mesa.
+     *
+     * @return el estado (nunca null).
+     */
+    public EstadoDeMesa estado() {
+        return estado;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve número, capacidad y estado de la mesa.
+     */
+    @Override
+    public String toString() {
+        return "Mesa " + numero + " (capacidad " + capacidad + ", " + estado + ")";
+    }
+}</code></pre>
+<div class="filelabel">guia/i03_poo/i04_dificil/e03/Restaurant.java</div>
 <pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e03;
 
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
- * TDA Diccionario: asocia claves únicas a valores.
- * Arreglos PARALELOS: claves[i] ↔ valores[i].
- * INVARIANTE: no hay dos claves ki, kj con ki.equals(kj).
- * Búsqueda lineal O(n); en la Unidad 9 será O(1) con hashing.
+ * TDA Restaurant: administra un conjunto FIJO de mesas (se reciben en el
+ * constructor) y la recaudación del día.
+ *
+ * &lt;p&gt;Delegación: las transiciones de estado las hace cada {@link Mesa}
+ * ({@code reservar()}, {@code ocupar()}, {@code liberar()}); el Restaurant
+ * sólo elige la mesa y le ordena la transición.&lt;/p&gt;
+ *
+ * &lt;p&gt;Decisión sobre la recaudación: es un ATRIBUTO y no un cálculo porque es
+ * una suma HISTÓRICA de gastos ya cobrados — una vez liberada la mesa, el
+ * gasto no queda registrado en ningún otro lado del modelo, así que no es
+ * calculable recorriendo las mesas. La regla "lo calculable es método" no se
+ * viola: esto no es calculable. (La alternativa — guardar cada consumo en un
+ * arreglo y sumar al pedirla — también vale, pero agrega estado más complejo
+ * sin cambiar el contrato.)&lt;/p&gt;
  */
-public class Diccionario&lt;K, V&gt; {
+public class Restaurant {
 
-    private Object[] claves  = new Object[8];
-    private Object[] valores = new Object[8];
-    private int tamanio;
+    private final Mesa[] mesas;
+    private double recaudacionAcumulada;
 
-    /** @return el valor anterior de esa clave, o null si no estaba. */
-    @SuppressWarnings("unchecked")
-    public V poner(K clave, V valor) {
-        int i = indiceDe(clave);
-        if (i &gt;= 0) {                         // la clave ya estaba: REEMPLAZA
-            V anterior = (V) valores[i];
-            valores[i] = valor;
-            return anterior;
+    /**
+     * pre: {@code mesas} no es null, tiene al menos una mesa, sin nulls y sin
+     * números repetidos.&lt;br&gt;
+     * post: crea el restaurant con una COPIA del arreglo (copia defensiva) y
+     * recaudación 0.
+     *
+     * @param mesas las mesas del salón.
+     * @throws IllegalArgumentException si el arreglo es inválido.
+     */
+    public Restaurant(Mesa[] mesas) {
+        if (mesas == null || mesas.length == 0) {
+            throw new IllegalArgumentException("Debe haber al menos una mesa");
         }
-        if (tamanio == claves.length) {
-            claves  = Arrays.copyOf(claves,  claves.length * 2);
-            valores = Arrays.copyOf(valores, valores.length * 2);
+        for (int i = 0; i &lt; mesas.length; i++) {
+            if (mesas[i] == null) {
+                throw new IllegalArgumentException("La mesa en la posición " + i + " es null");
+            }
+            for (int j = 0; j &lt; i; j++) {
+                if (mesas[j].numero() == mesas[i].numero()) {
+                    throw new IllegalArgumentException(
+                            "Número de mesa repetido: " + mesas[i].numero());
+                }
+            }
         }
-        claves[tamanio]  = clave;
-        valores[tamanio] = valor;
-        tamanio++;
-        return null;
+        this.mesas = Arrays.copyOf(mesas, mesas.length);
+        this.recaudacionAcumulada = 0;
     }
 
-    @SuppressWarnings("unchecked")
-    public V obtener(K clave) {
-        int i = indiceDe(clave);
-        return (i &gt;= 0) ? (V) valores[i] : null;
-    }
+    /**
+     * Reserva la mesa LIBRE más chica cuya capacidad alcance para
+     * {@code personas} (criterio de mejor ajuste: no "quemar" mesas grandes
+     * con grupos chicos).
+     *
+     * &lt;p&gt;pre: {@code personas} es mayor que 0 y existe una mesa LIBRE con
+     * capacidad suficiente.&lt;br&gt;
+     * post: esa mesa pasa a RESERVADA y se devuelve su número.&lt;/p&gt;
+     *
+     * @param personas cantidad de comensales.
+     * @return el número de la mesa reservada.
+     * @throws IllegalArgumentException si {@code personas} no es positivo.
+     * @throws IllegalStateException si ninguna mesa libre alcanza.
+     */
+    public int reservar(int personas) {
+        if (personas &lt;= 0) {
+            throw new IllegalArgumentException("La cantidad de personas no puede ser menor o igual que cero.");
 
-    /** Versión honesta: el tipo avisa que puede no haber valor (Unidad 2). */
-    public Optional&lt;V&gt; buscar(K clave) { return Optional.ofNullable(obtener(clave)); }
-
-    public boolean contieneClave(K clave) { return indiceDe(clave) &gt;= 0; }
-
-    @SuppressWarnings("unchecked")
-    public V quitar(K clave) {
-        int i = indiceDe(clave);
-        if (i &lt; 0) return null;
-        V anterior = (V) valores[i];
-        claves[i]  = claves[--tamanio];       // trae el último al hueco
-        valores[i] = valores[tamanio];
-        claves[tamanio] = valores[tamanio] = null;
-        return anterior;
-    }
-
-    public int tamanio() { return tamanio; }
-
-    private int indiceDe(K clave) {
-        for (int i = 0; i &lt; tamanio; i++) {
-            if (Objects.equals(claves[i], clave)) return i;   // equals, no ==
         }
-        return -1;
+
+        Mesa menorCapacidad = null;
+
+            for (int i = 0; i &lt; mesas.length; i++) {
+                if (mesas[i].estado() == EstadoDeMesa.LIBRE &amp;&amp; mesas[i].capacidad() &gt;= personas) {
+
+                    if (menorCapacidad == null || menorCapacidad.capacidad() &gt; mesas[i].capacidad()) {
+                        menorCapacidad = mesas[i];
+                    }
+                }
+            }
+
+            if (menorCapacidad == null) {
+                throw new IllegalStateException("No se encontro ninguna mesa que cumpla con los requerimientos");
+            }
+
+        menorCapacidad.reservar();
+
+        return  menorCapacidad.numero();// ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * Ocupa la mesa reservada con ese número (llegaron los comensales).
+     *
+     * &lt;p&gt;pre: existe una mesa con ese número y está RESERVADA.&lt;br&gt;
+     * post: la mesa pasa a OCUPADA.&lt;/p&gt;
+     *
+     * @param numero número de la mesa.
+     * @throws IllegalArgumentException si no existe mesa con ese número.
+     * @throws IllegalStateException si la mesa no está reservada (lo valida la Mesa).
+     */
+    public void ocupar(int numero) {
+        buscarMesa(numero).ocupar();
+    }
+
+    /**
+     * Libera la mesa ocupada con ese número y acumula el gasto de los
+     * comensales en la recaudación.
+     *
+     * &lt;p&gt;pre: existe una mesa con ese número, está OCUPADA y
+     * {@code gasto} no es negativo.&lt;br&gt;
+     * post: la mesa pasa a LIBRE y la recaudación aumenta en {@code gasto}.&lt;/p&gt;
+     *
+     * @param numero número de la mesa.
+     * @param gasto lo consumido por los comensales.
+     * @throws IllegalArgumentException si no existe la mesa o el gasto es negativo.
+     * @throws IllegalStateException si la mesa no está ocupada (lo valida la Mesa).
+     */
+    public void liberar(int numero, double gasto) {
+        if (gasto &lt; 0) {
+            throw new IllegalArgumentException("El gasto no puede ser menor a 0.");
+        }
+
+        buscarMesa(numero).liberar();
+
+        recaudacionAcumulada += gasto;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la recaudación acumulada del día (suma histórica de los
+     * gastos de todas las mesas liberadas).
+     *
+     * @return la recaudación acumulada.
+     */
+    public double recaudacion() {
+        return recaudacionAcumulada;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve cuántas mesas están LIBRES ahora. Es calculable
+     * recorriendo las mesas: MÉTODO, no atributo.
+     *
+     * @return la cantidad de mesas libres.
+     */
+    public int mesasLibres() {
+        int cantidad = 0;
+
+        for (int i = 0; i &lt; mesas.length; i++) {
+            if(mesas[i].estado() == EstadoDeMesa.LIBRE) {
+                cantidad ++;
+            }
+        }
+        return cantidad;
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve todas las mesas con su estado y la recaudación.
+     */
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder("Restaurant (recaudación: $")
+                .append(recaudacionAcumulada).append(')');
+        for (Mesa mesa : mesas) {
+            texto.append("\n  ").append(mesa);
+        }
+        return texto.toString();
+    }
+
+    private Mesa buscarMesa(int numero) {
+        for (Mesa mesa : mesas) {
+            if (mesa.numero() == numero) {
+                return mesa;
+            }
+        }
+        throw new IllegalArgumentException("No existe la mesa número " + numero);
+    }
+
+    /**
+     * Demostración breve: reserva por mejor ajuste, ocupación y liberación.
+     */
+    public static void main(String[] args) {
+        Restaurant restaurant = new Restaurant(new Mesa[]{
+                new Mesa(1, 2), new Mesa(2, 4), new Mesa(3, 6)
+        });
+
+        int numeroReservado = restaurant.reservar(3);
+        System.out.println("reservar(3) asignó la mesa: " + numeroReservado + " (la de 4, no la de 6)");
+        restaurant.ocupar(numeroReservado);
+        System.out.println(restaurant);
+
+        restaurant.liberar(numeroReservado, 45000.0);
+        System.out.println("Después de liberar con gasto 45000:");
+        System.out.println(restaurant);
+        System.out.println("mesasLibres(): " + restaurant.mesasLibres());
     }
 }</code></pre>
-<div class="filelabel">test · DiccionarioTest.java</div>
-<pre><code class="java">class DiccionarioTest {
+<div class="filelabel">test/…/guia/i03_poo/i04_dificil/e03/RestaurantTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e03;
 
-    @Test @DisplayName("Guarda y recupera")
-    void basico() {
-        var d = new Diccionario&lt;String, Integer&gt;();
-        d.poner("uno", 1);
-        d.poner("dos", 2);
-        assertEquals(1, d.obtener("uno"));
-        assertEquals(2, d.obtener("dos"));
-        assertEquals(2, d.tamanio());
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class RestaurantTest {
+
+    private Restaurant restaurant;
+
+    @BeforeEach
+    void crearRestaurant() {
+        restaurant = new Restaurant(new Mesa[]{
+                new Mesa(1, 2), new Mesa(2, 4), new Mesa(3, 6)
+        });
     }
 
-    @Test @DisplayName("Poner una clave existente REEMPLAZA y devuelve el anterior")
-    void reemplaza() {
-        var d = new Diccionario&lt;String, Integer&gt;();
-        d.poner("uno", 1);
-        assertEquals(1, d.poner("uno", 99));
-        assertEquals(99, d.obtener("uno"));
-        assertEquals(1, d.tamanio(), "no debe duplicar la clave");
+    @Test
+    @DisplayName("reservar asigna la mesa libre MÁS CHICA cuya capacidad alcanza")
+    void mejorAjuste() {
+        assertEquals(2, restaurant.reservar(3), "para 3 va la de 4, no la de 6");
+        assertEquals(3, restaurant.reservar(3), "la de 4 ya no está libre: va la de 6");
+        assertEquals(1, restaurant.reservar(1), "para 1 va la más chica (2)");
     }
 
-    @Test @DisplayName("Clave ausente")
-    void ausente() {
-        var d = new Diccionario&lt;String, Integer&gt;();
-        assertNull(d.obtener("no está"));
-        assertFalse(d.contieneClave("no está"));
-        assertTrue(d.buscar("no está").isEmpty());
+    @Test
+    @DisplayName("reservar lanza cuando ninguna mesa libre alcanza")
+    void reservarSinMesa() {
+        assertThrows(IllegalStateException.class, () -&gt; restaurant.reservar(7),
+                "nadie tiene capacidad 7");
+
+        restaurant.reservar(5); // toma la de 6
+        assertThrows(IllegalStateException.class, () -&gt; restaurant.reservar(5),
+                "la única con capacidad 5+ ya está reservada");
+        assertThrows(IllegalArgumentException.class, () -&gt; restaurant.reservar(0));
+        assertThrows(IllegalArgumentException.class, () -&gt; restaurant.reservar(-2));
     }
 
-    @Test @DisplayName("Las claves se comparan por equals")
-    void clavesPorEquals() {
-        var d = new Diccionario&lt;String, Integer&gt;();
-        d.poner(new String("k"), 1);
-        assertTrue(d.contieneClave(new String("k")));
+    @Test
+    @DisplayName("ciclo completo LIBRE -&gt; RESERVADA -&gt; OCUPADA -&gt; LIBRE con recaudación")
+    void cicloCompleto() {
+        assertEquals(3, restaurant.mesasLibres());
+        assertEquals(0.0, restaurant.recaudacion());
+
+        int numero = restaurant.reservar(2);
+        assertEquals(2, restaurant.mesasLibres());
+
+        restaurant.ocupar(numero);
+        restaurant.liberar(numero, 30000.0);
+        assertEquals(3, restaurant.mesasLibres());
+        assertEquals(30000.0, restaurant.recaudacion());
+
+        int otro = restaurant.reservar(4);
+        restaurant.ocupar(otro);
+        restaurant.liberar(otro, 20000.0);
+        assertEquals(50000.0, restaurant.recaudacion(), "la recaudación es acumulada");
     }
 
-    @Test @DisplayName("Distingue 'no está' de 'vale null'")
-    void valorNull() {
-        var d = new Diccionario&lt;String, Integer&gt;();
-        d.poner("k", null);
-        assertTrue(d.contieneClave("k"));      // la clave está...
-        assertNull(d.obtener("k"));            // ...pero su valor es null
+    @Test
+    @DisplayName("TODAS las transiciones inválidas de la mesa lanzan IllegalStateException")
+    void transicionesInvalidas() {
+        Mesa mesa = new Mesa(9, 4);
+
+        // Desde LIBRE: sólo se puede reservar.
+        assertThrows(IllegalStateException.class, mesa::ocupar, "LIBRE no se puede ocupar");
+        assertThrows(IllegalStateException.class, mesa::liberar, "LIBRE no se puede liberar");
+
+        mesa.reservar();
+        // Desde RESERVADA: sólo se puede ocupar.
+        assertThrows(IllegalStateException.class, mesa::reservar, "RESERVADA no se re-reserva");
+        assertThrows(IllegalStateException.class, mesa::liberar, "RESERVADA no se libera");
+
+        mesa.ocupar();
+        // Desde OCUPADA: sólo se puede liberar.
+        assertThrows(IllegalStateException.class, mesa::reservar, "OCUPADA no se reserva");
+        assertThrows(IllegalStateException.class, mesa::ocupar, "OCUPADA no se re-ocupa");
+
+        mesa.liberar();
+        assertEquals(EstadoDeMesa.LIBRE, mesa.estado(), "el ciclo vuelve a LIBRE");
     }
 
-    @Test @DisplayName("Quitar")
-    void quitar() {
-        var d = new Diccionario&lt;String, Integer&gt;();
-        d.poner("a", 1); d.poner("b", 2); d.poner("c", 3);
-        assertEquals(2, d.quitar("b"));
-        assertFalse(d.contieneClave("b"));
-        assertEquals(1, d.obtener("a"));
-        assertEquals(3, d.obtener("c"));
-        assertEquals(2, d.tamanio());
+    @Test
+    @DisplayName("las transiciones inválidas también fallan a través del Restaurant")
+    void transicionesInvalidasViaRestaurant() {
+        assertThrows(IllegalStateException.class, () -&gt; restaurant.ocupar(1),
+                "no se puede ocupar una mesa que no fue reservada");
+        assertThrows(IllegalStateException.class, () -&gt; restaurant.liberar(1, 100.0),
+                "no se puede liberar una mesa libre");
+
+        int numero = restaurant.reservar(2);
+        assertThrows(IllegalStateException.class, () -&gt; restaurant.liberar(numero, 100.0),
+                "una mesa reservada (no ocupada) no se libera");
     }
 
-    @Test @DisplayName("Crece sin perder pares")
-    void crece() {
-        var d = new Diccionario&lt;Integer, String&gt;();
-        for (int i = 0; i &lt; 100; i++) d.poner(i, "v" + i);
-        for (int i = 0; i &lt; 100; i++) assertEquals("v" + i, d.obtener(i));
+    @Test
+    @DisplayName("parámetros inválidos: mesa inexistente, gasto negativo, construcción inválida")
+    void parametrosInvalidos() {
+        assertThrows(IllegalArgumentException.class, () -&gt; restaurant.ocupar(99));
+        assertThrows(IllegalArgumentException.class, () -&gt; restaurant.liberar(99, 100.0));
+
+        int numero = restaurant.reservar(2);
+        restaurant.ocupar(numero);
+        assertThrows(IllegalArgumentException.class, () -&gt; restaurant.liberar(numero, -1.0));
+
+        assertThrows(IllegalArgumentException.class, () -&gt; new Restaurant(null));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Restaurant(new Mesa[]{}));
+        assertThrows(IllegalArgumentException.class,
+                () -&gt; new Restaurant(new Mesa[]{new Mesa(1, 2), null}));
+        assertThrows(IllegalArgumentException.class,
+                () -&gt; new Restaurant(new Mesa[]{new Mesa(1, 2), new Mesa(1, 4)}),
+                "números de mesa repetidos");
+        assertThrows(IllegalArgumentException.class, () -&gt; new Mesa(-1, 4));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Mesa(1, 0));
+    }
+
+    @Test
+    @DisplayName("la copia defensiva del constructor aísla al restaurant del arreglo original")
+    void copiaDefensiva() {
+        Mesa[] salon = {new Mesa(1, 2), new Mesa(2, 4)};
+        Restaurant otro = new Restaurant(salon);
+        salon[0] = null;
+        assertEquals(1, otro.reservar(2), "el restaurant conserva su propia copia de las mesas");
     }
 }</code></pre>
-<div class="ex-note">El test <code class="inl">valorNull</code> muestra por qué <code class="inl">obtener</code> devolviendo <code class="inl">null</code> es ambiguo: no distingue “la clave no está” de “la clave está y su valor es null”. Por eso está <code class="inl">contieneClave</code>, y por eso <code class="inl">Optional</code> es la versión honesta.</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29). Se sacaron los comentarios <code class="inl">// TODO</code> de la plantilla.</div>
   </div>
 </div>
 
@@ -4300,140 +5502,334 @@ public final class Par&lt;A, B&gt; {
 
 <div class="ex" data-ex="d6">
   <div class="ex-hd"><div class="ex-n">6</div>
-    <div class="ex-body"><span class="ti">Lista enlazada genérica</span><p><code class="inl">Lista&lt;T&gt;</code> con <code class="inl">agregar</code>, <code class="inl">obtener(i)</code>, <code class="inl">tamanio</code>; test.</p></div>
+    <div class="ex-body"><span class="ti">TDA Cadena PRO</span><p>Ampliá la Cadena del nivel medio: <code class="inl">concatenar(otra)</code>, <code class="inl">subcadena(desde, hasta)</code>, <code class="inl">indiceDe(otraCadena)</code> y <code class="inl">reemplazar(unChar, otroChar)</code> — todo sobre <code class="inl">char[]</code>, siempre devolviendo Cadenas nuevas. Test usando <code class="inl">String</code> como oráculo (mismo resultado, otra implementación).</p></div>
     <button class="ex-chk" title="Marcar como hecho">✓</button></div>
   <div class="ex-actions"><button data-p="hint">💡 Pista</button><button data-p="sol">⟨/⟩ Solución</button></div>
-  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Un <code class="inl">Nodo&lt;T&gt;</code> con valor y referencia al siguiente, como clase interna privada: nadie de afuera debe ver los nodos. Guardá una referencia al <b>último</b> para que <code class="inl">agregar</code> sea O(1). <code class="inl">obtener(i)</code> tiene que recorrer, así que es O(n) — a diferencia de un arreglo, que es O(1). Esa asimetría es lo que se estudia en la Unidad 5.</div></div>
+  <div class="ex-panel" data-p="hint"><div class="hint"><b>Pista</b>Cada operación arma un <code class="inl">char[]</code> nuevo del tamaño justo y lo envuelve en <code class="inl">new Cadena(...)</code>. <code class="inl">subcadena(desde, hasta)</code> sigue la convención de Java: <code class="inl">desde</code> inclusive, <code class="inl">hasta</code> exclusivo, y valida <code class="inl">0 ≤ desde ≤ hasta ≤ largo</code>. <code class="inl">indiceDe</code> es una búsqueda con doble bucle: para cada posición de inicio posible, compará carácter a carácter; si no está, devolvé <code class="inl">null</code> (por eso el tipo es <code class="inl">Integer</code>: checklist 10, nada de −1). En el test, el oráculo <code class="inl">String.indexOf</code> da −1 y se compara contra <code class="inl">null</code>. El test compara cada resultado con el de <code class="inl">String</code>.</div></div>
   <div class="ex-panel" data-p="sol">
-<div class="filelabel">guia/i03_poo/i04_dificil/e06/Lista.java</div>
+<div class="filelabel">guia/i03_poo/i04_dificil/e06/Cadena.java</div>
 <pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e06;
 
-import java.util.Objects;
+import java.util.Arrays;
 
 /**
- * TDA Lista sobre nodos enlazados.
- * agregar al final: O(1) — obtener(i): O(n)
+ * TDA Cadena (versión PRO): una secuencia INMUTABLE de caracteres sobre un
+ * {@code char[]} nativo, con operaciones de concatenación, subcadena,
+ * búsqueda de otra cadena y reemplazo de caracteres.
+ *
+ * &lt;p&gt;Todas las operaciones que "transforman" devuelven una Cadena NUEVA;
+ * esta cadena nunca cambia. Decisión de diseño en {@link #indiceDe(Cadena)}:
+ * "no aparece" se representa con {@code null} (por eso devuelve
+ * {@code Integer} y no {@code int}), nunca con el centinela −1: el tipo
+ * obliga al que llama a considerar el caso ausente.&lt;/p&gt;
  */
-public class Lista&lt;T&gt; implements Iterable&lt;T&gt; {
+public final class Cadena {
 
-    /** Detalle de implementación: privado y estático, nadie de afuera lo ve. */
-    private static final class Nodo&lt;T&gt; {
-        final T valor;
-        Nodo&lt;T&gt; siguiente;
-        Nodo(T valor) { this.valor = valor; }
-    }
+    private final char[] caracteres;
 
-    private Nodo&lt;T&gt; primero;
-    private Nodo&lt;T&gt; ultimo;        // para que agregar sea O(1)
-    private int tamanio;
-
-    public void agregar(T elemento) {
-        Nodo&lt;T&gt; nuevo = new Nodo&lt;&gt;(elemento);
-        if (primero == null) primero = nuevo;
-        else                 ultimo.siguiente = nuevo;
-        ultimo = nuevo;
-        tamanio++;
-    }
-
-    /** PRE: 0 &lt;= i &lt; tamanio. */
-    public T obtener(int i) {
-        if (i &lt; 0 || i &gt;= tamanio) {
-            throw new IndexOutOfBoundsException("índice " + i + " fuera de [0.." + (tamanio - 1) + "]");
+    /**
+     * pre: {@code texto} no es null (puede ser vacío).&lt;br&gt;
+     * post: la cadena contiene los caracteres de {@code texto}.
+     *
+     * @param texto el texto de origen.
+     * @throws IllegalArgumentException si {@code texto} es null.
+     */
+    public Cadena(String texto) {
+        if (texto == null) {
+            throw new IllegalArgumentException("El texto no puede ser null");
         }
-        Nodo&lt;T&gt; n = primero;
-        for (int k = 0; k &lt; i; k++) n = n.siguiente;   // O(n): hay que recorrer
-        return n.valor;
+        this.caracteres = texto.toCharArray();
     }
 
-    public boolean contiene(T elemento) {
-        for (Nodo&lt;T&gt; n = primero; n != null; n = n.siguiente) {
-            if (Objects.equals(n.valor, elemento)) return true;
+    /**
+     * pre: {@code caracteres} no es null.&lt;br&gt;
+     * post: la cadena contiene una COPIA del arreglo (copia defensiva).
+     *
+     * @param caracteres los caracteres de origen.
+     * @throws IllegalArgumentException si {@code caracteres} es null.
+     */
+    public Cadena(char[] caracteres) {
+        if (caracteres == null) {
+            throw new IllegalArgumentException("El arreglo de caracteres no puede ser null");
         }
-        return false;
+        this.caracteres = Arrays.copyOf(caracteres, caracteres.length);
     }
 
-    public int tamanio()       { return tamanio; }
-    public boolean estaVacia() { return tamanio == 0; }
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve la cantidad de caracteres.
+     *
+     * @return el largo de la cadena.
+     */
+    public int largo() {
+        return caracteres.length;
+    }
 
-    /** Permite usar el for-each sobre la lista. */
-    @Override
-    public java.util.Iterator&lt;T&gt; iterator() {
-        return new java.util.Iterator&lt;&gt;() {
-            private Nodo&lt;T&gt; actual = primero;
-            @Override public boolean hasNext() { return actual != null; }
-            @Override public T next() {
-                if (actual == null) throw new java.util.NoSuchElementException();
-                T v = actual.valor;
-                actual = actual.siguiente;
-                return v;
+    /**
+     * pre: {@code otra} no es null.&lt;br&gt;
+     * post: devuelve una cadena NUEVA con los caracteres de esta seguidos de
+     * los de {@code otra}; ninguna de las dos se modifica.
+     *
+     * @param otra la cadena a concatenar al final.
+     * @return la concatenación como cadena nueva.
+     * @throws IllegalArgumentException si {@code otra} es null.
+     */
+    public Cadena concatenar(Cadena otra) {
+        if (otra == null) {
+            throw new IllegalArgumentException("La cadena 'otra' esta vacia.");
+        }
+
+        char[] resultado = new char[caracteres.length + otra.caracteres.length];
+
+        for (int i = 0; i &lt; caracteres.length; i++) {
+            resultado[i] = caracteres[i];
+        }
+
+        for (int j = 0; j &lt; otra.caracteres.length; j ++) {
+            resultado[caracteres.length + j] = otra.caracteres[j];
+        }
+
+
+        return new Cadena(resultado); // ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * Devuelve la subcadena entre {@code desde} (inclusive) y {@code hasta}
+     * (exclusive), con la misma convención que {@code String.substring}.
+     *
+     * &lt;p&gt;pre: {@code 0 &lt;= desde &lt;= hasta &lt;= largo()}.&lt;br&gt;
+     * post: devuelve una cadena NUEVA de largo {@code hasta - desde};
+     * esta cadena no se modifica.&lt;/p&gt;
+     *
+     * @param desde índice inicial, inclusive.
+     * @param hasta índice final, exclusive.
+     * @return la subcadena como cadena nueva.
+     * @throws IllegalArgumentException si el rango es inválido.
+     */
+    public Cadena subcadena(int desde, int hasta) {
+        if (desde &lt; 0 || hasta &gt; largo() || desde &gt; hasta) {
+            throw new IllegalArgumentException("El rango es invalido.");
+        }
+
+        char[] nuevo = new char[hasta - desde];
+
+        for (int i = 0; i &lt; hasta - desde; i++) {
+            nuevo[i] = caracteres[desde + i];
+        }
+
+        return new Cadena(nuevo); // ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * Busca la primera aparición de {@code otra} dentro de esta cadena.
+     *
+     * &lt;p&gt;pre: {@code otra} no es null.&lt;br&gt;
+     * post: devuelve el índice de la primera aparición, o {@code null} si no
+     * aparece ("sin valor" = null, nunca −1). La cadena vacía aparece en el
+     * índice 0, igual que en {@code String.indexOf}.&lt;/p&gt;
+     *
+     * @param otra la cadena a buscar.
+     * @return el índice de la primera aparición, o null si no aparece.
+     * @throws IllegalArgumentException si {@code otra} es null.
+     */
+    public Integer indiceDe(Cadena otra) {
+        if (otra == null) {
+            throw new IllegalArgumentException("La lista esta vacia");
+        }
+
+        for (int inicio = 0; inicio &lt;= largo() - otra.largo(); inicio++) {
+            boolean coindicen = true;
+            for (int j = 0; j &lt; otra.largo(); j++) {
+                if (caracteres[inicio + j] != otra.caracteres[j]) {
+                    coindicen = false;
+                }
             }
-        };
+            if (coindicen) {
+                return inicio;
+            }
+        }
+
+        return null; // ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve una cadena NUEVA donde cada aparición de {@code buscado}
+     * fue cambiada por {@code reemplazo}; esta cadena no se modifica.
+     *
+     * @param buscado el carácter a reemplazar.
+     * @param reemplazo el carácter que lo sustituye.
+     * @return la cadena reemplazada como cadena nueva.
+     */
+    public Cadena reemplazar(char buscado, char reemplazo) {
+        char[] nuevo = new char[caracteres.length];
+
+        for (int i = 0; i &lt; caracteres.length; i++) {
+            nuevo[i] = (caracteres[i] == buscado) ? reemplazo : caracteres[i];
+        }
+        return new Cadena(nuevo); // ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve true si y sólo si {@code otro} es una Cadena con los
+     * mismos caracteres en el mismo orden.
+     */
+    @Override
+    public boolean equals(Object otro) {
+        if (otro == this) {
+            return true;
+        }
+
+        if (!(otro instanceof Cadena otraCadena)) {
+            return false;
+        }
+
+        return Arrays.equals(this.caracteres, otraCadena.caracteres);   // ✓ compara char por char; // ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve un hash consistente con {@link #equals(Object)}.
+     */
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(caracteres); // ← borrá esto y escribí tu solucion
+    }
+
+    /**
+     * pre: -.&lt;br&gt;
+     * post: devuelve el contenido completo como String.
+     */
+    @Override
+    public String toString() {
+        return new String(caracteres);
+    }
+
+    /**
+     * Demostración breve del TDA Cadena PRO.
+     */
+    public static void main(String[] args) {
+        Cadena hola = new Cadena("hola ");
+        Cadena mundo = new Cadena("mundo");
+        Cadena frase = hola.concatenar(mundo);
+
+        System.out.println("concatenar: '" + frase + "'");
+        System.out.println("subcadena(5, 10): '" + frase.subcadena(5, 10) + "'");
+        System.out.println("indiceDe(\"mundo\"): " + frase.indiceDe(mundo));
+        System.out.println("indiceDe(\"xyz\"): " + frase.indiceDe(new Cadena("xyz")) + " (null = no aparece)");
+        System.out.println("reemplazar('o', '0'): '" + frase.reemplazar('o', '0') + "'");
+        System.out.println("La original sigue intacta: '" + frase + "'");
     }
 }</code></pre>
-<div class="filelabel">test · ListaTest.java</div>
-<pre><code class="java">class ListaTest {
+<div class="filelabel">test/…/guia/i03_poo/i04_dificil/e06/CadenaTest.java</div>
+<pre><code class="java">package ar.uba.fi.cb100.guia.i03_poo.i04_dificil.e06;
 
-    @Test @DisplayName("Lista vacía")
-    void vacia() {
-        var l = new Lista&lt;String&gt;();
-        assertTrue(l.estaVacia());
-        assertEquals(0, l.tamanio());
-        assertThrows(IndexOutOfBoundsException.class, () -&gt; l.obtener(0));
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Tests de Cadena usando {@code String} como ORÁCULO: para cada caso, el
+ * resultado de nuestra Cadena tiene que coincidir con el de la operación
+ * equivalente de String (con indexOf mapeando -1 a null).
+ */
+class CadenaTest {
+
+    private static final String[] TEXTOS = {
+            "", "a", "hola", "hola mundo", "abcabcabc", "aaa", "banana"
+    };
+
+    @Test
+    @DisplayName("concatenar coincide con String.concat para varios pares")
+    void concatenarContraOraculo() {
+        for (String izquierda : TEXTOS) {
+            for (String derecha : TEXTOS) {
+                String esperado = izquierda.concat(derecha);
+                Cadena resultado = new Cadena(izquierda).concatenar(new Cadena(derecha));
+                assertEquals(esperado, resultado.toString(),
+                        "concatenar('" + izquierda + "', '" + derecha + "')");
+            }
+        }
     }
 
-    @Test @DisplayName("Agrega al final conservando el orden")
-    void orden() {
-        var l = new Lista&lt;String&gt;();
-        l.agregar("a"); l.agregar("b"); l.agregar("c");
-        assertEquals("a", l.obtener(0));
-        assertEquals("b", l.obtener(1));
-        assertEquals("c", l.obtener(2));
-        assertEquals(3, l.tamanio());
+    @Test
+    @DisplayName("subcadena coincide con String.substring en todos los rangos válidos")
+    void subcadenaContraOraculo() {
+        for (String texto : TEXTOS) {
+            for (int desde = 0; desde &lt;= texto.length(); desde++) {
+                for (int hasta = desde; hasta &lt;= texto.length(); hasta++) {
+                    String esperado = texto.substring(desde, hasta);
+                    Cadena resultado = new Cadena(texto).subcadena(desde, hasta);
+                    assertEquals(esperado, resultado.toString(),
+                            "subcadena('" + texto + "', " + desde + ", " + hasta + ")");
+                }
+            }
+        }
     }
 
-    @Test @DisplayName("Índices fuera de rango")
-    void fueraDeRango() {
-        var l = new Lista&lt;String&gt;();
-        l.agregar("a");
-        assertThrows(IndexOutOfBoundsException.class, () -&gt; l.obtener(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -&gt; l.obtener(1));
+    @Test
+    @DisplayName("indiceDe coincide con String.indexOf, mapeando -1 a null")
+    void indiceDeContraOraculo() {
+        String[] buscados = {"", "a", "an", "ana", "nan", "hola", "mundo", "xyz", "abcabcabcd"};
+        for (String texto : TEXTOS) {
+            for (String buscado : buscados) {
+                int indiceOraculo = texto.indexOf(buscado);
+                Integer esperado = (indiceOraculo == -1) ? null : indiceOraculo;
+                Integer resultado = new Cadena(texto).indiceDe(new Cadena(buscado));
+                assertEquals(esperado, resultado,
+                        "indiceDe('" + texto + "', '" + buscado + "')");
+            }
+        }
     }
 
-    @Test @DisplayName("contiene usa equals")
-    void contiene() {
-        var l = new Lista&lt;String&gt;();
-        l.agregar(new String("hola"));
-        assertTrue(l.contiene(new String("hola")));
-        assertFalse(l.contiene("chau"));
+    @Test
+    @DisplayName("reemplazar coincide con String.replace(char, char)")
+    void reemplazarContraOraculo() {
+        char[][] reemplazos = {{'a', 'x'}, {'o', '0'}, {'z', 'q'}, {'n', 'n'}};
+        for (String texto : TEXTOS) {
+            for (char[] par : reemplazos) {
+                String esperado = texto.replace(par[0], par[1]);
+                Cadena resultado = new Cadena(texto).reemplazar(par[0], par[1]);
+                assertEquals(esperado, resultado.toString(),
+                        "reemplazar('" + texto + "', '" + par[0] + "', '" + par[1] + "')");
+            }
+        }
     }
 
-    @Test @DisplayName("Se puede recorrer con for-each")
-    void forEach() {
-        var l = new Lista&lt;Integer&gt;();
-        for (int i = 0; i &lt; 5; i++) l.agregar(i);
-        int suma = 0;
-        for (int x : l) suma += x;
-        assertEquals(10, suma);
+    @Test
+    @DisplayName("todas las operaciones devuelven cadenas nuevas: la original no cambia")
+    void inmutabilidad() {
+        Cadena original = new Cadena("banana");
+        original.concatenar(new Cadena("!"));
+        original.subcadena(1, 4);
+        original.reemplazar('a', 'o');
+        assertEquals("banana", original.toString(), "la original quedó intacta");
     }
 
-    @Test @DisplayName("Admite null y repetidos")
-    void nullYRepetidos() {
-        var l = new Lista&lt;String&gt;();
-        l.agregar(null); l.agregar("a"); l.agregar("a");
-        assertEquals(3, l.tamanio());
-        assertNull(l.obtener(0));
-        assertTrue(l.contiene(null));
+    @Test
+    @DisplayName("parámetros inválidos lanzan excepciones claras")
+    void invalidos() {
+        Cadena cadena = new Cadena("hola");
+        assertThrows(IllegalArgumentException.class, () -&gt; new Cadena((String) null));
+        assertThrows(IllegalArgumentException.class, () -&gt; new Cadena((char[]) null));
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.concatenar(null));
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.indiceDe(null));
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.subcadena(-1, 2));
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.subcadena(0, 5));
+        assertThrows(IllegalArgumentException.class, () -&gt; cadena.subcadena(3, 2));
     }
 
-    @Test @DisplayName("Muchos elementos")
-    void muchos() {
-        var l = new Lista&lt;Integer&gt;();
-        for (int i = 0; i &lt; 5000; i++) l.agregar(i);
-        assertEquals(5000, l.tamanio());
-        assertEquals(4999, l.obtener(4999));
+    @Test
+    @DisplayName("equals compara por contenido")
+    void equalsPorContenido() {
+        assertEquals(new Cadena("abc"), new Cadena(new char[]{'a', 'b', 'c'}));
+        assertNotEquals(new Cadena("abc"), new Cadena("abd"));
+        assertNotEquals(new Cadena("abc"), "abc");
     }
 }</code></pre>
-<div class="ex-note">Implementar <code class="inl">Iterable&lt;T&gt;</code> es lo que habilita el <code class="inl">for (int x : l)</code>. Es un ejemplo perfecto de la unidad: cumplís un <b>contrato</b> de la biblioteca estándar y de golpe tu clase se integra con una construcción del lenguaje.</div>
+<div class="ex-note">Solución del repo de la cátedra (apunte v29). Se sacaron los comentarios <code class="inl">// TODO</code> de la plantilla.</div>
   </div>
 </div>
 
