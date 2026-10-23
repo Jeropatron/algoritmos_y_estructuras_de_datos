@@ -656,8 +656,9 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#s311"><span class="n">3.11</span>Diseño profesional</a>
   <a href="#s312"><span class="n">3.12</span>Integración continua</a>
   <a href="#s313"><span class="n">3.13</span>Ejemplo integrador</a>
-  <a href="#s314"><span class="n">3.14</span>Errores comunes</a>
-  <a href="#s315"><span class="n">3.15</span>Repaso</a>
+  <a href="#s314chk"><span class="n">3.14</span>Checklist del ejercicio de TDA</a>
+  <a href="#s314"><span class="n">3.15</span>Errores comunes</a>
+  <a href="#s315"><span class="n">3.16</span>Repaso</a>
 
   <div class="sb-group">Laboratorios</div>
   <a href="#lab-pila"><span class="n">L1</span>Un TDA, dos implementaciones</a>
@@ -667,14 +668,14 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-
   <a href="#lab-orden"><span class="n">L5</span>Comparable y Comparator</a>
 
   <div class="sb-group">Guía de ejercicios</div>
-  <a href="#gteo"><span class="n">3.16</span>Preguntas teóricas</a>
-  <a href="#gfacil"><span class="n">3.17</span>Nivel fácil (1–10)</a>
-  <a href="#gmedio"><span class="n">3.18</span>Nivel medio (1–10)</a>
-  <a href="#gdificil"><span class="n">3.19</span>Nivel difícil (1–10)</a>
+  <a href="#gteo"><span class="n">3.17</span>Preguntas teóricas</a>
+  <a href="#gfacil"><span class="n">3.18</span>Nivel fácil (1–10)</a>
+  <a href="#gmedio"><span class="n">3.19</span>Nivel medio (1–10)</a>
+  <a href="#gdificil"><span class="n">3.20</span>Nivel difícil (1–10)</a>
 
   <div class="sb-group">Práctica</div>
-  <a href="#s320"><span class="n">3.20</span>Generador de ejercicios</a>
-  <a href="#s321"><span class="n">3.21</span>Autoevaluación</a>
+  <a href="#s320"><span class="n">3.21</span>Generador de ejercicios</a>
+  <a href="#s321"><span class="n">3.22</span>Autoevaluación</a>
 
   <div class="sb-group">Extras</div>
   <a href="#glosario"><span class="n">§</span>Glosario</a>
@@ -1739,7 +1740,55 @@ for (Figura f : figuras) System.out.println(f);   // polimorfismo: cada una da s
 FiguraBase[] ordenables = { new Circulo(2), new Rectangulo(3, 4), new Circulo(1) };
 Arrays.sort(ordenables);                          // usa compareTo (orden por área)</code></pre>
 
-<h3 id="s314"><span class="num">3.14</span>Errores comunes</h3>
+<h3 id="s314chk"><span class="num">3.14</span>El checklist del ejercicio de TDA</h3>
+
+<p>Todo lo de esta unidad, convertido en una lista para pasar punto por punto antes de entregar. <strong>En el TP y en el parcial, el ejercicio de TDA se corrige contra esto.</strong></p>
+
+<div class="box idea">
+  <div class="bh">1 · El objetivo es el DISEÑO ELEGANTE</div>
+  <div class="bb"><p>No se evalúa solo que ande: se evalúa que el TDA esté bien diseñado. Que se lea como el dominio, que se use sin sorpresas y que se pueda cambiar por dentro sin romper a nadie. Los puntos que siguen son la definición práctica de «elegante».</p></div>
+</div>
+
+<ol start="2">
+  <li><strong>Conjunto completo de operaciones.</strong> Se verifica con un <em>caso de uso</em>: una historia concreta de punta a punta (para un TDA Cine: se crea la sala, se venden tres entradas, alguien quiere una butaca vendida y se lo rechaza, se pregunta la recaudación, se cancela una venta). Escribí el <code class="inl">main</code> o el test de esa historia: si te faltó un método, el TDA estaba incompleto; si uno nunca apareció, probablemente sobra. Pensalo desde el usuario, que solo ve los métodos públicos.</li>
+  <li><strong>Robustez:</strong> cada método público valida sus parámetros y falla con una excepción clara (<code class="inl">IllegalArgumentException</code>).</li>
+  <li><strong>Encapsular:</strong> atributos <code class="inl">private</code>, siempre. Los únicos caminos a los datos son los métodos, y ellos defienden el invariante.</li>
+  <li><strong>Pre y post en cada método:</strong> el javadoc dice qué exige, qué garantiza, qué devuelve y qué lanza.</li>
+  <li><strong>Cada TDA implementa lo suyo.</strong> Si Biblioteca contiene Libro, «¿está vencido?» vive en Libro: la Biblioteca le pregunta, no lo resuelve por él.</li>
+  <li><strong>equals y toString:</strong> <code class="inl">equals</code> por contenido (con su <code class="inl">hashCode</code>) y un <code class="inl">toString</code> que muestre todo el estado.</li>
+  <li><strong>Nunca hardcoding:</strong> nada de números ni textos mágicos sueltos. Constantes con nombre (<code class="inl">CAPACIDAD_MAXIMA</code>) o parámetros.</li>
+  <li><strong>Si hay un vector, su capacidad entra por el constructor</strong> (o el vector se redimensiona). <code class="inl">new Pelicula[100]</code> con el 100 clavado viola el 8 y el 9 a la vez.</li>
+  <li><strong>«Sin valor» se dice <code class="inl">null</code>, nunca −1 ni <code class="inl">MAX_VALUE</code>.</strong> Si un dato puede no estar todavía (la mejor nota, el primer turno), usá el wrapper (<code class="inl">Integer</code>, <code class="inl">Double</code>) en <code class="inl">null</code>. Un −1 es un valor disfrazado de ausencia: el día que −1 sea un dato válido, el TDA miente.</li>
+  <li><strong>Si el TDA pasa por etapas, el estado es un <code class="inl">enum</code>, no booleans.</strong> Dibujá el diagrama de estados (pendiente → confirmada → cancelada). Dos booleans permiten el estado imposible «confirmada y cancelada»; el enum lo vuelve irrepresentable.</li>
+  <li><strong>El tipo de dato no va en los nombres:</strong> <code class="inl">aplicaciones</code>, no <code class="inl">vectorDeAplicaciones</code>. El nombre habla del dominio; la estructura interna es un secreto.</li>
+  <li><strong><code class="inl">null</code> es ideal para máximos y mínimos:</strong> sin centinelas ni casos especiales (ejemplo abajo).</li>
+  <li><strong>En el ejercicio de TDA NO se usan listas, pilas ni colas</strong>, ni de <code class="inl">java.util</code> ni propias: arreglos administrados por vos. Administrar el arreglo es parte de lo que se evalúa.</li>
+  <li><strong>Lo calculable es un MÉTODO, no un atributo.</strong> La recaudación es la suma de lo vendido: <code class="inl">recaudacion()</code> la calcula cuando se la piden. Un atributo que hay que «mantener actualizado» es un bug en cámara lenta.</li>
+  <li><strong>Recibí el TDA entero por parámetro</strong>, no sus atributos sueltos: <code class="inl">agregar(Pelicula p)</code>, no <code class="inl">agregar(titulo, duracion, genero)</code>. La excepción razonable: un id para buscar.</li>
+  <li><strong>Nada de <code class="inl">System.out</code> adentro del TDA</strong> (salvo que el TDA sea la pantalla). El TDA devuelve datos; imprimirlos lo decide quien lo usa.</li>
+  <li><strong>Copia defensiva al devolver lo interno:</strong> si devolvés tu arreglo, devolvé una copia (<code class="inl">Arrays.copyOf</code>).</li>
+  <li><strong>El constructor entrega un TDA válido:</strong> valida sus parámetros y deja los invariantes cumplidos desde el primer instante. Lo que no cambia nunca, <code class="inl">final</code>.</li>
+  <li><strong>El test también prueba lo inválido:</strong> por cada validación, un <code class="inl">assertThrows</code> que demuestre que el TDA se defiende.</li>
+</ol>
+
+<p>El punto 13, con un ejemplo distinto al del apunte: la canción más larga de una playlist sobre arreglo.</p>
+
+<pre><code class="java">public Cancion laMasLarga() {
+    Cancion maxima = null;
+    for (int i = 0; i &lt; cantidad; i++) {
+        if (maxima == null || canciones[i].getDuracion() &gt; maxima.getDuracion()) {
+            maxima = canciones[i];
+        }
+    }
+    return maxima;          // null si no hay canciones: ausencia honesta
+}</code></pre>
+
+<div class="box error">
+  <div class="bh">Error común</div>
+  <div class="bb"><p>Lo que más puntos cuesta en el ejercicio de TDA, y qué punto viola: atributos públicos (4) · −1 como «no hay» (10 y 13) · dos booleans en vez de un enum (11) · <code class="inl">vectorDeSocios</code> (12) · <code class="inl">ArrayList</code> adentro del TDA (14) · un atributo <code class="inl">promedio</code> desactualizado (15) · un método con siete parámetros que eran un objeto (16) · un <code class="inl">System.out.println</code> adentro del TDA (17) · el getter que regala el arreglo interno (18).</p></div>
+</div>
+
+<h3 id="s314"><span class="num">3.15</span>Errores comunes</h3>
 
 <div class="box error">
   <div class="bh">Error común — el resumen de la unidad</div>
@@ -1755,7 +1804,7 @@ Arrays.sort(ordenables);                          // usa compareTo (orden por á
   </div>
 </div>
 
-<h3 id="s315"><span class="num">3.15</span>Repaso</h3>
+<h3 id="s315"><span class="num">3.16</span>Repaso</h3>
 
 <p>Si podés responder estas once preguntas sin mirar, la unidad está.</p>
 
@@ -1901,7 +1950,7 @@ Arrays.sort(ordenables);                          // usa compareTo (orden por á
   <p>Practicá diseño con TDA y POO. Cada ejercicio va en su propio paquete dentro de <code class="inl">ar.uba.fi.cb100.guia.i03_poo</code> (niveles <code class="inl">i02_facil</code>, <code class="inl">i03_medio</code>, <code class="inl">i04_dificil</code>; un paquete por ejercicio, p. ej. <code class="inl">guia.i03_poo.i04_dificil.e05</code>), con su test JUnit. Las preguntas teóricas se responden en <code class="inl">guia/i03_poo/i01_teorico</code>. <strong>Programá contra el contrato, encapsulá el estado y validá los invariantes.</strong></p>
 </div>
 
-<h3 id="gteo"><span class="num">3.16</span>Preguntas teóricas</h3>
+<h3 id="gteo"><span class="num">3.17</span>Preguntas teóricas</h3>
 
 <p>Se responden en texto (archivos <code class="inl">.md</code>). Escribí tu versión primero y después abrí la de acá para comparar.</p>
 
@@ -2055,7 +2104,7 @@ String s = c.get();              // sin cast, y el compilador lo garantiza</code
 <p>La cátedra apunta a sumar CI (por ejemplo con GitHub Actions) para que los TP se integren y validen solos, más medición de cobertura y análisis de estilo. Correr <code class="inl">./gradlew test</code> antes de cada commit ya es hacer CI a mano.</p>
 </div></details>
 
-<div class="exlevel"><span class="t" id="gfacil">3.17 · Nivel fácil</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gfacil">3.18 · Nivel fácil</span><span class="l"></span></div>
 
 <p>Paquete base: <code class="inl">ar.uba.fi.cb100.guia.i03_poo.i02_facil.eNN</code>. Un commit por ejercicio.</p>
 
@@ -2738,7 +2787,7 @@ public class Termometro {
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gmedio">3.18 · Nivel medio</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gmedio">3.19 · Nivel medio</span><span class="l"></span></div>
 
 <p>Paquete base: <code class="inl">ar.uba.fi.cb100.guia.i03_poo.i03_medio.eNN</code>. Acá aparecen los primeros TDAs de la materia.</p>
 
@@ -3660,7 +3709,7 @@ public class EquipoSuperficial {
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gdificil">3.19 · Nivel difícil</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gdificil">3.20 · Nivel difícil</span><span class="l"></span></div>
 
 <p>Paquete base: <code class="inl">ar.uba.fi.cb100.guia.i03_poo.i04_dificil.eNN</code>. Acá se construyen los primeros TDAs completos de la materia: son el anticipo directo de las Unidades 5, 8 y 9.</p>
 
@@ -4959,7 +5008,7 @@ class PilaContratoTest {
   <p>Estas dos secciones no están en el apunte: son para entrenar. El <strong>generador</strong> arma ejercicios nuevos cada vez y los corrige solo, con el razonamiento cuando errás. La <strong>autoevaluación</strong> son doce preguntas del estilo de las que aparecen en parcial.</p>
 </div>
 
-<h3 id="s320"><span class="num">3.20</span>Generador de ejercicios</h3>
+<h3 id="s320"><span class="num">3.21</span>Generador de ejercicios</h3>
 
 <p>En «¿Qué imprime?» escribí exactamente lo que aparecería en la consola. En «¿Herencia o composición?» respondé <code class="inl">herencia</code> o <code class="inl">composición</code>. En «Interfaz o abstracta», <code class="inl">interfaz</code> o <code class="inl">abstracta</code>.</p>
 
@@ -4998,7 +5047,7 @@ class PilaContratoTest {
   </div>
 </div>
 
-<h3 id="s321"><span class="num">3.21</span>Autoevaluación</h3>
+<h3 id="s321"><span class="num">3.22</span>Autoevaluación</h3>
 
 <p>Doce preguntas sobre toda la unidad. Elegí una opción y se corrige al instante, con la explicación.</p>
 

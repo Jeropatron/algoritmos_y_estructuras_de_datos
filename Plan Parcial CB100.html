@@ -1,0 +1,2330 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Plan Parcial CB100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: hoja de parcial sobre papel cuadriculado; columna única de ~880px, pestañas arriba, días como renglones de planilla. */
+:root{
+  --paper:#f4f6f9; --surface:#ffffff; --ink:#17202c; --muted:#596476; --line:#dbe1ea; --grid:rgba(35,70,196,.055);
+  --birome:#2346c4; --birome-soft:#e5eafb;
+  --eje-r:#0d7a75; --eje-r-soft:#dcf1ef; --eje-t:#7a3fb8; --eje-t-soft:#efe5f9; --eje-l:#a95f08; --eje-l-soft:#fbeedb;
+  --ok:#1d7a3b; --ok-soft:#e0f3e5; --bad:#c22828; --bad-soft:#fbe3e3;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10131a; --surface:#181c25; --ink:#e5e9f0; --muted:#9aa4b4; --line:#2a313d; --grid:rgba(130,155,255,.05);
+    --birome:#91a7ff; --birome-soft:#1e2745;
+    --eje-r:#52c9c1; --eje-r-soft:#12302e; --eje-t:#c49df1; --eje-t-soft:#291e3a; --eje-l:#f0a64c; --eje-l-soft:#382813;
+    --ok:#62d088; --ok-soft:#142f1e; --bad:#ff7b7b; --bad-soft:#3a1919;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10131a; --surface:#181c25; --ink:#e5e9f0; --muted:#9aa4b4; --line:#2a313d; --grid:rgba(130,155,255,.05);
+  --birome:#91a7ff; --birome-soft:#1e2745;
+  --eje-r:#52c9c1; --eje-r-soft:#12302e; --eje-t:#c49df1; --eje-t-soft:#291e3a; --eje-l:#f0a64c; --eje-l-soft:#382813;
+  --ok:#62d088; --ok-soft:#142f1e; --bad:#ff7b7b; --bad-soft:#3a1919;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:var(--f-body); font-size:15.5px; line-height:1.5;
+}
+.wrap{max-width:900px; margin:0 auto; padding-inline:16px; padding-block:28px 64px; display:flex; flex-direction:column; gap:22px}
+h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,6vw,3.1rem); font-weight:850; font-stretch:72%; line-height:1}
+h2{font-size:1.45rem; font-weight:800; font-stretch:80%}
+h3{font-size:1.08rem; font-weight:750; font-stretch:90%}
+p{margin:0}
+.mono{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.muted{color:var(--muted)}
+button,input,select,textarea{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--birome); outline-offset:2px}
+
+/* Header */
+header{display:flex; flex-direction:column; gap:10px}
+.lede{max-width:62ch; color:var(--muted)}
+.lede b{color:var(--ink)}
+.red-mark{font-family:var(--f-mono); color:var(--bad); font-weight:600}
+.stats{display:flex; flex-wrap:wrap; gap:8px 26px; padding-top:6px}
+.stat{display:flex; flex-direction:column}
+.stat .v{font-family:var(--f-display); font-weight:800; font-stretch:75%; font-size:1.7rem; line-height:1.05; font-variant-numeric:tabular-nums}
+.stat .k{font-size:.8rem; color:var(--muted)}
+.bar{height:6px; background:var(--line); border-radius:3px; overflow:hidden; max-width:420px}
+.bar > span{display:block; height:100%; background:var(--birome); width:0; transition:width .3s}
+.sync{font-size:.8rem; color:var(--muted)}
+
+/* Tabs */
+nav.tabs{display:flex; gap:4px; flex-wrap:wrap; border-bottom:1.5px solid var(--line); position:sticky; top:env(safe-area-inset-top,0px); background:var(--paper); z-index:5; padding-top:6px}
+nav.tabs button{background:none; border:0; padding:9px 14px 10px; cursor:pointer; color:var(--muted); font-weight:700; border-bottom:3px solid transparent; margin-bottom:-1.5px}
+nav.tabs button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--birome)}
+section.panel{display:flex; flex-direction:column; gap:16px}
+
+/* Chips */
+.chip{display:inline-flex; align-items:center; gap:5px; font-family:var(--f-mono); font-size:.72rem; font-weight:600; letter-spacing:.03em; padding:2px 8px; border-radius:99px; white-space:nowrap}
+.chip.R{color:var(--eje-r); background:var(--eje-r-soft)}
+.chip.T{color:var(--eje-t); background:var(--eje-t-soft)}
+.chip.L{color:var(--eje-l); background:var(--eje-l-soft)}
+.chip.M{color:var(--birome); background:var(--birome-soft)}
+.chip.ok{color:var(--ok); background:var(--ok-soft)}
+.chip.bad{color:var(--bad); background:var(--bad-soft)}
+.chip.time{color:var(--muted); background:transparent; border:1px solid var(--line)}
+.chip.hoy{color:var(--surface); background:var(--birome)}
+
+/* Leyenda */
+.legend{display:flex; flex-wrap:wrap; gap:8px 16px; font-size:.86rem; color:var(--muted); align-items:center}
+
+/* Day cards */
+.phase-head{display:flex; flex-direction:column; gap:4px; padding-top:8px}
+.day{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); display:grid; grid-template-columns:96px 1fr; scroll-margin-top:70px}
+.day.is-today{border-color:var(--birome); box-shadow:0 0 0 1px var(--birome)}
+.day .when{padding:14px 12px; border-right:1px dashed var(--line); display:flex; flex-direction:column; gap:6px; align-items:flex-start}
+.day .dow{font-family:var(--f-mono); font-size:.74rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+.day .num{font-family:var(--f-display); font-weight:850; font-stretch:70%; font-size:2rem; line-height:.95; font-variant-numeric:tabular-nums}
+.day .body{padding:10px 14px 12px; display:flex; flex-direction:column; gap:2px; min-width:0}
+.day .title{display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; padding:4px 0 6px}
+.task{display:grid; grid-template-columns:22px 1fr; gap:4px 10px; padding:7px 0; border-top:1px solid var(--line); align-items:start}
+.task:first-of-type{border-top:0}
+.task input[type=checkbox]{width:18px; height:18px; margin:3px 0 0; accent-color:var(--birome); cursor:pointer}
+.task label{display:flex; flex-direction:column; gap:2px; cursor:pointer; min-width:0}
+.task .lbl{display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-weight:700; font-size:.92rem}
+.task .desc{color:var(--ink); overflow-wrap:anywhere}
+.task.done .desc.tt{color:var(--muted); text-decoration:line-through; text-decoration-color:var(--muted)}
+.task .tbody{display:flex; flex-direction:column; gap:6px; min-width:0}
+.task .tt{font-weight:700}
+.det{display:flex; flex-direction:column; gap:9px; font-size:.93rem; padding-top:2px; min-width:0}
+.det ol{margin:0; padding-left:1.35em; display:flex; flex-direction:column; gap:5px}
+.det pre{margin:0; font-family:var(--f-mono); font-size:.78rem; line-height:1.45; background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:8px 10px; overflow-x:auto; white-space:pre; min-width:0}
+.det .k{font-weight:700}
+.verif{display:flex; flex-direction:column; gap:5px}
+.cmdrow{display:flex; gap:6px; align-items:flex-start; min-width:0}
+.cmdrow pre{flex:1}
+.copy{border:1px solid var(--line); background:var(--surface); border-radius:4px; padding:5px 9px; font-size:.78rem; font-weight:700; cursor:pointer; white-space:nowrap}
+.enun{display:flex; flex-direction:column; gap:4px; min-width:0}
+.aclara{border-left:3px solid var(--eje-t); padding:2px 0 2px 11px; display:flex; flex-direction:column; gap:3px}
+.aclara ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:4px}
+.teo,.fuera{border-left:3px solid var(--birome); padding:2px 0 2px 11px; display:flex; flex-direction:column; gap:3px}
+.fuera{border-left-color:var(--eje-l)}
+.teo ul,.fuera ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:3px}
+details.more summary{cursor:pointer; color:var(--birome); font-weight:700; font-size:.88rem; padding:2px 0}
+details.more[open] summary{margin-bottom:6px}
+.howto code,.det p,.det li{overflow-wrap:anywhere}
+.syn pre{margin:0; font-family:var(--f-mono); font-size:.78rem; line-height:1.45; background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:8px 10px; overflow-x:auto; white-space:pre}
+.syn td code{font-size:.82em}
+.resumen-parcial{background:var(--birome-soft); border-radius:var(--r); padding:12px 14px; font-size:.92rem; display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center}
+.day .resumen{color:var(--muted); font-size:.9rem; padding:0 0 6px}
+.howto summary{cursor:pointer; font-family:var(--f-display); font-weight:800; font-stretch:90%; font-size:1.08rem}
+.howto pre{margin:0; font-family:var(--f-mono); font-size:.78rem; background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:7px 10px; overflow-x:auto; white-space:pre}
+.task.control{background:var(--birome-soft); margin:6px -8px 0; padding:8px; border-radius:var(--r); border-top:0}
+.task.control .desc small{display:block; color:var(--muted)}
+.scores{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; padding:8px 0 2px; border-top:1px solid var(--line)}
+.score{display:flex; align-items:center; gap:6px; font-size:.88rem}
+.score input{width:64px; padding:4px 6px; border:1px solid var(--line); border-radius:4px; background:var(--paper); font-family:var(--f-mono); text-align:right}
+.verdict{margin-left:auto}
+.cutoff{display:flex; flex-direction:column; gap:4px; padding:14px 16px; border:2px dashed var(--bad); border-radius:var(--r); background:var(--bad-soft)}
+.cutoff h3{color:var(--bad)}
+.linkbtn{background:none; border:0; padding:0; color:var(--birome); font-weight:700; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+
+/* Today */
+.today-box{display:flex; flex-direction:column; gap:10px}
+
+/* Timer */
+.timer{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px; display:flex; flex-direction:column; gap:14px}
+.clock{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 18px}
+.clock .big{font-family:var(--f-mono); font-size:clamp(2.6rem,11vw,4.2rem); font-weight:600; line-height:1; font-variant-numeric:tabular-nums}
+.clock .phase{font-family:var(--f-display); font-weight:800; font-stretch:80%; font-size:1.3rem}
+.segs{display:flex; gap:3px; height:28px}
+.seg{position:relative; background:var(--line); border-radius:3px; overflow:hidden; min-width:0}
+.seg > i{position:absolute; inset:0 auto 0 0; width:0; background:var(--birome); opacity:.85}
+.seg > b{position:relative; font-family:var(--f-mono); font-size:.68rem; font-weight:600; padding:0 6px; line-height:28px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; color:var(--ink)}
+.seg.done > b{color:var(--surface)}
+.seg.done > i{width:100%}
+.btns{display:flex; flex-wrap:wrap; gap:8px}
+.btn{border:1.5px solid var(--ink); background:var(--surface); padding:7px 14px; border-radius:4px; font-weight:700; cursor:pointer}
+.btn.primary{background:var(--birome); border-color:var(--birome); color:var(--surface)}
+.btn.ghost{border-color:var(--line)}
+.btn.danger{border-color:var(--bad); color:var(--bad)}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto; background:var(--surface); border:1px solid var(--line); border-radius:var(--r)}
+table{border-collapse:collapse; width:100%; font-size:.9rem}
+th,td{padding:8px 12px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap}
+th{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600}
+td.n{font-family:var(--f-mono); text-align:right; font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.pass{color:var(--ok); font-weight:700}
+.fail{color:var(--bad); font-weight:700}
+
+/* Trampas */
+.trap{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; display:flex; flex-direction:column; gap:10px}
+.trap ul{margin:0; padding-left:1.15em; display:flex; flex-direction:column; gap:6px; max-width:72ch}
+.trap li::marker{color:var(--muted)}
+.trap code,.task code{font-family:var(--f-mono); font-size:.86em; background:var(--paper); padding:0 4px; border-radius:3px}
+.backend{border-left:3px solid var(--birome); padding:4px 0 4px 12px; color:var(--muted); font-size:.92rem; max-width:72ch}
+.backend b{color:var(--ink)}
+
+/* Bitácora */
+form.bit{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px}
+form.bit .full{grid-column:1/-1}
+.field{display:flex; flex-direction:column; gap:4px; min-width:0}
+.field label{font-size:.82rem; font-weight:700}
+.field input,.field select,.field textarea{border:1px solid var(--line); background:var(--paper); border-radius:4px; padding:7px 9px; width:100%}
+.field textarea{min-height:64px; resize:vertical}
+.entries{display:flex; flex-direction:column; gap:10px}
+.entry{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:12px 14px; display:flex; flex-direction:column; gap:6px}
+.entry .meta{display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; font-size:.82rem; color:var(--muted)}
+.entry .del{margin-left:auto; display:flex; gap:8px; align-items:center}
+.entry .rule{font-weight:700}
+.empty{padding:22px; text-align:center; color:var(--muted); border:1.5px dashed var(--line); border-radius:var(--r); background:var(--surface)}
+.msg{font-size:.85rem}
+
+@media (max-width:560px){
+  .day{grid-template-columns:1fr}
+  .day .when{flex-direction:row; align-items:center; border-right:0; border-bottom:1px dashed var(--line); padding:10px 14px; gap:10px}
+  .day .num{font-size:1.5rem}
+  form.bit{grid-template-columns:1fr}
+  .verdict{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">CB100 · Curso Schmidt · 2C 2026</span>
+    <h1>Plan Parcial CB100</h1>
+    <p class="lede">Parcial el <b>miércoles 28/10</b>: 3 ejercicios (<b>salida y GC</b>, <b>TDA</b> y <b>un método con List</b>), más complejidad y estrategias hasta la Unidad 6. Se aprueba por punto: hace falta el <span class="red-mark">60%</span> de cada ejercicio. Todo lo que se toma está explicado en la pestaña <b>El parcial</b>.</p>
+    <div class="stats">
+      <div class="stat"><span class="v" id="st-hoy">—</span><span class="k">hoy</span></div>
+      <div class="stat"><span class="v" id="st-corte">—</span><span class="k">días al último día de práctica (26/10)</span></div>
+      <div class="stat"><span class="v" id="st-parcial">—</span><span class="k">días al mié 28/10</span></div>
+      <div class="stat"><span class="v" id="st-avance">0%</span><span class="k">del plan hecho</span></div>
+    </div>
+    <div class="bar" aria-hidden="true"><span id="bar-avance"></span></div>
+    <span class="sync" id="sync">Guardando en este navegador.</span>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-parcial" data-tab="parcial" aria-selected="false">El parcial</button>
+    <button role="tab" id="tab-cronograma" data-tab="cronograma" aria-selected="true">Cronograma</button>
+    <button role="tab" id="tab-sintaxis" data-tab="sintaxis" aria-selected="false">Sintaxis</button>
+    <button role="tab" id="tab-simulacros" data-tab="simulacros" aria-selected="false">Simulacros</button>
+    <button role="tab" id="tab-trampas" data-tab="trampas" aria-selected="false">Trampas</button>
+    <button role="tab" id="tab-bitacora" data-tab="bitacora" aria-selected="false">Bitácora</button>
+  </nav>
+
+  <section class="panel syn" id="panel-parcial" hidden>
+    <div class="trap">
+      <h3>El parcial en 30 segundos</h3>
+      <div class="tbl-wrap"><table>
+        <tbody>
+          <tr><td>Cuándo</td><td><b>miércoles 28/10</b> (aviso del 14/10: primero se decía el jue 22, después el mié 21; confirmalo con la cátedra)</td></tr>
+          <tr><td>Formato</td><td>presencial, <b>3 ejercicios</b>, 2:30 a 3:00 h, en papel, sin celular y sin IDE</td></tr>
+          <tr><td>Cómo se aprueba</td><td><b>por punto</b>: hace falta el <span class="red-mark">60%</span> de CADA ejercicio. No se compensa: un 100% en uno no tapa un 40% en otro</td></tr>
+          <tr><td>Si sale mal</td><td>hay 2ª y 3ª oportunidad</td></tr>
+          <tr><td>Hasta qué unidad</td><td>la <b>6</b>. U1 a U3 y U5 entran en los 3 ejercicios; U4 (complejidad) y U6 (estrategias), como se explica abajo</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted msg">Fuente: los 9 parciales del curso Schmidt (2025 1C, 2025 2C y 2026 1C), el cronograma de la cursada del README y los coloquios del profe.</p>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip R">Ej. 1</span><h3>Salida y trabajo del GC</h3></div>
+      <ul>
+        <li><b>Qué te dan:</b> un <code>main</code> corto con primitivos, un arreglo, <code>int[] B = A;</code>, un <code>(char)</code>, una división entera y un <code>while</code>. Es casi el MISMO código en los 9 parciales: cambian los números.</li>
+        <li><b>Qué entregás:</b> la salida exacta de cada <code>println</code> y qué hace el GC: qué objetos hay en el heap, cuándo quedan elegibles y por qué la pregunta «¿sobre qué variable?» está mal planteada.</li>
+        <li><b>Lo que más se cobra:</b> <code>int X, Y, Z = 5;</code> solo inicializa Z · el aliasing de <code>B = A</code> · la división entera · el GC actúa sobre objetos, no sobre variables · los <code>String</code> temporales de cada <code>println</code>.</li>
+        <li><b>Riesgo de este cuatrimestre:</b> que agreguen <code>new</code> reasignados u objetos que apuntan a otros (bloques colgados).</li>
+        <li><b>Teoría:</b> clase_3_y_4 §2.1–2.11 · clase_7_y_8 escenarios 6 a 10 y §3B.14 · clase_1_y_2 §1B.7, §1B.9, §1B.11.</li>
+        <li><b>Sintaxis:</b> pestaña Sintaxis §12 (qué imprime cada cosa) y §10 · en Trampas, el bloque Ej. 1.</li>
+        <li><b>Ya practicaste:</b> 3 trazas correctas (mar 6 y mié 7). <b>Ya practicaste también:</b> 10 preguntas del Generador (8 bien) y el control de 20′ (18′, con un error que se arrastró). <b>Falta:</b> 10 preguntas más del Generador (sáb 24) y el ej. 1 de cada simulacro.</li>
+      </ul>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip T">Ej. 2</span><h3>Diseñar e implementar un TDA (solo hasta vectores)</h3></div>
+      <ul>
+        <li><b>Qué te dan:</b> una lista de operaciones en castellano. Ejemplos reales: Teclado, Piano, Batería, Escudo, Estante y Libro, Servidor, Edificio, ControlRemoto.</li>
+        <li><b>Qué entregás:</b> la clase en Java con atributos privados, constructor y cada operación, con su <b>pre y post</b>, más los invariantes. Solo arreglos y contadores: nada de <code>ArrayList</code> adentro del TDA.</li>
+        <li><b>Lo que más se cobra:</b> pre/post faltantes · no validar la pre (<code>IllegalArgumentException</code>) · ambigüedades del enunciado sin resolver · qué pasa cuando el arreglo se llena · estados («apagado», «sin internet») que no respetan todas las operaciones · getters que exponen el arreglo interno.</li>
+        <li><b>Contra qué se corrige:</b> el <b>checklist del ejercicio de TDA</b> del apunte (clase_5_y_6 §3.14, 20 puntos). Leelo antes de cada TDA.</li>
+        <li><b>Teoría:</b> clase_5_y_6 §3.2, §3.4.1, §3.5, §3.6, §3.8, §3.11.1 · U5 §5.1.2 (arreglo que crece).</li>
+        <li><b>Sintaxis:</b> §1 (firma), §9 (arreglo + contador), <b>§9b (el checklist escrito en Java)</b>, §10 (tus errores) y §11 (herencia, solo si la usás) · clase_1_y_2 §1B.12, §1B.13, §1B.17.</li>
+        <li><b>Ya practicaste:</b> Colecta completa (bien diseñada), Repositorio y Tablero de la guía 3. <b>También:</b> el Teclado con reloj (sáb 17), que no llegó al 60% por el orden. <b>Falta:</b> el Teclado de memoria y la Batería con el orden nuevo (vie 23), corregir la Colecta (lun 26) y el TDA de cada simulacro.</li>
+      </ul>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip L">Ej. 3</span><h3>Un método con la API de List (el de más riesgo)</h3></div>
+      <ul>
+        <li><b>Qué te dan:</b> la firma de un método y dos o tres clases chicas (por ejemplo Proyecto y Programador). Recibís una <code>List</code> (a veces una <code>Queue</code>) de objetos.</li>
+        <li><b>Qué entregás:</b> el método implementado. El patrón de 2026: <b>agrupar</b> por persona, <b>acumular</b> un total, <b>filtrar</b> por una condición contada por persona, <b>ordenar</b> de mayor a menor y <b>quedarse con los 10 primeros</b> (o menos).</li>
+        <li><b>Lo que más se cobra:</b> filtrar antes de agrupar · repetidos por no usar <code>equals</code> · ordenar mal con <code>double</code> · <code>get(i)</code> fuera de rango con menos de 10 · borrar mientras recorrés · vaciar con <code>poll()</code> una cola ajena.</li>
+        <li><b>Contra qué se corrige:</b> el <b>checklist del ejercicio de listas</b> del apunte (U5 §5.11, 6 puntos): métodos auxiliares, nada de dos for anidados en un mismo método, usar la API en vez de reescribirla, estrategia y casos de uso antes de codear. El profe lo muestra en <code>clases/a2026/c02/s08/parcial/ParcialForos.java</code>.</li>
+        <li><b>Muy probable este cuatrimestre:</b> que además pidan <b>la complejidad de tu método</b> (ver U4 abajo).</li>
+        <li><b>Teoría:</b> U5 §5.1.11 (recorrer, buscar y ordenar), §5.2, §5.6, §5.7, §5.9, <b>§5.11 (checklist del ejercicio de listas)</b> y §5.12 · clase_5_y_6 §3.8 y Laboratorio 5 (Comparator).</li>
+        <li><b>Sintaxis:</b> §1 a §8, <b>§4b (partir en métodos auxiliares)</b> y §14 (complejidad). Es el ejercicio que más sintaxis nueva pide.</li>
+        <li><b>Ya practicaste:</b> la calistenia de listas y MiIngenieroDeSoftware. <b>También:</b> Repartidores y ColasYFiltros (jue 15) y Pasajeros con reloj, solo y sin errores en 20 a 25′ (sáb 17). <b>Falta:</b> Profesor (vie 23), Editor con Queue (dom 25) e IngenieroQuimico (lun 26), los tres con reloj y en papel.</li>
+      </ul>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip M">U4</span><h3>Complejidad: cómo puede aparecer</h3></div>
+      <ul>
+        <li><b>Por qué entra:</b> el cronograma de la cursada dice, en las semanas 8 y 9, «Ejercicios de parcial: métodos de Lista y complejidad». Los parciales viejos no la tenían.</li>
+        <li><b>Lo más probable:</b> «calculá la complejidad del método que implementaste» en el ej. 3. Se responde <code>O(...)</code> con una justificación de una o dos líneas.</li>
+        <li><b>Lo posible:</b> un V/F de recurrencias como los de los coloquios: «T(n) = 2T(n−1) + 1 pertenece a O(n)», a resolver con el Teorema Maestro.</li>
+        <li><b>Qué saber:</b> secuencia suma y anidado multiplica · <code>contains</code> e <code>indexOf</code> son O(n) en una lista · ordenar es O(n log n) · ¿la recurrencia resta o divide?</li>
+        <li><b>Teoría:</b> clase_9_y_10 §4.3–4.5.1, §4.6.1, §4.8, §4.9, §4.10, §4.11, §4.15 · U5 §5.7.</li>
+        <li><b>Sintaxis:</b> §14 (cuánto cuesta cada llamada y cómo escribir la justificación).</li>
+        <li><b>En el plan:</b> complejidad de tus métodos (hecho el jue 15) · U4 a fondo, con V/F de recurrencias (sáb 24) · la complejidad arriba de cada ej. 3 de práctica y de los simulacros.</li>
+      </ul>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip M">U6</span><h3>Estrategias: cómo puede aparecer</h3></div>
+      <ul>
+        <li><b>Por qué entra:</b> el parcial toma hasta la U6. En los parciales viejos nunca apareció; en los coloquios, sí.</li>
+        <li><b>Lo esperable:</b> una pregunta conceptual («describa divide y vencerás», «¿cómo funciona Radix?») o un V/F de recurrencias (Hanói, Mergesort).</li>
+        <li><b>Qué saber:</b> caso base y paso recursivo · los tres pasos de divide y vencerás · Mergesort vs. Quicksort · Counting, Radix y Bucket sort, en 5 o 6 líneas cada uno.</li>
+        <li><b>Teoría:</b> la página nueva, clase_13_y_14 (U6), secciones 6.1 a 6.17, y su autoevaluación.</li>
+        <li><b>Sintaxis:</b> §13 (los tres moldes de una recursión).</li>
+        <li><b>En el plan:</b> la página y su autoevaluación el dom 25, y repaso en la víspera (mar 27).</li>
+      </ul>
+    </div>
+
+    <div class="trap">
+      <h3>Lo que NO se toma (para no perder tiempo)</h3>
+      <ul>
+        <li><b>Listas enlazadas con nodos desde cero:</b> el ej. 3 siempre usa la API de <code>List</code>. Los nodos sirven para entender, pero no se piden.</li>
+        <li>UML, JUnit, archivos, fechas, Maven y Git: están en tus páginas, pero no aparecen en ningún parcial.</li>
+        <li>Herencia y clases abstractas: ningún enunciado las pide, pero el profe las usó en su solución del TDA Televisor (clase s08). Sirven para modelar, no son obligatorias.</li>
+        <li>Streams: no son obligatorios. Un for-each que conocés bien alcanza.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-cronograma">
+    <div class="resumen-parcial">
+      <b>Qué se toma:</b> Ej. 1 salida y GC · Ej. 2 TDA sobre vectores · Ej. 3 método con List (+ su complejidad) · preguntas de U4 y U6. 60% de cada ejercicio.
+      <button type="button" class="linkbtn" id="irParcial">Ver todo en «El parcial»</button>
+    </div>
+    <div class="today-box" id="today"></div>
+    <details class="trap howto">
+      <summary>Cómo trabajar cada ejercicio</summary>
+      <ul>
+        <li><b>Qué se toma:</b> pestaña <b>El parcial</b>.</li>
+        <li><b>Paquete de práctica:</b> todo lo que escribas va en el paquete <code>practica</code> del proyecto de IntelliJ: <code>teoria/cb100/app/src/main/java/ar/uba/fi/cb100/practica/</code>. Cuando una consigna dice <code>practica/Archivo.java</code>, es ahí. Así tenés autocompletado y el botón ▶.</li>
+        <li><b>Crear un archivo nuevo:</b> en IntelliJ, clic derecho sobre el paquete <code>practica</code> → New → Java Class. IntelliJ escribe solo la primera línea, <code>package ar.uba.fi.cb100.practica;</code>. Si lo creás de otra forma, esa línea tiene que estar igual.</li>
+        <li><b>Rutas del repo:</b> cuando una consigna dice <code>guia/…</code>, <code>clases/…</code> o <code>examenes/…</code>, la ruta completa empieza en <code>teoria/cb100/app/src/main/java/ar/uba/fi/cb100/</code>.</li>
+        <li><b>Ejecutar:</b> el ▶ verde al lado del <code>main</code> en IntelliJ. O desde la terminal, cambiando NombreDeLaClase:</li>
+      </ul>
+      <pre>cd ~/Documents/algoritmos_y_estructuras_de_datos/teoria/cb100 && ./gradlew compileJava -q && java -cp app/build/classes/java/main ar.uba.fi.cb100.practica.NombreDeLaClase</pre>
+      <ul>
+        <li><b>Ojo:</b> Gradle compila todo el proyecto junto. Si un archivo tuyo a medio escribir no compila, tampoco andan el ▶ ni los tests de la guía. Antes de ejecutar otra cosa, dejá lo que estás escribiendo compilando (aunque sea con un <code>return</code> provisorio).</li>
+        <li><b>Ejercicios que ya vienen resueltos en el repo:</b> la consigna trae el enunciado completo. No abras el archivo resuelto hasta terminar el tuyo; después lo comparás.</li>
+        <li><b>Sintaxis de Java:</b> la pestaña <b>Sintaxis</b> tiene la API de List y Queue comparada con Python, y dónde está el resto en tus páginas. El bloque de Teoría de cada día dice qué partes leer.</li>
+        <li><b>→ Teoría:</b> cada tarea dice qué página de <code>paginas/</code> abrir y qué sección (número y nombre) leer. «Extra → glosario» es la sección del final de cada página.</li>
+        <li><b>Errores:</b> cada error que encuentres va a la pestaña Bitácora, con la regla para no repetirlo.</li>
+      </ul>
+    </details>
+    <div class="legend">
+      <span class="chip R">R · referencias, GC y nodos</span>
+      <span class="chip T">T · TDA sobre vectores</span>
+      <span class="chip L">L · API de List y Queue</span>
+      <span class="chip time">⏱ cronometrado</span>
+    </div>
+    <div class="phase-head">
+      <span class="eyebrow">Fase A · mar 6/10 → lun 26/10</span>
+      <h2>Construcción</h2>
+      <p class="muted">Cada día: 25′ de teoría, 70′ de código del eje del día y 25′ de drill cruzado de otro eje. Primero lo hacés a mano, después ejecutás y comparás.</p>
+      <p class="muted msg"><b>Reorganizado el 19/10:</b> del dom 18 al jue 22 no hay sesiones (parcial de otra materia el jue 22). Desde el vie 23, solo algoritmos, unas 4 h por día: el vie 23 es de práctica, y del sáb 24 al lun 26 cada día arranca con un simulacro y sigue con la práctica que quedaba. La víspera, mar 27, sigue liviana. <b>Antes, el 14/10:</b> el parcial pasó al mié 28. Lo del mié 14 se corrió al jue 15 y todo lo siguiente, un día. Se sumaron cinco días de práctica (dom 18 a jue 22) con ejercicios nuevos de parciales, y la fecha límite pasó al jue 22. Antes, el 10/10: hasta el mar 13 los días son livianos por el parcial de Orga. Se sumaron complejidad (U4), los escenarios de memoria de clase_7_y_8 y la U6, y salieron los días de nodos desde cero y la Tostadora, que no se toman. Cada tarea tiene su consigna completa (tocá «Ver consigna completa») con la teoría y la sintaxis que necesitás.</p>
+    </div>
+    <div id="fase-a" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="cutoff">
+      <h3>Último día de práctica · lunes 26/10</h3>
+      <p>Desde el sáb 24, cada día arranca con un simulacro (cuando estás descansado) y sigue con la práctica. El mar 27 no hay nada nuevo: el reducido y repaso.</p>
+    </div>
+    <div class="phase-head">
+      <span class="eyebrow">Fase B · sáb 24/10 → mar 27/10 · parcial el mié 28/10</span>
+      <h2>Simulacros</h2>
+      <p class="muted">1h40 de examen y 20′ de autocorrección. No abras el PDF antes de su día. Cargá el porcentaje que te pondrías en cada punto. Son 3 simulacros completos (sáb 24 a lun 26), cada uno como primer bloque del día, y uno reducido en la víspera (mar 27). De reserva quedan la 3ª oportunidad de 2025-1C (Escudo) y la 2ª: si un día te sobra energía, agregá uno. De la 1ª de 2025-1C salen Profesor y Batería, que son práctica.</p>
+    </div>
+    <div id="fase-b" style="display:flex;flex-direction:column;gap:10px"></div>
+  </section>
+
+  <section class="panel syn" id="panel-sintaxis" hidden>
+    <p class="muted" style="max-width:70ch">Lo que necesitás de la sintaxis de Java para el parcial. Una parte ya está en tus páginas: acá tenés <b>dónde leerla</b>. Otra parte casi no está en tus páginas (la API de <code>List</code> y <code>Queue</code>): esa la tenés <b>completa acá</b>, comparada con Python. Cada tarea del cronograma dice qué partes leer antes de codear.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ejercicio</th><th>Qué leer acá</th></tr></thead>
+      <tbody>
+        <tr><td>Ej. 1 · salida y GC</td><td>§12 (qué imprime cada cosa) y §10</td></tr>
+        <tr><td>Ej. 2 · TDA</td><td>§1, §9 (arreglo + contador), §9b (el checklist en código), §10 · §11 solo si modelás herencia</td></tr>
+        <tr><td>Ej. 3 · List</td><td>§1 a §8, §4b (métodos auxiliares) y §14 (complejidad)</td></tr>
+        <tr><td>U4 y U6</td><td>§14 (complejidad) y §13 (recursión)</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted" style="max-width:70ch">Lo de las unidades 7 y 8 (<code>HashMap</code>, <code>TreeMap</code>) es del segundo parcial. Si el enunciado dice «usando solo la API de List», un <code>HashMap</code> no vale.</p>
+
+    <div class="trap">
+      <h3>0 · Lectura base en tus páginas (una sola vez)</h3>
+      <p>Secciones cortas de <code>clase_1_y_2</code>. Leelas antes de los ejercicios que las usan; cada una lleva entre 3 y 8 minutos.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Sección</th><th>Qué te da</th><th>Antes de</th></tr></thead>
+        <tbody>
+          <tr><td>§1B.4 Tu primer programa</td><td>package, clase, main: la anatomía de un archivo</td><td>todo</td></tr>
+          <tr><td>§1B.7 Rangos, conversiones y wrappers</td><td>int vs Integer: por qué es List&lt;Integer&gt;</td><td>listas</td></tr>
+          <tr><td>§1B.8 String y StringBuilder</td><td>equals, concatenar, armar texto</td><td>listas, TDA</td></tr>
+          <tr><td>§1B.12 Métodos</td><td>tipo de retorno, parámetros, static, return</td><td>todo</td></tr>
+          <tr><td>§1B.13 Una clase propia</td><td>campos, métodos, new</td><td>TDA</td></tr>
+          <tr><td>§1B.14 enum</td><td>estados (EN_PROCESO, FINALIZADO)</td><td>listas, TDA</td></tr>
+          <tr><td>§1B.16 Expresiones lambda</td><td>x -&gt; …, (a, b) -&gt; …: para ordenar y filtrar</td><td>listas</td></tr>
+          <tr><td>§1B.17 Manejo de excepciones</td><td>throw, try/catch</td><td>TDA</td></tr>
+          <tr><td>§1B.26 Errores comunes</td><td>los clásicos que no compilan</td><td>todo</td></tr>
+          <tr><td>clase_5_y_6 · §3.8 Los métodos estándar</td><td>equals y hashCode en tus clases</td><td>listas</td></tr>
+          <tr><td>clase_5_y_6 · §3.9 Genéricos</td><td>qué significa el &lt;T&gt;</td><td>listas</td></tr>
+          <tr><td>clase_5_y_6 · §3.14 El checklist del ejercicio de TDA</td><td>contra qué se corrige el ej. 2 (§9b lo pasa a código)</td><td>TDA</td></tr>
+          <tr><td>clase_3_y_4 · §2.8 Paso de parámetros</td><td>qué cambia afuera cuando un método recibe un arreglo</td><td>traza</td></tr>
+          <tr><td>U6 · §6.2 Caso base y paso recursivo</td><td>el molde de toda recursión</td><td>U6</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="trap">
+      <h3>1 · Anatomía de la firma de un método</h3>
+<pre>public static List&lt;Integer&gt; sinDuplicados(List&lt;Integer&gt; lista) {
+    ...
+}</pre>
+      <ul>
+        <li><code>public</code>: se puede llamar desde afuera de la clase. Siempre en minúscula: <code>Public</code> no compila.</li>
+        <li><code>static</code>: el método es de la clase, no de un objeto. Se llama <code>CalisteniaListas.sinDuplicados(...)</code>, sin <code>new</code>. Es como una función suelta de Python. Sin <code>static</code> es un método de instancia, como los de tu Colecta.</li>
+        <li><code>List&lt;Integer&gt;</code>, antes del nombre: el tipo de lo que devuelve. Si no devuelve nada, va <code>void</code>.</li>
+        <li><code>&lt;Integer&gt;</code>: el genérico, o sea qué hay adentro de la lista. En colecciones va el wrapper (<code>Integer</code>, <code>Double</code>), nunca el primitivo (<code>int</code>, <code>double</code>).</li>
+        <li><code>(List&lt;Integer&gt; lista)</code>: los parámetros, cada uno con tipo y nombre.</li>
+        <li>Llaves y punto y coma: cada instrucción termina en <code>;</code>. Las clases, los métodos y los <code>if</code>/<code>for</code>/<code>while</code> abren y cierran con <code>{ }</code>. Si un método devuelve algo, todos los caminos tienen que terminar en <code>return</code>.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_1_y_2 §1B.4 y §1B.12, y clase_5_y_6 §3.9.</p>
+    </div>
+
+    <div class="trap">
+      <h3>2 · Arreglo vs. List</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th></th><th>Arreglo</th><th>List</th></tr></thead>
+        <tbody>
+          <tr><td>Crear</td><td><code>int[] a = new int[5];</code></td><td><code>List&lt;Integer&gt; l = new ArrayList&lt;&gt;();</code></td></tr>
+          <tr><td>Tamaño</td><td><code>a.length</code> (sin paréntesis)</td><td><code>l.size()</code></td></tr>
+          <tr><td>Leer la posición i</td><td><code>a[i]</code></td><td><code>l.get(i)</code></td></tr>
+          <tr><td>Escribir la posición i</td><td><code>a[i] = x;</code></td><td><code>l.set(i, x);</code></td></tr>
+          <tr><td>Agregar al final</td><td>no se puede: tamaño fijo</td><td><code>l.add(x);</code></td></tr>
+          <tr><td>Imprimir</td><td><code>Arrays.toString(a)</code></td><td><code>l</code> (ya imprime [1, 2])</td></tr>
+        </tbody>
+      </table></div>
+      <p><code>List.of(1, 2, 3)</code> crea una lista <b>inmodificable</b>: sirve para datos de prueba. Si le hacés <code>add</code> o <code>remove</code>, tira <code>UnsupportedOperationException</code>. Para una lista que puedas modificar: <code>new ArrayList&lt;&gt;(List.of(1, 2, 3))</code>.</p>
+      <p class="backend"><b>En tus páginas:</b> clase_1_y_2 §1B.11.3 (arreglos) y U5 §5.1.9 a §5.1.11 (ArrayList, la interfaz List y cómo recorrer, buscar y ordenar).</p>
+    </div>
+
+    <div class="trap">
+      <h3>3 · Los métodos de List, comparados con Python</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Qué</th><th>Python</th><th>Java</th></tr></thead>
+        <tbody>
+          <tr><td>Cantidad</td><td><code>len(l)</code></td><td><code>l.size()</code></td></tr>
+          <tr><td>¿Está vacía?</td><td><code>not l</code></td><td><code>l.isEmpty()</code></td></tr>
+          <tr><td>Leer</td><td><code>l[i]</code></td><td><code>l.get(i)</code></td></tr>
+          <tr><td>Agregar al final</td><td><code>l.append(x)</code></td><td><code>l.add(x)</code></td></tr>
+          <tr><td>Insertar en i</td><td><code>l.insert(i, x)</code></td><td><code>l.add(i, x)</code></td></tr>
+          <tr><td>¿Contiene?</td><td><code>x in l</code></td><td><code>l.contains(x)</code></td></tr>
+          <tr><td>Posición de x</td><td><code>l.index(x)</code> (error si no está)</td><td><code>l.indexOf(x)</code> (devuelve −1 si no está)</td></tr>
+          <tr><td>Borrar por posición</td><td><code>l.pop(i)</code></td><td><code>l.remove(i)</code> con un <code>int</code></td></tr>
+          <tr><td>Borrar por valor</td><td><code>l.remove(x)</code></td><td><code>l.remove(objeto)</code>; si es List&lt;Integer&gt;: <code>l.remove(Integer.valueOf(x))</code></td></tr>
+          <tr><td>Copia</td><td><code>list(l)</code></td><td><code>new ArrayList&lt;&gt;(l)</code></td></tr>
+          <tr><td>Porción</td><td><code>l[a:b]</code></td><td><code>l.subList(a, b)</code> (es una vista: para copiarla, <code>new ArrayList&lt;&gt;(l.subList(a, b))</code>)</td></tr>
+          <tr><td>Ordenar</td><td><code>l.sort(key=…)</code></td><td><code>l.sort(comparador)</code>: ver §5</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>Importante:</b> <code>contains</code>, <code>indexOf</code> y <code>remove(objeto)</code> comparan con <code>equals</code>. Con tus propias clases, solo funcionan bien si la clase tiene <code>equals</code> y <code>hashCode</code> (ver §6).</p>
+    </div>
+
+    <div class="trap">
+      <h3>3b · Atajos de la API: métodos que ya hacen el bucle por vos</h3>
+      <p>Valen en el parcial («usando la API de List») y ahorran tiempo. <b>Usalos cuando la operación es exactamente esa.</b> Cuando la condición es propia (agrupar por persona, sumar si cumple algo), no hay atajo: va el bucle de §4.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Para…</th><th>Java</th><th>Resultado del ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Sacar repetidos, conservando el orden</td><td><code>new ArrayList&lt;&gt;(new LinkedHashSet&lt;&gt;(l))</code></td><td>[3, 1, 3, 2, 1] → [3, 1, 2]</td></tr>
+          <tr><td>Sacar repetidos y ordenar</td><td><code>new ArrayList&lt;&gt;(new TreeSet&lt;&gt;(l))</code></td><td>→ [1, 2, 3]</td></tr>
+          <tr><td>¿Están todos?</td><td><code>l.containsAll(requeridos)</code></td><td>con requeridos vacía da <code>true</code></td></tr>
+          <tr><td>¿Cuántas veces aparece x?</td><td><code>Collections.frequency(l, x)</code></td><td>([x, y, x, x], x) → 3</td></tr>
+          <tr><td>Máximo y mínimo</td><td><code>Collections.max(l)</code> y <code>Collections.min(l)</code></td><td>con lista vacía tira excepción</td></tr>
+          <tr><td>Sacar todos los que estén en otra lista</td><td><code>l.removeAll(otra)</code></td><td>[1, 2, 3, 4] menos [2, 4] → [1, 3]</td></tr>
+          <tr><td>Quedarse solo con los que estén en otra</td><td><code>l.retainAll(otra)</code></td><td>[1, 2, 3, 4] y [2, 4, 9] → [2, 4]</td></tr>
+          <tr><td>Agregar todos los de otra lista</td><td><code>l.addAll(otra)</code></td><td>[1] + [5, 6] → [1, 5, 6]</td></tr>
+          <tr><td>Ordenar de menor a mayor / invertir</td><td><code>Collections.sort(l)</code> · <code>Collections.reverse(l)</code></td><td>[3, 1, 2] → [1, 2, 3] → [3, 2, 1]</td></tr>
+          <tr><td>Los primeros N, aunque haya menos</td><td><code>l.subList(0, Math.min(10, l.size()))</code></td><td>con 3 elementos devuelve los 3</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>Todos comparan con <code>equals</code>. Con tus propias clases, necesitan el <code>equals</code> y el <code>hashCode</code> de §6 (los <code>Set</code> usan <code>hashCode</code>).</li>
+        <li><code>removeAll</code>, <code>retainAll</code>, <code>addAll</code>, <code>sort</code> y <code>reverse</code> <b>modifican</b> la lista: no los uses sobre un parámetro que no es tuyo (hacé antes una copia con <code>new ArrayList&lt;&gt;(l)</code>), ni sobre una lista de <code>List.of</code>.</li>
+        <li><b>Complejidad:</b> el atajo no es gratis. <code>containsAll</code> y <code>frequency</code> recorren la lista: O(n·m) y O(n). Pasar a <code>LinkedHashSet</code> es O(n), mejor que el bucle con <code>contains</code>, que es O(n²).</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> U5 §5.2.4 En la API de Java (Set) y §5.1.11 (List: <code>Collections.sort</code> y <code>binarySearch</code>). El resto de <code>Collections</code> no aparece en tus páginas: es la clase de utilidades de <code>java.util</code>.</p>
+    </div>
+
+    <div class="trap">
+      <h3>4 · Recorrer una lista</h3>
+<pre>// Con índice: cuando necesitás la posición
+for (int i = 0; i &lt; lista.size(); i++) {
+    Integer x = lista.get(i);
+}
+
+// for-each: cuando solo necesitás cada elemento (Python: for x in lista)
+for (Integer x : lista) {
+    ...
+}
+
+// Armar una lista nueva mientras recorrés otra
+List&lt;Integer&gt; resultado = new ArrayList&lt;&gt;();
+for (Integer x : lista) {
+    if (x &gt; 0) {
+        resultado.add(x);
+    }
+}</pre>
+      <ul>
+        <li><b>No agregues ni borres en la misma lista que estás recorriendo con for-each:</b> tira <code>ConcurrentModificationException</code>. Para borrar según una condición: <code>lista.removeIf(x -&gt; x % 3 == 0);</code>, o armá una lista nueva.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> U5 · Extra → glosario: ConcurrentModificationException y removeIf.</p>
+    </div>
+
+    <details class="trap howto">
+      <summary>4b · Partir en métodos auxiliares (checklist de listas, U5 §5.11) · abrilo recién cuando termines MiIngenieroDeSoftware y Repartidores</summary>
+      <p>El ejemplo usa el mismo patrón que esos dos ejercicios, con otras clases: si lo leés antes, te resuelve la estrategia.</p>
+      <p>El checklist pide: un método por cosa, <b>nunca dos for anidados en el mismo método</b> y usar la API en vez de reescribirla. El for de adentro se va a un método <code>private static</code> con un nombre que diga qué calcula. Así escribe el profe (<code>s08/parcial/ParcialForos.java</code>). Ejemplo: los socios con 3 préstamos vencidos o más, ordenados por nombre.</p>
+<pre>public static List&lt;Socio&gt; morosos(List&lt;Prestamo&gt; prestamos) {
+    List&lt;Socio&gt; resultado = new ArrayList&lt;&gt;();
+    for (Socio socio : sociosDistintos(prestamos)) {          // 1) agrupar
+        if (cantidadVencidos(prestamos, socio) &gt;= 3) {        // 2) contar por socio y filtrar
+            resultado.add(socio);
+        }
+    }
+    resultado.sort((a, b) -&gt; a.getNombre().compareTo(b.getNombre()));   // 3) ordenar
+    return resultado;
+}
+
+private static List&lt;Socio&gt; sociosDistintos(List&lt;Prestamo&gt; prestamos) {
+    List&lt;Socio&gt; socios = new ArrayList&lt;&gt;();
+    for (Prestamo prestamo : prestamos) {
+        if (!socios.contains(prestamo.getSocio())) {          // contains usa equals (§6)
+            socios.add(prestamo.getSocio());
+        }
+    }
+    return socios;
+}
+
+private static int cantidadVencidos(List&lt;Prestamo&gt; prestamos, Socio socio) {
+    int cantidad = 0;
+    for (Prestamo prestamo : prestamos) {
+        if (prestamo.getSocio().equals(socio) &amp;&amp; prestamo.estaVencido()) {
+            cantidad++;
+        }
+    }
+    return cantidad;
+}</pre>
+      <ul>
+        <li>El método público se lee como la estrategia: agrupar, contar, filtrar, ordenar. Cada auxiliar hace una sola cosa.</li>
+        <li>Los auxiliares son <code>private</code>: no forman parte de lo que te pidieron.</li>
+        <li>Sigue habiendo un recorrido adentro de otro, pero en métodos distintos. Para la complejidad cuenta igual (ver §14).</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> U5 §5.11 El checklist del ejercicio de listas y §5.10 Ejemplo integrador.</p>
+    </details>
+
+    <div class="trap">
+      <h3>5 · Comparar y ordenar</h3>
+      <ul>
+        <li><b><code>==</code> vs. <code>equals</code>:</b> con objetos y <code>String</code>, siempre <code>a.equals(b)</code>; <code>==</code> pregunta si es el mismo objeto. Con primitivos (<code>int</code>, <code>double</code>, <code>char</code>) y con <code>enum</code>, <code>==</code> está bien.</li>
+        <li><b>Con <code>Integer</code></b> también va <code>equals</code>: <code>==</code> funciona por casualidad solo entre −128 y 127.</li>
+      </ul>
+<pre>// Ordenar con un comparador (lambda): devuelve negativo si a va antes que b
+alumnos.sort((a, b) -&gt; Double.compare(a.getPromedio(), b.getPromedio()));  // de menor a mayor
+alumnos.sort((a, b) -&gt; Double.compare(b.getPromedio(), a.getPromedio()));  // de MAYOR a menor: b y a invertidos
+
+// Lo mismo, con Comparator ya armado
+alumnos.sort(Comparator.comparingDouble(Alumno::getPromedio).reversed());
+
+// Quedarte con los primeros N aunque haya menos de N
+int hasta = Math.min(10, alumnos.size());
+for (int i = 0; i &lt; hasta; i++) { ... alumnos.get(i) ... }</pre>
+      <ul>
+        <li>No restes y castees a <code>int</code> (<code>(int)(b.getPromedio() - a.getPromedio())</code>): con decimales, 0.4 se convierte en 0 y los toma como iguales.</li>
+        <li>Para <code>int</code> se usa <code>Integer.compare(a, b)</code>, y para <code>String</code>, <code>a.compareTo(b)</code>.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_5_y_6 · Laboratorio 5 · Comparable y Comparator, Extra → glosario: Comparator, y clase_1_y_2 §1B.16 (lambdas).</p>
+    </div>
+
+    <div class="trap">
+      <h3>6 · equals y hashCode en tus clases</h3>
+<pre>@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Alumno otro)) return false;
+    return this.padron == otro.padron;       // por qué atributo dos alumnos son "el mismo"
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(padron);             // los MISMOS atributos que usa equals
+}</pre>
+      <p>Sin esto, <code>contains</code> e <code>indexOf</code> comparan identidad: dos objetos con los mismos datos cuentan como distintos. Para un String: <code>this.nombre.equals(otro.nombre)</code>.</p>
+      <p class="backend"><b>En tus páginas:</b> clase_5_y_6 §3.8 Los métodos estándar (el ejemplo Fraccion) y Laboratorio 4 · equals, hashCode y los baldes.</p>
+    </div>
+
+    <div class="trap">
+      <h3>7 · Queue (cola)</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Qué</th><th>Python (deque)</th><th>Java</th></tr></thead>
+        <tbody>
+          <tr><td>Crear</td><td><code>q = deque()</code></td><td><code>Queue&lt;Integer&gt; q = new LinkedList&lt;&gt;();</code></td></tr>
+          <tr><td>Encolar al fondo</td><td><code>q.append(x)</code></td><td><code>q.offer(x)</code> o <code>q.add(x)</code></td></tr>
+          <tr><td>Sacar del frente</td><td><code>q.popleft()</code></td><td><code>q.poll()</code> (null si está vacía): <b>modifica la cola</b></td></tr>
+          <tr><td>Mirar el frente sin sacar</td><td><code>q[0]</code></td><td><code>q.peek()</code></td></tr>
+          <tr><td>Recorrer sin destruir</td><td><code>for x in q</code></td><td><code>for (Integer x : q) { … }</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Si una cola es un parámetro, no le hagas <code>poll()</code> salvo que la consigna lo pida: le vaciás la cola a quien te llamó.</p>
+      <p class="backend"><b>En tus páginas:</b> U5 §5.6 Cola (FIFO), para el concepto, y §5.10 Ejemplo integrador (usa <code>Deque</code>).</p>
+    </div>
+
+    <div class="trap">
+      <h3>8 · Streams (opcional: con List alcanza)</h3>
+      <p>Un parcial de 2026 aceptaba «API de List y/o Stream». No son obligatorios. Si los querés usar, es como una comprensión de listas de Python encadenada:</p>
+<pre>List&lt;Integer&gt; positivos = lista.stream()
+        .filter(x -&gt; x &gt; 0)          // Python: [x for x in lista if x &gt; 0]
+        .sorted()
+        .limit(10)                    // los primeros 10 (o menos, sin error)
+        .toList();</pre>
+      <p class="backend"><b>En tus páginas:</b> casi nada. clase_1_y_2 §1B.16 los menciona, pero no los desarrolla. Por eso, en el parcial, mejor un for-each que conozcas bien.</p>
+    </div>
+
+    <div class="trap">
+      <h3>9 · TDA sobre vectores: arreglo + contador</h3>
+<pre>private Tecla[] teclas;     // capacidad fija
+private int cantidad;       // cuántos casilleros están en uso
+
+public Teclado(int capacidad) {
+    this.teclas = new Tecla[capacidad];   // arranca todo en null
+    this.cantidad = 0;
+}
+
+public void agregar(Tecla t) {
+    if (cantidad == teclas.length) {      // lleno: crecer (o rechazar, según tu pre)
+        teclas = Arrays.copyOf(teclas, teclas.length * 2);
+    }
+    teclas[cantidad] = t;
+    cantidad++;
+}
+
+for (int i = 0; i &lt; cantidad; i++) {     // recorrer hasta cantidad, NO hasta length
+    ...
+}</pre>
+      <p>«Solo hasta Vectores» significa esto: nada de <code>ArrayList</code> adentro del TDA.</p>
+      <p class="backend"><b>En tus páginas:</b> U5 §5.1.2 Agregar al final y crecer, clase_3_y_4 §2.10 (Arrays.copyOf) y clase_1_y_2 §1B.11.3.</p>
+    </div>
+
+    <div class="trap">
+      <h3>9b · El checklist del TDA, escrito en Java (clase_5_y_6 §3.14)</h3>
+      <p>Los puntos del checklist que más puntos cuestan, en un TDA chico (una Playlist sobre arreglo). Cada comentario dice qué punto cumple.</p>
+<pre>public enum EstadoPlaylist {                   // estados: enum, no booleans (punto 11)
+    EN_EDICION, PUBLICADA
+}
+
+public class Playlist {
+    private final Cancion[] canciones;         // private (4) · final: el arreglo no se reemplaza
+    private int cantidad;
+    private EstadoPlaylist estado;
+
+    /**
+     * Crea una playlist vacía, en edición.
+     * pre: capacidad &gt; 0.
+     * post: cantidad = 0 y estado = EN_EDICION.
+     * @param capacidad la cantidad máxima de canciones
+     * @throws IllegalArgumentException si capacidad &lt;= 0
+     */
+    public Playlist(int capacidad) {           // la capacidad entra por parámetro: nada de new Cancion[100] (8 y 9)
+        if (capacidad &lt;= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser positiva: " + capacidad);
+        }
+        this.canciones = new Cancion[capacidad];
+        this.cantidad = 0;
+        this.estado = EstadoPlaylist.EN_EDICION;
+    }
+
+    /**
+     * pre: cancion no es null, la playlist está en edición y no está llena.
+     * post: cancion queda al final y cantidad aumenta en 1.
+     * @throws IllegalArgumentException si cancion es null
+     * @throws IllegalStateException si la playlist está publicada o llena
+     */
+    public void agregar(Cancion cancion) {     // recibe el objeto entero, no sus atributos sueltos (16)
+        if (cancion == null) {
+            throw new IllegalArgumentException("La canción no puede ser null");
+        }
+        if (estado != EstadoPlaylist.EN_EDICION) {     // un enum se compara con ==
+            throw new IllegalStateException("La playlist ya está publicada");
+        }
+        if (cantidad == canciones.length) {
+            throw new IllegalStateException("La playlist está llena");
+        }
+        canciones[cantidad] = cancion;
+        cantidad++;
+    }
+
+    /** post: la suma de las duraciones, calculada en el momento. */
+    public int duracionTotal() {               // lo calculable es un método, no un atributo (15)
+        int total = 0;
+        for (int i = 0; i &lt; cantidad; i++) {
+            total += canciones[i].getDuracion();
+        }
+        return total;
+    }
+
+    /** post: la duración promedio, o null si no hay canciones. */
+    public Double duracionPromedio() {         // Double, no double: así puede devolver null (10)
+        if (cantidad == 0) {
+            return null;
+        }
+        return (double) duracionTotal() / cantidad;    // el casteo va antes de dividir
+    }
+
+    /** post: una copia de las canciones cargadas; modificarla no cambia la playlist. */
+    public Cancion[] getCanciones() {
+        return Arrays.copyOf(canciones, cantidad);     // copia defensiva (18)
+    }
+}</pre>
+      <ul>
+        <li><b>«No hay valor» va con el wrapper:</b> un método que devuelve <code>double</code> o <code>int</code> no puede devolver <code>null</code>. Si «no hay» es una respuesta posible, el tipo de retorno es <code>Double</code>, <code>Integer</code> o un objeto (<code>Cancion</code>).</li>
+        <li><b>Qué excepción usar:</b> <code>IllegalArgumentException</code> cuando el problema es un parámetro. <code>IllegalStateException</code> cuando el parámetro está bien, pero el objeto no está en un estado que lo permita (publicada, llena). Si no querés pensar en eso, <code>IllegalArgumentException</code> para todo también se acepta.</li>
+        <li>Si el arreglo tiene que crecer (§9), no puede ser <code>final</code>: <code>teclas = Arrays.copyOf(...)</code> lo reemplaza.</li>
+        <li>Nada de <code>System.out.println</code> adentro del TDA (17): los mensajes van en la excepción y la impresión la hace el <code>main</code>.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_5_y_6 §3.14 El checklist del ejercicio de TDA, §3.11.1 Validar con criterio y §3.8 Los métodos estándar (equals y toString), y clase_1_y_2 §1B.14 enum y §1B.17 Manejo de excepciones.</p>
+    </div>
+
+    <div class="trap">
+      <h3>10 · Errores que ya te pasaron (revisalos antes de entregar)</h3>
+      <ul>
+        <li><code>Public</code> con mayúscula: va <code>public</code>.</li>
+        <li>Falta un <code>;</code> al final de una instrucción o una <code>}</code> de cierre (por ejemplo, la del constructor).</li>
+        <li>El nombre de un atributo usado distinto de como lo declaraste.</li>
+        <li><code>lista.length</code> o <code>lista[i]</code> con una List: van <code>size()</code> y <code>get(i)</code>.</li>
+        <li>Un nombre de método distinto del que pide el enunciado.</li>
+        <li><code>int X, Y, Z = 5;</code> solo inicializa Z.</li>
+        <li>Entre <code>int</code>, <code>/</code> trunca.</li>
+        <li>Una post cumplida a medias (por ejemplo, el cambio de turno del Tablero).</li>
+      </ul>
+    </div>
+    <div class="trap">
+      <h3>11 · Herencia, clases abstractas e interfaces (solo si el TDA las pide)</h3>
+      <p>Ningún enunciado las exigió, pero el profe las usó en su solución del Televisor. Si modelás «tipos de» algo, esta es la sintaxis:</p>
+<pre>public interface Encendible {                  // contrato puro: solo firmas
+    void encender();
+}
+
+public abstract class Electrodomestico {       // abstract: no se puede hacer new Electrodomestico(...)
+    private final String marca;
+
+    protected Electrodomestico(String marca) {
+        this.marca = marca;
+    }
+
+    public abstract int consumo();             // sin cuerpo: cada hija lo implementa
+
+    public String getMarca() {
+        return marca;
+    }
+}
+
+public class Televisor extends Electrodomestico implements Encendible {
+    private final int pulgadas;
+    private boolean encendido;
+
+    public Televisor(String marca, int pulgadas) {
+        super(marca);                          // primera línea: el constructor de la madre
+        this.pulgadas = pulgadas;
+    }
+
+    @Override
+    public int consumo() {
+        return pulgadas * 2;
+    }
+
+    @Override
+    public void encender() {
+        encendido = true;
+    }
+}
+
+Electrodomestico e = new Televisor("X", 40);   // polimorfismo
+e.consumo();                                   // 80: ejecuta el de Televisor</pre>
+      <ul>
+        <li><code>extends</code> una sola clase; <code>implements</code> todas las interfaces que quieras, separadas por coma.</li>
+        <li>Lo <code>private</code> de la madre no se ve en la hija: se usa su getter (<code>getMarca()</code>).</li>
+        <li><code>@Override</code> hace que el compilador chequee que la firma coincide. Si te equivocás en el nombre, no compila (sin <code>@Override</code>, creás un método nuevo sin darte cuenta).</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_5_y_6 §3.4.2 Herencia, §3.4.3 Polimorfismo, §3.6 Interfaces y §3.7 Clases y métodos abstractos.</p>
+    </div>
+
+    <div class="trap">
+      <h3>12 · Leer la traza del ej. 1: lo que imprime cada cosa</h3>
+      <p>Todo esto está ejecutado en Java: los comentarios son la salida real.</p>
+<pre>int i = 5;
+int a = i++;                         // a = 5, i = 6: primero usa, después suma
+int b = ++i;                         // b = 7, i = 7: primero suma, después usa
+
+System.out.println(7 / 2);           // 3     int / int trunca
+System.out.println(7 % 2);           // 1     el resto
+double d = 7 / 2;                    // 3.0   ya truncó ANTES de pasar a double
+System.out.println(7 / 2.0);         // 3.5   con un double en la cuenta, no trunca
+System.out.println(10 / 3 * 3);      // 9     de izquierda a derecha: (10 / 3) * 3
+System.out.println(1 / 2 * 4.0);     // 0.0   1 / 2 ya dio 0
+System.out.println((int) 3.99);      // 3     el casteo corta, no redondea
+System.out.println((int) -3.99);     // -3
+
+char c = (char) ('A' + 2);           // 'C'   char + int es int: hay que castear
+System.out.println('A' + 2);         // 67    sin casteo imprime el número
+System.out.println('a' + 'b');       // 195   char + char también suma
+System.out.println("" + 'a' + 'b');  // ab    con un String a la izquierda, concatena
+
+System.out.println(1 + 2 + "x");     // 3x    primero suma 1 + 2, después concatena
+System.out.println("x" + 1 + 2);     // x12   desde el String en adelante, todo concatena
+System.out.println("x" + (1 + 2));   // x3
+
+String s = "hola";
+s.toUpperCase();                     // no cambia s: String es inmutable
+s = s.toUpperCase();                 // ahora s apunta a un String NUEVO, "HOLA"</pre>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Qué</th><th>Valor inicial</th></tr></thead>
+        <tbody>
+          <tr><td><code>new int[3]</code> · <code>new double[2]</code></td><td><code>[0, 0, 0]</code> · <code>[0.0, 0.0]</code></td></tr>
+          <tr><td><code>new boolean[2]</code> · <code>new String[2]</code></td><td><code>[false, false]</code> · <code>[null, null]</code></td></tr>
+          <tr><td>Una variable local (<code>int x;</code>)</td><td><b>ninguno</b>: leerla sin asignar no compila («variable x might not have been initialized»). Por eso en <code>int X, Y, Z = 5;</code> solo se puede leer <code>Z</code>.</td></tr>
+        </tbody>
+      </table></div>
+<pre>static void cambiar(int[] v, int n) {
+    v[0] = 99;          // cambia el arreglo de afuera: v y A apuntan al mismo
+    n = 99;             // cambia la copia: x no se entera
+    v = new int[2];     // v apunta a otro arreglo; A sigue con el original
+}
+
+int[] A = {1, 2};
+int x = 1;
+cambiar(A, x);          // después: A = [99, 2], x = 1</pre>
+      <ul>
+        <li>Java pasa todo por valor. De un arreglo u objeto se copia la <b>referencia</b>: se puede modificar el objeto, pero no cambiar a qué apunta la variable de afuera.</li>
+        <li>Para el GC: cada concatenación con <code>+</code> crea un <code>String</code> nuevo en el heap, y queda elegible apenas termina el <code>println</code>. Elegible no significa recolectado: el GC pasa cuando él decide.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_1_y_2 §1B.7 (conversiones), §1B.8 (String) y §1B.9 (operadores), y clase_3_y_4 §2.7 Aliasing, §2.8 Paso de parámetros, §2.9 Inmutables y §2.11 La recolección de basura.</p>
+    </div>
+
+    <div class="trap">
+      <h3>13 · Recursión en Java (U6)</h3>
+      <p>En el parcial, lo esperable es que la U6 entre como pregunta conceptual o V/F. Si te piden escribir algo recursivo, estos tres moldes alcanzan:</p>
+<pre>// Molde 1: el problema se achica de a uno
+public static int factorial(int n) {
+    if (n &lt;= 1) {                      // caso base: se responde sin llamarse
+        return 1;
+    }
+    return n * factorial(n - 1);       // paso recursivo: el mismo problema, más chico
+}
+// T(n) = T(n−1) + O(1) → O(n) de tiempo y O(n) de pila
+
+// Molde 2: recorrer una lista con un índice. El público delega en un privado con un parámetro más
+public static int sumar(List&lt;Integer&gt; numeros) {
+    return sumarDesde(numeros, 0);
+}
+
+private static int sumarDesde(List&lt;Integer&gt; numeros, int desde) {
+    if (desde == numeros.size()) {     // caso base: no quedan elementos
+        return 0;
+    }
+    return numeros.get(desde) + sumarDesde(numeros, desde + 1);
+}
+
+// Molde 3: dividir a la mitad (búsqueda binaria en un arreglo ordenado)
+private static boolean contiene(int[] a, int x, int desde, int hasta) {   // busca en a[desde, hasta)
+    if (desde &gt;= hasta) {              // caso base: rango vacío
+        return false;
+    }
+    int medio = (desde + hasta) / 2;
+    if (a[medio] == x) {
+        return true;
+    }
+    if (x &lt; a[medio]) {
+        return contiene(a, x, desde, medio);
+    }
+    return contiene(a, x, medio + 1, hasta);
+}
+// T(n) = T(n/2) + O(1) → O(log n)</pre>
+      <ul>
+        <li>Primero el caso base, después el paso recursivo. Sin caso base (o si nunca se alcanza) da <code>StackOverflowError</code>.</li>
+        <li>Achicá con índices, no con copias: <code>new ArrayList&lt;&gt;(lista.subList(1, n))</code> en cada llamada cuesta O(n) por llamada y el total se vuelve O(n²).</li>
+        <li>Java no optimiza la recursión de cola: para recorrer listas largas, un for es más seguro.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> U6 §6.2 Caso base y paso recursivo, §6.3 La pila de llamadas, §6.7 Búsqueda binaria y §6.17 Cómo lo pregunta el profe.</p>
+    </div>
+
+    <div class="trap">
+      <h3>14 · Complejidad: cuánto cuesta cada llamada y cómo escribirlo</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Operación</th><th>Costo</th></tr></thead>
+        <tbody>
+          <tr><td><code>get(i)</code>, <code>set(i, x)</code>, <code>size()</code>, <code>isEmpty()</code> en <code>ArrayList</code></td><td>O(1)</td></tr>
+          <tr><td><code>add(x)</code> al final</td><td>O(1) amortizado</td></tr>
+          <tr><td><code>add(0, x)</code>, <code>remove(0)</code> en <code>ArrayList</code></td><td>O(n): corre todos los demás</td></tr>
+          <tr><td><code>contains</code>, <code>indexOf</code>, <code>remove(objeto)</code>, <code>Collections.frequency</code>, <code>max</code>, <code>min</code></td><td>O(n): recorren</td></tr>
+          <tr><td><code>a.containsAll(b)</code></td><td>O(n·m)</td></tr>
+          <tr><td><code>sort</code>, <code>Collections.sort</code></td><td>O(n log n)</td></tr>
+          <tr><td><code>new ArrayList&lt;&gt;()</code>: una lista <b>vacía</b></td><td>O(1)</td></tr>
+          <tr><td><code>new ArrayList&lt;&gt;(l)</code>, <code>new LinkedHashSet&lt;&gt;(l)</code>: <b>copiar</b> los n elementos de <code>l</code></td><td>O(n)</td></tr>
+          <tr><td><code>contains</code> y <code>add</code> en un <code>HashSet</code></td><td>O(1) promedio</td></tr>
+          <tr><td><code>offer</code>, <code>poll</code>, <code>peek</code> en una <code>Queue</code></td><td>O(1)</td></tr>
+          <tr><td><code>get(i)</code> en una <code>LinkedList</code></td><td>O(n): no la recorras con un for de índice</td></tr>
+        </tbody>
+      </table></div>
+      <p>Cómo se escribe, arriba del método. Ejemplo con un <code>sinDuplicados</code> hecho con un for y <code>contains</code>:</p>
+<pre>/**
+ * Complejidad: O(n²), con n = lista.size().
+ * El for da n vueltas y en cada una contains recorre el resultado,
+ * que tiene hasta n elementos: n · n.
+ * Con new ArrayList&lt;&gt;(new LinkedHashSet&lt;&gt;(lista)) bajaría a O(n).
+ */</pre>
+      <ul>
+        <li>Decí qué es <code>n</code>. Si hay dos tamaños (dos listas), usá <code>n</code> y <code>m</code>, y no los mezcles.</li>
+        <li>Un método auxiliar llamado adentro de un for cuesta lo mismo que si su for estuviera escrito ahí: se multiplica.</li>
+        <li>Lo que va uno después del otro se suma y queda el mayor; lo de adentro de un bucle se multiplica por las vueltas.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_9_y_10 §4.5 y §4.5.1 (calcular línea por línea), §4.11 y §4.15, y U5 §5.7 Comparación de complejidades.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-simulacros" hidden>
+    <div class="timer">
+      <div class="eyebrow">Cronómetro de simulacro · 1h40 + 20′</div>
+      <div class="clock">
+        <span class="big" id="t-big">20:00</span>
+        <span class="phase" id="t-phase">Ej. 1 · Salida y GC</span>
+        <span class="muted mono" id="t-total">Total restante 2:00:00</span>
+      </div>
+      <div class="segs" id="t-segs"></div>
+      <div class="btns">
+        <button class="btn primary" id="t-start" type="button">Empezar</button>
+        <button class="btn" id="t-pause" type="button" hidden>Pausar</button>
+        <button class="btn ghost" id="t-skip" type="button" hidden>Pasar a la siguiente fase</button>
+        <button class="btn danger" id="t-reset" type="button" hidden>Reiniciar</button>
+        <span id="t-confirm" hidden class="btns" style="align-items:center">
+          <span class="msg">¿Reiniciar el cronómetro?</span>
+          <button class="btn danger" id="t-reset-yes" type="button">Sí, reiniciar</button>
+          <button class="btn ghost" id="t-reset-no" type="button">No</button>
+        </span>
+      </div>
+      <p class="muted msg">Suena un aviso al cambiar de fase. Si recargás la página, el cronómetro sigue desde donde estaba.</p>
+    </div>
+
+    <div class="trap">
+      <h3>Reglas del simulacro</h3>
+      <ul>
+        <li>Editor de texto sin autocompletado y sin compilar. En el parcial no hay IDE.</li>
+        <li>Arrancá siempre por el ej. 1: son los puntos más seguros.</li>
+        <li>Usá un dígito de padrón distinto cada vez: el ej. 1 se repite casi igual en todos los parciales.</li>
+        <li>Al corregir, recorré la pestaña Trampas punto por punto. Después compilá, ejecutá y anotá cada error en la bitácora.</li>
+        <li>Si el enunciado tiene un error, escribí tu supuesto como comentario y seguí.</li>
+      </ul>
+    </div>
+
+    <h2>Resultados</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Día</th><th>Parcial</th><th>Ej. 1</th><th>Ej. 2</th><th>Ej. 3</th><th>¿Aprobaría?</th></tr></thead>
+        <tbody id="res-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-trampas" hidden>
+    <p class="muted" style="max-width:68ch">Lo que más se repite en los parciales 2021–2026. Usalo como lista de control cuando te corregís un simulacro.</p>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip R">Ej. 1</span><h3>Salida y GC</h3></div>
+      <ul>
+        <li><code>int X, Y, Z = …;</code> solo inicializa <code>Z</code>. ¿Cuándo acepta el compilador leer <code>X</code> e <code>Y</code>?</li>
+        <li><code>int[] B = A;</code> es un solo arreglo con dos nombres. Lo que escribís por <code>B</code> lo leés por <code>A</code>.</li>
+        <li><code>new int[4]</code> arranca en ceros: las posiciones nunca asignadas se imprimen igual.</li>
+        <li>División entera en <code>A[0] / 2</code>. Casteo <code>(char)(T + 1)</code>: sacalo con la tabla ASCII.</li>
+        <li>Orden del <code>+</code>: con un <code>String</code> a la izquierda concatena; <code>char + int</code> suma como número.</li>
+        <li>Contá las vueltas del <code>while</code> con cuidado: <code>Z = Y</code> cambia la vuelta siguiente.</li>
+        <li>El GC actúa sobre objetos del heap, nunca sobre variables. Los primitivos viven en el stack.</li>
+        <li>El arreglo es elegible cuando pierde todas sus referencias (<code>A</code> y <code>B</code>). Elegible no es lo mismo que recolectado. ¿Qué pasa con los <code>String</code> temporales de cada concatenación?</li>
+        <li>Si aparecen <code>new</code> reasignados u objetos que apuntan a otros, buscá los bloques huérfanos (clase_7_y_8, escenarios 7 y 8).</li>
+      </ul>
+      <p class="backend"><b>Paralelo backend:</b> alcanzable desde las raíces se parece a una fila alcanzable por FK desde una tabla raíz. Una fila huérfana la limpia un proceso que no controlás, cuando él quiere.</p>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip T">Ej. 2</span><h3>TDA sobre vectores</h3></div>
+      <ul>
+        <li>"Solo hasta Vectores": arreglos fijos y contador a mano. Un <code>ArrayList</code> adentro del TDA probablemente vale cero.</li>
+        <li>Cada ambigüedad del enunciado se resuelve en la pre y la post: el ataque que destruye ¿cuenta como soportado? ¿"Más presionada" con cero pulsaciones o con empate?</li>
+        <li>Sin pre y post en cada método, el código cuenta como incompleto.</li>
+        <li>Capacidad: decidí y documentá qué pasa cuando el arreglo se llena.</li>
+        <li>Un getter que devuelve el arreglo interno deja que te modifiquen el estado desde afuera.</li>
+        <li>Los estados ("en reparación", "apagada", "sin internet") los respeta cada operación, no solo la que los cambia.</li>
+        <li>Dos TDAs que colaboran: para buscar usás <code>equals</code>, no <code>==</code>. ¿Por qué atributo buscás?</li>
+        <li>Quitar de un vector sin poner el casillero en <code>null</code> deja una referencia viva: memory leak (guía i02 e10).</li>
+      </ul>
+      <p class="backend"><b>Paralelo backend:</b> los métodos públicos son tus endpoints. La pre es la validación del request: si falla, es un 400 (<code>IllegalArgumentException</code>). La post es el contrato de la respuesta. Devolver el arreglo interno es devolver la entidad del ORM en vez de un DTO. "En reparación" es un modo mantenimiento que responde 503.</p>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip L">Ej. 3</span><h3>Consumir List y Queue</h3></div>
+      <ul>
+        <li>Filtrar en el WHERE en vez del HAVING: el acumulado suma todo, y la condición de "como máximo N en proceso" se cuenta por entidad, después de agrupar.</li>
+        <li>"Aparece una sola vez": <code>contains</code> e <code>indexOf</code> usan <code>equals</code>. Sin <code>equals</code> y <code>hashCode</code> comparan identidad.</li>
+        <li>Top 10 con menos de 10 elementos: <code>subList</code> o <code>get(i)</code> fuera de rango tiran excepción.</li>
+        <li>Comparador descendente con <code>double</code>: restar y castear a <code>int</code> está mal.</li>
+        <li>Modificar la lista mientras la recorrés tira <code>ConcurrentModificationException</code>. ¿Mutás el parámetro o devolvés una lista nueva?</li>
+        <li><code>Queue.poll()</code> vacía la cola del que te llamó.</li>
+        <li>"Todas las canciones cumplen": pensá la playlist vacía. Los <code>String</code> se comparan con <code>equals</code>.</li>
+        <li>"Cada atuendo se compra una vez": marcá los usados y armá pares sin repetir.</li>
+        <li>Los enunciados traen errores (un enum sin <code>PENDIENTE</code>, un nombre de clase que no coincide). Escribí tu supuesto y seguí.</li>
+      </ul>
+      <p class="backend"><b>Paralelo backend:</b> el patrón de 2026 es un <code>GROUP BY</code> + <code>SUM</code> + <code>HAVING COUNT</code> + <code>ORDER BY … DESC</code> + <code>LIMIT 10</code>. Deduplicar sin <code>equals</code> es deduplicar sin clave primaria. Hacer <code>poll()</code> sobre la cola ajena es como confirmar mensajes de RabbitMQ que no eran tuyos.</p>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip M">U4</span><h3>Complejidad de tu método</h3></div>
+      <ul>
+        <li>Lo que va uno después del otro se SUMA (queda el mayor); lo que va adentro de un bucle se MULTIPLICA por las vueltas.</li>
+        <li><code>contains</code>, <code>indexOf</code> y <code>remove(objeto)</code> en una lista son O(n): adentro de un for que da n vueltas, el total es O(n²).</li>
+        <li>Ordenar (<code>sort</code>) es O(n log n). <code>get(i)</code> en un <code>ArrayList</code> es O(1); en una lista enlazada, O(n).</li>
+        <li>Al final, descartá constantes y términos menores: O(2n + 10) es O(n).</li>
+        <li>En una recurrencia, primero mirá si resta (T(n−1): sustracción) o divide (T(n/2): división). Con resta y a &gt; 1, es exponencial.</li>
+        <li>La O es cota superior: algo que es Θ(n log n) también pertenece a O(n²). Si te piden justificar, escribí la cota exacta.</li>
+      </ul>
+      <p class="backend"><b>En tus páginas:</b> clase_9_y_10 §4.5, §4.11 y §4.15, y U5 §5.7.</p>
+    </div>
+
+    <div class="trap">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip R">Eje R</span><h3>Nodos desde cero (no se toma; sirve para entender)</h3></div>
+      <ul>
+        <li>Borrar el primero, el último, el único y uno del medio: cuatro casos distintos.</li>
+        <li>Actualizar <code>tamaño</code> y <code>ultimo</code> cada vez.</li>
+        <li>En la doble hay 4 referencias para recablear y el orden de las asignaciones importa.</li>
+        <li>En la circular, <code>while (actual != null)</code> no termina nunca.</li>
+        <li>Recorrer con <code>actual.next != null</code> se saltea el último.</li>
+        <li>¿Las posiciones empiezan en 0 o en 1? Decidilo y escribilo en la pre.</li>
+      </ul>
+      <p class="backend"><b>Paralelo backend:</b> un nodo es una fila con un <code>next_id</code>. Borrar del medio sin actualizar la FK del anterior corta la cadena.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-bitacora" hidden>
+    <p class="muted" style="max-width:68ch">Cada error que encuentres al corregirte va acá, con la regla que te evita repetirlo. El mar 27/10, la víspera, la repasás entera. Si querés, pedile a Claude que la lea y te arme drills con tus errores.</p>
+    <form class="bit" id="bit-form" novalidate>
+      <div class="field"><label for="bit-fecha">Fecha</label><input id="bit-fecha" type="date"></div>
+      <div class="field"><label for="bit-eje">Eje</label>
+        <select id="bit-eje"><option value="R">R · referencias, GC y nodos</option><option value="T">T · TDA</option><option value="L">L · List y Queue</option></select>
+      </div>
+      <div class="field full"><label for="bit-ej">Ejercicio</label><input id="bit-ej" type="text" placeholder="Ej.: simulacro 2025-2C 1ª · ej. 3 comprarAtuendos"></div>
+      <div class="field full"><label for="bit-error">Qué hice mal</label><textarea id="bit-error" placeholder="Ej.: filtré los proyectos antes de agrupar y perdí puntaje de los finalizados"></textarea></div>
+      <div class="field full"><label for="bit-regla">Regla para no repetirlo</label><input id="bit-regla" type="text" placeholder="Ej.: primero agrupo y acumulo, después filtro por entidad"></div>
+      <div class="full btns" style="align-items:center"><button class="btn primary" type="submit" id="bit-add">Anotar error</button><span class="msg" id="bit-msg" role="status"></span></div>
+    </form>
+    <div class="entries" id="bit-list"></div>
+  </section>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- Datos del plan ---------- */
+const C12="clase_1_y_2", C34="clase_3_y_4", C56="clase_5_y_6", C78="clase_7_y_8", U5="U5 (clase_11_y_12)", C910="clase_9_y_10";
+const PR="~/Documents/algoritmos_y_estructuras_de_datos";
+const RUN = n=>"cd "+PR+"/teoria/cb100 && ./gradlew compileJava -q && java -cp app/build/classes/java/main ar.uba.fi.cb100.practica."+n;
+const RUNCP = RUN;
+const TEST = t=>"cd "+PR+"/teoria/cb100 && ./gradlew test --tests '"+t+"'";
+
+const EJ1 = `public static void main(String[] args) {
+    int X, Y, Z = 5;
+    char W;
+    int T;
+    int[] A = new int[4];
+    int[] B = A;
+
+    T = 77;
+    W = 'C';
+    X = T;
+    A[0] = X;
+    B[1] = A[0] / 2;
+
+    System.out.println(X + "-" + W + "-" + B[0] + "-" + A[1]);
+
+    W = (char)(T + 1);
+    B[2] = A[0] * 2;
+
+    System.out.println(W + "-" + T + "-" + B[1] + "-" + A[2]);
+
+    while (A[0] > 30) {
+        T -= 2;
+        X -= 3;
+        Y = X + Z;
+        System.out.println(Y + "-" + T + "-" + B[1] + "-" + Z);
+        Z = Y;
+        A[0] -= 10;
+    }
+    // ¿Qué hace el garbage collector aquí? ¿Sobre qué variable?
+}`;
+const TEO_EJ1 = [
+  C34+" · §2.1 El modelo de memoria: stack y heap, y §2.2 Valores y referencias → qué va en cada zona y las flechas",
+  C34+" · §2.7 Aliasing → int[] B = A;",
+  C12+" · §1B.11.3 Arreglos y for-each → con qué valores arranca new int[4]",
+  C12+" · §1B.9 Operadores → la división entera de A[0] / 2",
+  C12+" · §1B.7 Rangos, conversiones y wrappers → el casting (char)(T + 1)",
+  C12+" · §1B.11.2 Ciclos → el while",
+  C34+" · §2.11 La recolección de basura · "+C78+" · §3B.13 Escenario 10 · "+C12+" · §1B.8 String (cada concatenación crea un objeto nuevo) → la pregunta del GC",
+  "Sintaxis: §12 (qué imprime cada cosa: ++, /, casteos, char + int, orden del + y paso de parámetros)"
+];
+const FUERA_EJ1 = [
+  "int X, Y, Z = 5; solo le da valor a Z. X e Y quedan declaradas sin valor, y Java no compila si leés una variable local antes de asignarle algo.",
+  "El + se evalúa de izquierda a derecha: apenas uno de los dos lados es un String, concatena en vez de sumar.",
+  "Para el casting a char: 'A' vale 65, 'a' vale 97 y las letras siguen en orden alfabético."
+];
+const TEO_GROUPBY = [
+  U5+" · §5.9 De lo nuestro a la API de Java → List, ArrayList y sus métodos",
+  C56+" · §3.8 Los métodos estándar y Laboratorio 4 · equals, hashCode y los baldes → para no repetir elementos (contains e indexOf usan equals)",
+  C56+" · Laboratorio 5 · Comparable y Comparator, y Extra → glosario: Comparator → ordenar de mayor a menor",
+  U5+" · §5.1.11 Recorrer, buscar y ordenar un ArrayList → for-each, contains/indexOf y sort con un Comparator",
+  U5+" · §5.11 El checklist del ejercicio de listas → contra qué se corrige",
+  U5+" · §5.12 Errores comunes",
+  C12+" · §1B.14 enum → el estado"
+];
+const FUERA_ORDEN = ["Para ordenar de mayor a menor por un double, el comparador es Double.compare(b, a), con los argumentos invertidos. Restar y castear a int falla con decimales."];
+
+const A = [
+ {id:"n06", f:"2026-10-06", eje:"R", hecho:true, resumen:"Hecho: traza del ej. 1 correcta (con las correcciones de X e Y sin valor y la división entera), respuesta del GC completa, ContadorInalcanzables en verde y la especificación de la Colecta.", tasks:[
+  {k:"teo", lbl:"Teoría · 25′", desc:"Leé estas secciones antes de codear. Son la base de los tres ejercicios de hoy.",
+   teoria:[C34+" · §2.1 El modelo de memoria: stack y heap", C34+" · §2.2 Valores y referencias", C34+" · §2.7 Aliasing: dos referencias, un objeto", C34+" · §2.11 La recolección de basura"]},
+  {k:"c1", lbl:"Código 1 · 40′", titulo:"Traza del ej. 1 del parcial 2025-1C",
+   desc:"Enunciado: «Mostrar la salida y detallar el trabajo del GC». No abras el PDF de ese parcial: sus ej. 2 y 3 son tu simulacro del vie 16. El código es este:",
+   code:EJ1,
+   pasos:[
+    "En una hoja dibujá dos zonas. STACK: una lista con X, Y, Z, W, T, A y B, cada una con un casillero al lado. HEAP: un rectángulo con 4 casilleros numerados 0, 1, 2 y 3.",
+    "Recorré el código línea por línea. Cada vez que una línea cambia un valor, tachá el anterior y escribí el nuevo al lado. Si una variable todavía no tiene valor, poné ?. En A y B no van números: dibujá una flecha hasta el rectángulo del heap.",
+    "Armá un recuadro SALIDA y escribí ahí, en orden, la línea exacta que imprime cada println.",
+    "En el while, antes de cada vuelta, escribí: vuelta N: A[0] = __ → ¿es > 30? sí/no.",
+    "Respondé por escrito: a) al llegar al comentario del final, ¿qué objetos hay en el heap? (pensá también en los String); b) ¿en qué momento el arreglo deja de tener referencias que lo apunten?; c) ¿por qué la pregunta «¿sobre qué variable?» está mal planteada?",
+    "Sacale una foto a la hoja y mandásela a Claude por el chat, SIN ejecutar el código. Mientras te la corrige, seguí con el Código 2.",
+    "Con la corrección en mano, creá la clase TrazaEj1 en el paquete practica y pegá adentro el main del ejercicio. Ejecutalo (comando abajo) y compará cada línea con tu recuadro SALIDA. Cada diferencia va a la Bitácora."],
+   verif:RUN("TrazaEj1"), entrega:"La foto de la hoja (tabla, salida y respuestas del GC), antes de ejecutar.",
+   teoria:TEO_EJ1, fuera:FUERA_EJ1},
+  {k:"c2", lbl:"Código 2 · 10′", titulo:"ContadorInalcanzables · guía i02 medio e09",
+   desc:"Archivo del repo: guia/i02_memoria/i03_medio/e09/ContadorInalcanzables.java. Este se resuelve directamente en el repo.",
+   pasos:[
+    "En el método recolectables, borrá la línea return 0; y escribí tu código: tiene que recorrer el arreglo y devolver cuántas posiciones valen false.",
+    "Corré el test (comando abajo). Tiene que terminar con BUILD SUCCESSFUL. Antes de escribir tu código da BUILD FAILED: eso es lo esperado."],
+   verif:TEST("*ContadorInalcanzablesTest"), entrega:"Solo «verde». Si falla, el error.",
+   teoria:[C34+" · §2.11 La recolección de basura → qué es alcanzable y qué es recolectable", C12+" · §1B.11.3 Arreglos y for-each → recorrer contando"]},
+  {k:"c3", opcional:true, lbl:"Código 3 · 20′ · se puede saltear", titulo:"Alcanzabilidad · guía i02 difícil e05",
+   desc:"Archivo del repo: guia/i02_memoria/i04_dificil/e05/Alcanzabilidad.java. Ya viene resuelto: no escribís código, lo trazás. Si te falta tiempo, es el que podés saltear.",
+   pasos:[
+    "Leé los métodos alcanzables y main. El grafo del main es 0 → 1 → 2, y el 3 queda aislado (lo dice el comentario).",
+    "En papel armá una tabla con estas columnas: vuelta | tope | contenido de pila | actual | visitados[0..3]. La primera fila es el estado justo antes del while; después, una fila por vuelta.",
+    "Escribí las dos líneas que va a imprimir el main.",
+    "Ejecutalo (comando abajo) y compará.",
+    "Respondé en dos líneas: si el grafo fuera la memoria, ¿qué sería la raíz, qué serían las aristas y qué vértice sería basura?"],
+   verif:"cd "+PR+"/teoria/cb100 && java app/src/main/java/ar/uba/fi/cb100/guia/i02_memoria/i04_dificil/e05/Alcanzabilidad.java",
+   entrega:"Foto de la tabla y las dos respuestas.",
+   teoria:[C34+" · §2.11 La recolección de basura → raíces y cadenas de referencias", C34+" · Laboratorio 5 · Alcanzabilidad: qué recolecta el GC", C78+" · §3B.11 Escenario 8, el heap apunta al heap → un objeto que apunta a otro es una arista"]},
+  {k:"cru", lbl:"Cruzado · 25′", eje:"T", titulo:"Especificación del TDA Colecta (solo papel)",
+   desc:"Enunciado (parcial 2021-1C, archivo «Listas - 3 oportunidad», ej. 4): Diseñar la especificación e implementar el TDA Colecta. Operaciones: crear la Colecta recibiendo el monto objetivo [$] y el monto de la máxima donación individual aceptada · calcularRecaudacion: devuelve el total recaudado · donar: recibe un monto y lo agrega a la recaudación · contarDonaciones: devuelve la cantidad de donaciones recibidas · calcularDonacionMaxima: devuelve la donación más grande recibida · calcularRecaudacionFaltante: devuelve cuánto falta para el objetivo, o 0 si ya se superó. Hoy solo la especificación; el código va mañana.",
+   pasos:[
+    "Para cada operación escribí la firma en Java: nombre, parámetros con su tipo y tipo de retorno.",
+    "Debajo de cada firma, la pre (qué tiene que cumplirse para poder llamarla) y la post (qué garantiza al terminar).",
+    "Escribí los invariantes: lo que tiene que ser cierto siempre, entre cualquier par de llamadas.",
+    "Escribí tus decisiones para los casos ambiguos: ¿qué pasa si donan más que el máximo permitido? ¿Y una donación de 0 o negativa? ¿Qué devuelve calcularDonacionMaxima si todavía no hubo donaciones? ¿Necesitás guardar cada donación en un vector o alcanzan contadores? Justificá."],
+   entrega:"Foto de la hoja.",
+   teoria:[C56+" · §3.2 Tipos de Datos Abstractos → el contrato: operaciones, pre, post e invariantes", C56+" · §3.11.1 Validar con criterio → qué hacer cuando no se cumple la pre", C56+" · Extra → glosario: precondición, postcondición, invariante"]}]},
+
+ {id:"n07", f:"2026-10-07", eje:"T", hecho:true, resumen:"Hecho: Colecta implementada y probada, TableroConMatriz arreglado (guía 3 difícil completa) y las trazas A y B del ej. 1, correctas.", tasks:[
+  {k:"teo", lbl:"Teoría · 25′", desc:"Leé estas secciones antes de codear.",
+   teoria:[C56+" · §3.2 Tipos de Datos Abstractos", C56+" · §3.4.1 Encapsulamiento", C56+" · §3.11.1 Validar con criterio"]},
+  {k:"c1", lbl:"Código 1 · 50′", titulo:"Implementar el TDA Colecta",
+   desc:"Usá tu especificación de ayer, con las correcciones de Claude. Archivo nuevo: practica/Colecta.java. Sin ArrayList ni ninguna colección: solo atributos y, si los necesitás, arreglos.",
+   pasos:[
+    "Atributos privados, según tu especificación.",
+    "Constructor y las 6 operaciones. Arriba de cada método, un Javadoc con su pre y su post.",
+    "Cuando no se cumple una pre, lanzá IllegalArgumentException con un mensaje claro.",
+    "En la misma clase, un main que: cree una Colecta con objetivo 1000 y donación máxima 300; done 200, 300 y 100; imprima las 4 consultas; intente donar 500 y después -10, cada intento dentro de un try/catch que imprima el mensaje de la excepción."],
+   verif:RUN("Colecta"), entrega:"Pegá Colecta.java en el chat junto con la salida del main.",
+   teoria:[C56+" · §3.3 Clases y objetos", C56+" · §3.4.1 Encapsulamiento y Laboratorio 2 · Encapsulamiento y validación", C56+" · §3.11.1 Validar con criterio", C12+" · §1B.17 Excepciones → throw y try/catch"]},
+  {k:"c2", lbl:"Código 2 · 20′", titulo:"Terminar TableroConMatriz · guía i03 difícil e10",
+   desc:"Ya resolviste PilaArreglo, PilaEnlazada y TableroPlano, y sus tests pasan. Falta uno: el test «TableroConMatriz cumple el contrato completo» falla. Archivos: guia/i03_poo/i04_dificil/e10/.",
+   pasos:[
+    "Corré el test (comando abajo) y leé el mensaje del que falla: dice qué valor esperaba y cuál obtuvo.",
+    "Abrí TableroConMatriz.java y buscá qué parte del contrato de Tablero.java no estás cumpliendo.",
+    "Corregí y volvé a correr hasta que dé BUILD SUCCESSFUL."],
+   verif:TEST("*TableroImplementacionesTest"), entrega:"Solo «verde». Si te trabás, el mensaje del test.",
+   teoria:[C56+" · §3.6 Interfaces: el contrato puro", C56+" · §3.6.2 Otro dominio, mismo poder: intercambiar implementaciones", C56+" · Laboratorio 1 · Un TDA, dos implementaciones", C12+" · §1B.11.3 Arreglos → la matriz"]},
+  {k:"cru", lbl:"Cruzado · 25′", eje:"R", titulo:"Ej. 1 con otros valores",
+   desc:"El mismo código del mar 6 (Código 1), con dos cambios. Hacé dos trazas completas en papel, con la misma tabla de stack y heap.",
+   pasos:[
+    "Traza A: cambiá while (A[0] > 30) por while (A[0] > 80). Todo lo demás igual.",
+    "Traza B: volvé al while original y cambiá T = 77; por T = 100;.",
+    "Para cada traza escribí la salida completa y cuántas vueltas dio el while.",
+    "Verificalas: copiá TrazaEj1 como TrazaA y TrazaB en el paquete practica (en IntelliJ, Ctrl+C y Ctrl+V sobre la clase; cambia el nombre solo), aplicá cada cambio y ejecutá."],
+   verif:[RUN("TrazaA"), RUN("TrazaB")], entrega:"Nada si coinciden. Si no, anotá la diferencia en la Bitácora.",
+   teoria:TEO_EJ1, fuera:FUERA_EJ1}]},
+
+ {id:"d10", f:"2026-10-10", eje:"L", liviano:true, nota:"Día liviano: la prioridad es Orga.", tasks:[
+  {k:"teo", lbl:"Teoría y sintaxis · 25′", desc:"Leé esto antes de seguir con la calistenia.",
+   teoria:["Sintaxis: pestaña Sintaxis → §1 a §4 (firma de un método, arreglo vs. List, métodos de List, recorrer)", U5+" · §5.9 De lo nuestro a la API de Java", U5+" · §5.12 Errores comunes", C56+" · §3.8 Los métodos estándar (equals y hashCode)", C12+" · §1B.7 wrappers (int vs. Integer)"]},
+  {k:"c1", lbl:"Código · 30′", titulo:"Calistenia con la API de List",
+   desc:"Archivo: practica/CalisteniaListas.java (ya está creado, con los 3 métodos vacíos y un main con los ejemplos). sinDuplicados ya está hecho; faltan los otros dos. Son ejercicios de la guía i05 que ya vienen resueltos: no los abras hasta terminar los tuyos.",
+   pasos:[
+    "boolean contieneTodos(List<String> lista, List<String> requeridos): true si cada elemento de requeridos está en lista. Completá también el ___ de su Javadoc: qué devuelve si requeridos está vacía, y por qué.",
+    "int frecuencia(List<String> lista, String valor): cuántas veces aparece valor. Ejemplo: ([x, y, x, x], x) → 3.",
+    "Ejecutá con el ▶ al lado del main: cada línea muestra tu resultado y el esperado.",
+    "Al terminar, compará con guia/i05_lineales/i02_facil/e09/ContieneTodos.java e i03_medio/e10/ContadorFrecuencia.java."],
+   verif:RUN("CalisteniaListas"), entrega:"Avisá cuando dé todo lo esperado, o pegá el error.",
+   teoria:[U5+" · §5.2.1 Implementación manual y operaciones de conjuntos → «contener a todos» es subconjunto", C56+" · §3.8 y Laboratorio 4 · equals, hashCode y los baldes → contains usa equals", "Sintaxis: §3 (contains) y §4 (for-each)"]}]},
+
+ {id:"d11", f:"2026-10-11", eje:"L", liviano:true, nota:"Día liviano: la prioridad es Orga. Si no lo terminás, se termina el mié 14.", tasks:[
+  {k:"c1", lbl:"Código · 60′", titulo:"MiIngenieroDeSoftware: el ej. 3 de 2026-1C, sin mirar la solución",
+   desc:"Es el ejercicio 3 del parcial 2026-1C (1ª oportunidad), tal cual salió. Abajo tenés el enunciado, las clases que te dan (ya están en el repo, con su constructor y sus getters), lo que el enunciado deja abierto ya resuelto y un ejemplo con el resultado exacto que tiene que dar tu main.",
+   enunciado:`3. Implementar el método buscarProgramadoresMasCualificados de la clase IngenieroDeSoftware:
+
+public class IngenieroDeSoftware {
+
+    /* Buscar los 10 programadores más cualificados.
+     * - Un programador será considerado más cualificado si posee mayor puntaje
+     *   acumulado considerando todos sus proyectos.
+     * - Solo deben considerarse programadores que tengan como máximo
+     *   cantidadMaximaDeProyectos proyectos en estado EN_PROCESO.
+     * - Un mismo programador puede aparecer en varios proyectos, pero en el
+     *   resultado debe aparecer una sola vez.
+     * - El vector devuelto debe contener los programadores ordenados de mayor
+     *   a menor puntaje acumulado.
+     * - Si existen menos de 10 programadores que cumplan las condiciones,
+     *   devolver únicamente los disponibles.
+     */
+    public List<Programador> buscarProgramadoresMasCualificados(List<Proyecto> proyectos,
+                                                                int cantidadMaximaDeProyectos)
+}`,
+   clases:`public class Proyecto {
+    private Programador programador;
+    private double puntaje;
+    private EstadoDeProyecto estado;
+
+    public Proyecto(Programador programador, double puntaje, EstadoDeProyecto estado)
+    public Programador getProgramador()
+    public double getPuntaje()
+    public EstadoDeProyecto getEstado()
+}
+
+public class Programador {
+    private String nombre;
+
+    public Programador(String nombre)
+    public String getNombre()
+    // equals y hashCode ya están hechos: dos Programador con el mismo nombre son iguales
+    // no tiene toString: para imprimirlo, usá getNombre()
+}
+
+public enum EstadoDeProyecto { EN_PROCESO, FINALIZADO }`,
+   aclara:[
+    "«Puntaje acumulado» es la suma de getPuntaje() de TODOS los proyectos del programador, estén EN_PROCESO o FINALIZADO.",
+    "La condición cuenta solo sus proyectos EN_PROCESO, y «como máximo» incluye el igual: con cantidadMaximaDeProyectos = 1, entra el que tiene 0 o 1 EN_PROCESO; el que tiene 2, no.",
+    "Un programador que no cumple la condición queda afuera entero: no aparece en el resultado.",
+    "Si dos programadores tienen el mismo puntaje acumulado, el enunciado no dice el orden: cualquiera de los dos vale.",
+    "Si la lista proyectos está vacía, devolvé una lista vacía. No modifiques la lista que te pasan.",
+    "El método NO es static (el enunciado no lo dice): se llama sobre un objeto. Tu clase se llama MiIngenieroDeSoftware, así que en el main: new MiIngenieroDeSoftware().buscarProgramadoresMasCualificados(proyectos, 1).",
+    "Podés usar toda la API de List y agregar métodos privados auxiliares (el checklist de listas de la U5 §5.11 lo pide). No uses HashMap.",
+    "Devolvé List<Programador> (por ejemplo, un ArrayList), no un arreglo, aunque el enunciado diga «el vector devuelto»."],
+   ejemplo:`Lista de proyectos (programador, puntaje, estado):
+  Ana     8.0   FINALIZADO
+  Ana     5.5   EN_PROCESO
+  Beto    9.0   EN_PROCESO
+  Beto    7.0   EN_PROCESO
+  Carla   6.0   FINALIZADO
+  Dani    3.0   EN_PROCESO
+
+Cómo queda cada uno:  Ana 13.5 (1 EN_PROCESO) · Beto 16.0 (2) · Carla 6.0 (0) · Dani 3.0 (1)
+
+buscarProgramadoresMasCualificados(proyectos, 1)  →  [Ana, Carla, Dani]       Beto queda afuera: tiene 2 EN_PROCESO
+buscarProgramadoresMasCualificados(proyectos, 2)  →  [Beto, Ana, Carla, Dani]
+buscarProgramadoresMasCualificados(proyectos, 0)  →  [Carla]
+
+Con 12 programadores que cumplen (P1 a P12, un proyecto FINALIZADO cada uno, puntajes 1 a 12),
+buscarProgramadoresMasCualificados(lista, 0) devuelve 10.`,
+   pasos:[
+    "Leé la teoría de abajo (→ Teoría para resolverlo).",
+    "Abrí Proyecto.java, Programador.java y EstadoDeProyecto.java, de clases/a2026/c02/s07/p01/, solo para confirmar que coinciden con «Las clases que te dan». No abras IngenieroDeSoftware.java ni EstadisticaDeProyecto.java.",
+    "Abrí practica/MiIngenieroDeSoftware.java (ya tiene el package y los dos imports). Arriba del método, escribí la estrategia en castellano como comentario, respondiendo: ¿cómo junto los proyectos de cada programador? ¿qué acumulo de cada uno? ¿cuándo cuento los EN_PROCESO y descarto? ¿cómo ordeno de mayor a menor? ¿cómo me quedo con 10 como máximo?",
+    "Escribí el método con la firma exacta del enunciado, sin static.",
+    "En el main, armá la lista del ejemplo: List<Proyecto> proyectos = new ArrayList<>(); y proyectos.add(new Proyecto(new Programador(\"Ana\"), 8.0, EstadoDeProyecto.FINALIZADO)); y así con las 6 filas.",
+    "Llamá al método con 1, con 2 y con 0, e imprimí los nombres de cada resultado con un for-each y getNombre(). Tiene que dar exactamente lo del ejemplo.",
+    "Agregá el caso de 12 programadores con un for (new Programador(\"P\" + i), puntaje i) e imprimí resultado.size(): tiene que dar 10.",
+    "Pasá tu método por el checklist de listas (U5 §5.11): ¿partiste en métodos auxiliares? ¿Hay dos for anidados en un mismo método? ¿Reescribiste algo que la API ya hace?",
+    "Pegame el método en el chat. Recién después de mi corrección, abrí IngenieroDeSoftware.java y EstadisticaDeProyecto.java y compará. Cada diferencia que sea un error tuyo va a la Bitácora."],
+   verif:RUN("MiIngenieroDeSoftware"), entrega:"Pegá tu método (y el main) en el chat, antes de abrir la solución.",
+   teoria:TEO_GROUPBY.concat(["Sintaxis: §1 a §6 (sobre todo §3b atajos, §5 ordenar y §6 equals)"]), fuera:FUERA_ORDEN}]},
+
+ {id:"d12", f:"2026-10-12", eje:"M", liviano:true, nota:"Mañana rendís Orga: todo opcional.", tasks:[
+  {k:"c1", opcional:true, lbl:"Opcional · 25′", titulo:"Primera lectura de complejidad (U4)",
+   desc:"Solo lectura, para llegar al miércoles con la idea. No hay código.",
+   pasos:["Leé las secciones de abajo.", "Respondé de memoria: ¿dos bucles anidados de n vueltas suman o multiplican? ¿Y dos bucles uno después del otro?"],
+   teoria:[C910+" · §4.3 Órdenes de crecimiento", C910+" · §4.4 Las tres cotas: O, Ω y Θ", C910+" · §4.5 y §4.5.1 Calcular la complejidad de un iterativo, línea por línea"]}]},
+
+ {id:"d13", f:"2026-10-13", eje:"M", liviano:true, nota:"Hoy rendís Orga: todo opcional.", tasks:[
+  {k:"c1", opcional:true, lbl:"Opcional · 40′", titulo:"Unidad 6 en un vistazo",
+   desc:"Si te queda energía después del parcial de Orga. Si no, pasa al dom 25.",
+   pasos:["Leé la página de la U6 (paginas/clase_13_y_14/CB100-U6-Estrategias.html), secciones 6.1 a 6.17.", "Hacé la autoevaluación 6.24 (16 preguntas). Las que fallás, releé la sección que indica la explicación."],
+   teoria:["clase_13_y_14 (U6) · 6.1–6.5 recursividad, 6.6–6.11 división y conquista, 6.12–6.16 ordenamientos no comparativos, 6.17 cómo lo pregunta el profe"]}]},
+
+ {id:"d14", f:"2026-10-15", eje:"L", nota:"Lo que era del mié 14 (el parcial pasó al mié 28). Orden: Repartidores, la complejidad de tus métodos y ColasYFiltros. No abras Sintaxis §4b hasta terminar Repartidores.", tasks:[
+  {k:"teo", lbl:"Teoría · 25′", desc:"Complejidad aplicada a lo que programás. Si el domingo no terminaste IngenieroDeSoftware, terminalo primero.",
+   teoria:[C910+" · §4.5 y §4.5.1 Calcular la complejidad de un iterativo", C910+" · §4.11 Aplicar la complejidad a lo que ya hicimos", U5+" · §5.7 Comparación de complejidades (cuánto cuesta cada operación)", C910+" · §4.15 Errores comunes"]},
+  {k:"c1", lbl:"Código 1 · 45′", titulo:"MiAdministradorDeEnvios (Repartidores) sin mirar la solución",
+   desc:"El mismo tipo de ejercicio que MiIngenieroDeSoftware, con otras clases (es la tarea 1 de la clase s07). Hacelo después de MiIngenieroDeSoftware y sin mirarlo: la idea es que el patrón te salga solo.",
+   enunciado:`Implementar el método buscarMejoresRepartidores de la clase AdministradorDeEnvios:
+
+public class AdministradorDeEnvios {
+
+    /* Buscar los 10 mejores repartidores.
+     * - Un repartidor es mejor si recorrió más kilómetros en total, considerando
+     *   todas sus entregas.
+     * - Solo deben considerarse repartidores que tengan como máximo
+     *   cantidadMaximaDeEntregasEnReparto entregas en estado EN_REPARTO.
+     * - Un mismo repartidor puede aparecer en varias entregas, pero en el
+     *   resultado debe aparecer una sola vez.
+     * - La lista devuelta debe estar ordenada de mayor a menor kilómetros totales.
+     * - Si existen menos de 10 repartidores que cumplan la condición, devolver
+     *   únicamente los disponibles.
+     */
+    public List<Repartidor> buscarMejoresRepartidores(List<Entrega> entregas,
+                                                      int cantidadMaximaDeEntregasEnReparto)
+}`,
+   clases:`public class Entrega {
+    private final Repartidor repartidor;
+    private final double km;
+    private final EstadoEntrega estado;
+
+    public Entrega(Repartidor repartidor, double km, EstadoEntrega estado)
+    public Repartidor getRepartidor()
+    public double getKm()
+    public EstadoEntrega getEstado()
+}
+
+public class Repartidor {
+    private String nombre;
+    private int dni;
+
+    public Repartidor(String nombre, int dni)
+    public String getNombre()
+    public int getDni()
+    // equals y hashCode ya están hechos: dos Repartidor con el mismo DNI son iguales
+}
+
+public enum EstadoEntrega { ENTREGADA, EN_REPARTO }`,
+   aclara:[
+    "«Kilómetros totales» es la suma de getKm() de TODAS las entregas del repartidor, estén ENTREGADA o EN_REPARTO.",
+    "«Como máximo» incluye el igual: con cantidadMaximaDeEntregasEnReparto = 1, entra el que tiene 0 o 1 entregas EN_REPARTO.",
+    "El mismo repartidor puede venir en objetos distintos (dos new Repartidor(\"Lucas\", 1)): por el equals, cuentan como el mismo.",
+    "Empate en kilómetros: cualquier orden vale. Lista vacía: devolvé una lista vacía. No modifiques la lista que te pasan.",
+    "El método no es static. Tu clase se llama MiAdministradorDeEnvios: en el main, new MiAdministradorDeEnvios().buscarMejoresRepartidores(entregas, 1).",
+    "La javadoc del repo dice «menor al límite», pero el código del profe usa «como máximo» (≤). Vale lo de este enunciado: ≤."],
+   ejemplo:`Lista de entregas (repartidor, dni, km, estado). Cada fila crea su propio new Repartidor(...):
+  Lucas  1   12.5   ENTREGADA
+  Lucas  1    4.0   EN_REPARTO
+  Mora   2   20.0   EN_REPARTO
+  Mora   2   15.0   EN_REPARTO
+  Nico   3    0.0   ENTREGADA
+  Olga   4    7.5   EN_REPARTO
+
+Cómo queda cada uno:  Lucas 16.5 km (1 EN_REPARTO) · Mora 35.0 (2) · Nico 0.0 (0) · Olga 7.5 (1)
+
+buscarMejoresRepartidores(entregas, 1)  →  [Lucas, Olga, Nico]       Mora queda afuera: tiene 2 EN_REPARTO
+buscarMejoresRepartidores(entregas, 2)  →  [Mora, Lucas, Olga, Nico]
+buscarMejoresRepartidores(entregas, 0)  →  [Nico]`,
+   pasos:[
+    "Abrí SOLO Entrega.java, Repartidor.java y EstadoEntrega.java, de clases/a2026/c02/s07/tarea01/, para confirmar que coinciden. No abras AdministradorDeEnvios.java ni EstadisticaDeRepartidor.java.",
+    "Creá la clase MiAdministradorDeEnvios en el paquete practica. Debajo del package: import ar.uba.fi.cb100.clases.a2026.c02.s07.tarea01.*; e import java.util.*;",
+    "Escribí la estrategia como comentario y después el método, con la firma del enunciado y sin static.",
+    "main con las 6 entregas del ejemplo: llamá con 1, 2 y 0 e imprimí los nombres. Tiene que dar exactamente lo del ejemplo.",
+    "Al terminar, compará con AdministradorDeEnvios.java y anotá en la Bitácora lo que hayas hecho mal."],
+   verif:RUN("MiAdministradorDeEnvios"), entrega:"Pegá tu método en el chat.",
+   teoria:TEO_GROUPBY.concat(["Sintaxis: §3 a §6, incluido §3b atajos, y §4b (métodos auxiliares, después de terminar)"]), fuera:FUERA_ORDEN},
+  {k:"c2", lbl:"Código 2 · 20′", titulo:"La complejidad de tus métodos",
+   desc:"Lo que probablemente te pidan junto con el ej. 3: «calculá la complejidad de tu método». Se responde con O(...) y una justificación de dos o tres líneas.",
+   aclara:[
+    "Métodos a analizar (5): sinDuplicados, contieneTodos y frecuencia de CalisteniaListas; buscarProgramadoresMasCualificados de MiIngenieroDeSoftware; y buscarMejoresRepartidores de MiAdministradorDeEnvios (si ya lo hiciste).",
+    "Si un método llama a un auxiliar tuyo, el costo del auxiliar entra en la cuenta: analizá primero los auxiliares.",
+    "Formato exacto, en un comentario arriba de cada método: Complejidad: O(...), con n = <qué es n>. Y una línea por cada pedazo del método con su costo.",
+    "Si el método recibe dos listas, usá n y m (por ejemplo, contieneTodos)."],
+   ejemplo:`/**
+ * Complejidad: O(n²), con n = lista.size().
+ * El for da n vueltas y en cada una contains recorre el resultado,
+ * que tiene hasta n elementos: n · n.
+ */`,
+   pasos:[
+    "Leé Sintaxis §14 (cuánto cuesta cada llamada de la API).",
+    "Para cada método, marcá sus pedazos: recorrer, buscar con contains o indexOf, ordenar, cortar en 10.",
+    "Poné el costo de cada pedazo y combinalos: lo que va uno después del otro se SUMA (queda el mayor); lo que va adentro de un bucle se MULTIPLICA por las vueltas.",
+    "Escribí el comentario con el formato de las aclaraciones.",
+    "Pregunta extra: ¿alguno se puede bajar de orden cambiando la estructura? Pensá en qué costaría contains en un HashSet."],
+   entrega:"Pegá los comentarios de complejidad en el chat para que Claude los corrija.",
+   teoria:[U5+" · §5.7 Comparación de complejidades → contains/indexOf en lista O(n), get en ArrayList O(1), agregar al final O(1) amortizado", U5+" · §5.2.4 En la API de Java → HashSet: contains O(1)", C910+" · §4.10 Complejidad de algoritmos estándar → ordenar O(n log n)", C910+" · §4.15 Errores comunes → sumar cuando hay que multiplicar", "Sintaxis: §14 (tabla de costos y formato de la justificación)"]},
+  {k:"c3", lbl:"Código 3 · 30′", titulo:"ColasYFiltros: filtrar y sumar sin romper lo que te pasan",
+   desc:"Las trampas de Queue y de borrar mientras recorrés, que aparecen en el ej. 3 (2025-2C usa una Queue).",
+   enunciado:`Implementar los tres métodos de la clase ColasYFiltros (en el paquete practica):
+
+public class ColasYFiltros {
+
+    /* a) Devuelve una lista NUEVA con los elementos de original que NO son
+     *    múltiplos de 3, en el mismo orden en que estaban.
+     *    original no se modifica.
+     */
+    public static List<Integer> sinMultiplosDe3(List<Integer> original)
+
+    /* b) Devuelve true si todos los elementos de a están en b.
+     *    No modifica ninguno de los dos conjuntos.
+     */
+    public static boolean esSubconjunto(Set<Integer> a, Set<Integer> b)
+
+    /* c) Devuelve la suma de los elementos de la cola.
+     *    Al terminar, la cola tiene exactamente los mismos elementos,
+     *    en el mismo orden, que cuando llegó.
+     */
+    public static int sumar(Queue<Integer> cola)
+}`,
+   aclara:[
+    "Los tres son static: en el main se llaman ColasYFiltros.sinMultiplosDe3(...), sin new.",
+    "Múltiplo de 3 es todo x con x % 3 == 0, incluidos 0 y los negativos (−3, −6).",
+    "Ninguna lista, conjunto ni cola trae null adentro, y ningún parámetro es null.",
+    "a vacío: esSubconjunto devuelve true (el conjunto vacío está incluido en cualquier conjunto).",
+    "En c) podés recorrer la cola como quieras (for-each, o sacar y volver a encolar): lo que se corrige es que quede igual.",
+    "Para crear los datos de prueba modificables: new ArrayList<>(List.of(1, 3, 4)), new HashSet<>(Set.of(1, 2)) y new LinkedList<>(List.of(5, 1, 4)) para la cola."],
+   ejemplo:`sinMultiplosDe3([1, 3, 4, 6, 9, 10])  →  [1, 4, 10]     y original sigue siendo [1, 3, 4, 6, 9, 10]
+sinMultiplosDe3([0, -3, 5])           →  [5]
+sinMultiplosDe3([])                   →  []
+esSubconjunto({1, 2}, {1, 2, 3})      →  true
+esSubconjunto({1, 4}, {1, 2, 3})      →  false
+esSubconjunto({}, {1, 2})             →  true
+sumar(cola [5, 1, 4])                 →  10      y la cola sigue siendo [5, 1, 4]
+sumar(cola [])                        →  0`,
+   pasos:[
+    "Creá la clase ColasYFiltros en el paquete practica, con import java.util.*;",
+    "Escribí los tres métodos con las firmas exactas del enunciado.",
+    "En el main, probá cada fila del ejemplo e imprimí el resultado. En a) y c), imprimí también original y la cola después de llamar, para mostrar que no cambiaron.",
+    "Compará a) y b) con guia/i05_lineales/i03_medio/e04/FiltroMultiplos.java y e08/VerificadorSubconjunto.java."],
+   verif:RUN("ColasYFiltros"), entrega:"Solo si algo no te sale.",
+   teoria:[U5+" · §5.6 Cola (FIFO)", U5+" · Extra → glosario: removeIf y ConcurrentModificationException", U5+" · §5.2 El TDA Conjunto y §5.2.4 En la API de Java", "Sintaxis: §4 (no borrar mientras recorrés) y §7 (Queue)"]}]},
+
+ {id:"d15", f:"2026-10-16", eje:"R", tasks:[
+  {k:"teo", lbl:"Teoría · 25′", desc:"Los escenarios de memoria que pueden complicar el ej. 1 de este cuatrimestre: news reasignados, objetos que apuntan a objetos, bloques que quedan colgados.",
+   teoria:[C78+" · §3B.1 Cómo leer los diagramas", C78+" · §3B.9 a §3B.13: escenarios 6 a 10 (dos news, news reasignados, el heap apunta al heap, == vs equals, un bloque colgado)", C78+" · §3B.14 Las siete morales del apartado", C78+" · Laboratorio 2 · Contador de huérfanos"]},
+  {k:"c1", lbl:"Código 1 · 35′", titulo:"Diez preguntas del Generador de clase_7_y_8 (nivel Cuestionario TP1)",
+   desc:"El Generador no arma trazas completas: hace preguntas cortas sobre memoria y GC, con corrección automática. Sirven para practicar las piezas del ej. 1 (cuántos bloques quedan huérfanos, si un cambio se ve afuera del método, si dos variables apuntan al mismo objeto).",
+   pasos:[
+    "Abrí paginas/clase_7_y_8/clase_7_y_8.html, sección 3B.20 Generador de ejercicios.",
+    "En Dificultad elegí «Cuestionario TP1» (la más difícil).",
+    "Tocá «¿Cuántos huérfanos?» y hacé 5: es la pregunta del GC del ej. 1. Resolvé cada una en papel antes de escribir el número y tocar «Corregir».",
+    "Después tocá «🎲 Mezclado» y hacé 5 más.",
+    "Cada vez que falles, tocá «Ver razonamiento» y anotá el error para pasármelo.",
+    "El contador de arriba (Ejercitación) te dice cuántas llevás bien."],
+   entrega:"Cuántas de las 10 te salieron bien y qué errores tuviste.",
+   teoria:[C78+" · §3B.10 Escenario 7 y §3B.13 Escenario 10 (bloques colgados)", C34+" · §2.11 La recolección de basura"]},
+  {k:"c2", lbl:"Código 2 · 20′", titulo:"Control: el ej. 1 en menos de 20′", control:true,
+   desc:"El código del ej. 1 que ya resolviste el mar 6, con dos números cambiados (T = 63 y Z = 7): la salida es nueva para vos.",
+   enunciado:`1. Mostrar la salida y detallar el trabajo del GC.
+
+public class TrazaControl {
+    public static void main(String[] args) {
+        int X, Y, Z = 7;
+        char W;
+        int T;
+        int[] A = new int[4];
+        int[] B = A;
+
+        T = 63;
+        W = 'C';
+        X = T;
+        A[0] = X;
+        B[1] = A[0] / 2;
+
+        System.out.println(X + "-" + W + "-" + B[0] + "-" + A[1]);
+
+        W = (char)(T + 1);
+        B[2] = A[0] * 2;
+
+        System.out.println(W + "-" + T + "-" + B[1] + "-" + A[2]);
+
+        while (A[0] > 30) {
+            T -= 2;
+            X -= 3;
+            Y = X + Z;
+            System.out.println(Y + "-" + T + "-" + B[1] + "-" + Z);
+            Z = Y;
+            A[0] -= 10;
+        }
+    }
+}`,
+   aclara:[
+    "Qué entregás, en papel: (1) la tabla de stack y heap al final del main; (2) cada línea que imprime, exacta, en orden; (3) el trabajo del GC: qué objetos se crean en el heap, cuáles quedan sin referencias y en qué momento, y qué pasa con las variables primitivas.",
+    "Para el (char): el carácter 'A' es 65 en la tabla ASCII, 'C' es 67 y '@' es 64.",
+    "Cronometrate: 20′ en total."],
+   pasos:[
+    "Arrancá el cronómetro y resolvé en papel, sin ejecutar.",
+    "Para verificar: en IntelliJ, copiá TrazaEj1 y pegala en el paquete practica como TrazaControl (IntelliJ cambia el nombre de la clase), y cambiá Z = 5 por Z = 7 y T = 77 por T = 63. Ejecutala y compará línea por línea.",
+    "Si te pasaste de 20′ o tuviste errores, anotalos en la Bitácora. En cada simulacro, el ej. 1 va primero."],
+   verif:RUN("TrazaControl"), teoria:TEO_EJ1, fuera:FUERA_EJ1},
+  {k:"c3", lbl:"Código 3 · 15′", titulo:"Encontrar el bug de Piano.java",
+   desc:"La solución del profe del TDA Piano (parcial 2026-1C, 3ª oportunidad) tira NullPointerException apenas se crea un piano. Es práctica de leer código ajeno y de null, como en el ej. 1.",
+   aclara:[
+    "Archivos: examenes/parciales/a2026/c01/o03/tda/Piano.java, Tecla.java y Nota.java.",
+    "El error está en el constructor de Piano: no hace falta leer el resto de la clase.",
+    "Qué entregás, en dos o tres líneas: (1) en qué línea salta la excepción; (2) qué variable vale null en ese momento y qué instrucción la dejó en null; (3) cómo lo arreglarías."],
+   pasos:[
+    "Leé el constructor de Piano y encontrá la línea que provoca el NullPointerException, sin ejecutar.",
+    "Escribí tu explicación de dos o tres líneas.",
+    "Comprobalo: creá la clase PruebaPiano en el paquete practica, con import ar.uba.fi.cb100.examenes.parciales.a2026.c01.o03.tda.*; y un main que haga new Piano(7). Ejecutalo: el error dice el número de línea. ¿Coincide con el tuyo?"],
+   verif:RUN("PruebaPiano"), entrega:"Tu explicación de dos o tres líneas.",
+   teoria:[C34+" · §2.5 null y la NullPointerException", C34+" · §2.2 Valores y referencias → la variable del arreglo vs. sus casilleros"]}]},
+
+ {id:"d16", f:"2026-10-17", eje:"T", timed:true, tasks:[
+  {k:"teo", lbl:"Repaso · 15′", desc:"Antes de los dos ejercicios con reloj.",
+   teoria:["Pestaña Trampas · Ej. 2 y Ej. 3", "Sintaxis: §9 (arreglo + contador), §9b (el checklist del TDA en código), §4b (métodos auxiliares), §14 (complejidad) y §10 (tus errores)"]},
+  {k:"c1", lbl:"Código 1 · 40′ ⏱", titulo:"Control: Pasajeros solo, en 40′", control:true,
+   desc:"Es el ejercicio 3 del parcial 2026-1C (3ª oportunidad), tal cual salió. No abras el PDF: acá está todo.",
+   enunciado:`3. Implementar el siguiente método utilizando únicamente la API de List y/o Stream API.
+
+public class AgenciaDeViajes {
+
+    /* Buscar los 10 pasajeros más viajeros.
+     * - Un pasajero será considerado más viajero si posee mayor cantidad de
+     *   kilómetros acumulados considerando todos sus vuelos.
+     * - Solo deben considerarse pasajeros que tengan como máximo
+     *   cantidadMaximaDeVuelosPendientes vuelos en estado PENDIENTE.
+     * - Un mismo pasajero puede aparecer en varios vuelos, pero en el resultado
+     *   debe aparecer una única vez.
+     * - La lista devuelta debe estar ordenada de mayor a menor cantidad de
+     *   kilómetros acumulados.
+     * - Si existen menos de 10 pasajeros que cumplan la condición, devolver
+     *   únicamente los disponibles.
+     */
+    public List<Pasajero> buscarPasajerosMasViajeros(List<Vuelo> vuelos,
+                                                     int cantidadMaximaDeVuelosPendientes)
+}`,
+   clases:`public class Vuelo {                     public class Pasajero {
+    private Pasajero pasajero;               private String nombre;
+    private double kilometros;               private long dni;
+    private EstadoVuelo estado;          }
+}
+
+EstadoVuelo { ENTREGADA, FINALIZADO }     ← así vino en el parcial (ver aclaraciones)`,
+   aclara:[
+    "El enunciado original tiene un error: la regla habla de vuelos PENDIENTE, pero EstadoVuelo no tiene ese valor. Usá enum EstadoVuelo { PENDIENTE, FINALIZADO } y dejalo escrito como comentario de supuesto: es lo que se espera en el parcial cuando el enunciado trae un error.",
+    "En el parcial te dan solo los atributos. Escribí vos, adentro de tu archivo y como clases static, Vuelo y Pasajero con un constructor con todos sus atributos y sus getters: getPasajero(), getKilometros(), getEstado(), getNombre() y getDni().",
+    "Pasajero NO trae equals: escribí equals y hashCode por dni (Sintaxis §6). Dos pasajeros con el mismo dni son el mismo.",
+    "«Kilómetros acumulados» suma TODOS los vuelos del pasajero; «como máximo» incluye el igual (≤); empate: cualquier orden; lista vacía: lista vacía; no modifiques la lista que te pasan.",
+    "«Únicamente la API de List y/o Stream»: nada de HashMap ni HashSet.",
+    "El método no es static: en el main, new AgenciaDeViajes().buscarPasajerosMasViajeros(vuelos, 1).",
+    "Al final, arriba del método, escribí su complejidad (Sintaxis §14)."],
+   ejemplo:`Lista de vuelos (pasajero, dni, km, estado). Cada fila crea su propio new Pasajero(...):
+  Sofía   30111222   1200.0   FINALIZADO
+  Sofía   30111222    800.0   PENDIENTE
+  Tomás   28999000   3000.0   PENDIENTE
+  Tomás   28999000    500.0   PENDIENTE
+  Uma     40123456    950.0   FINALIZADO
+  Vera    35555666    300.0   PENDIENTE
+
+Cómo queda cada uno:  Sofía 2000 km (1 PENDIENTE) · Tomás 3500 (2) · Uma 950 (0) · Vera 300 (1)
+
+buscarPasajerosMasViajeros(vuelos, 1)  →  [Sofía, Uma, Vera]        Tomás queda afuera: tiene 2 PENDIENTE
+buscarPasajerosMasViajeros(vuelos, 2)  →  [Tomás, Sofía, Uma, Vera]
+buscarPasajerosMasViajeros(vuelos, 0)  →  [Uma]`,
+   pasos:[
+    "Arrancá el cronómetro: 40′, para todo.",
+    "Creá la clase AgenciaDeViajes en el paquete practica, con import java.util.*; Adentro: el enum EstadoVuelo, las clases static Vuelo y Pasajero, y el método.",
+    "Escribí el supuesto del error como comentario arriba del enum.",
+    "main con las 6 filas del ejemplo: llamá con 1, 2 y 0 e imprimí los nombres. Tiene que dar exactamente lo del ejemplo.",
+    "Al final, arriba del método: la complejidad, con el formato de Sintaxis §14."],
+   verif:RUN("AgenciaDeViajes"), entrega:"Pegá el archivo y decí cuánto tardaste.",
+   teoria:TEO_GROUPBY.concat(["Pestaña Trampas · Ej. 3"]), fuera:FUERA_ORDEN},
+  {k:"c2", lbl:"Código 2 · 40′ ⏱", titulo:"Control: el TDA Teclado desde cero, en 40′", control:true,
+   desc:"Es el ejercicio 2 del parcial 2026-1C (1ª oportunidad), tal cual salió. En el ejercicio de TDA el diseño es tuyo, también en el parcial: lo que se corrige es que cada decisión esté tomada, escrita en la pre y la post, y bien implementada. Para que nada quede librado al azar, las aclaraciones fijan cada decisión.",
+   enunciado:`2. TDA (solo se puede utilizar hasta Vectores)
+Diseñar la especificación e implementar el TDA Teclado. Debe proveer:
+- Crear un Teclado con un grupo de Teclas.
+- La Tecla tiene un caracter.
+- Apretar una Tecla.
+- Obtener el texto ingresado.
+- Obtener la tecla que más veces se presionó.
+- Obtener la cantidad de veces que se presionaron teclas.
+- Tener la tecla especial shift.`,
+   aclara:[
+    "Qué entregás: las clases Tecla y Teclado (Tecla puede ir como clase static adentro del archivo) y un main. Cada método público con su Javadoc: qué hace, pre, post, @param, @return y @throws. Arriba de Teclado, sus invariantes.",
+    "«Solo hasta vectores»: arreglos con su contador. Nada de ArrayList ni de ninguna colección. El texto se guarda en un char[] con su contador; para devolverlo como String: new String(texto, 0, cantidad).",
+    "Crear: new Teclado(char[] caracteres, int capacidadDelTexto). Crea una Tecla por cada carácter. Los caracteres son letras minúsculas, al menos una y sin repetidos; capacidadDelTexto > 0. Si no se cumple: IllegalArgumentException.",
+    "Tecla: tiene su carácter (getCaracter()). Dónde contás las pulsaciones (en la Tecla o en un arreglo del Teclado) lo decidís vos.",
+    "Apretar: apretar(char caracter) busca la tecla con ese carácter y agrega el carácter al texto. Si no hay ninguna tecla con ese carácter: IllegalArgumentException. Si el texto ya está lleno: IllegalStateException.",
+    "Shift: apretarShift(). La próxima tecla que se apriete sale en mayúscula (Character.toUpperCase) y el shift se desactiva. Apretar shift dos veces seguidas lo deja activado.",
+    "Texto ingresado: textoIngresado() devuelve un String con todo lo escrito, con las mayúsculas del shift.",
+    "Más presionada: masPresionada() devuelve la Tecla. Si todavía no se presionó ninguna, devuelve null (no lances excepción). Si hay empate, la que está primero en el teclado. Shift no cuenta.",
+    "Cantidad: cantidadDePresiones() devuelve el total de teclas apretadas, sin contar shift.",
+    "Antes de entregar, pasalo por el checklist del ejercicio de TDA (clase_5_y_6 §3.14) y por Sintaxis §9b."],
+   ejemplo:`Teclado teclado = new Teclado(new char[] {'h', 'o', 'l', 'a'}, 10);
+
+teclado.masPresionada()         →  null      (todavía no se apretó nada)
+teclado.apretar('h');
+teclado.apretarShift();
+teclado.apretar('o');
+teclado.apretar('l');
+teclado.apretar('a');
+teclado.apretar('l');
+teclado.textoIngresado()        →  "hOlal"
+teclado.masPresionada()         →  la tecla 'l'  (se apretó 2 veces)
+teclado.cantidadDePresiones()   →  5         (shift no cuenta)
+teclado.apretar('z');           →  IllegalArgumentException: no hay tecla 'z'`,
+   pasos:[
+    "Sin mirar ninguna versión anterior. Arrancá el cronómetro: 40′.",
+    "Escribí primero la especificación (Javadoc de cada método e invariantes) y después el código.",
+    "Creá la clase Teclado en el paquete practica.",
+    "main que haga exactamente el ejemplo e imprima cada resultado; para el último, un try/catch que imprima el mensaje de la excepción.",
+    "Pasalo por el checklist del ejercicio de TDA (clase_5_y_6 §3.14): null para «no hay», nada de System.out adentro del TDA, nada de números mágicos, copia defensiva si devolvés un arreglo."],
+   verif:RUN("Teclado"), entrega:"El archivo y cuánto tardaste.",
+   teoria:[C56+" · §3.2 Tipos de Datos Abstractos", C56+" · §3.4.1 Encapsulamiento", C56+" · §3.11.1 Validar con criterio", C56+" · §3.14 El checklist del ejercicio de TDA", C12+" · §1B.8 String y StringBuilder", "Sintaxis: §9 arreglo + contador y §9b el checklist en código"]},
+  {k:"c3", lbl:"Autocorrección · 25′", titulo:"Corregir los dos controles",
+   pasos:["Recorré la pestaña Trampas, bloques Ej. 2 y Ej. 3, punto por punto contra Pasajeros y Teclado.", "Anotá cada falla en la Bitácora, con su regla.", "Si alguno de los dos controles no salió en 40′: en los simulacros, empezá por ese ejercicio."],
+   teoria:["Pestaña Trampas"]}]},
+ {id:"d18", f:"2026-10-23", eje:"L", timed:true, nota:"Bloque 1 del día. Un ej. 3 que nunca viste, con reloj, sin ayuda y en papel: es el que mide si el patrón ya te sale solo. Desde hoy, cada ej. 3 va primero en papel y después a IntelliJ.", tasks:[
+  {k:"teo", lbl:"Repaso · 15′", desc:"Antes de arrancar el reloj.",
+   teoria:["Tu Bitácora: las entradas del eje L", U5+" · §5.11 El checklist del ejercicio de listas", "Sintaxis: §4b (ahora sí podés abrirlo), §5 y §6"]},
+  {k:"c1", lbl:"Código · 40′ ⏱", titulo:"Control: Profesor (el ej. 2 de 2025-1C, 1ª oportunidad), en 40′", control:true,
+   desc:"Ejercicio de parcial real. Es otro patrón: dos listas que se cruzan por el padrón y una agrupación por materia. Sin preguntarme hasta tener el método escrito y ejecutado.",
+   enunciado:`2. Implementar el método buscarMejoresAlumnos de la clase Profesor a partir de las
+   siguientes especificaciones:
+
+public class Profesor {
+
+    /**
+     * Busca los mejores alumnos de cada materia según su promedio de notas
+     */
+    public List<Alumno> buscarMejoresAlumnos(List<Alumno> alumnos, List<Nota> promedios);
+}`,
+   clases:`public class Alumno {                         public class Nota {
+    private String nombre;                        private int padron;
+    private int padron;                           private String materia;
+                                                  private double valor;
+    // Devuelve el nombre del alumno
+    public String getNombre()                     // Devuelve el padrón
+                                                  public int getPadron()
+    // Devuelve el padrón del alumno
+    public int getPadron()                        // Devuelve el nombre de la materia
+}                                                 public String getMateria()
+
+                                                  // Devuelve la nota entre 0 y 10
+                                                  public double getValor()
+                                              }`,
+   aclara:[
+    "promedios es la lista de TODAS las notas (el nombre del parámetro confunde): cada Nota es una nota de un alumno, identificado por su padrón, en una materia. Un alumno puede tener varias notas en la misma materia.",
+    "El promedio de un alumno en una materia es el promedio de sus notas en esa materia.",
+    "El mejor de una materia es el alumno con mayor promedio en ella. Si hay empate, el que aparece primero en la lista alumnos.",
+    "El resultado tiene al mejor de cada materia, en el orden en que cada materia aparece por primera vez en las notas. Si un alumno es el mejor en más de una materia, aparece una sola vez.",
+    "Todas las notas son de alumnos que están en la lista alumnos. Las materias se comparan con equals.",
+    "Escribí vos, adentro de tu archivo y como clases static, Alumno y Nota con un constructor con todos sus atributos y los getters del enunciado. Alumno necesita equals y hashCode por padrón (Sintaxis §6).",
+    "El método no es static. Tu clase se llama Profesor, en el paquete practica: en el main, new Profesor().buscarMejoresAlumnos(alumnos, notas).",
+    "Solo la API de List (nada de HashMap). Al final, arriba del método, su complejidad (Sintaxis §14)."],
+   ejemplo:`Alumnos: Ana (100), Beto (200), Caro (300), en ese orden.
+
+Notas (padrón, materia, valor):
+  100 Algebra   8        300 Fisica    7        200 Quimica   5        300 Analisis 10
+  200 Algebra   9        200 Fisica    6        100 Quimica   4        100 Analisis  7
+  100 Algebra  10        300 Fisica    9
+
+Promedios:  Algebra: Ana 9.0, Beto 9.0 (empate)  ·  Fisica: Caro 8.0, Beto 6.0
+            Quimica: Beto 5.0, Ana 4.0           ·  Analisis: Caro 10.0, Ana 7.0
+
+buscarMejoresAlumnos([Ana, Beto, Caro], notas)  →  [Ana, Caro, Beto]
+    Algebra: empate, gana Ana porque está primera · Analisis: Caro ya está, no se repite
+
+buscarMejoresAlumnos([Beto, Ana, Caro], notas)  →  [Beto, Caro]
+    Algebra: ahora gana Beto por el orden · Quimica: Beto ya está · Analisis: Caro ya está
+
+buscarMejoresAlumnos([Ana, Beto, Caro], [])     →  []`,
+   pasos:[
+    "Primero en PAPEL, como en el parcial: escribí todo a mano (o en un editor de texto sin autocompletado, como gedit o el bloc de notas, nunca en IntelliJ). Arrancá el cronómetro: 40′ para todo: la estrategia, las clases, el método y la complejidad.",
+    "En el papel: la estrategia en castellano, las clases Alumno y Nota (con constructor, getters, equals y hashCode), el método y sus auxiliares.",
+    "Con el reloj parado, pasalo a IntelliJ TAL CUAL lo escribiste, sin corregir nada mientras lo pasás. Anotá en la Bitácora cada cosa que no compiló o que IntelliJ te marcó (eje L, ejercicio «… · en papel»): son los errores que en el parcial nadie te señala. Recién después, corregí.",
+    "En IntelliJ: la clase Profesor en el paquete practica, con import java.util.*; adentro, las clases static Alumno y Nota, el método y el main.",
+    "main con los datos del ejemplo: las tres llamadas tienen que dar exactamente lo del ejemplo.",
+    "Pasalo por el checklist de listas (U5 §5.11): métodos auxiliares, nada de dos for anidados en un mismo método.",
+    "Arriba del método: la complejidad, con n = cantidad de notas, a = cantidad de alumnos y m = cantidad de materias."],
+   verif:RUN("Profesor"), entrega:"Pegá el archivo, la salida y cuánto tardaste.",
+   teoria:TEO_GROUPBY.concat(["Sintaxis: §4b métodos auxiliares, §6 equals y §14 complejidad"]), fuera:FUERA_ORDEN}]},
+
+ {id:"d19", f:"2026-10-23", eje:"T", timed:true, nota:"Bloque 2 del día. Primero, el Teclado de memoria: es el tipo de TDA que se viene tomando. Después, un TDA que nunca viste, con reloj y con el orden nuevo: firmas y Javadoc primero.", tasks:[
+  {k:"teo", lbl:"Repaso · 15′", desc:"Antes de arrancar el reloj.",
+   teoria:[C56+" · §3.14 El checklist del ejercicio de TDA", "Sintaxis: §9b el checklist escrito en Java", "Tu Bitácora: las entradas del eje T, sobre todo «Control Teclado · no llegó al 60%»"]},
+  {k:"mem", lbl:"Papel · 15′", titulo:"El Teclado de memoria: apretar y masPresionada",
+   desc:"Son los dos métodos que se repiten en Teclado, ControlRemoto y Piano, los ej. 2 de los tres parciales de 2026-1C. El sábado los terminó Claude; hoy los escribís vos, sin mirar.",
+   aclara:[
+    "Atributos que podés suponer: private final Tecla[] teclas; private final char[] texto; private int cantidadTexto; private boolean shiftActivado. La Tecla tiene getCaracter(), getPresiones() y registrarPresion(). También existe el auxiliar privado buscarTecla(char), que devuelve la Tecla o null.",
+    "apretar(char caracter): si no hay tecla con ese carácter, IllegalArgumentException; si el texto está lleno, IllegalStateException; si el shift está activado, el carácter va en mayúscula y el shift se apaga; suma una presión a la tecla y agrega el carácter al texto.",
+    "masPresionada(): devuelve la Tecla con más presiones; null si nadie apretó nada; con empate, la que está primero.",
+    "Cada uno con su Javadoc: pre, post, @param, @return y @throws."],
+   pasos:[
+    "En papel, sin abrir ningún archivo: escribí los dos métodos completos, con su Javadoc.",
+    "Abrí practica/Teclado.java y compará línea por línea.",
+    "Anotá cada diferencia que sea un error tuyo, para la Bitácora."],
+   entrega:"Las diferencias que encontraste.",
+   teoria:["Tu practica/Teclado.java (recién al terminar)", "Sintaxis: §9b (el patrón «máximo con null»)"]},
+  {k:"c1", lbl:"Código · 40′ ⏱", titulo:"Control: el TDA Batería (el ej. 3 de 2025-1C, 1ª oportunidad), en 40′", control:true,
+   desc:"Ejercicio de parcial real. A diferencia del Teclado, no necesita arreglos: se puede resolver con atributos numéricos. Las aclaraciones fijan cada decisión para que nada quede librado al azar.",
+   enunciado:`3. Se desea modelar una batería de auto eléctrico, donde se pueden realizar cargas,
+desplazamientos (que consumen energía), y se lleva un control del estado de carga.
+
+El TDA debe permitir:
+  1. crearBateria: recibe como parámetros:
+       o la capacidad máxima en kWh de la batería.
+       o el consumo promedio del auto en kWh por kilómetro.
+  2. cargar: recibe un valor en kWh y lo suma a la carga actual.
+  3. desplazar: recibe una distancia en kilómetros y reduce la carga en base al consumo
+     promedio. No se puede desplazar si no hay carga suficiente.
+  4. obtenerCargaActual: devuelve la carga actual en kWh.
+  5. obtenerAutonomia: devuelve cuántos kilómetros se pueden recorrer con la carga actual.
+  6. estaVacia: devuelve true si la batería está sin carga.
+  7. estaLlena: devuelve true si la batería está completamente cargada.`,
+   aclara:[
+    "Qué entregás: la clase Bateria con cada operación como método público, cada uno con su Javadoc (qué hace, pre, post, @param, @return y @throws), los invariantes arriba de la clase y un main.",
+    "Crear: new Bateria(double capacidadMaxima, double consumoPorKm). Las dos tienen que ser > 0; si no, IllegalArgumentException. La batería arranca vacía (carga 0).",
+    "Cargar: cargar(double kwh) con kwh > 0 (si no, IllegalArgumentException). Si la carga pasaría la capacidad, queda en la capacidad máxima y el excedente se descarta. Escribilo en la post.",
+    "Desplazar: desplazar(double km) con km > 0 (si no, IllegalArgumentException). Consume km · consumoPorKm. Si la carga no alcanza: IllegalStateException y la carga no cambia.",
+    "Autonomía: obtenerAutonomia() = carga actual / consumo por km. Lo calculable es un método, no un atributo (checklist, punto 15).",
+    "Vacía y llena: estaVacia() es carga == 0; estaLlena() es carga == capacidad. Con los números del ejemplo las cuentas en double dan exactas.",
+    "Lo que no cambia después de crear (capacidad y consumo) va como final.",
+    "Antes de entregar, pasalo por el checklist del ejercicio de TDA (clase_5_y_6 §3.14) y por Sintaxis §9b."],
+   ejemplo:`Bateria bateria = new Bateria(60.0, 0.25);
+
+bateria.estaVacia()            →  true
+bateria.cargar(50.0);
+bateria.obtenerCargaActual()   →  50.0
+bateria.obtenerAutonomia()     →  200.0
+bateria.desplazar(100.0);          consume 100 · 0.25 = 25 kWh
+bateria.obtenerCargaActual()   →  25.0
+bateria.cargar(40.0);              25 + 40 = 65: queda en 60 y se descartan 5
+bateria.obtenerCargaActual()   →  60.0
+bateria.estaLlena()            →  true
+bateria.desplazar(240.0);          consume 60 kWh
+bateria.estaVacia()            →  true
+bateria.desplazar(1.0);        →  IllegalStateException: no alcanza la carga
+new Bateria(0.0, 0.25)         →  IllegalArgumentException`,
+   pasos:[
+    "Arrancá el cronómetro: 40′.",
+    "Seguí este orden, que es el que faltó el sábado: (1) atributos e invariantes; (2) TODAS las firmas con su Javadoc (pre, post, @param, @return, @throws), aunque el cuerpo quede vacío; (3) el cuerpo de las operaciones, en el orden del enunciado; (4) recién al final, validaciones extra y el main.",
+    "Mirá el reloj a los 15′: para ese momento tienen que estar todas las firmas con su Javadoc. Si no, apurá el paso (2) antes de escribir código.",
+    "Creá la clase Bateria en el paquete practica.",
+    "main que haga exactamente el ejemplo e imprima cada resultado; las excepciones, con try/catch imprimiendo el mensaje.",
+    "Pasalo por el checklist del ejercicio de TDA (clase_5_y_6 §3.14)."],
+   verif:RUN("Bateria"), entrega:"El archivo y cuánto tardaste.",
+   teoria:[C56+" · §3.2 Tipos de Datos Abstractos", C56+" · §3.4.1 Encapsulamiento", C56+" · §3.11.1 Validar con criterio", C56+" · §3.14 El checklist del ejercicio de TDA", "Sintaxis: §9b el checklist en código"]},
+  {k:"c2", lbl:"Autocorrección · 20′", titulo:"Corregir la Batería con el checklist",
+   pasos:["Recorré el checklist de TDA (clase_5_y_6 §3.14) punto por punto contra tu Batería.", "Anotá cada falla en la Bitácora, con su regla."],
+   teoria:[C56+" · §3.14 El checklist del ejercicio de TDA"]}]},
+
+ {id:"d20", f:"2026-10-24", eje:"M", nota:"Bloque 2 del día, después del simulacro: la U4 a fondo, más 10 preguntas del Generador.", tasks:[
+  {k:"teo", lbl:"Teoría · 30′", desc:"Recurrencias: cómo se arma la ecuación y cómo se resuelve con los dos Teoremas Maestros.",
+   teoria:[C910+" · §4.6.1 La ecuación se lee del algoritmo", C910+" · §4.8 El Teorema Maestro por sustracción", C910+" · §4.9 El Teorema Maestro por división", C910+" · §4.15 Errores comunes", "clase_13_y_14 (U6) · §6.17 Cómo lo pregunta el profe"]},
+  {k:"c1", lbl:"Papel · 30′", titulo:"Seis V/F de recurrencias, como en los coloquios",
+   desc:"Para cada afirmación: Verdadero o Falso, y la justificación en una o dos líneas: ¿resta o divide?, los valores de a, b y k, qué caso del Teorema Maestro aplica y la cota exacta.",
+   code:`1) T(n) = 2T(n−1) + 1        pertenece a O(n)
+2) T(n) = T(n/2) + 1         pertenece a O(log n)
+3) T(n) = 2T(n/2) + n        pertenece a O(n²)
+4) T(n) = T(n−1) + n         pertenece a Θ(n²)
+5) T(n) = 3T(n/2) + n        pertenece a Θ(n log n)
+6) T(n) = 4T(n/2) + n²       pertenece a Θ(n² log n)`,
+   aclara:["Ojo con la diferencia entre O y Θ: O es cota superior. Algo que es Θ(n log n) también pertenece a O(n²); en Θ, la cota tiene que ser la exacta.", "Resolvelo en papel, sin mirar las secciones mientras lo hacés."],
+   entrega:"Las seis respuestas con su justificación, para que Claude las corrija.",
+   teoria:[C910+" · §4.8 y §4.9 (los dos Teoremas Maestros)", "Sintaxis: §13 (las recurrencias de los tres moldes) y §14"]},
+  {k:"c2", lbl:"Papel · 20′", titulo:"La recurrencia de dos métodos recursivos",
+   desc:"Los moldes 2 y 3 de Sintaxis §13: sumarDesde (recorre una lista con un índice) y contiene (búsqueda binaria).",
+   pasos:["Para cada uno, escribí su ecuación de recurrencia: cuántas llamadas recursivas hace, sobre qué tamaño y cuánto trabajo hace fuera de ellas.", "Resolvela con el Teorema Maestro que corresponda y escribí la cota.", "Respondé además: ¿cuánta memoria de pila usa cada uno, y por qué?"],
+   entrega:"Las dos recurrencias resueltas.",
+   teoria:["Sintaxis: §13 Recursión", "clase_13_y_14 (U6) · §6.3 La pila de llamadas y §6.7 Búsqueda binaria"]},
+  {k:"c3", lbl:"Código · 30′", titulo:"Diez preguntas más del Generador (nivel Cuestionario TP1)",
+   pasos:["Abrí "+C78+" → 3B.20 Generador de ejercicios, con Dificultad «Cuestionario TP1».", "Hacé 5 de «¿Se ve afuera?» y 5 de «¿Mismo @?»: son el aliasing y el paso de parámetros que aparecen en el ej. 1. Primero en papel, después Corregir.", "Cada vez que falles, tocá «Ver razonamiento» y anotá el error."],
+   entrega:"Cuántas de las 10 te salieron bien.",
+   teoria:TEO_EJ1, fuera:FUERA_EJ1}]},
+
+ {id:"d21", f:"2026-10-25", eje:"L", nota:"Bloque 2 del día, después del simulacro: la U6, que entra como pregunta conceptual o V/F, y un ej. 3 con Queue.", tasks:[
+  {k:"teo", lbl:"Teoría · 40′", desc:"La página de la U6 entera, en una lectura.",
+   pasos:["Leé paginas/clase_13_y_14/CB100-U6-Estrategias.html, secciones 6.1 a 6.17.", "Para cada estrategia (recursión, división y conquista, Counting, Radix y Bucket sort), escribí en 5 o 6 líneas cómo funciona: es lo que piden en la pregunta conceptual."],
+   teoria:["clase_13_y_14 (U6) · 6.1–6.5 recursividad, 6.6–6.11 división y conquista, 6.12–6.16 ordenamientos no comparativos, 6.17 cómo lo pregunta el profe"]},
+  {k:"c1", lbl:"Autoevaluación · 15′", titulo:"La autoevaluación 6.24 de la U6",
+   pasos:["Hacé las 16 preguntas de la autoevaluación 6.24.", "En las que fallás, releé la sección que indica la explicación."],
+   entrega:"Cuántas acertaste.",
+   teoria:["clase_13_y_14 (U6) · 6.24 Autoevaluación"]},
+  {k:"c2", lbl:"Código · 40′ ⏱", titulo:"Control: Editor con una Queue (adaptado de 2021-1C, 3ª oportunidad), en 40′", control:true,
+   desc:"Un ej. 3 de otro tipo: elegir UNO (el máximo), no una lista. Y la colección es una Queue que no podés romper. Adaptado a Java de un parcial de 2021 del mismo estilo.",
+   enunciado:`Implementar el método seleccionarImagen de la clase Editor:
+
+public class Editor {
+
+    /* Selecciona de imagenesDisponibles aquella que tenga por lo menos
+     * cantidadDeComentarios Comentarios y cuyo promedio de calificaciones sea máximo.
+     * Ignora los Comentarios sin calificación.
+     */
+    public Imagen seleccionarImagen(Queue<Imagen> imagenesDisponibles, int cantidadDeComentarios)
+}`,
+   clases:`public class Imagen {                              public class Comentario {
+    private String url;                                private String contenido;
+    private List<Comentario> comentarios;              private int calificacion;   // 0 = sin calificación
+
+    // crea la imagen sin comentarios                  // crea el comentario sin calificación (0)
+    public Imagen(String url)                          public Comentario(String contenido)
+    public String getUrl()                             public String getContenido()
+    public List<Comentario> getComentarios()           // de 1 a 10, o 0 si no tiene calificación
+    public void agregarComentario(Comentario c)        public int getCalificacion()
+}                                                      // pre: calificacion entre 1 y 10
+                                                       public void calificar(int calificacion)
+                                                   }`,
+   aclara:[
+    "«Por lo menos cantidadDeComentarios Comentarios» cuenta TODOS los comentarios de la imagen, tengan calificación o no.",
+    "El promedio se calcula solo con los comentarios calificados (calificación > 0). Una imagen sin ningún comentario calificado no se puede elegir.",
+    "Si ninguna imagen cumple, devolvé null. Si hay empate en el promedio, la que está primero en la cola.",
+    "La cola tiene que quedar igual que como llegó: mismos elementos, mismo orden (Sintaxis §7).",
+    "Escribí vos Imagen y Comentario como clases static dentro de tu archivo, con lo que dice «Las clases que te dan».",
+    "El método no es static. Tu clase se llama Editor, en el paquete practica.",
+    "Al final, arriba del método, su complejidad, con n = cantidad de imágenes y c = cantidad máxima de comentarios por imagen."],
+   ejemplo:`Cola de imágenes, en este orden (calificaciones de sus comentarios; «–» es sin calificación):
+  a.png   8, 6, –     3 comentarios, promedio 7.0
+  b.png   10          1 comentario,  promedio 10.0
+  c.png   9, 7        2 comentarios, promedio 8.0
+  d.png   –, –        2 comentarios, ninguno calificado: no se puede elegir
+
+seleccionarImagen(cola, 2)  →  c.png     (b.png tiene un solo comentario)
+seleccionarImagen(cola, 1)  →  b.png
+seleccionarImagen(cola, 3)  →  a.png
+seleccionarImagen(cola, 4)  →  null
+Después de las cuatro llamadas, la cola sigue teniendo las 4 imágenes, en el mismo orden.`,
+   pasos:[
+    "Primero en PAPEL, como en el parcial: escribí todo a mano (o en un editor de texto sin autocompletado, como gedit o el bloc de notas, nunca en IntelliJ). Arrancá el cronómetro: 40′ para todo: la estrategia, las clases, el método y la complejidad.",
+    "En el papel: la estrategia en castellano, las clases Imagen y Comentario, el método y sus auxiliares.",
+    "Con el reloj parado, pasalo a IntelliJ TAL CUAL lo escribiste, sin corregir nada mientras lo pasás. Anotá en la Bitácora cada cosa que no compiló o que IntelliJ te marcó (eje L, ejercicio «… · en papel»): son los errores que en el parcial nadie te señala. Recién después, corregí.",
+    "En IntelliJ: la clase Editor en el paquete practica, con import java.util.*; adentro, las clases static Imagen y Comentario, el método y el main.",
+    "main con las 4 imágenes del ejemplo (la cola: new LinkedList<>()), las cuatro llamadas imprimiendo getUrl() (o null) y, al final, el tamaño de la cola.",
+    "Arriba del método: la complejidad."],
+   verif:RUN("Editor"), entrega:"Pegá el archivo, la salida y cuánto tardaste.",
+   teoria:[U5+" · §5.6 Cola (FIFO)", U5+" · §5.11 El checklist del ejercicio de listas", "Sintaxis: §4b, §7 Queue y §14"]}]},
+
+ {id:"d22", f:"2026-10-26", eje:"T", nota:"Bloque 2 del día, después del simulacro: el último día de práctica.", tasks:[
+  {k:"c1", lbl:"Código · 30′", titulo:"Corregir la Colecta según el checklist del TDA",
+   desc:"Tu Colecta (practica/Colecta.java) está bien validada, pero se aparta del checklist en dos puntos que el profe descuenta. En el parcial el TDA es «solo hasta vectores», así que las donaciones se guardan en un arreglo.",
+   aclara:[
+    "Punto 15, lo calculable es un método: hoy guardás recaudacion y donacionMaxima como atributos que vas actualizando. Guardá las donaciones en un double[] con su contador, y que calcularRecaudacion() y calcularDonacionMaxima() las calculen recorriendo el arreglo.",
+    "Punto 10, «no hay» es null: hoy calcularDonacionMaxima() devuelve 0 si no hubo donaciones. Cambiá el tipo de retorno a Double y devolvé null en ese caso. Actualizá la post.",
+    "Puntos 8 y 9, la capacidad entra por el constructor: new Colecta(objetivo, maximaDonacionIndividual, capacidad), con capacidad > 0; si el arreglo se llena, IllegalStateException (o hacelo crecer, pero escribilo en la post).",
+    "contarDonaciones() devuelve el contador del arreglo. Actualizá los invariantes de arriba de la clase: ya no hay recaudacion ni donacionMaxima como atributos."],
+   ejemplo:`Colecta colecta = new Colecta(1000, 300, 10);
+colecta.calcularDonacionMaxima()        →  null       (todavía no hay donaciones)
+colecta.donar(200); colecta.donar(300); colecta.donar(100);
+colecta.calcularRecaudacion()           →  600.0
+colecta.contarDonaciones()              →  3
+colecta.calcularDonacionMaxima()        →  300.0
+colecta.calcularRecaudacionFaltante()   →  400.0`,
+   pasos:["Hacé los cambios en tu practica/Colecta.java.", "Actualizá el main: agregá la llamada a calcularDonacionMaxima() antes de la primera donación y usá el constructor con capacidad.", "Ejecutalo: tiene que dar lo del ejemplo, más las excepciones que ya probabas."],
+   verif:RUN("Colecta"), entrega:"Pegá el archivo.",
+   teoria:[C56+" · §3.14 El checklist del ejercicio de TDA (puntos 8, 9, 10 y 15)", "Sintaxis: §9 arreglo + contador y §9b"]},
+  {k:"c2", lbl:"Código · 40′ ⏱", titulo:"Control: IngenieroQuimico (adaptado de 2021-1C, 1ª oportunidad), en 40′", control:true,
+   desc:"El último ej. 3 antes de los simulacros. Tiene listas adentro de objetos de otra lista: sin métodos auxiliares, termina en tres for anidados. Es justo lo que el checklist pide evitar.",
+   enunciado:`Implementar el método buscarSolucionesEquivalentes de la clase IngenieroQuimico:
+
+public class IngenieroQuimico {
+
+    /* Busca en solucionesDisponibles las Soluciones que tengan los mismos Compuestos
+     * que solucionRequerida, con cantidades iguales o superiores pero menores
+     * (o iguales) al doble.
+     */
+    public List<Solucion> buscarSolucionesEquivalentes(Solucion solucionRequerida,
+                                                       List<Solucion> solucionesDisponibles)
+}`,
+   clases:`public class Solucion {                            public class Compuesto {
+    private String codigo;                             private String nombre;
+    private List<Compuesto> compuestos;                private Unidad unidad;
+                                                       private double cantidad;
+    // crea la solución sin compuestos
+    public Solucion(String codigo)                     public Compuesto(String nombre, Unidad unidad, double cantidad)
+    public String getCodigo()                          public String getNombre()
+    public List<Compuesto> getCompuestos()             public Unidad getUnidad()
+    public void agregarCompuesto(Compuesto c)          public double getCantidad()
+}                                                  }
+
+public enum Unidad { KILO, LITRO }`,
+   aclara:[
+    "«Los mismos Compuestos»: exactamente los mismos nombres, ni uno más ni uno menos. El orden dentro de la solución no importa. Los compuestos se identifican por nombre (equals entre los String).",
+    "Para cada compuesto requerido con cantidad r, el de la solución disponible con el mismo nombre tiene que tener la misma unidad y una cantidad c con r ≤ c ≤ 2·r.",
+    "Dentro de una misma solución no se repiten nombres de compuestos.",
+    "El resultado respeta el orden de solucionesDisponibles. Si ninguna cumple, lista vacía. No modifiques ninguna lista.",
+    "En el parcial original el Compuesto se creaba con cantidad 0 y se cambiaba después; acá el constructor ya recibe la cantidad.",
+    "Escribí vos Solucion, Compuesto y Unidad adentro de tu archivo (clases static y enum). El método no es static. Tu clase se llama IngenieroQuimico, en el paquete practica.",
+    "Al final, arriba del método, su complejidad."],
+   ejemplo:`solucionRequerida R:  agua 2.0 LITRO, sal 1.0 KILO
+
+solucionesDisponibles:
+  S1:  agua 3.0 LITRO, sal 1.0 KILO                      sí: 2 ≤ 3 ≤ 4 y 1 ≤ 1 ≤ 2
+  S2:  agua 5.0 LITRO, sal 1.0 KILO                      no: 5 es más del doble de 2
+  S3:  agua 2.0 LITRO                                    no: le falta sal
+  S4:  agua 2.0 LITRO, sal 1.5 KILO, azucar 1.0 KILO     no: tiene un compuesto de más
+  S5:  sal 2.0 KILO, agua 4.0 LITRO                      sí: otro orden, y los dos justo en el doble
+  S6:  agua 2.0 KILO, sal 1.0 KILO                       no: el agua está en otra unidad
+
+buscarSolucionesEquivalentes(R, disponibles)  →  [S1, S5]   (imprimí getCodigo())`,
+   pasos:[
+    "Primero en PAPEL, como en el parcial: escribí todo a mano (o en un editor de texto sin autocompletado, como gedit o el bloc de notas, nunca en IntelliJ). Arrancá el cronómetro: 40′ para todo: la estrategia, las clases, el método y la complejidad.",
+    "En el papel, primero la estrategia: ¿qué método auxiliar busca un compuesto por nombre dentro de una solución? ¿Cuál decide si UNA solución es equivalente? Después, las clases, el método y sus auxiliares.",
+    "Con el reloj parado, pasalo a IntelliJ TAL CUAL lo escribiste, sin corregir nada mientras lo pasás. Anotá en la Bitácora cada cosa que no compiló o que IntelliJ te marcó (eje L, ejercicio «… · en papel»): son los errores que en el parcial nadie te señala. Recién después, corregí.",
+    "En IntelliJ: la clase IngenieroQuimico en el paquete practica, con import java.util.*;",
+    "main con las 6 soluciones del ejemplo: tiene que dar [S1, S5].",
+    "Pasalo por el checklist de listas (U5 §5.11): ningún método con dos for anidados."],
+   verif:RUN("IngenieroQuimico"), entrega:"Pegá el archivo, la salida y cuánto tardaste.",
+   teoria:[U5+" · §5.11 El checklist del ejercicio de listas", U5+" · §5.9 De lo nuestro a la API de Java", "Sintaxis: §4b métodos auxiliares, §5 (String con equals) y §14"]},
+  {k:"c3", lbl:"Bitácora · 20′", titulo:"Repaso de la fase de construcción",
+   pasos:["Leé la Bitácora entera.", "Marcá los errores que se repitieron más de una vez: son los que tenés que mirar antes de cada simulacro."]}]}
+];
+const B = [
+ {id:"s1", f:"2026-10-24", p:"2025-2C · 1ª oportunidad", pdf:"a2025/c02/o01/2025 - 2C - 1 oportunidad.pdf", e2:"TDA Estante y Libro", e3:"comprarAtuendos", nota:"El más parecido al tuyo: fue el 23/10/2025."},
+ {id:"s2", f:"2026-10-25", p:"2025-2C · 2ª oportunidad", pdf:"a2025/c02/o02/2025 - 2C -13-11-2025- 2 oportunidad.pdf", e2:"TDA Servidor y Aplicación", e3:"encontrarServidorConMasSpam (Queue)"},
+ {id:"s3", f:"2026-10-26", p:"2025-2C · 3ª oportunidad", pdf:"a2025/c02/o03/2025 - 2C - 3 oportunidad.pdf", e2:"TDA Edificio", e3:"recomendarPlaylists (Spotify)"},
+ {id:"s5", f:"2026-10-27", p:"2026-1C · 2ª oportunidad, reducido", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA ControlRemoto", e3:null, reducido:true, nota:"Víspera del parcial (mañana, mié 28): nada nuevo después de esto."}
+];
+const TEO_SIM = [
+  "Ej. 1 → "+C34+" · §2.7 Aliasing y §2.11 La recolección de basura · "+C78+" · §3B.14 · "+C12+" · §1B.9 Operadores · Sintaxis §12",
+  "Ej. 2 → "+C56+" · §3.2 TDA, §3.4.1 Encapsulamiento, §3.11.1 Validar con criterio y §3.14 checklist · Sintaxis §9 y §9b",
+  "Ej. 3 → "+U5+" · §5.7, §5.9 y §5.11 (checklist de listas) · "+C56+" · §3.8 y Laboratorio 5 · Comparable y Comparator · Sintaxis §3 a §6, §4b y §14",
+  "Complejidad → "+C910+" · §4.5, §4.11 y §4.15 · Sintaxis §14"
+];
+B.forEach(s=>{
+  const abrir = "Abrí el PDF recién cuando arranques el cronómetro: teoria/cb100/app/src/main/java/ar/uba/fi/cb100/examenes/parciales/"+s.pdf;
+  const sinIde = "Resolvé en papel o en un editor de texto sin autocompletado y sin compilar. Nada de IDE.";
+  s.tasks = s.reducido ? [
+    {k:"sim", lbl:"Simulacro reducido · 75′", titulo:"Ej. 1 (20′) + "+s.e2+" (40′) + 15′ de autocorrección",
+     pasos:[abrir+". Hacé solo el ej. 1 y el ej. 2.", sinIde, "Autocorregite con la pestaña Trampas y cargá abajo el porcentaje de cada punto."],
+     teoria:TEO_SIM.slice(0,2)},
+    {k:"rep", lbl:"Repaso U4 y U6 · 25′", titulo:"V/F de recurrencias y estrategias",
+     pasos:["En la página de la U6 (clase_13_y_14): releé 6.17 «Cómo lo pregunta el profe».", "Si no la hiciste, hacé la autoevaluación 6.24. Si ya la hiciste, repasá las que fallaste."],
+     teoria:["clase_13_y_14 (U6) · 6.17 y 6.24", C910+" · §4.8 y §4.9 (los dos Teoremas Maestros)"]},
+    {k:"bit", lbl:"Bitácora · 20′", titulo:"Repaso de errores",
+     pasos:["Repasá cada error anotado en la Bitácora y su regla.","Nada de ejercicios nuevos."]}
+  ] : [
+    {k:"sim", lbl:"Simulacro · 1h40", titulo:"Ej. 1 (20′) → Ej. 2 · "+s.e2+" (40′) → Ej. 3 · "+s.e3+" (40′)",
+     pasos:[abrir+".", "Pestaña Simulacros → Empezar. El reloj te avisa cuándo pasar al ejercicio siguiente.", sinIde, "Si el enunciado tiene un error, escribí tu supuesto como comentario y seguí.", "En el ej. 3, aunque no lo pidan, agregá arriba del método // O(...) con su justificación."]},
+    {k:"cor", lbl:"Autocorrección · 20′", titulo:"Corregir con la lista de trampas",
+     pasos:["Recorré la pestaña Trampas punto por punto contra cada ejercicio, incluido el bloque de complejidad. Para el ej. 2 usá también el checklist de TDA (clase_5_y_6 §3.14) y para el ej. 3, el de listas (U5 §5.11).","Pasá tu código al paquete practica y ejecutalo para encontrar lo que no viste.","Cargá abajo el porcentaje que te pondrías en cada punto y anotá cada error en la Bitácora.","Mandale a Claude por el chat las fotos o el código para una corrección más fina."],
+     teoria:TEO_SIM}
+  ];
+  s.scores = s.reducido ? ["ej1","ej2"] : ["ej1","ej2","ej3"];
+});
+const EJE_TXT = {R:"R · memoria y GC", T:"T · TDA", L:"L · listas", M:"U4 · U6"};
+const DOW = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+const DOW_FULL = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+
+/* ---------- Utilidades ---------- */
+const $ = s=>document.querySelector(s);
+const el = (tag, attrs, ...kids)=>{ const n=document.createElement(tag); if(attrs) for(const k in attrs){ if(k==="class") n.className=attrs[k]; else if(k==="text") n.textContent=attrs[k]; else n.setAttribute(k,attrs[k]); } kids.forEach(c=>{ if(c==null) return; n.append(c.nodeType?c:document.createTextNode(c)); }); return n; };
+const pd = s=>{ const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const isoLocal = d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const daysBetween = (a,b)=>Math.round((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/864e5);
+const clone = o=>JSON.parse(JSON.stringify(o||{}));
+const lsGet = k=>{ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } };
+const lsSet = (k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
+const TODAY = isoLocal(new Date());
+
+/* ---------- Estado ---------- */
+const LS_STATE="cb100.plan.state", LS_BIT="cb100.plan.bitacora", LS_TAB="cb100.plan.tab", LS_TIMER="cb100.plan.timer";
+let state = normalize(lsGet(LS_STATE));
+let bitacora = Array.isArray(lsGet(LS_BIT)) ? lsGet(LS_BIT) : [];
+let db=null, ref=null, writing=false, pending=false, saveTimer=null, dbOk=false;
+/* ---------- Copia de la base, para la versión descargada ----------
+   La copia descargada no se conecta a la base del artifact: trae adentro lo guardado
+   al publicar. Se mezcla una sola vez por versión; lo que marques después queda en este navegador. */
+/*SEED*/const SEED = {"version": "20261017203934", "fecha": "17/10 20:39", "checks": {"d10.c1": true, "d10.teo": true, "d11.c1": true, "d14.c1": true, "d14.c2": true, "d14.c3": true, "d14.teo": true, "d15.c1": true, "d15.c2": true, "d15.c3": true, "d15.teo": true, "d16.c1": true, "d16.c2": true, "d16.teo": true, "n06.c1": true, "n06.c2": true, "n06.cru": true, "n06.teo": true, "n07.c1": true, "n07.c2": true, "n07.cru": true, "n07.teo": true}, "bitacora": [{"creado": 1791686500001, "eje": "L", "ejercicio": "Calistenia · sinDuplicados", "error": "Usé lista.length y lista[i] sobre una List, como si fuera un arreglo.", "fecha": "2026-10-10", "regla": "List usa size() y get(i); length y [i] son solo de arreglos (Sintaxis §2).", "id": "b20261010a"}, {"creado": 1791686500002, "eje": "L", "ejercicio": "Calistenia · sinDuplicados", "error": "Intenté resolverlo con un flag y un índice en vez de preguntarle a la lista resultado.", "fecha": "2026-10-10", "regla": "Para saber si «ya lo vi», le pregunto a la lista resultado con contains. Armo una lista nueva, recorro con for-each y agrego solo si no está.", "id": "b20261010b"}, {"creado": 1791686500003, "eje": "L", "ejercicio": "Genéricos · List<Integer>", "error": "No sabía por qué se escribe List<Integer> y no List<int>.", "fecha": "2026-10-10", "regla": "Adentro de < > va siempre el wrapper (Integer, Double, Character); afuera, el primitivo (int, double). Entre dos Integer se compara con equals.", "id": "b20261010c"}, {"creado": 1791686500004, "eje": "L", "ejercicio": "Calistenia · contieneTodos", "error": "Agregué un if que devolvía false con requeridos vacía, y después pensé en lanzar una excepción.", "fecha": "2026-10-10", "regla": "«Están todos» con una lista vacía es true (verdad vacía): el bucle ya lo resuelve. La excepción va solo cuando el pedido no tiene respuesta (pre violada, por ejemplo null). Toda decisión de borde se escribe en la post.", "id": "b20261010d"}, {"creado": 1791686500005, "eje": "L", "ejercicio": "Calistenia · nombres de variables", "error": "Llamé i o valorBuscado a la variable del for-each, que es un elemento de la lista.", "fecha": "2026-10-10", "regla": "i se usa para índices. El nombre dice qué es la variable: requerido, elemento, proyecto.", "id": "b20261010e"}, {"creado": 1791686500006, "eje": "L", "ejercicio": "Calistenia · frecuencia", "error": "Sin error, pero elemento.equals(valor) tira NullPointerException si la lista tiene un null adentro.", "fecha": "2026-10-10", "regla": "Pongo primero el que seguro no es null (valor.equals(elemento)) o uso Objects.equals(a, b).", "id": "b20261010f"}, {"creado": 1791686500007, "eje": "L", "ejercicio": "Calistenia · comparación con la guía", "error": "No conocía los atajos que usó el profe: LinkedHashSet, containsAll y Collections.frequency.", "fecha": "2026-10-10", "regla": "Si la operación es exactamente esa, uso el atajo (Sintaxis §3b). Si la condición es propia (agrupar, sumar si cumple algo), escribo el bucle.", "id": "b20261010g"}, {"creado": 1792032100001, "eje": "L", "ejercicio": "MiIngenieroDeSoftware · cantidadEnProceso", "error": "En el if comparé el programador del proyecto consigo mismo (programador.equals(proyecto.getProgramador())): daba siempre true y contaba los EN_PROCESO de todos.", "fecha": "2026-10-14", "regla": "El equals compara el dato del recorrido contra el PARÁMETRO (programador.equals(p)). Si un parámetro nunca se usa en el método, algo está mal.", "id": "b20261014a"}, {"creado": 1792032100002, "eje": "L", "ejercicio": "MiIngenieroDeSoftware · removeIf", "error": "Le pasé al auxiliar la lista entera (programadores) en vez de p, y acepté el casteo (Programador) que sugería IntelliJ: compilaba, pero en ejecución tira ClassCastException.", "fecha": "2026-10-14", "regla": "En una lambda p -> ..., p es el elemento de cada vuelta: ese es el que se pasa. Si IntelliJ sugiere un casteo para que compile, revisá qué variable estás pasando.", "id": "b20261014b"}, {"creado": 1792032100003, "eje": "L", "ejercicio": "MiIngenieroDeSoftware · sort", "error": "Para ordenar de mayor a menor invertí los nombres de la lambda, (b, a) -> Double.compare(f(b), f(a)), y siguió ordenando de menor a mayor.", "fecha": "2026-10-14", "regla": "Los nombres no importan: se invierte el orden adentro del compare. De mayor a menor: (a, b) -> Double.compare(f(b), f(a)) (Sintaxis §5).", "id": "b20261014c"}, {"creado": 1792032100004, "eje": "L", "ejercicio": "MiIngenieroDeSoftware · estrategia", "error": "En la estrategia llamaba getEstado() y getPuntaje() sobre el Programador, y pensé guardar los totales en una lista paralela.", "fecha": "2026-10-14", "regla": "Un Programador solo tiene nombre: sus datos salen de recorrer proyectos y quedarse con los suyos (auxiliar con equals). Nada de listas paralelas: se desalinean con removeIf y sort; el total se calcula cuando hace falta.", "id": "b20261014d"}, {"creado": 1792118500001, "eje": "L", "ejercicio": "MiAdministradorDeEnvios · repartidoresSinRepetir", "error": "Adentro del for-each usé entregas.getFirst().getRepartidor(): agarraba siempre el repartidor de la primera entrega e ignoraba la variable del for.", "fecha": "2026-10-15", "regla": "En un for-each, el elemento de cada vuelta es la variable del for (for (Entrega entrega : entregas) → entrega). Si esa variable no se usa adentro, algo está mal.", "id": "b20261015a"}, {"creado": 1792118500002, "eje": "L", "ejercicio": "MiAdministradorDeEnvios · contains", "error": "Hice sinRepetir.contains(repartidor.getDni()): le pregunté a una lista de Repartidor si contenía un int. Compila, pero siempre da false y agrega duplicados.", "fecha": "2026-10-15", "regla": "contains recibe un elemento del mismo tipo que la lista: el objeto entero. El equals de la clase ya compara por DNI (o por nombre) por dentro.", "id": "b20261015b"}, {"creado": 1792118500003, "eje": "L", "ejercicio": "MiAdministradorDeEnvios · firma del auxiliar", "error": "Declaré cantidadEnReparto recibiendo List<Repartidor> (y al principio devolviendo una lista), cuando cuenta las entregas de UN repartidor. Además lo dejé vacío y rompió la compilación del proyecto.", "fecha": "2026-10-15", "regla": "La firma sale de la estrategia: qué calcula (contar → int, sumar → double) y para quién (un Repartidor, no una lista). Un método a medio escribir lleva un return provisorio para que el proyecto compile.", "id": "b20261015c"}, {"creado": 1792118500004, "eje": "L", "ejercicio": "MiAdministradorDeEnvios · corte en 10", "error": "Devolví la lista entera sin el corte en 10. El ejemplo no lo detectaba porque tenía solo 4 repartidores.", "fecha": "2026-10-15", "regla": "Probar siempre el caso de más de 10 (un for que cree 12). Corte: new ArrayList<>(lista.subList(0, Math.min(10, lista.size()))).", "id": "b20261015d"}, {"creado": 1792118500005, "eje": "L", "ejercicio": "MiAdministradorDeEnvios · estrategia", "error": "Leí «disponibles» como repartidores libres y sumé solo los km de entregas ENTREGADA; además volví a pensar en guardar los totales en otra lista y puse «sin repetir» después de los pasos que lo usan.", "fecha": "2026-10-15", "regla": "Las palabras del enunciado se leen con las aclaraciones (o se escribe el supuesto). Los totales suman todos los estados salvo que digan otra cosa. Orden: primero la lista sin repetir, después lo que trabaja sobre ella; los totales los calcula un auxiliar que devuelve un número.", "id": "b20261015e"}, {"creado": 1792118500006, "eje": "M", "ejercicio": "Complejidad · sinDuplicados", "error": "Calculé O(n) tomando contains como una operación de un paso, y no definí bien qué era n. También confundí new ArrayList<>() (vacía, O(1)) con new ArrayList<>(l) (copia, O(n)).", "fecha": "2026-10-15", "regla": "contains, indexOf y remove(objeto) recorren la lista: O(n). Adentro de un for se multiplica: n · n. Justificación = cuántas vueltas × cuánto cuesta cada vuelta. Una letra por cada entrada independiente (n y m); lo que se arma adentro se acota con esas letras.", "id": "b20261015f"}, {"creado": 1792118500007, "eje": "L", "ejercicio": "ColasYFiltros · esSubconjunto", "error": "Escribí a.containsAll(b), que pregunta si b está incluido en a: al revés de lo pedido. Además lo envolví en un if que devolvía false/true.", "fecha": "2026-10-15", "regla": "x.containsAll(y) se lee «x contiene a todos los de y»: para a ⊆ b va b.containsAll(a). Un if (!cond) return false; return true; es lo mismo que return cond;", "id": "b20261015g"}, {"creado": 1792204900001, "eje": "R", "ejercicio": "Generador · ¿Cuántos frames?", "error": "Conté mal los frames: no tuve en cuenta que con Step Into se apila el frame del método que entra (main + describir), y que con Step Over el método se ejecuta entero, apila y desapila sus frames sin mostrarlos, y Frames vuelve a 1.", "fecha": "2026-10-16", "regla": "Hay un frame por cada llamada que empezó y todavía no terminó, contando main. Una llamada que ya terminó no tiene frame, aunque haya llamado a otras adentro.", "id": "b20261016a"}, {"creado": 1792204900002, "eje": "R", "ejercicio": "Generador · ¿Mismo @?", "error": "Pensé que pasar un objeto por parámetro creaba otro objeto.", "fecha": "2026-10-16", "regla": "Pasar por parámetro copia la flecha, no el objeto: varios frames, varios nombres, UN solo bloque. Dos variables apuntan al mismo objeto si y solo si muestran el mismo @ (clase_3_y_4 §2.8).", "id": "b20261016b"}, {"creado": 1792204900003, "eje": "R", "ejercicio": "Control traza (T = 63, Z = 7) · 18′", "error": "En el while calculé Y = X + Z con el Z de antes del bucle (7), aunque la vuelta anterior había hecho Z = Y. Las líneas 4, 5 y 6 salieron mal en cadena (64 en vez de 124). Además dejé el arreglo en [33, ...] en vez de [23, ...]: me faltó el último A[0] -= 10.", "fecha": "2026-10-16", "regla": "En cada vuelta, usá el valor que tiene HOY cada variable en el stack: Z = Y cambia la vuelta siguiente. Armá una tabla con una fila por vuelta (T, X, Z al entrar, Y, lo que imprime, Z al salir, A[0]) y aplicá todas las líneas del cuerpo, incluida la última.", "id": "b20261016c"}, {"creado": 1792204900004, "eje": "R", "ejercicio": "Control traza · respuesta del GC", "error": "Dije que se crea un único objeto (el arreglo) y no mencioné los String temporales de cada println ni que los primitivos viven en el stack. Llamé «el arreglo A» al objeto, cuando A es solo una variable que lo apunta.", "fecha": "2026-10-16", "regla": "Respuesta del GC en 4 puntos: (1) objetos del heap: un arreglo, apuntado por A y B; (2) cada concatenación con + crea String nuevos que quedan elegibles al terminar el println: es la mayor parte del trabajo del GC acá; (3) los primitivos viven en el stack: el GC no los toca; (4) el GC actúa sobre objetos, no sobre variables; elegible no es recolectado.", "id": "b20261016d"}, {"creado": 1792204900005, "eje": "R", "ejercicio": "Bug de Piano.java", "error": "Encontré la causa (línea 26: this.historico = null deja en null la variable entera), pero dije que la excepción saltaba ahí, y no propuse cómo arreglarlo.", "fecha": "2026-10-16", "regla": "Asignar null no tira nada: explota la línea que después USA ese null (acá la 25, en la condición i < this.historico.length de la vuelta 2). El stack trace marca dónde explota; la causa puede estar en otra línea. Arreglo: this.historico[i] = null, o mejor borrar el for, porque new Tecla[n] ya arranca todo en null.", "id": "b20261016e"}, {"creado": 1792291300001, "eje": "L", "ejercicio": "Control Pasajeros · 20 a 25′ · salió bien de entrada", "error": "La lógica salió bien sola (primer ej. 3 sin errores). Lo que faltó fue lo que pide la consigna alrededor: entregué sin main y sin la complejidad, y después la complejidad sin la línea que cierra la cuenta. Detalles: «Recorro pasajeros» en vez de «Recorro vuelos», import java.util.Objects repetido.", "fecha": "2026-10-17", "regla": "Antes de entregar un ej. 3, chequear las 4 cosas: (1) estrategia, (2) método, (3) main con el ejemplo y el caso de más de 10, (4) complejidad paso por paso cerrando con «se suman los pasos y queda el mayor». En el parcial, la complejidad va arriba del método aunque no la pidan.", "id": "b20261017a"}, {"creado": 1792291300002, "eje": "T", "ejercicio": "Control Teclado · 40′ · no llegó al 60%", "error": "Se me acabó el tiempo con atributos, Tecla, constructor y buscarTecla hechos, pero sin apretar, apretarShift, textoIngresado, masPresionada ni cantidadDePresiones, y sin ningún Javadoc (pre/post) ni invariantes, aunque mi estrategia decía hacerlos primero. Gasté el tiempo en extras: constantes, auxiliares de validación y toString. Lo terminó Claude para ver cómo queda.", "fecha": "2026-10-17", "regla": "Orden con reloj en el ej. 2: (1) atributos e invariantes, (2) TODAS las firmas con su Javadoc aunque el cuerpo quede vacío, (3) las operaciones del enunciado (apretar primero, consultas después, el estado especial al final), (4) validaciones extra, toString y main si sobra tiempo. Sin pre y post, el TDA cuenta como incompleto.", "id": "b20261017b"}, {"creado": 1792291300003, "eje": "T", "ejercicio": "Teclado · errores de código", "error": "contieneCaracterHasta recibía limiteExclusivo pero el for iba hasta arreglo.length: encontraba al carácter en su propia posición y el constructor hubiera tirado «repetidos» siempre. Además: caracteres.length = 0 (asignación en vez de ==), faltó un ; después de un throw, y quedó un import de otro ejercicio que agregó el autocompletado.", "fecha": "2026-10-17", "regla": "Si un parámetro no se usa, algo está mal (ya estaba en la Bitácora del eje L). En condiciones va == (comparar), nunca = (asignar). Revisar los import al final: si hay uno que no reconocés, lo agregó IntelliJ.", "id": "b20261017c"}]};/*FINSEED*/
+const LS_SEEDV="cb100.plan.seedv";
+(function mezclarSeed(){
+  let v=null; try{ v=localStorage.getItem(LS_SEEDV); }catch(e){}
+  if(v===SEED.version) return;
+  Object.keys(SEED.checks).forEach(k=>{ state.checks[k]=true; });
+  const ids=new Set(bitacora.map(x=>x.id));
+  SEED.bitacora.forEach(e=>{ if(!ids.has(e.id)) bitacora.push(Object.assign({},e)); });
+  lsSet(LS_STATE,state); lsSet(LS_BIT,bitacora);
+  try{ localStorage.setItem(LS_SEEDV, SEED.version); }catch(e){}
+})();
+function normalize(s){ s = s && typeof s==="object" ? s : {}; return {checks: s.checks||{}, notas: s.notas||{}}; }
+
+function setSync(t){ $("#sync").textContent=t; }
+function save(){
+  lsSet(LS_STATE, state);
+  if(!ref) return;
+  clearTimeout(saveTimer); saveTimer=setTimeout(flush, 500);
+}
+async function flush(){
+  saveTimer=null;
+  if(writing){ pending=true; return; }
+  writing=true;
+  try{ await ref.set(clone(state)); setSync("Guardado en la base del artifact. Lo ves desde cualquier dispositivo."); }
+  catch(e){ setSync("No se pudo guardar en la base del artifact. Queda guardado en este navegador."); }
+  writing=false;
+  if(pending){ pending=false; flush(); }
+}
+
+/* ---------- Render cronograma ---------- */
+function detailBlock(t){
+  const d = el("div",{class:"det"});
+  if(t.desc) d.append(el("p",{text:t.desc}));
+  if(t.enunciado) d.append(el("div",{class:"enun"}, el("span",{class:"k", text:"Enunciado"}), el("pre",{text:t.enunciado})));
+  if(t.clases) d.append(el("div",{class:"enun"}, el("span",{class:"k", text:"Las clases que te dan"}), el("pre",{text:t.clases})));
+  if(t.aclara && t.aclara.length){ const ul=el("ul"); t.aclara.forEach(x=>ul.append(el("li",{text:x}))); d.append(el("div",{class:"aclara"}, el("span",{class:"k", text:"Aclaraciones: lo que el enunciado deja abierto, ya resuelto"}), ul)); }
+  if(t.ejemplo) d.append(el("div",{class:"enun"}, el("span",{class:"k", text:"Ejemplo: tu main tiene que dar exactamente esto"}), el("pre",{text:t.ejemplo})));
+  if(t.code) d.append(el("pre",{class:"code", text:t.code}));
+  if(t.pasos && t.pasos.length) d.append(el("span",{class:"k", text:"Pasos"}));
+  if(t.pasos && t.pasos.length){ const ol=el("ol"); t.pasos.forEach(x=>ol.append(el("li",{text:x}))); d.append(ol); }
+  if(t.verif){
+    const box=el("div",{class:"verif"}, el("span",{class:"k", text:"Verificá con:"}));
+    [].concat(t.verif).forEach(c=>{
+      const b=el("button",{type:"button", class:"copy", text:"Copiar"});
+      b.addEventListener("click",()=>copiar(c,b));
+      box.append(el("div",{class:"cmdrow"}, el("pre",{class:"cmd", text:c}), b));
+    });
+    d.append(box);
+  }
+  if(t.entrega) d.append(el("p",null, el("span",{class:"k", text:"Mandale a Claude: "}), t.entrega));
+  if(t.teoria && t.teoria.length){
+    const ul=el("ul"); t.teoria.forEach(x=>ul.append(el("li",{text:x})));
+    d.append(el("div",{class:"teo"}, el("span",{class:"k", text:"→ Teoría para resolverlo"}), ul));
+  }
+  if(t.fuera && t.fuera.length){
+    const ul=el("ul"); t.fuera.forEach(x=>ul.append(el("li",{text:x})));
+    d.append(el("div",{class:"fuera"}, el("span",{class:"k", text:"No está en tus páginas"}), ul));
+  }
+  return d;
+}
+function copiar(txt, btn){
+  const ok=()=>{ btn.textContent="Copiado"; setTimeout(()=>btn.textContent="Copiar",1500); };
+  try{ navigator.clipboard.writeText(txt).then(ok, ()=>{ btn.textContent="Seleccioná y copiá"; }); }
+  catch(e){ btn.textContent="Seleccioná y copiá"; }
+}
+function taskRow(prefix, t, suffix, open){
+  const key = prefix+"."+t.k;
+  const id = "cb-"+key.replace(".","-")+(suffix||"");
+  const cb = el("input",{type:"checkbox", id, "data-key":key});
+  const lbl = el("span",{class:"lbl"}, t.lbl);
+  if(t.eje) lbl.append(el("span",{class:"chip "+t.eje, text:EJE_TXT[t.eje]}));
+  const head = el("label",{for:id}, lbl);
+  if(t.titulo) head.append(el("span",{class:"desc tt", text:t.titulo}));
+  const body = el("div",{class:"tbody"}, head);
+  const det = detailBlock(t);
+  if(open || t.k==="teo") body.append(det);
+  else body.append(el("details",{class:"more"}, el("summary",{text:"Ver consigna completa"}), det));
+  return el("div",{class:"task"+(t.control?" control":""), "data-row":key}, cb, body);
+}
+function dayCard(d, kind, suffix){
+  const dt = pd(d.f);
+  const card = el("article",{class:"day", id:(suffix?"hoy-":"dia-")+d.id});
+  if(d.f===TODAY) card.classList.add("is-today");
+  const when = el("div",{class:"when"},
+    el("span",{class:"dow", text:DOW[dt.getDay()]}),
+    el("span",{class:"num", text:String(dt.getDate()).padStart(2,"0")}));
+  if(d.f===TODAY) when.append(el("span",{class:"chip hoy", text:"Hoy"}));
+  const lateChip = el("span",{class:"chip bad", "data-late":d.id, text:"Pendiente"}); lateChip.hidden=true;
+  when.append(lateChip);
+  const body = el("div",{class:"body"});
+  const title = el("div",{class:"title"});
+  if(kind==="A"){
+    title.append(el("span",{class:"chip "+d.eje, text:"Eje "+EJE_TXT[d.eje]}));
+    if(d.timed) title.append(el("span",{class:"chip time", text:"⏱ cronometrado"}));
+    if(d.hecho) title.append(el("span",{class:"chip ok", text:"✓ Hecho"}));
+    if(d.liviano) title.append(el("span",{class:"chip time", text:"liviano · Orga"}));
+    if(d.nota) title.append(el("span",{class:"muted msg", text:d.nota}));
+  } else {
+    title.append(el("h3",{text:d.p}));
+    if(d.nota) title.append(el("span",{class:"muted msg", text:d.nota}));
+  }
+  body.append(title);
+  if(d.resumen) body.append(el("p",{class:"resumen", text:d.resumen}));
+  d.tasks.forEach(t=>body.append(taskRow(d.id,t,suffix,!!suffix && !d.hecho)));
+  if(d.control){
+    const key=d.id+".control", id="cb-"+d.id+"-control"+(suffix||"");
+    const row = el("div",{class:"task control", "data-row":key},
+      el("input",{type:"checkbox", id, "data-key":key}),
+      el("label",{for:id}, el("span",{class:"lbl", text:d.control[0]}), el("span",{class:"desc"}, el("small",{text:d.control[1]}))));
+    body.append(row);
+  }
+  if(kind==="B"){
+    const sc = el("div",{class:"scores"});
+    d.scores.forEach(k=>{
+      const id="sc-"+d.id+"-"+k+(suffix||"");
+      sc.append(el("span",{class:"score"},
+        el("label",{for:id, text:"Ej. "+k.slice(2)}),
+        el("input",{type:"number", id, min:"0", max:"100", step:"5", inputmode:"numeric", placeholder:"—", "data-score":d.id+"."+k}),
+        el("span",{class:"muted", text:"%"})));
+    });
+    sc.append(el("span",{class:"verdict", "data-verdict":d.id}));
+    body.append(sc);
+    const go = el("button",{type:"button", class:"linkbtn", text:"Abrir el cronómetro"});
+    go.addEventListener("click",()=>showTab("simulacros"));
+    body.append(el("div",{style:"padding-top:6px"}, go));
+  }
+  card.append(when, body);
+  return card;
+}
+function buildCronograma(){
+  const fa=$("#fase-a"), fb=$("#fase-b");
+  A.forEach(d=>fa.append(dayCard(d,"A")));
+  B.forEach(d=>fb.append(dayCard(d,"B")));
+  // Hoy
+  const box=$("#today");
+  const all=[...A.map(d=>[d,"A"]),...B.map(d=>[d,"B"])];
+  const deFecha=f=>all.filter(x=>x[0].f===f).sort((x,y)=>x[1]===y[1]?0:(x[1]==="B"?-1:1));
+  const hits=deFecha(TODAY);
+  const t=pd(TODAY);
+  if(hits.length){
+    box.append(el("div",{class:"phase-head"},
+      el("span",{class:"eyebrow", text:"Hoy · "+DOW_FULL[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1)}),
+      el("h2",{text: hits.length>1 ? "Tu sesión de hoy: "+hits.length+" bloques" : (hits[0][1]==="A" ? "Tu sesión de hoy" : "Simulacro de hoy")})));
+    hits.forEach(h=>box.append(dayCard(h[0],h[1],"-hoy")));
+  } else if(TODAY < A[0].f){
+    box.append(el("p",{class:"muted", text:"El plan arranca el martes 6/10."}));
+  } else if(all.some(x=>x[0].f>TODAY)){
+    const pf=all.filter(x=>x[0].f>TODAY).map(x=>x[0].f).sort()[0], pt=pd(pf);
+    box.append(el("div",{class:"phase-head"},
+      el("span",{class:"eyebrow", text:"Hoy · "+DOW_FULL[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1)+" · sin sesión en el plan"}),
+      el("h2",{text:"La próxima: "+DOW_FULL[pt.getDay()]+" "+pt.getDate()+"/"+(pt.getMonth()+1)})));
+    deFecha(pf).forEach(h=>box.append(dayCard(h[0],h[1],"-hoy")));
+  } else {
+    box.append(el("div",{class:"phase-head"}, el("span",{class:"eyebrow", text:"Plan terminado"}),
+      el("h2",{text:"A rendir"}), el("p",{class:"muted", text:"Si te queda un rato, repasá la bitácora y la pestaña Trampas."})));
+  }
+}
+function allKeys(){
+  const ks=[];
+  A.forEach(d=>{ d.tasks.forEach(t=>ks.push(d.id+"."+t.k)); if(d.control) ks.push(d.id+".control"); });
+  B.forEach(d=>d.tasks.forEach(t=>ks.push(d.id+"."+t.k)));
+  return ks;
+}
+const KEYS = allKeys();
+function verdictOf(d){
+  const vals = d.scores.map(k=>state.notas[d.id+"."+k]);
+  if(vals.every(v=>v==null||v==="")) return null;
+  if(vals.some(v=>v==null||v==="")) return {txt:"Faltan puntos por cargar", cls:"time"};
+  const bad = d.scores.filter((k,i)=>Number(vals[i])<60).map(k=>"ej. "+k.slice(2));
+  return bad.length ? {txt:"No aprobaría: "+bad.join(", "), cls:"bad"} : {txt:"Aprobaría los "+d.scores.length+" puntos", cls:"ok"};
+}
+function sync(){
+  document.querySelectorAll("[data-key]").forEach(cb=>{
+    const on=!!state.checks[cb.dataset.key]; cb.checked=on;
+    const row=cb.closest(".task"); if(row) row.classList.toggle("done",on);
+  });
+  document.querySelectorAll("[data-score]").forEach(inp=>{
+    if(document.activeElement===inp) return;
+    const v=state.notas[inp.dataset.score]; inp.value = v==null ? "" : v;
+  });
+  B.forEach(d=>{
+    const v=verdictOf(d);
+    document.querySelectorAll('[data-verdict="'+d.id+'"]').forEach(n=>{
+      n.textContent=""; if(v) n.append(el("span",{class:"chip "+v.cls, text:v.txt}));
+    });
+  });
+  [...A,...B].forEach(d=>{
+    const keys=d.tasks.filter(t=>!t.opcional).map(t=>d.id+"."+t.k);
+    const late = d.f<TODAY && keys.some(k=>!state.checks[k]);
+    document.querySelectorAll('[data-late="'+d.id+'"]').forEach(n=>n.hidden=!late);
+  });
+  const done=KEYS.filter(k=>state.checks[k]).length;
+  const pct=Math.round(done*100/KEYS.length);
+  $("#st-avance").textContent=pct+"%"; $("#bar-avance").style.width=pct+"%";
+  renderResultados();
+}
+function renderStats(){
+  const t=pd(TODAY);
+  $("#st-hoy").textContent=DOW[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1);
+  const c=daysBetween(t,pd("2026-10-26")), p=daysBetween(t,pd("2026-10-28"));
+  $("#st-corte").textContent = c<0 ? "pasó" : String(c);
+  $("#st-parcial").textContent = p<0 ? "pasó" : String(p);
+}
+function renderResultados(){
+  const tb=$("#res-body"); tb.textContent="";
+  B.forEach(d=>{
+    const dt=pd(d.f);
+    const tr=el("tr",null, el("td",{class:"mono", text:DOW[dt.getDay()]+" "+dt.getDate()+"/10"}), el("td",{text:d.p}));
+    ["ej1","ej2","ej3"].forEach(k=>{
+      if(!d.scores.includes(k)){ tr.append(el("td",{class:"n muted", text:"no aplica"})); return; }
+      const v=state.notas[d.id+"."+k];
+      const td=el("td",{class:"n"});
+      if(v==null||v===""){ td.textContent="—"; td.classList.add("muted"); }
+      else { td.textContent=v+"%"; td.classList.add(Number(v)>=60?"pass":"fail"); }
+      tr.append(td);
+    });
+    const vd=verdictOf(d);
+    tr.append(el("td",null, vd ? el("span",{class:"chip "+vd.cls, text:vd.txt}) : el("span",{class:"muted", text:"sin cargar"})));
+    tb.append(tr);
+  });
+}
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.matches("[data-key]")){ if(t.checked) state.checks[t.dataset.key]=true; else delete state.checks[t.dataset.key]; save(); sync(); }
+  else if(t.matches("[data-score]")){
+    let v=t.value.trim();
+    if(v===""){ delete state.notas[t.dataset.score]; }
+    else { v=Math.max(0,Math.min(100,Math.round(Number(v)))); if(isNaN(v)){ delete state.notas[t.dataset.score]; } else state.notas[t.dataset.score]=v; }
+    save(); t.blur(); sync();
+  }
+});
+
+/* ---------- Pestañas ---------- */
+const TABS=["parcial","cronograma","sintaxis","simulacros","trampas","bitacora"];
+function showTab(name, noScroll){
+  if(!TABS.includes(name)) name="cronograma";
+  TABS.forEach(n=>{ $("#panel-"+n).hidden = n!==name; $("#tab-"+n).setAttribute("aria-selected", n===name?"true":"false"); });
+  try{ localStorage.setItem(LS_TAB,name); }catch(e){}
+  try{ history.replaceState(null,"","#"+name); }catch(e){}
+  if(!noScroll) window.scrollTo({top:0});
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+$("#irParcial").addEventListener("click",()=>showTab("parcial"));
+
+/* ---------- Cronómetro ---------- */
+const PH=[{n:"Ej. 1 · Salida y GC",m:20},{n:"Ej. 2 · TDA",m:40},{n:"Ej. 3 · Listas",m:40},{n:"Autocorrección",m:20}];
+const TOTAL=PH.reduce((a,p)=>a+p.m,0)*60000;
+let tm = lsGet(LS_TIMER) || {start:null, pausedAt:null, paused:0, skip:0};
+let audio=null, lastPhase=-1, wake=null, tick=null;
+const segs=$("#t-segs");
+PH.forEach((p,i)=>{ const s=el("div",{class:"seg", style:"flex:"+p.m}, el("i"), el("b",{text:p.n+" · "+p.m+"′"})); segs.append(s); });
+function elapsed(){ if(!tm.start) return 0; const now = tm.pausedAt || Date.now(); return Math.max(0, now - tm.start - tm.paused + (tm.skip||0)); }
+const fmt = ms=>{ const s=Math.max(0,Math.ceil(ms/1000)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h? h+":"+String(m).padStart(2,"0") : String(m).padStart(2,"0"))+":"+String(x).padStart(2,"0"); };
+function phaseAt(ms){ let acc=0; for(let i=0;i<PH.length;i++){ const len=PH[i].m*60000; if(ms<acc+len) return {i, into:ms-acc, len}; acc+=len; } return {i:PH.length, into:0, len:0}; }
+function beep(){ if(!audio) return; try{ const o=audio.createOscillator(), g=audio.createGain(); o.frequency.value=880; g.gain.setValueAtTime(.0001,audio.currentTime); g.gain.exponentialRampToValueAtTime(.25,audio.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.6); o.connect(g).connect(audio.destination); o.start(); o.stop(audio.currentTime+.65);}catch(e){} }
+function renderTimer(){
+  const e=elapsed(), ph=phaseAt(e), running=!!tm.start && !tm.pausedAt, finished=ph.i>=PH.length;
+  if(finished){ $("#t-big").textContent="00:00"; $("#t-phase").textContent="Simulacro terminado"; $("#t-total").textContent="Anotá los errores en la bitácora"; }
+  else { $("#t-big").textContent=fmt(ph.len-ph.into); $("#t-phase").textContent=PH[ph.i].n+(tm.pausedAt?" · en pausa":""); $("#t-total").textContent="Total restante "+fmt(TOTAL-e); }
+  [...segs.children].forEach((s,i)=>{
+    s.classList.toggle("done", i<ph.i); s.classList.toggle("active", i===ph.i && !!tm.start);
+    s.firstChild.style.width = i<ph.i ? "100%" : i===ph.i ? (ph.into*100/ph.len)+"%" : "0";
+  });
+  $("#t-start").hidden=!!tm.start; $("#t-pause").hidden=!tm.start||finished; $("#t-skip").hidden=!tm.start||finished;
+  $("#t-reset").hidden=!tm.start || !$("#t-confirm").hidden;
+  $("#t-pause").textContent = tm.pausedAt ? "Seguir" : "Pausar";
+  if(running && lastPhase!==-1 && ph.i!==lastPhase) beep();
+  lastPhase = tm.start ? ph.i : -1;
+  if(finished && tick){ clearInterval(tick); tick=null; releaseWake(); }
+}
+function persistTimer(){ lsSet(LS_TIMER, tm); }
+async function askWake(){ try{ if(navigator.wakeLock) wake=await navigator.wakeLock.request("screen"); }catch(e){ wake=null; } }
+function releaseWake(){ try{ wake && wake.release(); }catch(e){} wake=null; }
+function startTick(){ if(!tick) tick=setInterval(renderTimer,250); }
+function ensureAudio(){ try{ if(!audio) audio=new (window.AudioContext||window.webkitAudioContext)(); if(audio.state==="suspended") audio.resume(); }catch(e){ audio=null; } }
+$("#t-start").addEventListener("click",()=>{ ensureAudio(); tm={start:Date.now(), pausedAt:null, paused:0, skip:0}; persistTimer(); lastPhase=0; askWake(); startTick(); renderTimer(); });
+$("#t-pause").addEventListener("click",()=>{ ensureAudio(); if(tm.pausedAt){ tm.paused += Date.now()-tm.pausedAt; tm.pausedAt=null; askWake(); } else { tm.pausedAt=Date.now(); releaseWake(); } persistTimer(); renderTimer(); });
+$("#t-skip").addEventListener("click",()=>{ ensureAudio(); const ph=phaseAt(elapsed()); if(ph.i<PH.length){ tm.skip=(tm.skip||0)+(ph.len-ph.into); persistTimer(); renderTimer(); } });
+$("#t-reset").addEventListener("click",()=>{ $("#t-confirm").hidden=false; $("#t-reset").hidden=true; });
+$("#t-reset-no").addEventListener("click",()=>{ $("#t-confirm").hidden=true; renderTimer(); });
+$("#t-reset-yes").addEventListener("click",()=>{ tm={start:null,pausedAt:null,paused:0,skip:0}; persistTimer(); $("#t-confirm").hidden=true; lastPhase=-1; releaseWake(); renderTimer(); });
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible" && tm.start && !tm.pausedAt) askWake(); });
+
+/* ---------- Bitácora ---------- */
+$("#bit-fecha").value = TODAY;
+function renderBitacora(){
+  const list=$("#bit-list"); list.textContent="";
+  const items=[...bitacora].sort((a,b)=>(b.creado||0)-(a.creado||0));
+  if(!items.length){ list.append(el("div",{class:"empty", text:"Todavía no anotaste errores. El primero aparece cuando te corrijas el ej. 1 de hoy."})); return; }
+  items.forEach(it=>{
+    const del=el("span",{class:"del"});
+    const b=el("button",{type:"button", class:"linkbtn", text:"Borrar"});
+    b.addEventListener("click",()=>{
+      del.textContent="";
+      const yes=el("button",{type:"button", class:"btn danger", text:"Sí, borrar"}), no=el("button",{type:"button", class:"btn ghost", text:"No"});
+      yes.addEventListener("click",()=>removeEntry(it.id)); no.addEventListener("click",renderBitacora);
+      del.append(el("span",{class:"msg", text:"¿Borrar esta entrada?"}), yes, no);
+    });
+    del.append(b);
+    const fecha = it.fecha ? (()=>{ const d=pd(it.fecha); return DOW[d.getDay()]+" "+d.getDate()+"/"+(d.getMonth()+1); })() : "";
+    list.append(el("div",{class:"entry"},
+      el("div",{class:"meta"}, el("span",{class:"chip "+(EJE_TXT[it.eje]?it.eje:"M"), text:EJE_TXT[it.eje]||"—"}), el("span",{class:"mono", text:fecha}), el("span",{text:it.ejercicio||""}), del),
+      it.error ? el("p",{text:it.error}) : null,
+      it.regla ? el("p",{class:"rule", text:"Regla: "+it.regla}) : null));
+  });
+}
+async function removeEntry(id){
+  if(db && dbOk){ try{ await db.collection("bitacora").doc(id).delete(); return; }catch(e){ $("#bit-msg").textContent="No se pudo borrar. Probá de nuevo en un momento."; } }
+  bitacora=bitacora.filter(x=>x.id!==id); lsSet(LS_BIT,bitacora); renderBitacora();
+}
+$("#bit-form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const entry={fecha:$("#bit-fecha").value||TODAY, eje:$("#bit-eje").value, ejercicio:$("#bit-ej").value.trim(), error:$("#bit-error").value.trim(), regla:$("#bit-regla").value.trim(), creado:Date.now()};
+  if(!entry.error){ $("#bit-msg").textContent="Escribí qué hiciste mal antes de anotarlo."; $("#bit-error").focus(); return; }
+  $("#bit-add").disabled=true;
+  try{
+    if(db && dbOk){ await db.collection("bitacora").add(entry); }
+    else { entry.id="l"+entry.creado.toString(36); bitacora.push(entry); lsSet(LS_BIT,bitacora); renderBitacora(); }
+    $("#bit-msg").textContent="Anotado.";
+    $("#bit-ej").value=""; $("#bit-error").value=""; $("#bit-regla").value="";
+  }catch(err){
+    $("#bit-msg").textContent = err && err.code==="quota_exceeded" ? "La bitácora está llena. Borrá entradas viejas para seguir." : "No se pudo guardar. Probá de nuevo en un momento.";
+  }
+  $("#bit-add").disabled=false;
+});
+
+/* ---------- Base del artifact ---------- */
+async function initDb(){
+  try{
+    if(!window.claude || !window.claude.use) return;
+    db = await window.claude.use("db");
+    if(!db) return;
+    ref = db.doc("progreso/estado");
+    ref.onSnapshot(snap=>{
+      dbOk=true;
+      if(saveTimer || writing) return;
+      if(snap.exists){ state=normalize(clone(snap.data())); lsSet(LS_STATE,state); sync(); setSync("Guardado en la base del artifact. Lo ves desde cualquier dispositivo."); }
+      else if(Object.keys(state.checks).length || Object.keys(state.notas).length){ flush(); }
+      else setSync("Guardado en la base del artifact. Lo ves desde cualquier dispositivo.");
+    }, ()=>{ dbOk=false; ref=null; setSync("Guardando solo en este navegador."); });
+    db.collection("bitacora").onSnapshot(qs=>{
+      dbOk=true;
+      const local = bitacora.filter(x=>String(x.id||"").startsWith("l"));
+      bitacora = qs.docs.map(d=>Object.assign({id:d.id}, d.data()));
+      if(local.length){ // sube lo anotado antes de conectar
+        local.forEach(x=>{ const c=Object.assign({},x); delete c.id; db.collection("bitacora").add(c).catch(()=>{}); });
+        lsSet(LS_BIT, []);
+      }
+      renderBitacora();
+    }, ()=>{ renderBitacora(); });
+  }catch(e){ db=null; ref=null; }
+}
+
+/* ---------- Arranque ---------- */
+buildCronograma(); renderStats(); sync(); renderBitacora(); renderTimer();
+if(tm.start && !tm.pausedAt && phaseAt(elapsed()).i<PH.length) startTick();
+let initial = (location.hash||"").slice(1);
+if(!TABS.includes(initial)){ try{ initial=localStorage.getItem(LS_TAB)||"cronograma"; }catch(e){ initial="cronograma"; } }
+showTab(initial, true);
+
+initDb().then(()=>{ if(!db) setSync("Copia descargada: trae las tareas y la Bitácora guardadas hasta el "+SEED.fecha+". Lo que marques acá queda solo en este navegador."); });
+})();
+</script>
+
+</body></html>

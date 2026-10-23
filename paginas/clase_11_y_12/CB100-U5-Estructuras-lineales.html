@@ -692,14 +692,17 @@ sub,sup{font-size:.72em;line-height:0}
 
   <div class="sb-group">El TDA Vector</div>
   <a href="#s1"><span class="n">5.1</span>El TDA Vector</a>
-  <a href="#s11" class="sub2"><span class="n">5.1.1</span>Agregar al final y crecer</a>
-  <a href="#s12" class="sub2"><span class="n">5.1.2</span>Insertar, eliminar, buscar</a>
-  <a href="#s13" class="sub2"><span class="n">5.1.3</span>Buscar</a>
-  <a href="#s14" class="sub2"><span class="n">5.1.4</span>Agregar todos</a>
-  <a href="#s15" class="sub2"><span class="n">5.1.5</span>Ordenar</a>
-  <a href="#s16" class="sub2"><span class="n">5.1.6</span>Código de uso</a>
-  <a href="#s17" class="sub2"><span class="n">5.1.7</span>Casos de uso</a>
-  <a href="#s18" class="sub2"><span class="n">5.1.8</span>En la API de Java</a>
+  <a href="#s1decl" class="sub2"><span class="n">5.1.1</span>La declaración de la clase</a>
+  <a href="#s11" class="sub2"><span class="n">5.1.2</span>Agregar al final y crecer</a>
+  <a href="#s12" class="sub2"><span class="n">5.1.3</span>Insertar, eliminar, buscar</a>
+  <a href="#s13" class="sub2"><span class="n">5.1.4</span>Buscar</a>
+  <a href="#s14" class="sub2"><span class="n">5.1.5</span>Agregar todos</a>
+  <a href="#s15" class="sub2"><span class="n">5.1.6</span>Ordenar</a>
+  <a href="#s16" class="sub2"><span class="n">5.1.7</span>Código de uso</a>
+  <a href="#s17" class="sub2"><span class="n">5.1.8</span>Casos de uso</a>
+  <a href="#s18" class="sub2"><span class="n">5.1.9</span>ArrayList y Vector</a>
+  <a href="#s110" class="sub2"><span class="n">5.1.10</span>¿Por qué la interfaz List?</a>
+  <a href="#s111" class="sub2"><span class="n">5.1.11</span>Recorrer, buscar y ordenar</a>
 
   <div class="sb-group">El TDA Conjunto</div>
   <a href="#s2"><span class="n">5.2</span>El TDA Conjunto (Set)</a>
@@ -716,15 +719,18 @@ sub,sup{font-size:.72em;line-height:0}
   <a href="#s34" class="sub2"><span class="n">5.3.4</span>Circular doble</a>
 
   <div class="sb-group">Acceso restringido</div>
-  <a href="#s4"><span class="n">5.4</span>Pila (LIFO)</a>
-  <a href="#s5"><span class="n">5.5</span>Cola (FIFO)</a>
+  <a href="#s4it"><span class="n">5.4</span>Iteradores</a>
+  <a href="#s4"><span class="n">5.5</span>Pila (LIFO)</a>
+  <a href="#s5"><span class="n">5.6</span>Cola (FIFO)</a>
 
   <div class="sb-group">Cierre</div>
-  <a href="#s6"><span class="n">5.6</span>Comparación de complejidades</a>
-  <a href="#s7"><span class="n">5.7</span>De lo nuestro a la API</a>
-  <a href="#s8"><span class="n">5.8</span>Integrador: sistema de turnos</a>
-  <a href="#s9"><span class="n">5.9</span>Errores comunes</a>
-  <a href="#s10"><span class="n">5.10</span>Repaso</a>
+  <a href="#s6"><span class="n">5.7</span>Comparación de complejidades</a>
+  <a href="#s6cuadro"><span class="n">5.8</span>Fortalezas y debilidades</a>
+  <a href="#s7"><span class="n">5.9</span>De lo nuestro a la API</a>
+  <a href="#s8"><span class="n">5.10</span>Integrador: sistema de turnos</a>
+  <a href="#s8chk"><span class="n">5.11</span>Checklist del ejercicio de listas</a>
+  <a href="#s9"><span class="n">5.12</span>Errores comunes</a>
+  <a href="#s10"><span class="n">5.13</span>Repaso</a>
 
   <div class="sb-group">Laboratorios</div>
   <a href="#lab-vec"><span class="n">L1</span>Vector paso a paso</a>
@@ -735,14 +741,14 @@ sub,sup{font-size:.72em;line-height:0}
   <a href="#lab-eleg"><span class="n">L6</span>¿Qué estructura conviene?</a>
 
   <div class="sb-group">Guía de ejercicios</div>
-  <a href="#gteo"><span class="n">5.11</span>Preguntas teóricas</a>
-  <a href="#gfacil"><span class="n">5.12</span>Nivel fácil (API)</a>
-  <a href="#gmedio"><span class="n">5.13</span>Nivel medio (API)</a>
-  <a href="#gdificil"><span class="n">5.14</span>Nivel difícil (a mano)</a>
+  <a href="#gteo"><span class="n">5.14</span>Preguntas teóricas</a>
+  <a href="#gfacil"><span class="n">5.15</span>Nivel fácil (API)</a>
+  <a href="#gmedio"><span class="n">5.16</span>Nivel medio (API)</a>
+  <a href="#gdificil"><span class="n">5.17</span>Nivel difícil (a mano)</a>
 
   <div class="sb-group">Práctica</div>
-  <a href="#s515"><span class="n">5.15</span>Generador de ejercicios</a>
-  <a href="#s516"><span class="n">5.16</span>Autoevaluación</a>
+  <a href="#s515"><span class="n">5.18</span>Generador de ejercicios</a>
+  <a href="#s516"><span class="n">5.19</span>Autoevaluación</a>
 
   <div class="sb-group">Extras</div>
   <a href="#glosario"><span class="n">§</span>Glosario</a>
@@ -865,7 +871,28 @@ sub,sup{font-size:.72em;line-height:0}
   <figcaption><b>Figura 5.1</b> — Un vector guarda <strong>tamaño</strong> elementos dentro de un arreglo de <strong>capacidad</strong> celdas.</figcaption>
 </figure>
 
-<h4 id="s11"><span class="num">5.1.1</span>Agregar al final y crecer</h4>
+<h4 id="s1decl"><span class="num">5.1.1</span>La declaración de la clase: nuestra primera estructura</h4>
+
+<p>Como todo TDA (Unidad 3), el vector empieza por su <strong>estado privado</strong>, y ese estado son solo dos cosas: el arreglo interno y la cantidad de elementos que hay de verdad.</p>
+
+<pre><code class="java">public class Vector&lt;T&gt; {
+    private T[] valores;     // el arreglo interno: su length es la capacidad
+    private int tamanio;     // cuántos elementos hay realmente
+
+    @SuppressWarnings("unchecked")
+    public Vector() {
+        this.valores = (T[]) new Object[4];   // capacidad inicial
+        this.tamanio = 0;
+    }
+}</code></pre>
+
+<ul>
+  <li><strong>La capacidad no se guarda aparte:</strong> ya es <code class="inl">valores.length</code>. Guardarla en otro atributo sería duplicar algo calculable, que es justo lo que prohíbe el checklist de TDA (punto 15).</li>
+  <li><strong>Por qué <code class="inl">(T[]) new Object[4]</code>:</strong> en Java no se puede escribir <code class="inl">new T[4]</code>, porque los genéricos se borran al compilar y el arreglo no sabría de qué tipo es. Se crea un <code class="inl">Object[]</code> y se castea una sola vez, en el constructor; el <code class="inl">@SuppressWarnings</code> deja claro que es a propósito.</li>
+  <li>De la clase para afuera no se ve nada de esto: solo el contrato.</li>
+</ul>
+
+<h4 id="s11"><span class="num">5.1.2</span>Agregar al final y crecer</h4>
 
 <p>Agregar al final es <strong>poner el elemento en la primera celda libre</strong>. Pero si el arreglo está lleno, primero hay que agrandarlo: se crea uno nuevo del <strong>doble</strong> de capacidad y se copian los elementos.</p>
 
@@ -934,7 +961,7 @@ private void redimensionar(int nuevaCapacidad) {
   </div>
 </div>
 
-<h4 id="s12"><span class="num">5.1.2</span>Insertar, eliminar, buscar</h4>
+<h4 id="s12"><span class="num">5.1.3</span>Insertar, eliminar, buscar</h4>
 
 <p><strong>Insertar en el medio</strong> obliga a correr a la derecha todos los elementos posteriores; <strong>eliminar</strong>, a correr a la izquierda. Ambas son <span class="mth">O(n)</span>. <strong>Buscar</strong> también recorre (<span class="mth">O(n)</span>). Pero <strong>obtener por índice es <span class="mth">O(1)</span></strong>.</p>
 
@@ -1012,7 +1039,7 @@ private void redimensionar(int nuevaCapacidad) {
   <figcaption><b>Figura 5.4</b> — <code class="inl">eliminar(1)</code>: se corren <code class="inl">c</code> y <code class="inl">d</code> a la izquierda para tapar el hueco.</figcaption>
 </figure>
 
-<h4 id="s13"><span class="num">5.1.3</span>Buscar</h4>
+<h4 id="s13"><span class="num">5.1.4</span>Buscar</h4>
 
 <p>Para saber <strong>si un elemento está</strong> (<code class="inl">contiene</code>) o <strong>en qué posición</strong> (<code class="inl">indiceDe</code>), el vector recorre celda por celda comparando con <code class="inl">equals</code>, desde la 0 en adelante:</p>
 
@@ -1047,7 +1074,7 @@ private void redimensionar(int nuevaCapacidad) {
 
 <p>En el peor caso (el elemento está último o no está) se recorren las <span class="mth">n</span> celdas: es la <strong>búsqueda lineal</strong>, <span class="mth">O(n)</span>. <strong>Tener acceso directo por índice no ayuda a buscar por valor</strong> — para eso harían falta datos ordenados (búsqueda binaria) o una tabla de hash, que veremos más adelante.</p>
 
-<h4 id="s14"><span class="num">5.1.4</span>Agregar todos</h4>
+<h4 id="s14"><span class="num">5.1.5</span>Agregar todos</h4>
 
 <p><code class="inl">agregarTodos(otra)</code> vuelca todos los elementos de otra lista <strong>al final, en orden</strong>. Es equivalente a un bucle de <code class="inl">agregar</code>, y su costo es <span class="mth">O(m)</span> amortizado, con <span class="mth">m</span> el tamaño de la otra lista:</p>
 
@@ -1084,7 +1111,7 @@ private void redimensionar(int nuevaCapacidad) {
   <figcaption><b>Figura 5.6</b> — <code class="inl">agregarTodos</code>: los elementos de la otra lista se agregan al final, en orden.</figcaption>
 </figure>
 
-<h4 id="s15"><span class="num">5.1.5</span>Ordenar</h4>
+<h4 id="s15"><span class="num">5.1.6</span>Ordenar</h4>
 
 <p>Como el vector tiene <strong>acceso directo</strong>, se puede ordenar eficientemente (<span class="mth">O(n log n)</span>) con un algoritmo como Mergesort o Quicksort (Unidad 4):</p>
 
@@ -1117,7 +1144,7 @@ private void redimensionar(int nuevaCapacidad) {
     System.arraycopy(vista, 0, datos, 0, tamanio);
 }</code></pre>
 
-<h4 id="s16"><span class="num">5.1.6</span>Código de uso: todas las operaciones</h4>
+<h4 id="s16"><span class="num">5.1.7</span>Código de uso: todas las operaciones</h4>
 
 <pre><code class="java">VectorDinamico&lt;String&gt; v = new VectorDinamico&lt;&gt;();
 v.agregar("a");                   // [a]
@@ -1137,7 +1164,7 @@ System.out.println(v.tamanio() + " " + v.capacidad());</code></pre>
 
 <p>(Un detalle fino: el orden de <code class="inl">String</code> compara por el <strong>valor Unicode</strong> de cada carácter; con todo en minúsculas coincide con el alfabético, pero ojo que <strong>las mayúsculas ordenan antes</strong>: <code class="inl">"Z" &lt; "a"</code>.)</p>
 
-<h4 id="s17"><span class="num">5.1.7</span>Casos de uso y características</h4>
+<h4 id="s17"><span class="num">5.1.8</span>Casos de uso y características</h4>
 
 <div class="box idea">
   <div class="bh">Idea clave</div>
@@ -1153,13 +1180,82 @@ System.out.println(v.tamanio() + " " + v.capacidad());</code></pre>
   </div>
 </div>
 
-<h4 id="s18"><span class="num">5.1.8</span>En la API de Java</h4>
+<h4 id="s18"><span class="num">5.1.9</span>El mismo TDA en la API: ArrayList y Vector</h4>
 
-<p>Java trae dos clases con esta idea: <code class="inl">ArrayList</code> (<strong>la recomendada</strong>) y <code class="inl">Vector</code> (más antigua, sincronizada; hoy se prefiere <code class="inl">ArrayList</code>). Ambas implementan la interfaz <code class="inl">List</code>.</p>
+<p>Java trae dos clases con exactamente esta idea. Si mirás su código fuente, por dentro son <strong>nuestro mismo TDA</strong>: un arreglo y un contador. En <code class="inl">ArrayList</code> se llaman <code class="inl">elementData</code> y <code class="inl">size</code>; en <code class="inl">java.util.Vector</code>, <code class="inl">elementData</code> y <code class="inl">elementCount</code>. Hasta la redimensión es la misma técnica: lo único que cambia es cuánto crece.</p>
 
-<pre><code class="java">List&lt;String&gt; lista = new ArrayList&lt;&gt;();     // como nuestro VectorDinamico
-lista.add("a"); lista.add(1, "X"); lista.get(0); lista.contains("a");
-lista.remove(0); Collections.sort(lista);</code></pre>
+<div class="tw">
+<table>
+  <thead><tr><th class="l"></th><th class="l">Nuestro Vector</th><th class="l">java.util.Vector</th><th class="l">java.util.ArrayList</th></tr></thead>
+  <tbody>
+    <tr><td class="l">Desde</td><td class="l">esta unidad</td><td class="l">Java 1.0 (1996)</td><td class="l">Java 1.2 (1998)</td></tr>
+    <tr><td class="l">Crece</td><td class="l">×2</td><td class="l">×2</td><td class="l">×1,5 (capacidad + su mitad)</td></tr>
+    <tr><td class="l">Sincronizado</td><td class="l">no</td><td class="l">sí, cada método</td><td class="l">no</td></tr>
+    <tr><td class="l">Hoy</td><td class="l">para aprender</td><td class="l">legado: evitarlo</td><td class="l"><b>la elección estándar</b></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><code class="inl">java.util.Vector</code> marca cada método como <code class="inl">synchronized</code>: cada llamada paga un candado para poder usarse desde varios hilos a la vez. Casi nunca es la sincronización que un programa concurrente necesita de verdad, y mientras tanto todos pagan el costo. Por eso se usa <code class="inl">ArrayList</code>.</p>
+
+<div class="box idea">
+  <div class="bh">Importante</div>
+  <div class="bb"><p>En TPs y parciales se usa <code class="inl">ArrayList</code>. Ver <code class="inl">java.util.Vector</code> en código nuevo es una mala señal. Nuestro <code class="inl">Vector&lt;T&gt;</code> propio es para entender: su implementación completa está en la guía (difícil e01).</p></div>
+</div>
+
+<h4 id="s110"><span class="num">5.1.10</span>¿Por qué implementan la interfaz List?</h4>
+
+<p>Las dos clases dicen <code class="inl">implements List&lt;E&gt;</code>. <code class="inl">List</code> es el <strong>contrato del TDA Lista</strong> de la API: declara qué hace una lista (<code class="inl">add</code>, <code class="inl">get</code>, <code class="inl">remove</code>, <code class="inl">contains</code>, <code class="inl">size</code>…) sin decir cómo. <code class="inl">ArrayList</code>, <code class="inl">java.util.Vector</code> y <code class="inl">LinkedList</code> son tres implementaciones del mismo contrato, cada una con sus costos.</p>
+
+<p>Por eso las variables se declaran <strong>por la interfaz</strong>:</p>
+
+<pre><code class="java">List&lt;String&gt; lista = new ArrayList&lt;&gt;();      // el tipo es el contrato...
+// List&lt;String&gt; lista = new LinkedList&lt;&gt;();  // ...y la implementación se cambia en una línea</code></pre>
+
+<p>Quien usa <code class="inl">lista</code> solo conoce el contrato, así que cambiar la implementación no rompe nada: es el argumento de la Unidad 3, en escala industrial. (La otra interfaz de la declaración, <code class="inl">RandomAccess</code>, no tiene métodos: solo marca las listas cuyo acceso por índice es <span class="mth">O(1)</span>.)</p>
+
+<h4 id="s111"><span class="num">5.1.11</span>Recorrer, buscar y ordenar un ArrayList</h4>
+
+<p><strong>Tres formas de recorrer</strong>, que visitan los mismos elementos:</p>
+
+<pre><code class="java">List&lt;String&gt; materias = new ArrayList&lt;&gt;(List.of("Álgebra", "Análisis", "Física"));
+
+// 1) for con índice: cuando necesitás la posición
+for (int i = 0; i &lt; materias.size(); i++) {
+    System.out.println(i + ": " + materias.get(i));
+}
+
+// 2) for-each: la forma habitual
+for (String m : materias) {
+    System.out.println(m);
+}
+
+// 3) Iterator explícito: un cursor que avanza a pedido
+Iterator&lt;String&gt; it = materias.iterator();
+while (it.hasNext()) {
+    String m = it.next();
+    if (m.startsWith("Á")) {
+        it.remove();               // la ÚNICA forma segura de borrar mientras recorrés
+    }
+}</code></pre>
+
+<p>El tercero parece el más incómodo, pero <code class="inl">it.remove()</code> borra el elemento actual <strong>sin romper el recorrido</strong>. Si en cambio hacés <code class="inl">materias.remove(...)</code> adentro de un for-each, salta <code class="inl">ConcurrentModificationException</code>. El for-each, por dentro, usa un Iterator.</p>
+
+<p><strong>Buscar</strong> tiene dos niveles:</p>
+<ul>
+  <li><code class="inl">contains(x)</code> e <code class="inl">indexOf(x)</code>: búsqueda lineal, <span class="mth">O(n)</span>, comparando con <code class="inl">equals</code>.</li>
+  <li><code class="inl">Collections.binarySearch(lista, x)</code>: búsqueda binaria, <span class="mth">O(log n)</span>, pero <strong>solo sobre una lista ordenada</strong>. Sobre una desordenada devuelve cualquier cosa, sin avisar.</li>
+</ul>
+
+<p><strong>Ordenar</strong>, con el criterio que decida el Comparator:</p>
+
+<pre><code class="java">Collections.sort(materias);                                    // orden natural
+materias.sort(Comparator.naturalOrder());                     // lo mismo, forma moderna
+materias.sort(Comparator.comparing(String::length));          // por longitud
+materias.sort(Comparator.comparing(String::length).reversed()); // por longitud, al revés
+materias.sort(String.CASE_INSENSITIVE_ORDER);                 // ignorando mayúsculas</code></pre>
+
+<p>Por dentro, <code class="inl">sort</code> es <span class="mth">O(n log n)</span> (TimSort, una variante de Mergesort: Unidad 6). Ojo con los <code class="inl">String</code>: el orden natural compara por valor Unicode, así que todas las mayúsculas van antes que las minúsculas (<code class="inl">"Z" &lt; "a"</code>). Para un orden de diccionario, <code class="inl">String.CASE_INSENSITIVE_ORDER</code>.</p>
 
 <h3 id="s2"><span class="num">5.2</span>El TDA Conjunto (Set)</h3>
 
@@ -1763,7 +1859,71 @@ c.eliminar(2);                  // saca "b": vecinos re-enganchados en ambos sen
   </div>
 </div>
 
-<h3 id="s4"><span class="num">5.4</span>Pila (LIFO)</h3>
+<h3 id="s4it"><span class="num">5.4</span>Recorrer listas enlazadas: iteradores</h3>
+
+<h4 id="s4it1"><span class="num">5.4.1</span>El problema: obtener(i) en un bucle es una trampa</h4>
+
+<p>Con un vector, <code class="inl">for (i…) { obtener(i) }</code> es perfecto: cada acceso es <span class="mth">O(1)</span>. Con una <strong>lista enlazada</strong> es una trampa: cada <code class="inl">obtener(i)</code> arranca desde el primero y camina <span class="mth">i</span> nodos, así que el recorrido completo cuesta <span class="mth">1 + 2 + … + n = O(n²)</span>.</p>
+
+<pre><code class="java">// TRAMPA: O(n²) sobre una lista enlazada
+for (int i = 0; i &lt; lista.tamanio(); i++) {
+    procesar(lista.obtener(i));        // cada obtener recorre desde el principio
+}
+
+// Bien, adentro de la clase (donde Nodo es visible): una sola pasada, O(n)
+for (Nodo&lt;T&gt; n = primero; n != null; n = n.siguiente) {
+    procesar(n.valor);
+}</code></pre>
+
+<p>¿Y desde afuera de la clase, donde <code class="inl">Nodo</code> es privado? Para eso está el <strong>iterador</strong>: un objeto cursor que la propia lista ofrece y que recuerda por dónde va. Es la solución TDA para recorrer eficiente sin exponer los nodos.</p>
+
+<h4 id="s4it2"><span class="num">5.4.2</span>Iterator: el cursor de ida</h4>
+
+<p>La interfaz <code class="inl">Iterator&lt;T&gt;</code> tiene tres métodos: <code class="inl">hasNext()</code> (¿queda algo?), <code class="inl">next()</code> (dame el próximo y avanzá) y <code class="inl">remove()</code> (borrá el último que me diste). Toda colección fabrica el suyo con <code class="inl">.iterator()</code>, y el for-each usa uno por dentro. Sobre una <code class="inl">LinkedList</code>, el iterador avanza de nodo en nodo en <span class="mth">O(1)</span> por paso, y <code class="inl">it.remove()</code> re-engancha los punteros en <span class="mth">O(1)</span>.</p>
+
+<h4 id="s4it3"><span class="num">5.4.3</span>ListIterator: el cursor de ida y vuelta</h4>
+
+<p>Las <code class="inl">List</code> ofrecen además <code class="inl">listIterator()</code>: un cursor que vive <strong>entre</strong> dos elementos, se mueve en los dos sentidos y modifica la lista por donde pasa.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th class="l">Acción</th><th class="l">Iterator</th><th class="l">ListIterator</th></tr></thead>
+  <tbody>
+    <tr><td class="l">Avanzar (hasNext / next)</td><td class="l">sí</td><td class="l">sí</td></tr>
+    <tr><td class="l">Retroceder (hasPrevious / previous)</td><td class="l">—</td><td class="l">sí</td></tr>
+    <tr><td class="l">Eliminar el actual (remove)</td><td class="l">sí</td><td class="l">sí</td></tr>
+    <tr><td class="l">Reemplazar el actual (set)</td><td class="l">—</td><td class="l">sí</td></tr>
+    <tr><td class="l">Insertar donde está (add)</td><td class="l">—</td><td class="l">sí</td></tr>
+    <tr><td class="l">Saber el índice (nextIndex / previousIndex)</td><td class="l">—</td><td class="l">sí</td></tr>
+    <tr><td class="l">¿Quién lo ofrece?</td><td class="l">toda colección</td><td class="l">solo las List</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Ojo con <code class="inl">previous()</code> sobre una lista <strong>simple</strong>: los nodos no conocen a su anterior, así que retroceder obliga a recorrer de nuevo desde el principio. Por eso el ListIterator brilla en las listas dobles y en los vectores.</p>
+
+<h4 id="s4it4"><span class="num">5.4.4</span>Las listas de la API (y las que no están)</h4>
+
+<p><code class="inl">LinkedList</code> es, por dentro, <strong>nuestra lista doblemente enlazada</strong>: un nodo privado con <code class="inl">item</code>, <code class="inl">next</code> y <code class="inl">prev</code>, y atributos <code class="inl">first</code>, <code class="inl">last</code> y <code class="inl">size</code>. Las demás variantes no están como clase:</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th class="l">Nuestra estructura</th><th class="l">En la API</th><th class="l">Si no está, ¿qué usar?</th></tr></thead>
+  <tbody>
+    <tr><td class="l">Lista doble</td><td class="l">LinkedList</td><td class="l">—</td></tr>
+    <tr><td class="l">Lista simple</td><td class="l">no está</td><td class="l">LinkedList (paga una referencia extra por nodo)</td></tr>
+    <tr><td class="l">Lista circular</td><td class="l">no está como clase</td><td class="l">ArrayDeque (por dentro es un anillo sobre arreglo)</td></tr>
+    <tr><td class="l">Circular doble</td><td class="l">no está</td><td class="l">LinkedList con índice módulo size(), o una librería</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb"><p>La API cubre casi todos los casos con <code class="inl">ArrayList</code>, <code class="inl">LinkedList</code> y <code class="inl">ArrayDeque</code>. Para lo raro, primero se busca una librería madura (Apache Commons Collections, Guava) antes de escribir una estructura propia. El «a mano» queda para problemas de verdad especiales, o para aprender.</p></div>
+</div>
+
+<h3 id="s4"><span class="num">5.5</span>Pila (LIFO)</h3>
 
 <p>Una <strong>Pila</strong> (<em>stack</em>) es una estructura lineal donde <strong>sólo se toca un extremo, el tope</strong>. Sigue la regla <strong>LIFO</strong> (<em>Last In, First Out</em>): el último que entra es el primero que sale, como una pila de platos. Sus operaciones son <strong>apilar</strong> (poner en el tope), <strong>desapilar</strong> (sacar del tope) y <strong>tope</strong> (mirar sin sacar).</p>
 
@@ -1826,7 +1986,7 @@ p.desapilar();          // b</code></pre>
 
 <p><strong>En la API de Java:</strong> se recomienda <code class="inl">ArrayDeque</code> (con <code class="inl">push</code>/<code class="inl">pop</code>/<code class="inl">peek</code>); existe también <code class="inl">java.util.Stack</code>, pero es una clase antigua que <strong>conviene evitar</strong>.</p>
 
-<h3 id="s5"><span class="num">5.5</span>Cola (FIFO)</h3>
+<h3 id="s5"><span class="num">5.6</span>Cola (FIFO)</h3>
 
 <p>Una <strong>Cola</strong> (<em>queue</em>) <strong>agrega por un extremo (el fondo) y saca por el otro (el frente)</strong>. Sigue la regla <strong>FIFO</strong> (<em>First In, First Out</em>): el primero que entra es el primero que sale, como la fila del banco. Operaciones: <strong>encolar</strong>, <strong>desencolar</strong> y <strong>frente</strong>.</p>
 
@@ -1903,7 +2063,7 @@ c.desencolar();       // b</code></pre>
 
 <p><strong>En la API de Java:</strong> las interfaces son <code class="inl">Queue</code> y <code class="inl">Deque</code>; la implementación recomendada es <code class="inl">ArrayDeque</code> (también sirve <code class="inl">LinkedList</code>).</p>
 
-<h3 id="s6"><span class="num">5.6</span>Comparación de complejidades</h3>
+<h3 id="s6"><span class="num">5.7</span>Comparación de complejidades</h3>
 
 <p><strong>No hay una estructura “mejor”: hay una mejor para cada uso.</strong></p>
 
@@ -1951,7 +2111,29 @@ c.desencolar();       // b</code></pre>
   </div>
 </div>
 
-<h3 id="s7"><span class="num">5.7</span>De lo nuestro a la API de Java</h3>
+<h3 id="s6cuadro"><span class="num">5.8</span>Cuadro resumen: fortalezas y debilidades</h3>
+
+<p>Las tablas de complejidad dan los números; este cuadro da el <strong>carácter</strong> de cada estructura, que es lo que se usa para elegir:</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th class="l">Estructura</th><th class="l">Puntos fuertes</th><th class="l">Desventajas</th></tr></thead>
+  <tbody>
+    <tr><td class="l"><b>Vector / ArrayList</b></td><td class="l">Acceso directo <span class="mth">O(1)</span> por índice. Recorrido muy rápido (memoria contigua). Se puede ordenar y buscar en binario. Poca memoria extra por elemento.</td><td class="l">Insertar o borrar al principio o en el medio corre todo: <span class="mth">O(n)</span>. Reserva capacidad sin usar. Redimensionar es una copia <span class="mth">O(n)</span> puntual.</td></tr>
+    <tr><td class="l"><b>Lista enlazada</b></td><td class="l">No necesita memoria contigua: nunca redimensiona ni copia. Crece y decrece de a un nodo. Insertar o eliminar en los extremos, o donde ya estás parado, es <span class="mth">O(1)</span>.</td><td class="l">Sin acceso directo: llegar a la posición <span class="mth">i</span> es <span class="mth">O(n)</span>. A la simple le cuesta el recorrido inverso. Memoria extra por las referencias y peor uso de la caché.</td></tr>
+    <tr><td class="l"><b>Conjunto</b></td><td class="l">Garantiza que no haya duplicados. La pertenencia es su pregunta natural. Unión, intersección y diferencia.</td><td class="l">Sin orden ni posición. No sirve para contar repetidos. Sobre lista es <span class="mth">O(n)</span> por operación (con hashing, Unidad 7, baja a <span class="mth">O(1)</span>).</td></tr>
+    <tr><td class="l"><b>Pila</b></td><td class="l">apilar, desapilar y tope en <span class="mth">O(1)</span>. LIFO: no se puede tocar lo que no es el tope.</td><td class="l">Solo se ve el tope: sin índice ni recorrido arbitrario.</td></tr>
+    <tr><td class="l"><b>Cola</b></td><td class="l">encolar y desencolar en <span class="mth">O(1)</span>. FIFO: se atiende por orden de llegada.</td><td class="l">Solo se ven frente y fondo. Sobre un arreglo simple sería <span class="mth">O(n)</span>: por eso se hace con nodos o con un anillo.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb"><p>Cada fortaleza se paga con una debilidad. La memoria contigua da acceso directo pero obliga a correr elementos; los nodos liberan de la contigüidad pero quitan el acceso directo. No hay estructura sin costo: hay costos que tu problema tolera y costos que no.</p></div>
+</div>
+
+<h3 id="s7"><span class="num">5.9</span>De lo nuestro a la API de Java</h3>
 
 <p>Todo lo que implementamos a mano, Java ya lo trae hecho y muy optimizado, en <code class="inl">java.util</code>. <strong>Entender el porqué</strong> —lo que hicimos acá— es lo que te permite <strong>elegir bien</strong>.</p>
 
@@ -1975,7 +2157,7 @@ c.desencolar();       // b</code></pre>
   </div>
 </div>
 
-<h3 id="s8"><span class="num">5.8</span>Ejemplo integrador: un sistema de turnos</h3>
+<h3 id="s8"><span class="num">5.10</span>Ejemplo integrador: un sistema de turnos</h3>
 
 <p>Cerremos la unidad con un ejemplo que junta <strong>las cuatro estructuras</strong> —y, fiel a la regla de la materia, <strong>usando la API nativa de Java</strong>. Una mesa de ayuda atiende clientes: la fila de espera es una <strong>Cola</strong> (se atiende en orden de llegada, FIFO); los DNI registrados son un <strong>Conjunto</strong> (nadie saca dos turnos); el historial de atendidos es un <strong>Vector</strong> (orden de atención, acceso por índice); y las atenciones se pueden deshacer con una <strong>Pila</strong> (se deshace la última, LIFO).</p>
 
@@ -2025,7 +2207,61 @@ mesa.historial();                     // [111, 222, 333]</code></pre>
 
 <p>Fijate <strong>el juego entre las dos disciplinas</strong>: la <strong>Cola</strong> decide <strong>a quién atender</strong> (el que más espera), la <strong>Pila</strong> decide <strong>qué deshacer</strong> (lo más reciente). El código completo, ejecutable, está en el repo: <code class="inl">material.i05_lineales</code>, clase <code class="inl">SistemaDeTurnos</code>.</p>
 
-<h3 id="s9"><span class="num">5.9</span>Errores comunes</h3>
+<h3 id="s8chk"><span class="num">5.11</span>El checklist del ejercicio de listas</h3>
+
+<p>Así como el ejercicio de TDA se corrige contra el checklist de la Unidad 3, <strong>los ejercicios con estructuras (los de la guía, los parciales y los TPs) se corrigen contra estos 6 puntos</strong>. Leelos antes de resolver y repasalos antes de entregar.</p>
+
+<ol>
+  <li><strong>Dividí y vencerás: partí el problema en subproblemas.</strong> Casi nunca se resuelve con un solo método gigante. Cada subproblema es un método con nombre propio, y el método principal queda como un guion que los coordina. «Eliminar los alumnos con promedio menor a 4 y listar los restantes ordenados» son tres subproblemas: calcular un promedio, filtrar y ordenar. Tres métodos, no uno.</li>
+  <li><strong>Aplicá lo de TDA.</strong> Atributos privados, validar los parámetros, pre y post en cada método, <code class="inl">null</code> para «no hay valor», y el checklist de la Unidad 3. Un ejercicio de listas es casi siempre un TDA que contiene una estructura.</li>
+  <li><strong>Cada método hace UNA sola cosa.</strong> Tres varas: entra en una pantalla; se puede reutilizar desde otro lado; y <strong>no tiene dos for anidados</strong>. Si aparecen dos for anidados, el de adentro es un subproblema: extraelo a su propio método. El costo total es el mismo, pero ahora se ve.</li>
+  <li><strong>Usá los métodos de la estructura; no los reescribas.</strong> <code class="inl">contains</code> en vez de un for que compara, <code class="inl">indexOf</code> en vez de buscar a mano, <code class="inl">removeIf</code> en vez de recorrer borrando, <code class="inl">sort</code> en vez de tu burbujeo, <code class="inl">isEmpty()</code> en vez de <code class="inl">size() == 0</code>, <code class="inl">addAll</code> en vez de un bucle de <code class="inl">add</code>.</li>
+  <li><strong>Hacé una estrategia ANTES de escribir código.</strong> En papel o en un comentario: qué estructura usás y por qué (¿necesitás índice? ¿pertenencia? ¿orden de llegada?: para eso está el cuadro de 5.8), qué métodos vas a tener y qué hace cada uno en una frase. Si no podés contar la estrategia en tres frases, todavía no entendiste el problema.</li>
+  <li><strong>Planteá los casos de uso y los resultados esperados.</strong> Antes de resolver, ejemplos concretos de entrada y salida: el caso típico, la estructura vacía, un solo elemento, el que no está, duplicados. Esos casos son exactamente tus tests: la mitad del test ya escrita.</li>
+</ol>
+
+<p>Un ejemplo del punto 3, con otro problema: listar los clientes que tienen alguna factura impaga.</p>
+
+<pre><code class="java">// MAL: dos for anidados en un mismo método
+public List&lt;String&gt; clientesConDeuda(List&lt;Cliente&gt; clientes, List&lt;Factura&gt; facturas) {
+    List&lt;String&gt; resultado = new ArrayList&lt;&gt;();
+    for (Cliente c : clientes) {
+        for (Factura f : facturas) {                 // subproblema escondido
+            if (f.cliente().equals(c.nombre()) &amp;&amp; !f.pagada()) {
+                resultado.add(c.nombre());
+                break;
+            }
+        }
+    }
+    return resultado;
+}
+
+// BIEN: el for de adentro era «tieneDeuda», un método con nombre
+public List&lt;String&gt; clientesConDeuda(List&lt;Cliente&gt; clientes, List&lt;Factura&gt; facturas) {
+    List&lt;String&gt; resultado = new ArrayList&lt;&gt;();
+    for (Cliente c : clientes) {
+        if (tieneDeuda(c, facturas)) {
+            resultado.add(c.nombre());
+        }
+    }
+    return resultado;
+}
+
+private boolean tieneDeuda(Cliente c, List&lt;Factura&gt; facturas) {
+    for (Factura f : facturas) {
+        if (f.cliente().equals(c.nombre()) &amp;&amp; !f.pagada()) {
+            return true;
+        }
+    }
+    return false;
+}</code></pre>
+
+<div class="box idea">
+  <div class="bh">Idea clave</div>
+  <div class="bb"><p>El orden de uso es: <b>entender (6) → estrategia (5) → dividir (1) → codificar</b> con TDA (2), métodos de una sola cosa (3) y la API (4). Los seis puntos se corrigen en TPs y parciales: un for anidado innecesario o un <code class="inl">contains</code> reescrito a mano cuestan puntos.</p></div>
+</div>
+
+<h3 id="s9"><span class="num">5.12</span>Errores comunes</h3>
 
 <div class="box error">
   <div class="bh">Error común</div>
@@ -2042,23 +2278,33 @@ mesa.historial();                     // [111, 222, 333]</code></pre>
   </div>
 </div>
 
-<h3 id="s10"><span class="num">5.10</span>Repaso</h3>
+<h3 id="s10"><span class="num">5.13</span>Repaso</h3>
 
-<p>Si podés responder estas doce sin mirar, la unidad está.</p>
+<p>Si podés responder estas sin mirar, la unidad está. Son las 22 del repaso del apunte.</p>
 
 <div class="repaso">
   <div class="r"><span class="n">1.</span><span>¿Qué diferencia hay entre el <b>tamaño</b> y la <b>capacidad</b> de un vector? ¿Qué característica negativa implica?</span></div>
   <div class="r"><span class="n">2.</span><span>¿Por qué agregar al final de un vector es <span class="mth">O(1)</span> amortizado?</span></div>
-  <div class="r"><span class="n">3.</span><span>¿Cuál es la gran ventaja del vector (acceso directo) y cuál su gran limitación (insertar/borrar en el medio)?</span></div>
-  <div class="r"><span class="n">4.</span><span>¿Qué caracteriza al TDA Conjunto? Definí unión, intersección y diferencia.</span></div>
-  <div class="r"><span class="n">5.</span><span>¿Por qué una lista enlazada no desperdicia espacio como el vector, pero sí gasta memoria por nodo?</span></div>
-  <div class="r"><span class="n">6.</span><span>¿Qué ventaja aporta la lista doblemente enlazada? ¿Y qué costo extra?</span></div>
-  <div class="r"><span class="n">7.</span><span>¿Para qué sirve una lista circular y una circular doble? Dá un caso de uso de cada una.</span></div>
-  <div class="r"><span class="n">8.</span><span>Al insertar en una lista doble, ¿por qué hay que conectar <b>primero el nodo nuevo</b> y recién después re-apuntar los vecinos? ¿Qué se pierde si lo hacés al revés?</span></div>
-  <div class="r"><span class="n">9.</span><span>¿Qué <b>invariantes</b> debe mantener una lista circular doble tras cada operación?</span></div>
-  <div class="r"><span class="n">10.</span><span>¿Qué diferencia hay entre una pila (LIFO) y una cola (FIFO)? Dá un caso de uso de cada una.</span></div>
-  <div class="r"><span class="n">11.</span><span>En el sistema de turnos del integrador, ¿por qué la fila es una Cola y el deshacer una Pila? ¿Qué estructura rechaza los turnos duplicados y con qué costo?</span></div>
-  <div class="r"><span class="n">12.</span><span>¿Cuándo elegirías cada estructura? Asociá cada una con su clase de la API de Java.</span></div>
+  <div class="r"><span class="n">3.</span><span>¿Cuál es la gran ventaja del vector (acceso directo) y cuál su gran limitación (insertar o borrar en el medio)?</span></div>
+  <div class="r"><span class="n">4.</span><span>En el <code class="inl">Vector&lt;T&gt;</code> propio, ¿por qué el constructor hace <code class="inl">(T[]) new Object[4]</code> en vez de <code class="inl">new T[4]</code>? ¿Por qué la capacidad no se guarda en un atributo aparte?</span></div>
+  <div class="r"><span class="n">5.</span><span>¿En qué se parecen y en qué se diferencian nuestro Vector, <code class="inl">java.util.Vector</code> y <code class="inl">ArrayList</code>? ¿Cuál se usa hoy y por qué?</span></div>
+  <div class="r"><span class="n">6.</span><span>¿Por qué <code class="inl">ArrayList</code>, <code class="inl">java.util.Vector</code> y <code class="inl">LinkedList</code> implementan la misma interfaz <code class="inl">List</code>? ¿Qué ventaja da declarar <code class="inl">List&lt;String&gt; l = new ArrayList&lt;&gt;()</code>?</span></div>
+  <div class="r"><span class="n">7.</span><span>Mostrá las tres formas de recorrer un <code class="inl">ArrayList</code>. ¿Cuál es la única forma segura de borrar mientras recorrés, y qué excepción aparece si lo hacés mal?</span></div>
+  <div class="r"><span class="n">8.</span><span>¿Qué precondición tiene <code class="inl">Collections.binarySearch</code> y qué pasa si no se cumple?</span></div>
+  <div class="r"><span class="n">9.</span><span>¿Qué caracteriza al TDA Conjunto? Definí unión, intersección y diferencia.</span></div>
+  <div class="r"><span class="n">10.</span><span>¿Por qué una lista enlazada no desperdicia espacio como el vector, pero sí gasta memoria por nodo?</span></div>
+  <div class="r"><span class="n">11.</span><span>¿Por qué recorrer una lista enlazada con for + <code class="inl">obtener(i)</code> es <span class="mth">O(n²)</span>? ¿Qué lo resuelve?</span></div>
+  <div class="r"><span class="n">12.</span><span>¿Qué puede hacer un <code class="inl">ListIterator</code> que un <code class="inl">Iterator</code> no? ¿Sobre qué lista conviene usar <code class="inl">previous()</code> y por qué?</span></div>
+  <div class="r"><span class="n">13.</span><span>¿Qué ventaja aporta la lista doblemente enlazada? ¿Y qué costo extra? ¿Cuál de las listas de la API es doblemente enlazada?</span></div>
+  <div class="r"><span class="n">14.</span><span>¿Para qué sirve una lista circular y una circular doble? Si la API no las trae, ¿qué alternativas hay?</span></div>
+  <div class="r"><span class="n">15.</span><span>Al insertar en una lista doble, ¿por qué hay que conectar <b>primero el nodo nuevo</b> y recién después re-apuntar los vecinos? ¿Qué se pierde si lo hacés al revés?</span></div>
+  <div class="r"><span class="n">16.</span><span>¿Qué <b>invariantes</b> debe mantener una lista circular doble tras cada operación?</span></div>
+  <div class="r"><span class="n">17.</span><span>¿Qué diferencia hay entre una pila (LIFO) y una cola (FIFO)? ¿Por qué la pila se construye bien sobre un arreglo y la cola no?</span></div>
+  <div class="r"><span class="n">18.</span><span>En el sistema de turnos del integrador, ¿por qué la fila es una Cola y el deshacer una Pila? ¿Qué estructura rechaza los turnos duplicados y con qué costo?</span></div>
+  <div class="r"><span class="n">19.</span><span>Elegí tres filas del cuadro de fortalezas y debilidades y explicá el compromiso que encierra cada una.</span></div>
+  <div class="r"><span class="n">20.</span><span>¿Cuándo elegirías cada estructura? Asociá cada una con su clase de la API de Java.</span></div>
+  <div class="r"><span class="n">21.</span><span>Enunciá los 6 puntos del checklist del ejercicio de listas. ¿Qué señal da un método con dos for anidados y cómo se arregla?</span></div>
+  <div class="r"><span class="n">22.</span><span>¿Por qué plantear los casos de uso y los resultados esperados (punto 6) te deja los tests casi escritos?</span></div>
 </div>
 
 <h2 class="unit" id="labs">Laboratorios</h2>
@@ -2203,7 +2449,7 @@ mesa.historial();                     // [111, 222, 333]</code></pre>
   <p>Practicá las estructuras lineales. Cada ejercicio va en su propio paquete dentro de <code class="inl">ar.uba.fi.cb100.guia.i05_lineales</code> (niveles <code class="inl">i02_facil</code>, <code class="inl">i03_medio</code>, <code class="inl">i04_dificil</code>; un paquete por ejercicio), con su test JUnit. Las teóricas se responden en <code class="inl">guia/i05_lineales/i01_teorico</code>. <strong>Los niveles fácil y medio usan las estructuras nativas de Java</strong> (<code class="inl">ArrayList</code>, <code class="inl">LinkedList</code>, <code class="inl">HashSet</code>…); <strong>el nivel difícil las implementa a mano</strong> (arreglos y nodos), como en el material.</p>
 </div>
 
-<h3 id="gteo"><span class="num">5.11</span>Preguntas teóricas</h3>
+<h3 id="gteo"><span class="num">5.14</span>Preguntas teóricas</h3>
 
 <details class="qa"><summary><span class="n">1</span>¿Qué diferencia hay entre el tamaño y la capacidad de un vector dinámico?</summary>
 <div class="ans">
@@ -2408,7 +2654,7 @@ Set&lt;String&gt; t = new TreeSet&lt;&gt;(List.of("pera", "manzana", "uva"));
 </div>
 </div></details>
 
-<div class="exlevel"><span class="t" id="gfacil">5.12 · Nivel fácil (con la API de Java)</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gfacil">5.15 · Nivel fácil (con la API de Java)</span><span class="l"></span></div>
 
 <p>Todos con las estructuras nativas. Cada uno con su test.</p>
 
@@ -2845,7 +3091,7 @@ List&lt;Integer&gt; v = Arrays.stream(a).boxed().toList();</code></pre>
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gmedio">5.13 · Nivel medio (con la API de Java)</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gmedio">5.16 · Nivel medio (con la API de Java)</span><span class="l"></span></div>
 
 <p>Siguen las estructuras nativas, pero ahora <strong>construyendo TDAs encima de ellas</strong>.</p>
 
@@ -3499,7 +3745,7 @@ frecuencias.getOrDefault(x, 0);                  // O(1) cada consulta</code></p
   </div>
 </div>
 
-<div class="exlevel"><span class="t" id="gdificil">5.14 · Nivel difícil (implementadas a mano)</span><span class="l"></span></div>
+<div class="exlevel"><span class="t" id="gdificil">5.17 · Nivel difícil (implementadas a mano)</span><span class="l"></span></div>
 
 <p>Acá <strong>no se usa la API</strong>: todo con arreglos y nodos, como en el material. Es donde se ve si entendiste los punteros.</p>
 
@@ -4114,7 +4360,7 @@ public class ConjuntoLista&lt;T&gt; {
 <div class="box idea">
   <div class="bh">Dos decisiones de diseño</div>
   <div class="bb">
-    <p><strong><code class="inl">agregar</code> devuelve <code class="inl">boolean</code>.</strong> Así el llamador sabe si el elemento era nuevo <strong>sin tener que preguntar antes</strong>. Es exactamente lo que hace <code class="inl">Set.add</code> de Java, y lo que permite escribir el <code class="inl">sacarTurno</code> del integrador (5.8) en una sola operación:</p>
+    <p><strong><code class="inl">agregar</code> devuelve <code class="inl">boolean</code>.</strong> Así el llamador sabe si el elemento era nuevo <strong>sin tener que preguntar antes</strong>. Es exactamente lo que hace <code class="inl">Set.add</code> de Java, y lo que permite escribir el <code class="inl">sacarTurno</code> del integrador (5.10) en una sola operación:</p>
     <pre><code class="java">if (!registrados.add(dni)) return false;   // rechaza el duplicado</code></pre>
     <p><strong><code class="inl">obtener(i)</code> NO es público.</strong> Un conjunto <strong>no tiene posiciones</strong>: exponer un índice rompería el TDA y dejaría al usuario creyendo que hay un orden garantizado. Lo dejo con visibilidad de paquete sólo porque las operaciones de conjunto lo necesitan internamente. En el material esto se resuelve con un <code class="inl">aArreglo()</code>.</p>
   </div>
@@ -4688,7 +4934,7 @@ resultado lento=c   ✓ el del medio</code></pre>
   <p>El <strong>generador</strong> arma ejercicios nuevos cada vez y los corrige solo, con el razonamiento completo cuando errás: costos de cada operación, qué estructura conviene, trazas de pila y cola, operaciones de conjuntos y equivalencias con la API. La <strong>autoevaluación</strong> son doce preguntas de repaso general.</p>
 </div>
 
-<h3 id="s515"><span class="num">5.15</span>Generador de ejercicios</h3>
+<h3 id="s515"><span class="num">5.18</span>Generador de ejercicios</h3>
 
 <p>Para los costos escribí la notación como quieras: <code class="inl">O(n)</code>, <code class="inl">n</code>, <code class="inl">O(1)</code>. Para las estructuras alcanza con el nombre (<code class="inl">pila</code>, <code class="inl">cola</code>, <code class="inl">vector</code>, <code class="inl">conjunto</code>…). Para los conjuntos, los elementos separados por comas.</p>
 
@@ -4727,7 +4973,7 @@ resultado lento=c   ✓ el del medio</code></pre>
   </div>
 </div>
 
-<h3 id="s516"><span class="num">5.16</span>Autoevaluación</h3>
+<h3 id="s516"><span class="num">5.19</span>Autoevaluación</h3>
 
 <p>Doce preguntas sobre toda la unidad. Elegí una opción y se corrige al instante, con la explicación.</p>
 
