@@ -117,6 +117,8 @@ section.panel{display:flex; flex-direction:column; gap:16px}
 .teo ul,.fuera ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:3px}
 details.more summary{cursor:pointer; color:var(--birome); font-weight:700; font-size:.88rem; padding:2px 0}
 details.more[open] summary{margin-bottom:6px}
+.hoy-toggle-row{padding-top:4px}
+.hoy-toggle{font-size:.88rem; padding:6px 12px}
 .howto code,.det p,.det li{overflow-wrap:anywhere}
 .syn pre{margin:0; font-family:var(--f-mono); font-size:.78rem; line-height:1.45; background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:8px 10px; overflow-x:auto; white-space:pre}
 .syn td code{font-size:.82em}
@@ -1933,7 +1935,8 @@ const lsSet = (k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e
 const TODAY = isoLocal(new Date());
 
 /* ---------- Estado ---------- */
-const LS_STATE="cb100.plan.state", LS_BIT="cb100.plan.bitacora", LS_TAB="cb100.plan.tab", LS_TIMER="cb100.plan.timer";
+const LS_STATE="cb100.plan.state", LS_BIT="cb100.plan.bitacora", LS_TAB="cb100.plan.tab", LS_TIMER="cb100.plan.timer", LS_HOYC="cb100.plan.hoyContraido";
+let hoyContraido = lsGet(LS_HOYC)===true;
 let state = normalize(lsGet(LS_STATE));
 let bitacora = Array.isArray(lsGet(LS_BIT)) ? lsGet(LS_BIT) : [];
 let db=null, ref=null, writing=false, pending=false, saveTimer=null, dbOk=false;
@@ -2017,7 +2020,8 @@ function taskRow(prefix, t, suffix, open){
   if(t.titulo) head.append(el("span",{class:"desc tt", text:t.titulo}));
   const body = el("div",{class:"tbody"}, head);
   const det = detailBlock(t);
-  if(open || t.k==="teo") body.append(det);
+  if(open){ const dt=el("details",{class:"more hoy-det"}, el("summary",{text:"Consigna completa"}), det); dt.open=!hoyContraido; body.append(dt); }
+  else if(t.k==="teo") body.append(det);
   else body.append(el("details",{class:"more"}, el("summary",{text:"Ver consigna completa"}), det));
   return el("div",{class:"task"+(t.control?" control":""), "data-row":key}, cb, body);
 }
@@ -2071,6 +2075,17 @@ function dayCard(d, kind, suffix){
   card.append(when, body);
   return card;
 }
+function hoyToggle(){
+  const b=el("button",{type:"button", class:"btn ghost hoy-toggle"});
+  const pintar=()=>{ b.textContent = hoyContraido ? "▸ Expandir los enunciados" : "▾ Contraer los enunciados"; b.setAttribute("aria-expanded", String(!hoyContraido)); };
+  pintar();
+  b.addEventListener("click",()=>{
+    hoyContraido=!hoyContraido; lsSet(LS_HOYC, hoyContraido);
+    document.querySelectorAll("#today details.hoy-det").forEach(d=>d.open=!hoyContraido);
+    pintar();
+  });
+  return el("div",{class:"hoy-toggle-row"}, b);
+}
 function buildCronograma(){
   const fa=$("#fase-a"), fb=$("#fase-b");
   A.forEach(d=>fa.append(dayCard(d,"A")));
@@ -2084,7 +2099,7 @@ function buildCronograma(){
   if(hits.length){
     box.append(el("div",{class:"phase-head"},
       el("span",{class:"eyebrow", text:"Hoy · "+DOW_FULL[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1)}),
-      el("h2",{text: hits.length>1 ? "Tu sesión de hoy: "+hits.length+" bloques" : (hits[0][1]==="A" ? "Tu sesión de hoy" : "Simulacro de hoy")})));
+      el("h2",{text: hits.length>1 ? "Tu sesión de hoy: "+hits.length+" bloques" : (hits[0][1]==="A" ? "Tu sesión de hoy" : "Simulacro de hoy")}), hoyToggle()));
     hits.forEach(h=>box.append(dayCard(h[0],h[1],"-hoy")));
   } else if(TODAY < A[0].f){
     box.append(el("p",{class:"muted", text:"El plan arranca el martes 6/10."}));
@@ -2092,7 +2107,7 @@ function buildCronograma(){
     const pf=all.filter(x=>x[0].f>TODAY).map(x=>x[0].f).sort()[0], pt=pd(pf);
     box.append(el("div",{class:"phase-head"},
       el("span",{class:"eyebrow", text:"Hoy · "+DOW_FULL[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1)+" · sin sesión en el plan"}),
-      el("h2",{text:"La próxima: "+DOW_FULL[pt.getDay()]+" "+pt.getDate()+"/"+(pt.getMonth()+1)})));
+      el("h2",{text:"La próxima: "+DOW_FULL[pt.getDay()]+" "+pt.getDate()+"/"+(pt.getMonth()+1)}), hoyToggle()));
     deFecha(pf).forEach(h=>box.append(dayCard(h[0],h[1],"-hoy")));
   } else {
     box.append(el("div",{class:"phase-head"}, el("span",{class:"eyebrow", text:"Plan terminado"}),
