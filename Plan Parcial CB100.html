@@ -206,7 +206,7 @@ form.bit .full{grid-column:1/-1}
     <p class="lede">Parcial el <b>miércoles 28/10</b>: 3 ejercicios (<b>salida y GC</b>, <b>TDA</b> y <b>un método con List</b>), más complejidad y estrategias hasta la Unidad 6. Se aprueba por punto: hace falta el <span class="red-mark">60%</span> de cada ejercicio. Todo lo que se toma está explicado en la pestaña <b>El parcial</b>.</p>
     <div class="stats">
       <div class="stat"><span class="v" id="st-hoy">—</span><span class="k">hoy</span></div>
-      <div class="stat"><span class="v" id="st-corte">—</span><span class="k">días al último simulacro completo (26/10)</span></div>
+      <div class="stat"><span class="v" id="st-corte">—</span><span class="k">días al último simulacro (27/10)</span></div>
       <div class="stat"><span class="v" id="st-parcial">—</span><span class="k">días al mié 28/10</span></div>
       <div class="stat"><span class="v" id="st-avance">0%</span><span class="k">del plan hecho</span></div>
     </div>
@@ -354,12 +354,12 @@ form.bit .full{grid-column:1/-1}
     <div id="fase-a" style="display:flex;flex-direction:column;gap:10px"></div>
     <div class="cutoff">
       <h3>Desde el sábado 24/10, todo es simulacro</h3>
-      <p>El lun 26 son cuatro simulacros (dos pasaron del domingo), con descansos largos entre uno y otro. El mar 27 no hay nada nuevo: el reducido, la U6 en 25′ y la Bitácora.</p>
+      <p>El lun 26: Servidor y Spam (hecho), Edificio y Spotify, y el primero de 2026. El mar 27: los otros dos de 2026, la Tostadora, la U6 en 25′ y la Bitácora. El mié 28, hasta las 13 h: calentamiento con un ej. 1, la Bitácora y los checklists. Nada nuevo.</p>
     </div>
     <div class="phase-head">
-      <span class="eyebrow">Fase B · sáb 24/10 → mar 27/10 · parcial el mié 28/10</span>
+      <span class="eyebrow">Fase B · sáb 24/10 → mié 28/10 a la mañana · parcial el mié 28/10 a las 19 h</span>
       <h2>Simulacros</h2>
-      <p class="muted">Desde el dom 25, sin el ej. 1 (ya está en 95): 2 h de examen (60′ + 60′) y 30′ de autocorrección. En el parcial real el reparto es 30′ + 60′ + 60′ y media hora para revisar. No abras el PDF antes de su día. Cargá el porcentaje que te pondrías en cada punto. Son 6 simulacros completos: uno el sáb 24 y el armado del dom 25 (hechos), y cuatro el lun 26 (los dos del domingo que no llegaste a hacer pasaron al lunes), y uno reducido en la víspera (mar 27). Entre los dos del mismo día, un descanso largo. Ya no queda ninguno de reserva: de los tres de 2026-1C ya hiciste los ej. 3 (y el Teclado); si querés más, se arman con los parciales de 2021.</p>
+      <p class="muted">Desde el dom 25, sin el ej. 1 (ya está en 95): 2 h de examen (60′ + 60′) y 30′ de autocorrección. En el parcial real el reparto es 30′ + 60′ + 60′ y media hora para revisar. No abras el PDF antes de su día. Cargá el porcentaje que te pondrías en cada punto. Son 7 simulacros completos más el reducido: el del sáb 24 y el armado del dom 25 (hechos), dos de 2025-2C el lun 26, y los tres de 2026-1C entre el lun 26 y el mar 27 (los más parecidos al tuyo), más la Tostadora el mar 27. Entre uno y otro, un descanso largo. De reserva quedan la 2ª y la 3ª de 2025-1C (Imagen 2D y Escudo): son más viejos y menos parecidos al tuyo.</p>
     </div>
     <div id="fase-b" style="display:flex;flex-direction:column;gap:10px"></div>
   </section>
@@ -1119,6 +1119,12 @@ const TEO_GROUPBY = [
 ];
 const FUERA_ORDEN = ["Para ordenar de mayor a menor por un double, el comparador es Double.compare(b, a), con los argumentos invertidos. Restar y castear a int falla con decimales."];
 
+const TEO_SIM = [
+  "Ej. 1 → "+C34+" · §2.7 Aliasing y §2.11 La recolección de basura · "+C78+" · §3B.14 · "+C12+" · §1B.9 Operadores · Sintaxis §12",
+  "Ej. 2 → "+C56+" · §3.2 TDA, §3.4.1 Encapsulamiento, §3.11.1 Validar con criterio y §3.14 checklist · Sintaxis §9 y §9b",
+  "Ej. 3 → "+U5+" · §5.7, §5.9 y §5.11 (checklist de listas) · "+C56+" · §3.8 y Laboratorio 5 · Comparable y Comparator · Sintaxis §3 a §6, §4b y §14",
+  "Complejidad → "+C910+" · §4.5, §4.10, §4.12 y §4.16 · Sintaxis §14"
+];
 const A = [
  {id:"n06", f:"2026-10-06", eje:"R", hecho:true, resumen:"Hecho: traza del ej. 1 correcta (con las correcciones de X e Y sin valor y la división entera), respuesta del GC completa, ContadorInalcanzables en verde y la especificación de la Colecta.", tasks:[
   {k:"teo", lbl:"Teoría · 25′", desc:"Leé estas secciones antes de codear. Son la base de los tres ejercicios de hoy.",
@@ -1698,7 +1704,7 @@ buscarMejoresAlumnos([Ana, Beto, Caro], [])     →  []`,
    entrega:"Las diferencias que encontraste.",
    teoria:["Tu practica/Teclado.java (recién al terminar)", "Sintaxis: §9b (el patrón «máximo con null»)"]}]},
 
- {id:"d23", f:"2026-10-27", eje:"L", timed:true, nota:"De reserva para la víspera: solo si algún ej. 3 de los simulacros del dom 25 o el lun 26 quedó abajo de 60. Va después del reducido.", tasks:[
+ {id:"d23", f:"2026-10-27", eje:"L", timed:true, nota:"De reserva: solo si el martes te sobra tiempo después de la Tostadora. Los ej. 3 de los simulacros de 2026 ya cubren la práctica de listas.", tasks:[
   {k:"c1", lbl:"Papel · 60′ ⏱ · solo si hace falta", opcional:true, titulo:"Control: Editor con una Queue (adaptado de 2021-1C, 3ª oportunidad), en 60′", control:true,
    desc:"De reserva: hacelo SOLO si en los simulacros del dom 25 y el lun 26 algún ej. 3 quedó abajo de 60. Si no, saltealo: la víspera es liviana. Es un ej. 3 de otro tipo: elegir UNO (el máximo), no una lista, y la colección es una Queue que no podés romper. Adaptado a Java de un parcial de 2021.",
    enunciado:`Implementar el método seleccionarImagen de la clase Editor:
@@ -1749,14 +1755,17 @@ Después de las cuatro llamadas, la cola sigue teniendo las 4 imágenes, en el m
     "main con las 4 imágenes del ejemplo (la cola: new LinkedList<>()), las cuatro llamadas imprimiendo getUrl() (o null) y, al final, el tamaño de la cola.",
     "Arriba del método: la complejidad."],
    verif:RUN("Editor"), entrega:"Pegá el archivo, la salida y cuánto tardaste.",
-   teoria:[U5+" · §5.6 Cola (FIFO)", U5+" · §5.11 El checklist del ejercicio de listas", "Sintaxis: §4b, §7 Queue y §14"]}]}
-
-];
-const TEO_SIM = [
-  "Ej. 1 → "+C34+" · §2.7 Aliasing y §2.11 La recolección de basura · "+C78+" · §3B.14 · "+C12+" · §1B.9 Operadores · Sintaxis §12",
-  "Ej. 2 → "+C56+" · §3.2 TDA, §3.4.1 Encapsulamiento, §3.11.1 Validar con criterio y §3.14 checklist · Sintaxis §9 y §9b",
-  "Ej. 3 → "+U5+" · §5.7, §5.9 y §5.11 (checklist de listas) · "+C56+" · §3.8 y Laboratorio 5 · Comparable y Comparator · Sintaxis §3 a §6, §4b y §14",
-  "Complejidad → "+C910+" · §4.5, §4.10, §4.12 y §4.16 · Sintaxis §14"
+   teoria:[U5+" · §5.6 Cola (FIFO)", U5+" · §5.11 El checklist del ejercicio de listas", "Sintaxis: §4b, §7 Queue y §14"]}]},
+ {id:"d24", f:"2026-10-28", eje:"R", nota:"Día del parcial (19 h). Tenés hasta las 16 h, pero cortá a las 13 h: llegar descansado vale más que una hora más. Nada nuevo: solo calentar y repasar.", tasks:[
+  {k:"traza", lbl:"Calentamiento · 20′", titulo:"El ej. 1 de 2026-1C, 2ª oportunidad, en papel",
+   desc:"Hace tres días que no hacés un ej. 1. Este nunca lo hiciste (el PDF del simulacro reducido, que usaste solo por el TDA).",
+   pasos:["Abrí teoria/cb100/app/src/main/java/ar/uba/fi/cb100/examenes/parciales/a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf y hacé SOLO el ej. 1, en papel, en 20′: la salida exacta y el GC.", "Antes de arrancar, leé las entradas del eje R de la Bitácora (int X, Y, Z = 5; el aliasing; las asignaciones que vienen después del último println del while).", "Para verificar, pasá el main a practica y ejecutalo."],
+   teoria:TEO_SIM.slice(0,1)},
+  {k:"bit", lbl:"Bitácora · 30′", titulo:"Las reglas, no los ejercicios",
+   pasos:["Leé la columna «regla» de todas las entradas de la Bitácora, de la más nueva a la más vieja.", "Escribí en una hoja las 6 o 7 que más se repitieron. Esa hoja es lo último que mirás antes de entrar (no la podés llevar: es para fijarlas)."]},
+  {k:"chk", lbl:"Checklists · 15′", titulo:"Los dos checklists del profe, una pasada",
+   pasos:["Leé el checklist del ejercicio de TDA (clase_5_y_6 §3.14) y el del ejercicio de listas (U5 §5.11).", "Repetí el plan de tiempos del parcial: ej. 1 en 30′, ej. 2 en 60′ (los últimos 10′ para el checklist), ej. 3 en 60′ (los últimos 10′ para la prueba de escritorio) y 30′ para revisar los = de los if y los supuestos."],
+   teoria:[C56+" · §3.14 El checklist del ejercicio de TDA", U5+" · §5.11 El checklist del ejercicio de listas"]}]}
 ];
 const B = [
  {id:"s1", f:"2026-10-24", p:"2025-2C · 1ª oportunidad", pdf:"a2025/c02/o01/2025 - 2C - 1 oportunidad.pdf", e2:"TDA Estante y Libro", e3:"comprarAtuendos", nota:"El más parecido al tuyo: fue el 23/10/2025. Su ej. 3 (AsistenteDeCompras) es el que el profe resolvió en la clase del 14/10: NO abras clases/a2026/c02/s09/parcial/ hasta terminar el simulacro, porque tiene las soluciones. Ya conocés el enunciado y sus trampas por el análisis del 23/10: igual hacelo con reloj y sin mirar nada.", extraCor:["Para el ej. 3, recién ahora: compará tu método con las tres soluciones de clases/a2026/c02/s09/parcial/ (a1 con dos Iterator, v2 con ListIterator, claude con for e índices). Fijate cómo cada una borra los dos atuendos comprados sin romper el recorrido.", "La v2 del profe tiene un bug: Atuendo.equals compara solo tipo y color, entonces stock.remove(atuendo1) borra el PRIMERO igual, que puede ser otro atuendo. Probalo con el stock [remera roja $500, remera roja $100, pantalón rojo $200] y una compradora con $350: ¿qué atuendo queda? (Respuesta verificada: queda la remera de $100, la que se vendió.) Fijate si tu solución tiene el mismo problema.", "La complejidad: con c compradores y s atuendos, ¿cuánto cuesta? (Pista: por comprador, un doble recorrido de pares.)"]},
@@ -1867,11 +1876,12 @@ buscarSolucionesEquivalentes(R, disponibles)  →  [S1, S5]   (imprimí getCodig
    pasos:["Ej. 1: corregilo con la pestaña Trampas (bloque Ej. 1). Si querés la salida exacta, pasá el main a practica y ejecutalo.", "Ej. 2: pasá el checklist de TDA (clase_5_y_6 §3.14) punto por punto contra tu Batería.", "Ej. 3: recién ahora abrí clases/a2026/c02/s08/tarea/IngenieroQuimico.java. Tiene dos versiones: buscarSolucionesEquivalentes, con tres for anidados en un solo método, y buscarSolucionesEquivalentes2, partida en los auxiliares esSolucionEquivalente y contieneCompuesto, que es la que pide el checklist de listas (U5 §5.11). ¿A cuál se parece la tuya? Fijate también cómo contieneCompuesto usa contains e indexOf en vez de un for a mano.", "Trampa de la solución del profe: Compuesto.equals compara solo el nombre, así que su versión NO chequea la unidad. Con S6 (agua 2.0 KILO) su método da [S1, S5, S6]; con las aclaraciones de acá, tiene que dar [S1, S5]. ¿El tuyo la chequea?", "La U4 que se toma, aplicada a tu método: con d soluciones y c compuestos por solución, ¿cuánto da el tuyo? ¿Y el del profe? (contains e indexOf son O(c) cada uno.) Corregí tu justificación con Sintaxis §14 y clase_9_y_10 §4.12.", "Pasá el 2 y el 3 a practica (Bateria.java e IngenieroQuimico.java, con las clases del enunciado como static) y ejecutalos con los ejemplos.", "Cargá abajo el porcentaje de cada punto y anotá cada error en la Bitácora. Mandale a Claude las fotos para una corrección más fina."],
    verif:[RUN("Bateria"), RUN("IngenieroQuimico")],
    teoria:TEO_SIM}]},
- {id:"s4", f:"2026-10-26", p:"2025-1C · 3ª oportunidad", pdf:"a2025/c01/o03/2025 - 1C - 3 oportunidad.pdf", e2:"TDA Escudo", e3:"elegirPlanMasEconomico", nota:"Primero de los cuatro del día. El ej. 3 está escrito con tipos de C++ (Lista, unsigned int, bool, string): resolvelo en Java (List, int, boolean, String). Dice Lista<Servicios>: es List<Servicio>. Si no hay ningún plan que sirva, decidí qué devolvés y escribilo como supuesto."},
- {id:"s6", f:"2026-10-26", p:"2025-1C · 2ª oportunidad", pdf:"a2025/c01/o02/2025 - 1C - 2 oportunidad.pdf", e2:"TDA Imagen 2D (matriz de píxeles)", e3:"la imagen con más píxeles de colores puros", nota:"Segundo de los cuatro del día. El ej. 2 usa una matriz: es un arreglo de arreglos, entra en «solo hasta vectores». El ej. 3 usa la Imagen del ej. 2: si no la terminaste, suponé sus getters (alto, ancho y el píxel de una fila y columna) y escribilos como supuesto."},
  {id:"s2", f:"2026-10-26", p:"2025-2C · 2ª oportunidad", pdf:"a2025/c02/o02/2025 - 2C -13-11-2025- 2 oportunidad.pdf", e2:"TDA Servidor y Aplicación", e3:"encontrarServidorConMasSpam (Queue)", nota:"Pasado del dom 25. Tercero del día: antes, un descanso largo (al menos una hora, con comida)."},
- {id:"s3", f:"2026-10-26", p:"2025-2C · 3ª oportunidad", pdf:"a2025/c02/o03/2025 - 2C - 3 oportunidad.pdf", e2:"TDA Edificio", e3:"recomendarPlaylists (Spotify)", nota:"Pasado del dom 25. Cuarto del día, después de otro descanso largo. Si no da para más, pasa al mar 27 a la mañana, antes del reducido."},
- {id:"s5", f:"2026-10-27", p:"2026-1C · 2ª oportunidad, reducido", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA Tostadora", e3:null, reducido:true, nota:"Víspera del parcial (mañana, mié 28): nada nuevo después de esto. Solo el TDA, que NO es el del PDF (ControlRemoto queda de reserva): es la Tostadora, el TDA que el profe dio en la clase del 15/10, con su solución oficial para corregir.", tostadora:true}
+ {id:"s3", f:"2026-10-26", p:"2025-2C · 3ª oportunidad", pdf:"a2025/c02/o03/2025 - 2C - 3 oportunidad.pdf", e2:"TDA Edificio", e3:"recomendarPlaylists (Spotify)", nota:"Pasado del dom 25. Segundo del día (el de Servidor y Spam ya lo hiciste). Después, los de 2026."},
+ {id:"s7", f:"2026-10-26", p:"2026-1C · 1ª oportunidad", pdf:"a2026/c01/o01/2026 - 1C - 1 oportunidad.pdf", e2:"TDA Teclado", e3:"buscarProgramadoresMasCualificados", nota:"Los de 2026 son los más parecidos a lo que te van a tomar el miércoles: el mismo profe, el cuatrimestre anterior. Ya hiciste los dos ejercicios por separado (el Teclado con reloj el 17/10, que no llegó al 60%, y MiIngenieroDeSoftware): ahora van juntos, en papel, con reloj y SIN mirar tus versiones. El valor está en el TDA: aplicá el orden (invariantes → firmas con Javadoc → cuerpos → checklist). Si te queda energía, adelantá el de mañana.", extraCor:["Recién ahora compará con tus versiones anteriores: practica/Teclado.java (el TDA) y practica/MiIngenieroDeSoftware.java (el ej. 3). ¿Qué te salió mejor hoy y qué volviste a olvidar?"]},
+ {id:"s8", f:"2026-10-27", p:"2026-1C · 2ª oportunidad", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA ControlRemoto", e3:"buscarMejoresRepartidores", nota:"Primero del día. El ControlRemoto es nuevo (es el primo del Teclado: botones en vez de teclas, historial de canales y favorito); Repartidores ya lo hiciste el 15/10 (MiAdministradorDeEnvios): no lo mires antes.", extraCor:["Recién ahora compará el ej. 3 con practica/MiAdministradorDeEnvios.java (lo hiciste el 15/10). Para el ControlRemoto, comparalo con tu Teclado de hoy: es el mismo esqueleto."]},
+ {id:"s9", f:"2026-10-27", p:"2026-1C · 3ª oportunidad", pdf:"a2026/c01/o03/2026 - 1C - 3 oportunidad.pdf", e2:"TDA Piano", e3:"buscarPasajerosMasViajeros", nota:"Segundo del día. Ojo: el ej. 3 exige «únicamente la API de List y/o Stream» (nada de HashMap). El enum del PDF dice ENTREGADA y FINALIZADO: es un error de copia; usá PENDIENTE y FINALIZADO, como dice el texto, y escribilo como supuesto. Pasajeros ya lo hiciste el 17/10 (AgenciaDeViajes): no lo mires antes.", extraCor:["Recién ahora compará: el TDA con la solución del profe en examenes/parciales/a2026/c01/o03/tda/ (Piano, Tecla y Nota), y el ej. 3 con practica/AgenciaDeViajes.java (lo hiciste el 17/10)."]},
+ {id:"s5", f:"2026-10-27", p:"2026-1C · 2ª oportunidad, reducido", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA Tostadora", e3:null, reducido:true, nota:"Tercero del día, el último simulacro. Solo el TDA, que NO es el del PDF (ControlRemoto queda de reserva): es la Tostadora, el TDA que el profe dio en la clase del 15/10, con su solución oficial para corregir.", tostadora:true}
 ];
 B.forEach(s=>{
   if(s.armado){ s.scores=["ej1","ej2","ej3"]; return; }
@@ -2158,7 +2168,7 @@ function sync(){
 function renderStats(){
   const t=pd(TODAY);
   $("#st-hoy").textContent=DOW[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1);
-  const c=daysBetween(t,pd("2026-10-26")), p=daysBetween(t,pd("2026-10-28"));
+  const c=daysBetween(t,pd("2026-10-27")), p=daysBetween(t,pd("2026-10-28"));
   $("#st-corte").textContent = c<0 ? "pasó" : String(c);
   $("#st-parcial").textContent = p<0 ? "pasó" : String(p);
 }
