@@ -206,7 +206,7 @@ form.bit .full{grid-column:1/-1}
     <p class="lede">Parcial el <b>miércoles 28/10</b>: 3 ejercicios (<b>salida y GC</b>, <b>TDA</b> y <b>un método con List</b>), más complejidad y estrategias hasta la Unidad 6. Se aprueba por punto: hace falta el <span class="red-mark">60%</span> de cada ejercicio. Todo lo que se toma está explicado en la pestaña <b>El parcial</b>.</p>
     <div class="stats">
       <div class="stat"><span class="v" id="st-hoy">—</span><span class="k">hoy</span></div>
-      <div class="stat"><span class="v" id="st-corte">—</span><span class="k">días al último simulacro (27/10)</span></div>
+      <div class="stat"><span class="v" id="st-corte">—</span><span class="k">días al último simulacro (28/10)</span></div>
       <div class="stat"><span class="v" id="st-parcial">—</span><span class="k">días al mié 28/10</span></div>
       <div class="stat"><span class="v" id="st-avance">0%</span><span class="k">del plan hecho</span></div>
     </div>
@@ -354,7 +354,7 @@ form.bit .full{grid-column:1/-1}
     <div id="fase-a" style="display:flex;flex-direction:column;gap:10px"></div>
     <div class="cutoff">
       <h3>Desde el sábado 24/10, todo es simulacro</h3>
-      <p>El lun 26: Servidor y Spam (hecho), Edificio y Spotify, y el primero de 2026. El mar 27: los otros dos de 2026, la Tostadora, la U6 en 25′ y la Bitácora. El mié 28, hasta las 13 h: calentamiento con un ej. 1, la Bitácora y los checklists. Nada nuevo.</p>
+      <p>El lun 26: Servidor y Spam, Edificio y Spotify y el Teclado de 2026 (hechos). El mar 27 estás todo el día en la facu: no hay sesión (el ej. 3 de IngenieroDeSoftware, si te da la noche). El mié 28: 9:00 el simulacro completo de 2026-1C 2ª, 12:00 el ej. 3 de 2026-1C 3ª, 13:00 las reglas de la Bitácora y a las 13:30 cortás. Salen la Tostadora, la U6 y el calentamiento del ej. 1.</p>
     </div>
     <div class="phase-head">
       <span class="eyebrow">Fase B · sáb 24/10 → mié 28/10 a la mañana · parcial el mié 28/10 a las 19 h</span>
@@ -1704,7 +1704,7 @@ buscarMejoresAlumnos([Ana, Beto, Caro], [])     →  []`,
    entrega:"Las diferencias que encontraste.",
    teoria:["Tu practica/Teclado.java (recién al terminar)", "Sintaxis: §9b (el patrón «máximo con null»)"]}]},
 
- {id:"d23", f:"2026-10-27", eje:"L", timed:true, nota:"De reserva: solo si el martes te sobra tiempo después de la Tostadora. Los ej. 3 de los simulacros de 2026 ya cubren la práctica de listas.", tasks:[
+ {id:"d23", f:"2026-10-27", eje:"L", timed:true, nota:"Hoy estás todo el día en la facu: no hay sesión. Si a la noche te da, hacé el ej. 3 del simulacro del lunes (IngenieroDeSoftware, 60′). Esto de abajo es de reserva y no hace falta.", tasks:[
   {k:"c1", lbl:"Papel · 60′ ⏱ · solo si hace falta", opcional:true, titulo:"Control: Editor con una Queue (adaptado de 2021-1C, 3ª oportunidad), en 60′", control:true,
    desc:"De reserva: hacelo SOLO si en los simulacros del dom 25 y el lun 26 algún ej. 3 quedó abajo de 60. Si no, saltealo: la víspera es liviana. Es un ej. 3 de otro tipo: elegir UNO (el máximo), no una lista, y la colección es una Queue que no podés romper. Adaptado a Java de un parcial de 2021.",
    enunciado:`Implementar el método seleccionarImagen de la clase Editor:
@@ -1756,15 +1756,9 @@ Después de las cuatro llamadas, la cola sigue teniendo las 4 imágenes, en el m
     "Arriba del método: la complejidad."],
    verif:RUN("Editor"), entrega:"Pegá el archivo, la salida y cuánto tardaste.",
    teoria:[U5+" · §5.6 Cola (FIFO)", U5+" · §5.11 El checklist del ejercicio de listas", "Sintaxis: §4b, §7 Queue y §14"]}]},
- {id:"d24", f:"2026-10-28", eje:"R", nota:"Día del parcial (19 h). Tenés hasta las 16 h, pero cortá a las 13 h: llegar descansado vale más que una hora más. Nada nuevo: solo calentar y repasar.", tasks:[
-  {k:"traza", lbl:"Calentamiento · 20′", titulo:"El ej. 1 de 2026-1C, 2ª oportunidad, en papel",
-   desc:"Hace tres días que no hacés un ej. 1. Este nunca lo hiciste (el PDF del simulacro reducido, que usaste solo por el TDA).",
-   pasos:["Abrí teoria/cb100/app/src/main/java/ar/uba/fi/cb100/examenes/parciales/a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf y hacé SOLO el ej. 1, en papel, en 20′: la salida exacta y el GC.", "Antes de arrancar, leé las entradas del eje R de la Bitácora (int X, Y, Z = 5; el aliasing; las asignaciones que vienen después del último println del while).", "Para verificar, pasá el main a practica y ejecutalo."],
-   teoria:TEO_SIM.slice(0,1)},
-  {k:"bit", lbl:"Bitácora · 30′", titulo:"Las reglas, no los ejercicios",
-   pasos:["Leé la columna «regla» de todas las entradas de la Bitácora, de la más nueva a la más vieja.", "Escribí en una hoja las 6 o 7 que más se repitieron. Esa hoja es lo último que mirás antes de entrar (no la podés llevar: es para fijarlas)."]},
-  {k:"chk", lbl:"Checklists · 15′", titulo:"Los dos checklists del profe, una pasada",
-   pasos:["Leé el checklist del ejercicio de TDA (clase_5_y_6 §3.14) y el del ejercicio de listas (U5 §5.11).", "Repetí el plan de tiempos del parcial: ej. 1 en 30′, ej. 2 en 60′ (los últimos 10′ para el checklist), ej. 3 en 60′ (los últimos 10′ para la prueba de escritorio) y 30′ para revisar los = de los if y los supuestos."],
+ {id:"d24", f:"2026-10-28", eje:"R", nota:"Día del parcial (19 h). 9:00–11:30 el simulacro completo (arriba), 12:00–13:00 el ej. 3 del otro, 13:00–13:30 esto, y a las 13:30 CORTÁS: comer, descansar e ir tranquilo, aunque tengas hasta las 16 h. Llegar fresco para la prueba de escritorio del ej. 3 vale más que un simulacro más. Nada nuevo.", tasks:[
+  {k:"bit", lbl:"13:00–13:30 · Bitácora", titulo:"Las reglas, no los ejercicios, y el plan de tiempos",
+   pasos:["Leé la columna «regla» de todas las entradas de la Bitácora, de la más nueva a la más vieja.", "Escribí en una hoja las 6 o 7 que más se repitieron (calculables como método, auxiliares private, supuestos escritos, el estado especial que afecta a lo que viene después, que no falte la operación que el TDA necesita, contains/equals con el tipo correcto, prueba de escritorio). Esa hoja es lo último que mirás antes de entrar (no la podés llevar: es para fijarlas).", "Repetí el plan de tiempos del parcial: ej. 1 en 30′, ej. 2 en 60′ (antes de los métodos, la historia del usuario en 3 líneas; los últimos 10′, el checklist), ej. 3 en 60′ (los últimos 10′, la prueba de escritorio) y 30′ para revisar los = de los if y los supuestos.", "13:30: cerrás todo."],
    teoria:[C56+" · §3.14 El checklist del ejercicio de TDA", U5+" · §5.11 El checklist del ejercicio de listas"]}]}
 ];
 const B = [
@@ -1878,10 +1872,9 @@ buscarSolucionesEquivalentes(R, disponibles)  →  [S1, S5]   (imprimí getCodig
    teoria:TEO_SIM}]},
  {id:"s2", f:"2026-10-26", p:"2025-2C · 2ª oportunidad", pdf:"a2025/c02/o02/2025 - 2C -13-11-2025- 2 oportunidad.pdf", e2:"TDA Servidor y Aplicación", e3:"encontrarServidorConMasSpam (Queue)", nota:"Pasado del dom 25. Tercero del día: antes, un descanso largo (al menos una hora, con comida)."},
  {id:"s3", f:"2026-10-26", p:"2025-2C · 3ª oportunidad", pdf:"a2025/c02/o03/2025 - 2C - 3 oportunidad.pdf", e2:"TDA Edificio", e3:"recomendarPlaylists (Spotify)", nota:"Pasado del dom 25. Segundo del día (el de Servidor y Spam ya lo hiciste). Después, los de 2026."},
- {id:"s7", f:"2026-10-26", p:"2026-1C · 1ª oportunidad", pdf:"a2026/c01/o01/2026 - 1C - 1 oportunidad.pdf", e2:"TDA Teclado", e3:"buscarProgramadoresMasCualificados", nota:"Los de 2026 son los más parecidos a lo que te van a tomar el miércoles: el mismo profe, el cuatrimestre anterior. Ya hiciste los dos ejercicios por separado (el Teclado con reloj el 17/10, que no llegó al 60%, y MiIngenieroDeSoftware): ahora van juntos, en papel, con reloj y SIN mirar tus versiones. El valor está en el TDA: aplicá el orden (invariantes → firmas con Javadoc → cuerpos → checklist). Si te queda energía, adelantá el de mañana.", extraCor:["Recién ahora compará con tus versiones anteriores: practica/Teclado.java (el TDA) y practica/MiIngenieroDeSoftware.java (el ej. 3). ¿Qué te salió mejor hoy y qué volviste a olvidar?"]},
- {id:"s8", f:"2026-10-27", p:"2026-1C · 2ª oportunidad", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA ControlRemoto", e3:"buscarMejoresRepartidores", nota:"Primero del día. El ControlRemoto es nuevo (es el primo del Teclado: botones en vez de teclas, historial de canales y favorito); Repartidores ya lo hiciste el 15/10 (MiAdministradorDeEnvios): no lo mires antes.", extraCor:["Recién ahora compará el ej. 3 con practica/MiAdministradorDeEnvios.java (lo hiciste el 15/10). Para el ControlRemoto, comparalo con tu Teclado de hoy: es el mismo esqueleto."]},
- {id:"s9", f:"2026-10-27", p:"2026-1C · 3ª oportunidad", pdf:"a2026/c01/o03/2026 - 1C - 3 oportunidad.pdf", e2:"TDA Piano", e3:"buscarPasajerosMasViajeros", nota:"Segundo del día. Ojo: el ej. 3 exige «únicamente la API de List y/o Stream» (nada de HashMap). El enum del PDF dice ENTREGADA y FINALIZADO: es un error de copia; usá PENDIENTE y FINALIZADO, como dice el texto, y escribilo como supuesto. Pasajeros ya lo hiciste el 17/10 (AgenciaDeViajes): no lo mires antes.", extraCor:["Recién ahora compará: el TDA con la solución del profe en examenes/parciales/a2026/c01/o03/tda/ (Piano, Tecla y Nota), y el ej. 3 con practica/AgenciaDeViajes.java (lo hiciste el 17/10)."]},
- {id:"s5", f:"2026-10-27", p:"2026-1C · 2ª oportunidad, reducido", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA Tostadora", e3:null, reducido:true, nota:"Tercero del día, el último simulacro. Solo el TDA, que NO es el del PDF (ControlRemoto queda de reserva): es la Tostadora, el TDA que el profe dio en la clase del 15/10, con su solución oficial para corregir.", tostadora:true}
+ {id:"s7", f:"2026-10-26", p:"2026-1C · 1ª oportunidad", pdf:"a2026/c01/o01/2026 - 1C - 1 oportunidad.pdf", e2:"TDA Teclado", e3:"buscarProgramadoresMasCualificados", nota:"El ej. 2 (Teclado) ya está: 75. El ej. 3 (IngenieroDeSoftware) hacelo cuando te dé (60′ + 15′ de corrección); si no entra, el ej. 3 del miércoles lo reemplaza, porque es del mismo tipo.", extraCor:["Recién ahora compará con tus versiones anteriores: practica/Teclado.java (el TDA) y practica/MiIngenieroDeSoftware.java (el ej. 3). ¿Qué te salió mejor hoy y qué volviste a olvidar?"]},
+ {id:"s8", f:"2026-10-28", p:"2026-1C · 2ª oportunidad", pdf:"a2026/c01/o02/2026 - 1C - 2 oportunidad.pdf", e2:"TDA ControlRemoto", e3:"buscarMejoresRepartidores", nota:"9:00–11:30, completo (ej. 2 + ej. 3 con reloj y 30′ de corrección). El ControlRemoto es nuevo (es el primo del Teclado: botones en vez de teclas, historial de canales y favorito); Repartidores ya lo hiciste el 15/10 (MiAdministradorDeEnvios): no lo mires antes.", extraCor:["Recién ahora compará el ej. 3 con practica/MiAdministradorDeEnvios.java (lo hiciste el 15/10). Para el ControlRemoto, comparalo con tu Teclado de hoy: es el mismo esqueleto."]},
+ {id:"s9", f:"2026-10-28", soloEj3:true, p:"2026-1C · 3ª oportunidad", pdf:"a2026/c01/o03/2026 - 1C - 3 oportunidad.pdf", e2:"TDA Piano", e3:"buscarPasajerosMasViajeros", nota:"12:00–13:00, SOLO el ej. 3 (el TDA Piano no lo escribís: si te sobra un rato, leé la solución del profe). Ojo: el ej. 3 exige «únicamente la API de List y/o Stream» (nada de HashMap). El enum del PDF dice ENTREGADA y FINALIZADO: es un error de copia; usá PENDIENTE y FINALIZADO, como dice el texto, y escribilo como supuesto. Pasajeros ya lo hiciste el 17/10 (AgenciaDeViajes): no lo mires antes.", extraCor:["Recién ahora compará: el TDA con la solución del profe en examenes/parciales/a2026/c01/o03/tda/ (Piano, Tecla y Nota), y el ej. 3 con practica/AgenciaDeViajes.java (lo hiciste el 17/10)."]}
 ];
 B.forEach(s=>{
   if(s.armado){ s.scores=["ej1","ej2","ej3"]; return; }
@@ -1930,6 +1923,13 @@ Tus nombres de métodos y tus supuestos pueden ser otros: lo que tiene que coinc
      teoria:TEO_SIM}
   ];
   s.scores = s.reducido ? (sinEj1 ? ["ej2"] : ["ej1","ej2"]) : (sinEj1 ? ["ej2","ej3"] : ["ej1","ej2","ej3"]);
+  if(s.soloEj3){   // mié 28: solo el ej. 3 (60′) y una corrección corta
+    s.tasks[0].lbl = "Ej. 3 · 60′ ⏱";
+    s.tasks[0].titulo = "Ej. 3 · "+s.e3+" (60′)";
+    s.tasks[0].pasos = [abrir+". Hacé SOLO el ej. 3.", sinIde, "Cronometrá 60′. Los últimos 10′ son la prueba de escritorio: 2 o 3 datos inventados que cubran el caso clave, seguidos a mano anotando cada variable."];
+    s.tasks[1].lbl = "Autocorrección · 15′";
+    s.scores = ["ej3"];
+  }
 });
 const EJE_TXT = {R:"R · memoria y GC", T:"T · TDA", L:"L · listas", M:"U4 · U6"};
 const DOW = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
@@ -2168,7 +2168,7 @@ function sync(){
 function renderStats(){
   const t=pd(TODAY);
   $("#st-hoy").textContent=DOW[t.getDay()]+" "+t.getDate()+"/"+(t.getMonth()+1);
-  const c=daysBetween(t,pd("2026-10-27")), p=daysBetween(t,pd("2026-10-28"));
+  const c=daysBetween(t,pd("2026-10-28")), p=daysBetween(t,pd("2026-10-28"));
   $("#st-corte").textContent = c<0 ? "pasó" : String(c);
   $("#st-parcial").textContent = p<0 ? "pasó" : String(p);
 }
