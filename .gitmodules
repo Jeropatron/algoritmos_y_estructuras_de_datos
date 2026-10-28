@@ -1,0 +1,4 @@
+[submodule "teoria/cb100"]
+	path = teoria/cb100
+	url = https://github.com/Jeropatron/cb100.git
+	branch = main
